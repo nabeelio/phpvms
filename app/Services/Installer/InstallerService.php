@@ -8,17 +8,14 @@ use Illuminate\Support\Facades\Log;
 
 class InstallerService extends Service
 {
-    private MigrationService $migrationSvc;
-    private SeederService $seederSvc;
-
     /**
      * @param MigrationService $migrationSvc
      * @param SeederService    $seederSvc
      */
-    public function __construct(MigrationService $migrationSvc, SeederService $seederSvc)
-    {
-        $this->migrationSvc = $migrationSvc;
-        $this->seederSvc = $seederSvc;
+    public function __construct(
+        private readonly MigrationService $migrationSvc,
+        private readonly SeederService $seederSvc
+    ) {
     }
 
     /**

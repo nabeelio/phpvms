@@ -61,8 +61,8 @@ class AwardController extends Controller
      */
     public function index(Request $request): View
     {
-        $this->awardRepository->pushCriteria(new RequestCriteria($request));
-        $awards = $this->awardRepository->all();
+        $this->awardRepo->pushCriteria(new RequestCriteria($request));
+        $awards = $this->awardRepo->all();
 
         return view('admin.awards.index', [
             'awards' => $awards,
@@ -94,7 +94,7 @@ class AwardController extends Controller
     public function store(CreateAwardRequest $request): RedirectResponse
     {
         $input = $request->all();
-        $award = $this->awardRepository->create($input);
+        $award = $this->awardRepo->create($input);
         Flash::success('Award saved successfully.');
 
         return redirect(route('admin.awards.index'));
@@ -109,7 +109,7 @@ class AwardController extends Controller
      */
     public function show(int $id): View
     {
-        $award = $this->awardRepository->findWithoutFail($id);
+        $award = $this->awardRepo->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
 
@@ -130,7 +130,7 @@ class AwardController extends Controller
      */
     public function edit(int $id): RedirectResponse|View
     {
-        $award = $this->awardRepository->findWithoutFail($id);
+        $award = $this->awardRepo->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
 
@@ -158,14 +158,14 @@ class AwardController extends Controller
      */
     public function update(int $id, UpdateAwardRequest $request): RedirectResponse
     {
-        $award = $this->awardRepository->findWithoutFail($id);
+        $award = $this->awardRepo->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
 
             return redirect(route('admin.awards.index'));
         }
 
-        $award = $this->awardRepository->update($request->all(), $id);
+        $award = $this->awardRepo->update($request->all(), $id);
         Flash::success('Award updated successfully.');
 
         return redirect(route('admin.awards.index'));
@@ -180,14 +180,14 @@ class AwardController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
-        $award = $this->awardRepository->findWithoutFail($id);
+        $award = $this->awardRepo->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
 
             return redirect(route('admin.awards.index'));
         }
 
-        $this->awardRepository->delete($id);
+        $this->awardRepo->delete($id);
         Flash::success('Award deleted successfully.');
 
         return redirect(route('admin.awards.index'));

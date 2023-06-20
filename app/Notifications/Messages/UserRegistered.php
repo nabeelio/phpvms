@@ -11,18 +11,15 @@ class UserRegistered extends Notification implements ShouldQueue
 {
     use MailChannel;
 
-    private $user;
-
     /**
      * Create a new notification instance.
      *
      * @param User $user
      */
-    public function __construct(User $user)
-    {
+    public function __construct(
+        private readonly User $user
+    ) {
         parent::__construct();
-
-        $this->user = $user;
 
         $this->setMailable(
             'Welcome to '.config('app.name').'!',

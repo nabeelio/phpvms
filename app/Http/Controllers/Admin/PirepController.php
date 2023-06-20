@@ -17,7 +17,6 @@ use App\Repositories\JournalRepository;
 use App\Repositories\PirepFieldRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
-use App\Services\FareService;
 use App\Services\PirepService;
 use App\Services\UserService;
 use App\Support\Units\Time;
@@ -37,7 +36,6 @@ class PirepController extends Controller
      * @param AirportRepository    $airportRepo
      * @param AirlineRepository    $airlineRepo
      * @param AircraftRepository   $aircraftRepo
-     * @param FareService          $fareSvc
      * @param JournalRepository    $journalRepo
      * @param PirepRepository      $pirepRepo
      * @param PirepFieldRepository $pirepFieldRepo
@@ -49,7 +47,6 @@ class PirepController extends Controller
         private readonly AirportRepository $airportRepo,
         private readonly AirlineRepository $airlineRepo,
         private readonly AircraftRepository $aircraftRepo,
-        private readonly FareService $fareSvc,
         private readonly JournalRepository $journalRepo,
         private readonly PirepRepository $pirepRepo,
         private readonly PirepFieldRepository $pirepFieldRepo,

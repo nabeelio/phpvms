@@ -6,11 +6,9 @@ use App\Models\Page;
 
 class UnknownPageType extends AbstractHttpException
 {
-    private $page;
-
-    public function __construct(Page $page)
-    {
-        $this->page = $page;
+    public function __construct(
+        private readonly Page $page
+    ) {
         parent::__construct(
             400,
             'Unknown page type "'.$page->type.'"'

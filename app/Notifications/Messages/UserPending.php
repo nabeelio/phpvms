@@ -11,16 +11,13 @@ class UserPending extends Notification implements ShouldQueue
 {
     use MailChannel;
 
-    private $user;
-
     /**
      * @param User $user
      */
-    public function __construct(User $user)
-    {
+    public function __construct(
+        private readonly User $user
+    ) {
         parent::__construct();
-
-        $this->user = $user;
 
         $this->setMailable(
             'Your registration is pending',

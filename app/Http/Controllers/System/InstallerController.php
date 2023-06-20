@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use RuntimeException;
-
 use function in_array;
 
 class InstallerController extends Controller
@@ -33,8 +32,8 @@ class InstallerController extends Controller
      *
      * @param AirlineService      $airlineSvc
      * @param AnalyticsService    $analyticsSvc
-     * @param DatabaseService     $dbService
-     * @param ConfigService       $envService
+     * @param DatabaseService     $dbSvc
+     * @param ConfigService       $envSvc
      * @param MigrationService    $migrationSvc
      * @param RequirementsService $reqSvc
      * @param SeederService       $seederSvc
@@ -43,8 +42,8 @@ class InstallerController extends Controller
     public function __construct(
         private readonly AirlineService $airlineSvc,
         private readonly AnalyticsService $analyticsSvc,
-        private readonly DatabaseService $dbService,
-        private readonly ConfigService $envService,
+        private readonly DatabaseService $dbSvc,
+        private readonly ConfigService $envSvc,
         private readonly MigrationService $migrationSvc,
         private readonly RequirementsService $reqSvc,
         private readonly SeederService $seederSvc,

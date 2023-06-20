@@ -6,11 +6,8 @@ use Exception;
 
 class PageNotFound extends AbstractHttpException
 {
-    private $exception;
-
     public function __construct(Exception $exception)
     {
-        $this->exception = $exception;
         parent::__construct(
             404,
             $exception->getMessage()

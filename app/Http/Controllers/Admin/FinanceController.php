@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Models\Enums\JournalType;
 use App\Models\Journal;
-use App\Repositories\AirlineRepository;
 use App\Services\FinanceService;
 use App\Support\Dates;
 use Illuminate\Http\Request;
@@ -14,11 +13,9 @@ use Illuminate\View\View;
 class FinanceController extends Controller
 {
     /**
-     * @param AirlineRepository $airlineRepo
      * @param FinanceService    $financeSvc
      */
     public function __construct(
-        private readonly AirlineRepository $airlineRepo,
         private readonly FinanceService $financeSvc
     ) {
     }

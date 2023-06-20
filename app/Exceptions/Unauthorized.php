@@ -6,11 +6,8 @@ use Exception;
 
 class Unauthorized extends AbstractHttpException
 {
-    private $exception;
-
     public function __construct(Exception $exception)
     {
-        $this->exception = $exception;
         parent::__construct(
             403,
             $exception->getMessage()

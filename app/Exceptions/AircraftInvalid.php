@@ -8,11 +8,9 @@ class AircraftInvalid extends AbstractHttpException
 {
     public const MESSAGE = 'The supplied aircraft is invalid';
 
-    private $aircraft;
-
-    public function __construct(Aircraft $aircraft)
-    {
-        $this->aircraft = $aircraft;
+    public function __construct(
+        private readonly Aircraft $aircraft
+    ) {
         parent::__construct(
             400,
             static::MESSAGE

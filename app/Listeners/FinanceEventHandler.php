@@ -13,16 +13,14 @@ use App\Services\Finance\PirepFinanceService;
  */
 class FinanceEventHandler extends Listener
 {
-    private $financeSvc;
-
     public static $callbacks = [
         PirepAccepted::class => 'onPirepAccept',
         PirepRejected::class => 'onPirepReject',
     ];
 
-    public function __construct(PirepFinanceService $financeSvc)
-    {
-        $this->financeSvc = $financeSvc;
+    public function __construct(
+        private readonly PirepFinanceService $financeSvc
+    ) {
     }
 
     /**

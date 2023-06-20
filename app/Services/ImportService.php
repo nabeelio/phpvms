@@ -24,16 +24,14 @@ use League\Csv\Reader;
 
 class ImportService extends Service
 {
-    protected FlightRepository $flightRepo;
-
     /**
      * ImporterService constructor.
      *
      * @param FlightRepository $flightRepo
      */
-    public function __construct(FlightRepository $flightRepo)
-    {
-        $this->flightRepo = $flightRepo;
+    public function __construct(
+        private readonly FlightRepository $flightRepo
+    ) {
     }
 
     /**

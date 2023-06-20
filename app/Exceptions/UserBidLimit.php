@@ -6,11 +6,9 @@ use App\Models\User;
 
 class UserBidLimit extends AbstractHttpException
 {
-    private $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
+    public function __construct(
+        private readonly User $user
+    ) {
         parent::__construct(
             409,
             'User '.$user->ident.' has the maximum number of bids'

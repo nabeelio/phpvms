@@ -28,17 +28,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-
 use function is_array;
 
 class UserService extends Service
 {
-    private AircraftRepository $aircraftRepo;
-    private AirlineRepository $airlineRepo;
-    private FareService $fareSvc;
-    private SubfleetRepository $subfleetRepo;
-    private UserRepository $userRepo;
-
     /**
      * @param AircraftRepository $aircraftRepo
      * @param AirlineRepository  $airlineRepo
@@ -47,17 +40,12 @@ class UserService extends Service
      * @param UserRepository     $userRepo
      */
     public function __construct(
-        AircraftRepository $aircraftRepo,
-        AirlineRepository $airlineRepo,
-        FareService $fareSvc,
-        SubfleetRepository $subfleetRepo,
-        UserRepository $userRepo
+        private readonly AircraftRepository $aircraftRepo,
+        private readonly AirlineRepository $airlineRepo,
+        private readonly FareService $fareSvc,
+        private readonly SubfleetRepository $subfleetRepo,
+        private readonly UserRepository $userRepo
     ) {
-        $this->aircraftRepo = $aircraftRepo;
-        $this->airlineRepo = $airlineRepo;
-        $this->fareSvc = $fareSvc;
-        $this->subfleetRepo = $subfleetRepo;
-        $this->userRepo = $userRepo;
     }
 
     /**

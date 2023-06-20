@@ -4,11 +4,9 @@ namespace App\Exceptions;
 
 class PilotIdNotFound extends AbstractHttpException
 {
-    private $pilot_id;
-
-    public function __construct($pilot_id)
-    {
-        $this->pilot_id = $pilot_id;
+    public function __construct(
+        private readonly string $pilot_id
+    ) {
         parent::__construct(
             404,
             'Pilot '.$pilot_id.' not found'

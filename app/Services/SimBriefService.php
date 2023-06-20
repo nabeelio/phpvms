@@ -15,14 +15,12 @@ use Illuminate\Support\Facades\Log;
 
 class SimBriefService extends Service
 {
-    private GuzzleClient $httpClient;
-
     /**
      * @param GuzzleClient $httpClient
      */
-    public function __construct(GuzzleClient $httpClient)
-    {
-        $this->httpClient = $httpClient;
+    public function __construct(
+        private readonly GuzzleClient $httpClient
+    ) {
     }
 
     /**

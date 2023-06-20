@@ -4,11 +4,9 @@ namespace App\Exceptions;
 
 class PirepNotFound extends AbstractHttpException
 {
-    private $pirep_id;
-
-    public function __construct($pirep_id)
-    {
-        $this->pirep_id = $pirep_id;
+    public function __construct(
+        private readonly string $pirep_id
+    ) {
         parent::__construct(
             404,
             'PIREP '.$pirep_id.' not found'

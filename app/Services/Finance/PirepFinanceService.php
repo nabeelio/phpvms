@@ -28,11 +28,6 @@ use Illuminate\Support\Facades\Log;
 
 class PirepFinanceService extends Service
 {
-    private ExpenseRepository $expenseRepo;
-    private FareService $fareSvc;
-    private FinanceService $financeSvc;
-    private JournalRepository $journalRepo;
-
     /**
      * FinanceService constructor.
      *
@@ -42,15 +37,11 @@ class PirepFinanceService extends Service
      * @param FinanceService    $financeSvc
      */
     public function __construct(
-        ExpenseRepository $expenseRepo,
-        FareService $fareSvc,
-        FinanceService $financeSvc,
-        JournalRepository $journalRepo
+        private readonly ExpenseRepository $expenseRepo,
+        private readonly FareService $fareSvc,
+        private readonly FinanceService $financeSvc,
+        private readonly JournalRepository $journalRepo
     ) {
-        $this->expenseRepo = $expenseRepo;
-        $this->fareSvc = $fareSvc;
-        $this->journalRepo = $journalRepo;
-        $this->financeSvc = $financeSvc;
     }
 
     /**

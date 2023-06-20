@@ -11,11 +11,9 @@ class AircraftNotAtAirport extends AbstractHttpException
 {
     public const MESSAGE = 'The aircraft is not at the departure airport';
 
-    private $aircraft;
-
-    public function __construct(Aircraft $aircraft)
-    {
-        $this->aircraft = $aircraft;
+    public function __construct(
+        private readonly Aircraft $aircraft
+    ) {
         parent::__construct(
             400,
             static::MESSAGE

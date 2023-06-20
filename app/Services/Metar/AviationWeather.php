@@ -6,7 +6,6 @@ use App\Contracts\Metar;
 use App\Support\HttpClient;
 use Exception;
 use Illuminate\Support\Facades\Log;
-
 use function count;
 
 /**
@@ -21,16 +20,11 @@ class AviationWeather extends Metar
         'https://www.aviationweather.gov/adds/dataserver_current/httpparam?dataSource=tafs&requestType=retrieve&format=xml&hoursBeforeNow=3&mostRecent=true&stationString=';
 
     /**
-     * @var HttpClient
-     */
-    private HttpClient $httpClient;
-
-    /**
      * @param HttpClient $httpClient
      */
-    public function __construct(HttpClient $httpClient)
-    {
-        $this->httpClient = $httpClient;
+    public function __construct(
+        private readonly HttpClient $httpClient
+    ) {
     }
 
     /**

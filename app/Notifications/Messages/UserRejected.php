@@ -13,16 +13,13 @@ class UserRejected extends Notification implements ShouldQueue
     use Queueable;
     use MailChannel;
 
-    private $user;
-
     /**
      * @param \App\Models\User $user
      */
-    public function __construct(User $user)
-    {
+    public function __construct(
+        private readonly User $user
+    ) {
         parent::__construct();
-
-        $this->user = $user;
 
         $this->setMailable(
             'Your registration has been denied',

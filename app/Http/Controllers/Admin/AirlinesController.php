@@ -17,13 +17,11 @@ use Prettus\Repository\Criteria\RequestCriteria;
 class AirlinesController extends Controller
 {
     /**
-     * AirlinesController constructor.
-     *
-     * @param AirlineRepository $airlinesRepo
+     * @param AirlineRepository $airlineRepo
      * @param AirlineService    $airlineSvc
      */
     public function __construct(
-        private readonly AirlineRepository $airlinesRepo,
+        private readonly AirlineRepository $airlineRepo,
         private readonly AirlineService $airlineSvc
     ) {
     }

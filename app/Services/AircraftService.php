@@ -5,17 +5,9 @@ namespace App\Services;
 use App\Contracts\Service;
 use App\Models\Aircraft;
 use App\Models\Pirep;
-use App\Repositories\PirepRepository;
 
 class AircraftService extends Service
 {
-    private PirepRepository $pirepRepo;
-
-    public function __construct(PirepRepository $pirepRepo)
-    {
-        $this->pirepRepo = $pirepRepo;
-    }
-
     /**
      * Recalculate all aircraft stats and hours
      */

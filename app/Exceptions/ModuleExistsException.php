@@ -4,11 +4,8 @@ namespace App\Exceptions;
 
 class ModuleExistsException extends AbstractHttpException
 {
-    private $module_name;
-
-    public function __construct($module_name)
+    public function __construct(string $module_name)
     {
-        $this->module_name = $module_name;
         parent::__construct(
             409,
             'Module '.$module_name.' Already Exists!'

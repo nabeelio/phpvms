@@ -10,11 +10,8 @@ namespace App\Exceptions;
  */
 class PrefileError extends AbstractHttpException
 {
-    private $error;
-
     public function __construct(string $error)
     {
-        $this->error = $error;
         parent::__construct(400, $error);
     }
 

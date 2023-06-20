@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Frontend;
 use App\Contracts\Controller;
 use App\Repositories\AirportRepository;
 use App\Repositories\FlightRepository;
-use Flash;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Request;
+use Laracasts\Flash\Flash;
 
-/**
- * Class HomeController
- */
 class AirportController extends Controller
 {
     public function __construct(
