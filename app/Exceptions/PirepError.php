@@ -6,13 +6,10 @@ use App\Models\Pirep;
 
 class PirepError extends AbstractHttpException
 {
-    private $pirep;
-    private $error;
-
-    public function __construct(Pirep $pirep, string $error)
-    {
-        $this->error = $error;
-        $this->pirep = $pirep;
+    public function __construct(
+        private readonly Pirep $pirep,
+        string $error
+    ) {
         parent::__construct(400, $error);
     }
 

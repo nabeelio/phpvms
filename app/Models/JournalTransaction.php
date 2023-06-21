@@ -51,13 +51,6 @@ class JournalTransaction extends Model
         'tags'      => 'array',
     ];
 
-    //protected $dateFormat = 'Y-m-d';
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'post_date',
-    ];
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

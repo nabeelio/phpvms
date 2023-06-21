@@ -6,36 +6,33 @@ use App\Contracts\Controller;
 use App\Services\Installer\InstallerService;
 use App\Services\Installer\MigrationService;
 use App\Services\Installer\SeederService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 use function count;
 
 class UpdateController extends Controller
 {
-    private InstallerService $installerSvc;
-    private MigrationService $migrationSvc;
-    private SeederService $seederSvc;
-
     /**
      * @param InstallerService $installerSvc
      * @param MigrationService $migrationSvc
      * @param SeederService    $seederSvc
      */
     public function __construct(
-        InstallerService $installerSvc,
-        MigrationService $migrationSvc,
-        SeederService $seederSvc
+        private readonly InstallerService $installerSvc,
+        private readonly MigrationService $migrationSvc,
+        private readonly SeederService $seederSvc
     ) {
-        $this->migrationSvc = $migrationSvc;
-        $this->seederSvc = $seederSvc;
-        $this->installerSvc = $installerSvc;
     }
 
     /**
      * Display a listing of the resource.
+     *
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         return view('system.updater.index-start');
     }
@@ -44,9 +41,9 @@ class UpdateController extends Controller
      * Step 1. Check if there's an update available. Check if there
      * are any unrun migrations
      *
-     * @return mixed
+     * @return View
      */
-    public function step1()
+    public function step1(): View
     {
         $this->installerSvc->clearCaches();
 
@@ -62,9 +59,9 @@ class UpdateController extends Controller
      *
      * @param Request $request
      *
-     * @return mixed
+     * @return View
      */
-    public function run_migrations(Request $request)
+    public function run_migrations(Request $request): View
     {
         Log::info('Update: run_migrations', $request->post());
 
@@ -85,9 +82,9 @@ class UpdateController extends Controller
     /**
      * Final step
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function complete()
+    public function complete(): RedirectResponse
     {
         return redirect('/admin');
     }

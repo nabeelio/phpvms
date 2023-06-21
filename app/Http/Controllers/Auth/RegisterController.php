@@ -14,10 +14,12 @@ use App\Support\Countries;
 use App\Support\HttpClient;
 use App\Support\Timezonelist;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
@@ -30,11 +32,6 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/';
 
-    private AirlineRepository $airlineRepo;
-    private AirportRepository $airportRepo;
-    private HttpClient $httpClient;
-    private UserService $userService;
-
     /**
      * RegisterController constructor.
      *
@@ -44,28 +41,22 @@ class RegisterController extends Controller
      * @param HttpClient        $httpClient
      */
     public function __construct(
-        AirlineRepository $airlineRepo,
-        AirportRepository $airportRepo,
-        HttpClient $httpClient,
-        UserService $userService,
+        private readonly AirlineRepository $airlineRepo,
+        private readonly AirportRepository $airportRepo,
+        private readonly HttpClient $httpClient,
+        private readonly UserService $userService,
     ) {
-        $this->airlineRepo = $airlineRepo;
-        $this->airportRepo = $airportRepo;
-        $this->httpClient = $httpClient;
-        $this->userService = $userService;
-
         $this->middleware('guest');
 
         $this->redirectTo = config('phpvms.registration_redirect');
-        $this->httpClient = $httpClient;
     }
 
     /**
      * @throws \Exception
      *
-     * @return mixed
+     * @return View
      */
-    public function showRegistrationForm()
+    public function showRegistrationForm(): View
     {
         $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
         $airlines = $this->airlineRepo->selectBoxList();
@@ -90,9 +81,9 @@ class RegisterController extends Controller
      *
      * @param array $data
      *
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @return Validator
      */
-    protected function validator(array $data)
+    protected function validator(array $data): Validator
     {
         $rules = [
             'name'            => 'required|max:255',
@@ -186,9 +177,9 @@ class RegisterController extends Controller
      *
      * @throws \Exception
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function register(Request $request)
+    public function register(Request $request): RedirectResponse
     {
         $this->validator($request->all())->validate();
 

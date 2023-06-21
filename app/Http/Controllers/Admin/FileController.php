@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Models\File;
 use App\Services\FileService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -12,11 +13,9 @@ use Laracasts\Flash\Flash;
 
 class FileController extends Controller
 {
-    private FileService $fileSvc;
-
-    public function __construct(FileService $fileSvc)
-    {
-        $this->fileSvc = $fileSvc;
+    public function __construct(
+        private readonly FileService $fileSvc
+    ) {
     }
 
     /**
@@ -26,9 +25,9 @@ class FileController extends Controller
      *
      * @throws \Hashids\HashidsException
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $attrs = $request->post();
 
@@ -107,13 +106,13 @@ class FileController extends Controller
     /**
      * Remove the file from storage.
      *
-     * @param $id
+     * @param string $id
      *
      * @throws \Exception
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(string $id): RedirectResponse
     {
         $file = File::find($id);
         if (!$file) {

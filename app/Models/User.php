@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laratrust\Traits\LaratrustUserTrait;
+use Laratrust\Contracts\LaratrustUser;
+use Laratrust\Traits\HasRolesAndPermissions;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
@@ -51,14 +52,14 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
- * @mixin \Laratrust\Traits\LaratrustUserTrait
+ * @mixin \Laratrust\Traits\HasRolesAndPermissions
  */
-class User extends Authenticatable
+class User extends Authenticatable implements LaratrustUser
 {
     use HasFactory;
     use HasRelationships;
+    use HasRolesAndPermissions;
     use JournalTrait;
-    use LaratrustUserTrait;
     use Notifiable;
 
     public $table = 'users';
@@ -126,6 +127,8 @@ class User extends Authenticatable
         'status'        => 'integer',
         'toc_accepted'  => 'boolean',
         'opt_in'        => 'boolean',
+        'lastlogin_at'  => 'datetime',
+        'deleted_at'    => 'datetime',
     ];
 
     public static $rules = [
@@ -133,13 +136,6 @@ class User extends Authenticatable
         'email'    => 'required|email',
         'pilot_id' => 'required|integer',
         'callsign' => 'nullable|max:4',
-    ];
-
-    public $dates = [
-        'lastlogin_at',
-        'created_at',
-        'updated_at',
-        'deleted_at',
     ];
 
     /**

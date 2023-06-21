@@ -5,31 +5,41 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Http\Requests\CreateTypeRatingRequest;
 use App\Http\Requests\UpdateTypeRatingRequest;
+use App\Models\Typerating;
 use App\Repositories\SubfleetRepository;
 use App\Repositories\TypeRatingRepository;
 use App\Services\FleetService;
 use Cache;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
+use Prettus\Repository\Exceptions\RepositoryException;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class TypeRatingController extends Controller
 {
-    private FleetService $fleetSvc;
-    private SubfleetRepository $subfleetRepo;
-    private TypeRatingRepository $typeratingRepo;
-
+    /**
+     * @param FleetService         $fleetSvc
+     * @param SubfleetRepository   $subfleetRepo
+     * @param TypeRatingRepository $typeratingRepo
+     */
     public function __construct(
-        FleetService $fleetSvc,
-        SubfleetRepository $subfleetRepo,
-        TypeRatingRepository $typeratingRepo
+        private readonly FleetService $fleetSvc,
+        private readonly SubfleetRepository $subfleetRepo,
+        private readonly TypeRatingRepository $typeratingRepo
     ) {
-        $this->fleetSvc = $fleetSvc;
-        $this->subfleetRepo = $subfleetRepo;
-        $this->typeratingRepo = $typeratingRepo;
     }
 
-    public function index(Request $request)
+    /**
+     * @param Request $request
+     *
+     * @throws RepositoryException
+     *
+     * @return View
+     */
+    public function index(Request $request): View
     {
         $this->typeratingRepo->pushCriteria(new RequestCriteria($request));
         $typeratings = $this->typeratingRepo->orderby('type', 'asc')->get();
@@ -39,12 +49,22 @@ class TypeRatingController extends Controller
         ]);
     }
 
-    public function create()
+    /**
+     * @return View
+     */
+    public function create(): View
     {
         return view('admin.typeratings.create');
     }
 
-    public function store(CreateTypeRatingRequest $request)
+    /**
+     * @param CreateTypeRatingRequest $request
+     *
+     * @throws ValidatorException
+     *
+     * @return RedirectResponse
+     */
+    public function store(CreateTypeRatingRequest $request): RedirectResponse
     {
         $input = $request->all();
 
@@ -54,7 +74,12 @@ class TypeRatingController extends Controller
         return redirect(route('admin.typeratings.edit', [$model->id]));
     }
 
-    public function show($id)
+    /**
+     * @param int $id
+     *
+     * @return RedirectResponse|View
+     */
+    public function show(int $id): RedirectResponse|View
     {
         $typerating = $this->typeratingRepo->findWithoutFail($id);
 
@@ -69,7 +94,12 @@ class TypeRatingController extends Controller
         ]);
     }
 
-    public function edit($id)
+    /**
+     * @param int $id
+     *
+     * @return RedirectResponse|View
+     */
+    public function edit(int $id): RedirectResponse|View
     {
         $typerating = $this->typeratingRepo->findWithoutFail($id);
 
@@ -87,7 +117,15 @@ class TypeRatingController extends Controller
         ]);
     }
 
-    public function update($id, UpdateTypeRatingRequest $request)
+    /**
+     * @param int                     $id
+     * @param UpdateTypeRatingRequest $request
+     *
+     * @throws ValidatorException
+     *
+     * @return RedirectResponse
+     */
+    public function update(int $id, UpdateTypeRatingRequest $request): RedirectResponse
     {
         $typerating = $this->typeratingRepo->findWithoutFail($id);
 
@@ -104,7 +142,12 @@ class TypeRatingController extends Controller
         return redirect(route('admin.typeratings.index'));
     }
 
-    public function destroy($id)
+    /**
+     * @param int $id
+     *
+     * @return RedirectResponse
+     */
+    public function destroy(int $id): RedirectResponse
     {
         $typerating = $this->typeratingRepo->findWithoutFail($id);
 
@@ -121,7 +164,12 @@ class TypeRatingController extends Controller
         return redirect(route('admin.typeratings.index'));
     }
 
-    protected function getAvailSubfleets($typerating)
+    /**
+     * @param Typerating $typerating
+     *
+     * @return array
+     */
+    protected function getAvailSubfleets(Typerating $typerating): array
     {
         $retval = [];
         $all_subfleets = $this->subfleetRepo->all();
@@ -133,7 +181,12 @@ class TypeRatingController extends Controller
         return $retval;
     }
 
-    protected function return_subfleet_view($typerating)
+    /**
+     * @param Typerating $typerating
+     *
+     * @return View
+     */
+    protected function return_subfleet_view(Typerating $typerating): View
     {
         $avail_subfleets = $this->getAvailSubfleets($typerating);
 
@@ -143,7 +196,13 @@ class TypeRatingController extends Controller
         ]);
     }
 
-    public function subfleets($id, Request $request)
+    /**
+     * @param int     $id
+     * @param Request $request
+     *
+     * @return RedirectResponse|View
+     */
+    public function subfleets(int $id, Request $request): RedirectResponse|View
     {
         $typerating = $this->typeratingRepo->findWithoutFail($id);
         if (empty($typerating)) {

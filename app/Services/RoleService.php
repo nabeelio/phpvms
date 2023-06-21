@@ -8,11 +8,9 @@ use App\Repositories\RoleRepository;
 
 class RoleService extends Service
 {
-    private RoleRepository $roleRepo;
-
-    public function __construct(RoleRepository $roleRepo)
-    {
-        $this->roleRepo = $roleRepo;
+    public function __construct(
+        private readonly RoleRepository $roleRepo
+    ) {
     }
 
     /**

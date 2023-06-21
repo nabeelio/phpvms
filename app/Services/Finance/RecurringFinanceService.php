@@ -17,11 +17,9 @@ use Illuminate\Support\Facades\Log;
  */
 class RecurringFinanceService extends Service
 {
-    private FinanceService $financeSvc;
-
-    public function __construct(FinanceService $financeSvc)
-    {
-        $this->financeSvc = $financeSvc;
+    public function __construct(
+        private readonly FinanceService $financeSvc
+    ) {
     }
 
     /**

@@ -7,16 +7,14 @@ use App\Http\Requests\CreateAwardRequest;
 use App\Http\Requests\UpdateAwardRequest;
 use App\Repositories\AwardRepository;
 use App\Services\AwardService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class AwardController extends Controller
 {
-    /** @var AwardRepository */
-    private AwardRepository $awardRepository;
-    private AwardService $awardSvc;
-
     /**
      * AwardController constructor.
      *
@@ -24,11 +22,9 @@ class AwardController extends Controller
      * @param AwardService    $awardSvc
      */
     public function __construct(
-        AwardRepository $awardRepo,
-        AwardService $awardSvc
+        private readonly AwardRepository $awardRepo,
+        private readonly AwardService $awardSvc
     ) {
-        $this->awardRepository = $awardRepo;
-        $this->awardSvc = $awardSvc;
     }
 
     /**
@@ -61,12 +57,12 @@ class AwardController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return mixed
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
-        $this->awardRepository->pushCriteria(new RequestCriteria($request));
-        $awards = $this->awardRepository->all();
+        $this->awardRepo->pushCriteria(new RequestCriteria($request));
+        $awards = $this->awardRepo->all();
 
         return view('admin.awards.index', [
             'awards' => $awards,
@@ -76,7 +72,7 @@ class AwardController extends Controller
     /**
      * Show the form for creating a new Fare.
      */
-    public function create()
+    public function create(): View
     {
         $class_refs = $this->getAwardClassesAndDescriptions();
 
@@ -93,12 +89,12 @@ class AwardController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function store(CreateAwardRequest $request)
+    public function store(CreateAwardRequest $request): RedirectResponse
     {
         $input = $request->all();
-        $award = $this->awardRepository->create($input);
+        $award = $this->awardRepo->create($input);
         Flash::success('Award saved successfully.');
 
         return redirect(route('admin.awards.index'));
@@ -109,11 +105,11 @@ class AwardController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return View
      */
-    public function show($id)
+    public function show(int $id): View
     {
-        $award = $this->awardRepository->findWithoutFail($id);
+        $award = $this->awardRepo->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
 
@@ -130,11 +126,11 @@ class AwardController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(int $id): RedirectResponse|View
     {
-        $award = $this->awardRepository->findWithoutFail($id);
+        $award = $this->awardRepo->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
 
@@ -158,18 +154,18 @@ class AwardController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function update($id, UpdateAwardRequest $request)
+    public function update(int $id, UpdateAwardRequest $request): RedirectResponse
     {
-        $award = $this->awardRepository->findWithoutFail($id);
+        $award = $this->awardRepo->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
 
             return redirect(route('admin.awards.index'));
         }
 
-        $award = $this->awardRepository->update($request->all(), $id);
+        $award = $this->awardRepo->update($request->all(), $id);
         Flash::success('Award updated successfully.');
 
         return redirect(route('admin.awards.index'));
@@ -180,18 +176,18 @@ class AwardController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
-        $award = $this->awardRepository->findWithoutFail($id);
+        $award = $this->awardRepo->findWithoutFail($id);
         if (empty($award)) {
             Flash::error('Award not found');
 
             return redirect(route('admin.awards.index'));
         }
 
-        $this->awardRepository->delete($id);
+        $this->awardRepo->delete($id);
         Flash::success('Award deleted successfully.');
 
         return redirect(route('admin.awards.index'));

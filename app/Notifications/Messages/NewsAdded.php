@@ -15,13 +15,11 @@ class NewsAdded extends Notification implements ShouldQueue
 
     public $requires_opt_in = true;
 
-    private $news;
-
-    public function __construct(News $news)
-    {
+    public function __construct(
+        private readonly News $news
+    ) {
         parent::__construct();
 
-        $this->news = $news;
         $this->setMailable(
             $news->subject,
             'notifications.mail.news.news',

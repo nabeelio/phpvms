@@ -4,11 +4,9 @@ namespace App\Exceptions;
 
 class AirportNotFound extends AbstractHttpException
 {
-    private $icao;
-
-    public function __construct($icao)
-    {
-        $this->icao = $icao;
+    public function __construct(
+        private readonly string $icao
+    ) {
         parent::__construct(
             404,
             'Airport '.$icao.' not found'
@@ -36,6 +34,8 @@ class AirportNotFound extends AbstractHttpException
      */
     public function getErrorMetadata(): array
     {
-        return [];
+        return [
+            'icao' => $this->icao,
+        ];
     }
 }

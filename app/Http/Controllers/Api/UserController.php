@@ -19,18 +19,13 @@ use App\Repositories\UserRepository;
 use App\Services\BidService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 class UserController extends Controller
 {
-    private BidService $bidSvc;
-    private FlightRepository $flightRepo;
-    private PirepRepository $pirepRepo;
-    private UserRepository $userRepo;
-    private UserService $userSvc;
-
     /**
      * @param BidService       $bidSvc
      * @param FlightRepository $flightRepo
@@ -39,25 +34,20 @@ class UserController extends Controller
      * @param UserService      $userSvc
      */
     public function __construct(
-        BidService $bidSvc,
-        FlightRepository $flightRepo,
-        PirepRepository $pirepRepo,
-        UserRepository $userRepo,
-        UserService $userSvc
+        private readonly BidService $bidSvc,
+        private readonly FlightRepository $flightRepo,
+        private readonly PirepRepository $pirepRepo,
+        private readonly UserRepository $userRepo,
+        private readonly UserService $userSvc
     ) {
-        $this->bidSvc = $bidSvc;
-        $this->flightRepo = $flightRepo;
-        $this->pirepRepo = $pirepRepo;
-        $this->userRepo = $userRepo;
-        $this->userSvc = $userSvc;
     }
 
     /**
      * @param Request $request
      *
-     * @return int|mixed
+     * @return mixed
      */
-    protected function getUserId(Request $request)
+    protected function getUserId(Request $request): mixed
     {
         $id = $request->get('id');
         if ($id === null || $id === 'me') {
@@ -74,7 +64,7 @@ class UserController extends Controller
      *
      * @return UserResource
      */
-    public function index(Request $request)
+    public function index(Request $request): UserResource
     {
         return $this->get(Auth::user()->id);
     }
@@ -82,11 +72,11 @@ class UserController extends Controller
     /**
      * Get the profile for the passed-in user
      *
-     * @param $id
+     * @param int $id
      *
      * @return UserResource
      */
-    public function get($id)
+    public function get(int $id): UserResource
     {
         $user = $this->userSvc->getUser($id);
         if ($user === null) {
@@ -144,12 +134,12 @@ class UserController extends Controller
     /**
      * Get a particular bid for a user
      *
-     * @param                          $bid_id
+     * @param int                      $bid_id
      * @param \Illuminate\Http\Request $request
      *
-     * @return \App\Http\Resources\Bid
+     * @return Bid
      */
-    public function get_bid($bid_id, Request $request)
+    public function get_bid(int $bid_id, Request $request): BidResource
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
@@ -172,9 +162,9 @@ class UserController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function fleet(Request $request)
+    public function fleet(Request $request): AnonymousResourceCollection
     {
         $user = $this->userRepo->find($this->getUserId($request));
         if ($user === null) {
@@ -191,9 +181,9 @@ class UserController extends Controller
      *
      * @throws RepositoryException
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function pireps(Request $request)
+    public function pireps(Request $request): AnonymousResourceCollection
     {
         $this->pirepRepo->pushCriteria(new RequestCriteria($request));
 

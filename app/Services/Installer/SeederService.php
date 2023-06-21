@@ -16,8 +16,6 @@ use function trim;
 
 class SeederService extends Service
 {
-    private DatabaseService $databaseSvc;
-
     private array $counters = [];
     private array $offsets = [];
 
@@ -26,9 +24,9 @@ class SeederService extends Service
         'production' => 'prod',
     ];
 
-    public function __construct(DatabaseService $databaseSvc)
-    {
-        $this->databaseSvc = $databaseSvc;
+    public function __construct(
+        private readonly DatabaseService $databaseSvc
+    ) {
     }
 
     /**

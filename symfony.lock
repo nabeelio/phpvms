@@ -603,6 +603,18 @@
     "symfony/translation-contracts": {
         "version": "v3.0.0"
     },
+    "symfony/uid": {
+        "version": "6.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "6.2",
+            "ref": "d294ad4add3e15d7eb1bae0221588ca89b38e558"
+        },
+        "files": [
+            "./config/packages/uid.yaml"
+        ]
+    },
     "symfony/var-dumper": {
         "version": "v6.0.3"
     },

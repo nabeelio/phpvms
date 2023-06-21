@@ -6,27 +6,27 @@ use App\Contracts\Controller;
 use App\Http\Requests\CreatePageRequest;
 use App\Http\Requests\UpdatePageRequest;
 use App\Repositories\PageRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 
 class PagesController extends Controller
 {
-    private PageRepository $pageRepo;
-
     /**
      * @param PageRepository $pageRepo
      */
-    public function __construct(PageRepository $pageRepo)
-    {
-        $this->pageRepo = $pageRepo;
+    public function __construct(
+        private readonly PageRepository $pageRepo
+    ) {
     }
 
     /**
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $pages = $this->pageRepo->all();
 
@@ -38,7 +38,7 @@ class PagesController extends Controller
     /**
      * Show the form for creating a new Airlines.
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.pages.create');
     }
@@ -50,9 +50,9 @@ class PagesController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function store(CreatePageRequest $request)
+    public function store(CreatePageRequest $request): RedirectResponse
     {
         $input = $request->all();
         $this->pageRepo->create($input);
@@ -66,9 +66,9 @@ class PagesController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return View
      */
-    public function show($id)
+    public function show(int $id): View
     {
         $pages = $this->pageRepo->findWithoutFail($id);
 
@@ -87,9 +87,9 @@ class PagesController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(int $id): RedirectResponse|View
     {
         $page = $this->pageRepo->findWithoutFail($id);
 
@@ -111,9 +111,9 @@ class PagesController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function update($id, UpdatePageRequest $request)
+    public function update(int $id, UpdatePageRequest $request): RedirectResponse
     {
         $page = $this->pageRepo->findWithoutFail($id);
 
@@ -133,9 +133,9 @@ class PagesController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $pages = $this->pageRepo->findWithoutFail($id);
 

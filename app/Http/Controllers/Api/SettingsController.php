@@ -6,23 +6,21 @@ use App\Contracts\Controller;
 use App\Http\Resources\Setting as SettingResource;
 use App\Repositories\SettingRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /**
  * Class SettingsController
  */
 class SettingsController extends Controller
 {
-    private SettingRepository $settingRepo;
-
     /**
      * SettingsController constructor.
      *
      * @param SettingRepository $settingRepo
      */
     public function __construct(
-        SettingRepository $settingRepo
+        private readonly SettingRepository $settingRepo
     ) {
-        $this->settingRepo = $settingRepo;
     }
 
     /**
@@ -30,9 +28,9 @@ class SettingsController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): AnonymousResourceCollection
     {
         $settings = $this->settingRepo
             ->orderBy('order', 'asc')->get();

@@ -5,28 +5,29 @@ namespace App\Http\Controllers\Frontend;
 use App\Contracts\Controller;
 use App\Repositories\PirepRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 /**
  * Class DashboardController
  */
 class DashboardController extends Controller
 {
-    private PirepRepository $pirepRepo;
-
     /**
      * DashboardController constructor.
      *
      * @param PirepRepository $pirepRepo
      */
-    public function __construct(PirepRepository $pirepRepo)
-    {
-        $this->pirepRepo = $pirepRepo;
+    public function __construct(
+        private readonly PirepRepository $pirepRepo
+    ) {
     }
 
     /**
      * Show the application dashboard.
+     *
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $last_pirep = null;
         $with_pirep = ['aircraft', 'arr_airport', 'comments', 'dpt_airport'];

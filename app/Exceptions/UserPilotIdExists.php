@@ -8,12 +8,9 @@ class UserPilotIdExists extends AbstractHttpException
 {
     public const MESSAGE = 'A user with this pilot ID already exists';
 
-    private $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-
+    public function __construct(
+        private readonly User $user
+    ) {
         parent::__construct(
             400,
             static::MESSAGE

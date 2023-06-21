@@ -15,11 +15,9 @@ class BidEventHandler extends Listener
         PirepFiled::class => 'onPirepFiled',
     ];
 
-    private $bidSvc;
-
-    public function __construct(BidService $bidSvc)
-    {
-        $this->bidSvc = $bidSvc;
+    public function __construct(
+        private readonly BidService $bidSvc
+    ) {
     }
 
     /**

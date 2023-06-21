@@ -6,11 +6,9 @@ use App\Models\Pirep;
 
 class PirepCancelled extends AbstractHttpException
 {
-    private $pirep;
-
-    public function __construct(Pirep $pirep)
-    {
-        $this->pirep = $pirep;
+    public function __construct(
+        private readonly Pirep $pirep
+    ) {
         parent::__construct(
             400,
             'PIREP has been cancelled, updates are not allowed'

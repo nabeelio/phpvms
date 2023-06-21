@@ -14,29 +14,23 @@ use App\Services\FareService;
 use App\Services\FlightService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Exceptions\RepositoryException;
 
 class FlightController extends Controller
 {
-    private FareService $fareSvc;
-    private FlightRepository $flightRepo;
-    private FlightService $flightSvc;
-
     /**
      * @param FareService      $fareSvc
      * @param FlightRepository $flightRepo
      * @param FlightService    $flightSvc
      */
     public function __construct(
-        FareService $fareSvc,
-        FlightRepository $flightRepo,
-        FlightService $flightSvc
+        private readonly FareService $fareSvc,
+        private readonly FlightRepository $flightRepo,
+        private readonly FlightService $flightSvc
     ) {
-        $this->fareSvc = $fareSvc;
-        $this->flightRepo = $flightRepo;
-        $this->flightSvc = $flightSvc;
     }
 
     /**
@@ -44,19 +38,19 @@ class FlightController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): AnonymousResourceCollection
     {
         return $this->search($request);
     }
 
     /**
-     * @param $id
+     * @param string $id
      *
      * @return FlightResource
      */
-    public function get($id)
+    public function get(string $id): FlightResource
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
@@ -175,12 +169,12 @@ class FlightController extends Controller
     /**
      * Get a flight's route
      *
-     * @param         $id
+     * @param string  $id
      * @param Request $request
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function route($id, Request $request)
+    public function route(string $id, Request $request): AnonymousResourceCollection
     {
         $flight = $this->flightRepo->find($id);
         $route = $this->flightSvc->getRoute($flight);

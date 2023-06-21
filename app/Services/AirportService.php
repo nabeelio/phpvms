@@ -18,18 +18,11 @@ use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
 class AirportService extends Service
 {
-    private AirportRepository $airportRepo;
-    private AirportLookup $lookupProvider;
-    private MetarProvider $metarProvider;
-
     public function __construct(
-        AirportLookup $lookupProvider,
-        AirportRepository $airportRepo,
-        MetarProvider $metarProvider
+        private readonly AirportLookup $lookupProvider,
+        private readonly AirportRepository $airportRepo,
+        private readonly MetarProvider $metarProvider
     ) {
-        $this->airportRepo = $airportRepo;
-        $this->lookupProvider = $lookupProvider;
-        $this->metarProvider = $metarProvider;
     }
 
     /**

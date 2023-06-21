@@ -5,34 +5,28 @@ namespace App\Http\Controllers\Frontend;
 use App\Contracts\Controller;
 use App\Repositories\AirportRepository;
 use App\Repositories\FlightRepository;
-use Flash;
-use Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Laracasts\Flash\Flash;
 
-/**
- * Class HomeController
- */
 class AirportController extends Controller
 {
-    private AirportRepository $airportRepo;
-    private FlightRepository $flightRepo;
-
     public function __construct(
-        AirportRepository $airportRepo,
-        FlightRepository $flightRepo
+        private readonly AirportRepository $airportRepo,
+        private readonly FlightRepository $flightRepo
     ) {
-        $this->airportRepo = $airportRepo;
-        $this->flightRepo = $flightRepo;
     }
 
     /**
      * Show the airport
      *
-     * @param mixed $id
+     * @param string  $id
+     * @param Request $request
      *
-     * @return mixed
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return RedirectResponse|View
      */
-    public function show($id, Request $request)
+    public function show(string $id, Request $request): RedirectResponse|View
     {
         $id = strtoupper($id);
         $with_flights = ['airline', 'arr_airport', 'dpt_airport'];

@@ -18,9 +18,6 @@ use League\Geotools\Geotools;
 
 class GeoService extends Service
 {
-    private AcarsRepository $acarsRepo;
-    private NavdataRepository $navRepo;
-
     /**
      * GeoService constructor.
      *
@@ -28,11 +25,9 @@ class GeoService extends Service
      * @param NavdataRepository $navRepo
      */
     public function __construct(
-        AcarsRepository $acarsRepo,
-        NavdataRepository $navRepo
+        private readonly AcarsRepository $acarsRepo,
+        private readonly NavdataRepository $navRepo
     ) {
-        $this->acarsRepo = $acarsRepo;
-        $this->navRepo = $navRepo;
     }
 
     /**

@@ -5,26 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Models\Enums\JournalType;
 use App\Models\Journal;
-use App\Repositories\AirlineRepository;
 use App\Services\FinanceService;
 use App\Support\Dates;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class FinanceController extends Controller
 {
-    private AirlineRepository $airlineRepo;
-    private FinanceService $financeSvc;
-
     /**
-     * @param AirlineRepository $airlineRepo
-     * @param FinanceService    $financeSvc
+     * @param FinanceService $financeSvc
      */
     public function __construct(
-        AirlineRepository $airlineRepo,
-        FinanceService $financeSvc
+        private readonly FinanceService $financeSvc
     ) {
-        $this->airlineRepo = $airlineRepo;
-        $this->financeSvc = $financeSvc;
     }
 
     /**
@@ -35,9 +28,9 @@ class FinanceController extends Controller
      * @throws \UnexpectedValueException
      * @throws \InvalidArgumentException
      *
-     * @return mixed
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $month = $request->query('month', date('Y-m'));
         $transaction_groups = $this->financeSvc->getAllAirlineTransactionsBetween($month);

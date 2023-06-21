@@ -15,13 +15,10 @@ use Illuminate\Support\Facades\Log;
 
 class BidService extends Service
 {
-    private FareService $fareSvc;
-    private FlightService $flightSvc;
-
-    public function __construct(FareService $fareSvc, FlightService $flightSvc)
-    {
-        $this->fareSvc = $fareSvc;
-        $this->flightSvc = $flightSvc;
+    public function __construct(
+        private readonly FareService $fareSvc,
+        private readonly FlightService $flightSvc
+    ) {
     }
 
     /**

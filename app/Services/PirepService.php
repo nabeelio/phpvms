@@ -43,15 +43,6 @@ use Illuminate\Support\Facades\Log;
 
 class PirepService extends Service
 {
-    private AircraftRepository $aircraftRepo;
-    private AirportRepository $airportRepo;
-    private AirportService $airportSvc;
-    private FareService $fareSvc;
-    private GeoService $geoSvc;
-    private PirepRepository $pirepRepo;
-    private SimBriefService $simBriefSvc;
-    private UserService $userSvc;
-
     /**
      * @param AirportRepository  $airportRepo
      * @param AirportService     $airportSvc
@@ -63,23 +54,15 @@ class PirepService extends Service
      * @param UserService        $userSvc
      */
     public function __construct(
-        AirportRepository $airportRepo,
-        AirportService $airportSvc,
-        AircraftRepository $aircraftRepo,
-        FareService $fareSvc,
-        GeoService $geoSvc,
-        PirepRepository $pirepRepo,
-        SimBriefService $simBriefSvc,
-        UserService $userSvc
+        private readonly AirportRepository $airportRepo,
+        private readonly AirportService $airportSvc,
+        private readonly AircraftRepository $aircraftRepo,
+        private readonly FareService $fareSvc,
+        private readonly GeoService $geoSvc,
+        private readonly PirepRepository $pirepRepo,
+        private readonly SimBriefService $simBriefSvc,
+        private readonly UserService $userSvc
     ) {
-        $this->airportRepo = $airportRepo;
-        $this->airportSvc = $airportSvc;
-        $this->aircraftRepo = $aircraftRepo;
-        $this->fareSvc = $fareSvc;
-        $this->geoSvc = $geoSvc;
-        $this->pirepRepo = $pirepRepo;
-        $this->simBriefSvc = $simBriefSvc;
-        $this->userSvc = $userSvc;
     }
 
     /**

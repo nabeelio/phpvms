@@ -115,7 +115,7 @@ class UserImport extends BaseImporter
         }
 
         // Assign the groups to the new user
-        $user->attachRoles($newRoles);
+        $user->addRole($newRoles);
     }
 
     /**

@@ -1850,7 +1850,7 @@ class Metar implements \ArrayAccess
      *
      * @since 5.0.0
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return array_key_exists($offset, $this->result);
     }
@@ -1868,7 +1868,7 @@ class Metar implements \ArrayAccess
      *
      * @since 5.0.0
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->result[$offset];
     }
@@ -1889,7 +1889,7 @@ class Metar implements \ArrayAccess
      *
      * @since 5.0.0
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->result[$offset] = $value;
     }
@@ -1907,7 +1907,7 @@ class Metar implements \ArrayAccess
      *
      * @since 5.0.0
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->result[$offset] = null;
     }

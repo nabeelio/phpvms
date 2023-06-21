@@ -8,6 +8,7 @@ use App\Http\Resources\AirportDistance as AirportDistanceResource;
 use App\Repositories\AirportRepository;
 use App\Services\AirportService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 /**
@@ -15,9 +16,6 @@ use Prettus\Repository\Criteria\RequestCriteria;
  */
 class AirportController extends Controller
 {
-    private AirportRepository $airportRepo;
-    private AirportService $airportSvc;
-
     /**
      * AirportController constructor.
      *
@@ -25,11 +23,9 @@ class AirportController extends Controller
      * @param AirportService    $airportSvc
      */
     public function __construct(
-        AirportRepository $airportRepo,
-        AirportService $airportSvc
+        private readonly AirportRepository $airportRepo,
+        private readonly AirportService $airportSvc
     ) {
-        $this->airportRepo = $airportRepo;
-        $this->airportSvc = $airportSvc;
     }
 
     /**
@@ -56,9 +52,9 @@ class AirportController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function index_hubs()
+    public function index_hubs(): AnonymousResourceCollection
     {
         $where = [
             'hub' => true,
@@ -72,13 +68,13 @@ class AirportController extends Controller
     }
 
     /**
-     * Do a lookup, via vaCentral, for the airport information
+     * Return a specific airport
      *
-     * @param $id
+     * @param string $id
      *
      * @return AirportResource
      */
-    public function get($id)
+    public function get(string $id): AirportResource
     {
         $id = strtoupper($id);
 
@@ -88,11 +84,11 @@ class AirportController extends Controller
     /**
      * Do a lookup, via vaCentral, for the airport information
      *
-     * @param $id
+     * @param string $id
      *
      * @return AirportResource
      */
-    public function lookup($id)
+    public function lookup(string $id): AirportResource
     {
         $airport = $this->airportSvc->lookupAirport($id);
         return new AirportResource(collect($airport));
@@ -101,12 +97,12 @@ class AirportController extends Controller
     /**
      * Do a lookup, via vaCentral, for the airport information
      *
-     * @param $fromIcao
-     * @param $toIcao
+     * @param string $fromIcao
+     * @param string $toIcao
      *
      * @return AirportDistanceResource
      */
-    public function distance($fromIcao, $toIcao)
+    public function distance(string $fromIcao, string $toIcao): AirportDistanceResource
     {
         $distance = $this->airportSvc->calculateDistance($fromIcao, $toIcao);
         return new AirportDistanceResource([

@@ -4,21 +4,20 @@ namespace App\Http\Controllers\Admin;
 
 use App\Contracts\Controller;
 use App\Repositories\UserFieldRepository;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class UserFieldController extends Controller
 {
-    /** @var \App\Repositories\UserFieldRepository */
-    private UserFieldRepository $userFieldRepo;
-
     /**
      * @param UserFieldRepository $userFieldRepo
      */
-    public function __construct(UserFieldRepository $userFieldRepo)
-    {
-        $this->userFieldRepo = $userFieldRepo;
+    public function __construct(
+        private readonly UserFieldRepository $userFieldRepo
+    ) {
     }
 
     /**
@@ -28,9 +27,9 @@ class UserFieldController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return mixed
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->userFieldRepo->pushCriteria(new RequestCriteria($request));
         $fields = $this->userFieldRepo->all();
@@ -40,8 +39,10 @@ class UserFieldController extends Controller
 
     /**
      * Show the form for creating a new UserField.
+     *
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.userfields.create');
     }
@@ -53,9 +54,9 @@ class UserFieldController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->userFieldRepo->create($request->all());
 
@@ -68,9 +69,9 @@ class UserFieldController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return View
      */
-    public function show($id)
+    public function show(int $id): View
     {
         $field = $this->userFieldRepo->findWithoutFail($id);
 
@@ -87,9 +88,9 @@ class UserFieldController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(int $id): RedirectResponse|View
     {
         $field = $this->userFieldRepo->findWithoutFail($id);
 
@@ -104,14 +105,14 @@ class UserFieldController extends Controller
     /**
      * Update the specified UserField in storage.
      *
-     * @param         $id
+     * @param int     $id
      * @param Request $request
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function update($id, Request $request)
+    public function update(int $id, Request $request): RedirectResponse
     {
         $field = $this->userFieldRepo->findWithoutFail($id);
 
@@ -131,9 +132,9 @@ class UserFieldController extends Controller
      *
      * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         $field = $this->userFieldRepo->findWithoutFail($id);
         if (empty($field)) {

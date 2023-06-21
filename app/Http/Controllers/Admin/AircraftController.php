@@ -15,16 +15,15 @@ use App\Repositories\AircraftRepository;
 use App\Repositories\AirportRepository;
 use App\Services\ExportService;
 use App\Services\ImportService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AircraftController extends Controller
 {
     use Importable;
-
-    private AircraftRepository $aircraftRepo;
-    private AirportRepository $airportRepo;
-    private ImportService $importSvc;
 
     /**
      * AircraftController constructor.
@@ -34,13 +33,10 @@ class AircraftController extends Controller
      * @param ImportService      $importSvc
      */
     public function __construct(
-        AirportRepository $airportRepo,
-        AircraftRepository $aircraftRepo,
-        ImportService $importSvc
+        private readonly AirportRepository $airportRepo,
+        private readonly AircraftRepository $aircraftRepo,
+        private readonly ImportService $importSvc
     ) {
-        $this->aircraftRepo = $aircraftRepo;
-        $this->airportRepo = $airportRepo;
-        $this->importSvc = $importSvc;
     }
 
     /**
@@ -48,9 +44,9 @@ class AircraftController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         // If subfleet ID is passed part of the query string, then only
         // show the aircraft that are in that subfleet
@@ -73,9 +69,9 @@ class AircraftController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function create(Request $request)
+    public function create(Request $request): View
     {
         return view('admin.aircraft.create', [
             'airports'    => $this->airportRepo->selectBoxList(),
@@ -93,9 +89,9 @@ class AircraftController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(CreateAircraftRequest $request)
+    public function store(CreateAircraftRequest $request): RedirectResponse
     {
         $attrs = $request->all();
         $aircraft = $this->aircraftRepo->create($attrs);
@@ -109,9 +105,9 @@ class AircraftController extends Controller
      *
      * @param mixed $id
      *
-     * @return mixed
+     * @return View
      */
-    public function show($id)
+    public function show($id): View
     {
         $aircraft = $this->aircraftRepo->findWithoutFail($id);
 
@@ -128,11 +124,11 @@ class AircraftController extends Controller
     /**
      * Show the form for editing the specified Aircraft.
      *
-     * @param mixed $id
+     * @param int $id
      *
-     * @return mixed
+     * @return View|RedirectResponse
      */
-    public function edit($id)
+    public function edit(int $id): View|RedirectResponse
     {
         $aircraft = $this->aircraftRepo->findWithoutFail($id);
 
@@ -153,14 +149,14 @@ class AircraftController extends Controller
     /**
      * Update the specified Aircraft in storage.
      *
-     * @param mixed                 $id
+     * @param int                   $id
      * @param UpdateAircraftRequest $request
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function update($id, UpdateAircraftRequest $request)
+    public function update(int $id, UpdateAircraftRequest $request): RedirectResponse
     {
         /** @var \App\Models\Aircraft $aircraft */
         $aircraft = $this->aircraftRepo->findWithoutFail($id);
@@ -180,11 +176,11 @@ class AircraftController extends Controller
     /**
      * Remove the specified Aircraft from storage.
      *
-     * @param mixed $id
+     * @param int $id
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse
     {
         /** @var \App\Models\Aircraft $aircraft */
         $aircraft = $this->aircraftRepo->findWithoutFail($id);
@@ -207,9 +203,9 @@ class AircraftController extends Controller
      *
      * @throws \League\Csv\Exception
      *
-     * @return mixed
+     * @return BinaryFileResponse
      */
-    public function export(Request $request)
+    public function export(Request $request): BinaryFileResponse
     {
         $exporter = app(ExportService::class);
 
@@ -230,9 +226,9 @@ class AircraftController extends Controller
     /**
      * @param Request $request
      *
-     * @return mixed
+     * @return View
      */
-    public function import(Request $request)
+    public function import(Request $request): View
     {
         $logs = [
             'success' => [],
@@ -249,11 +245,11 @@ class AircraftController extends Controller
     }
 
     /**
-     * @param Aircraft|null $aircraft
+     * @param Aircraft $aircraft
      *
-     * @return mixed
+     * @return View
      */
-    protected function return_expenses_view(Aircraft $aircraft)
+    protected function return_expenses_view(Aircraft $aircraft): View
     {
         $aircraft->refresh();
 
@@ -265,14 +261,14 @@ class AircraftController extends Controller
     /**
      * Operations for associating ranks to the subfleet
      *
-     * @param         $id
+     * @param int     $id
      * @param Request $request
      *
-     * @throws \Exception
+     * @throws Exception
      *
-     * @return mixed
+     * @return View
      */
-    public function expenses($id, Request $request)
+    public function expenses(int $id, Request $request): View
     {
         $aircraft = $this->aircraftRepo->findWithoutFail($id);
         if (empty($aircraft)) {

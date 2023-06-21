@@ -9,6 +9,7 @@ use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 use App\Models\PirepComment;
+use App\Models\User;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirlineRepository;
 use App\Repositories\AirportRepository;
@@ -16,36 +17,25 @@ use App\Repositories\JournalRepository;
 use App\Repositories\PirepFieldRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
-use App\Services\FareService;
 use App\Services\PirepService;
 use App\Services\UserService;
 use App\Support\Units\Time;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class PirepController extends Controller
 {
-    private AirportRepository $airportRepo;
-    private AirlineRepository $airlineRepo;
-    private AircraftRepository $aircraftRepo;
-    private FareService $fareSvc;
-    private JournalRepository $journalRepo;
-    private PirepService $pirepSvc;
-    private PirepRepository $pirepRepo;
-    private PirepFieldRepository $pirepFieldRepo;
-    private SubfleetRepository $subfleetRepo;
-    private UserService $userSvc;
-
     /**
      * PirepController constructor.
      *
      * @param AirportRepository    $airportRepo
      * @param AirlineRepository    $airlineRepo
      * @param AircraftRepository   $aircraftRepo
-     * @param FareService          $fareSvc
      * @param JournalRepository    $journalRepo
      * @param PirepRepository      $pirepRepo
      * @param PirepFieldRepository $pirepFieldRepo
@@ -54,37 +44,26 @@ class PirepController extends Controller
      * @param UserService          $userSvc
      */
     public function __construct(
-        AirportRepository $airportRepo,
-        AirlineRepository $airlineRepo,
-        AircraftRepository $aircraftRepo,
-        FareService $fareSvc,
-        JournalRepository $journalRepo,
-        PirepRepository $pirepRepo,
-        PirepFieldRepository $pirepFieldRepo,
-        PirepService $pirepSvc,
-        SubfleetRepository $subfleetRepo,
-        UserService $userSvc
+        private readonly AirportRepository $airportRepo,
+        private readonly AirlineRepository $airlineRepo,
+        private readonly AircraftRepository $aircraftRepo,
+        private readonly JournalRepository $journalRepo,
+        private readonly PirepRepository $pirepRepo,
+        private readonly PirepFieldRepository $pirepFieldRepo,
+        private readonly PirepService $pirepSvc,
+        private readonly SubfleetRepository $subfleetRepo,
+        private readonly UserService $userSvc
     ) {
-        $this->airportRepo = $airportRepo;
-        $this->airlineRepo = $airlineRepo;
-        $this->aircraftRepo = $aircraftRepo;
-        $this->fareSvc = $fareSvc;
-        $this->journalRepo = $journalRepo;
-        $this->pirepRepo = $pirepRepo;
-        $this->pirepFieldRepo = $pirepFieldRepo;
-        $this->pirepSvc = $pirepSvc;
-        $this->subfleetRepo = $subfleetRepo;
-        $this->userSvc = $userSvc;
     }
 
     /**
      * Dropdown with aircraft grouped by subfleet
      *
-     * @param null $user
+     * @param ?User $user
      *
      * @return array
      */
-    public function aircraftList($user = null): array
+    public function aircraftList(?User $user = null): array
     {
         $aircraft = [];
 
@@ -140,7 +119,7 @@ class PirepController extends Controller
      *
      * @throws \Exception
      */
-    protected function saveFares(Pirep $pirep, Request $request)
+    protected function saveFares(Pirep $pirep, Request $request): void
     {
         $fields = ['count', 'price'];
         foreach ($pirep->fares as $fare) {
@@ -161,9 +140,9 @@ class PirepController extends Controller
      *
      * @param Request $request
      *
-     * @return mixed
+     * @return View
      */
-    public function fares(Request $request)
+    public function fares(Request $request): View
     {
         $aircraft_id = $request->input('aircraft_id');
         Log::info($aircraft_id);
@@ -183,9 +162,9 @@ class PirepController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return mixed
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $criterea = new RequestCriteria($request);
         $this->pirepRepo->pushCriteria($criterea);
@@ -209,9 +188,9 @@ class PirepController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return mixed
+     * @return View
      */
-    public function pending(Request $request)
+    public function pending(Request $request): View
     {
         $criterea = new RequestCriteria($request);
         $this->pirepRepo->pushCriteria($criterea);
@@ -229,9 +208,9 @@ class PirepController extends Controller
     /**
      * Show the form for creating a new Pirep.
      *
-     * @return mixed
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.pireps.create', [
             'aircraft' => $this->aircraftList(),
@@ -246,9 +225,9 @@ class PirepController extends Controller
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function store(CreatePirepRequest $request)
+    public function store(CreatePirepRequest $request): RedirectResponse
     {
         $attrs = $request->all();
         $pirep = $this->pirepRepo->create($attrs);
@@ -268,11 +247,11 @@ class PirepController extends Controller
     /**
      * Display the specified Pirep.
      *
-     * @param int $id
+     * @param string $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function show($id)
+    public function show(string $id): RedirectResponse|View
     {
         $pirep = $this->pirepRepo->find($id);
 
@@ -289,13 +268,13 @@ class PirepController extends Controller
     /**
      * Show the form for editing the specified Pirep.
      *
-     * @param int $id
+     * @param string $id
      *
      * @throws \InvalidArgumentException
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(string $id): RedirectResponse|View
     {
         $pirep = $this->pirepRepo->findWithoutFail($id);
         if (empty($pirep)) {
@@ -332,15 +311,15 @@ class PirepController extends Controller
     }
 
     /**
-     * @param                    $id
+     * @param string             $id
      * @param UpdatePirepRequest $request
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function update($id, UpdatePirepRequest $request)
+    public function update(string $id, UpdatePirepRequest $request): RedirectResponse
     {
         $pirep = $this->pirepRepo->findWithoutFail($id);
 
@@ -377,11 +356,11 @@ class PirepController extends Controller
     /**
      * Remove the specified Pirep from storage.
      *
-     * @param int $id
+     * @param string $id
      *
-     * @return mixed
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(string $id): RedirectResponse
     {
         $pirep = $this->pirepRepo->findWithoutFail($id);
 
@@ -401,9 +380,9 @@ class PirepController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function status(Request $request)
+    public function status(Request $request): View
     {
         Log::info('PIREP state update call', [$request->toArray()]);
 
@@ -421,14 +400,14 @@ class PirepController extends Controller
     /**
      * Add a comment to the Pirep
      *
-     * @param         $id
+     * @param string  $id
      * @param Request $request
      *
      * @throws \Exception
      *
-     * @return mixed
+     * @return View
      */
-    public function comments($id, Request $request)
+    public function comments(string $id, Request $request): View
     {
         $user = Auth::user();
         $pirep = $this->pirepRepo->findWithoutFail($request->id);

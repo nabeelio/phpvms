@@ -14,9 +14,6 @@ use Illuminate\Http\Request;
  */
 class FleetController extends Controller
 {
-    private $aircraftRepo;
-    private $subfleetRepo;
-
     /**
      * FleetController constructor.
      *
@@ -24,11 +21,9 @@ class FleetController extends Controller
      * @param SubfleetRepository $subfleetRepo
      */
     public function __construct(
-        AircraftRepository $aircraftRepo,
-        SubfleetRepository $subfleetRepo
+        private readonly AircraftRepository $aircraftRepo,
+        private readonly SubfleetRepository $subfleetRepo
     ) {
-        $this->aircraftRepo = $aircraftRepo;
-        $this->subfleetRepo = $subfleetRepo;
     }
 
     /**
@@ -48,12 +43,12 @@ class FleetController extends Controller
      * Get a specific aircraft. Query string required to specify the tail
      * /api/aircraft/XYZ?type=registration
      *
-     * @param         $id
+     * @param string  $id
      * @param Request $request
      *
      * @return AircraftResource
      */
-    public function get_aircraft($id, Request $request)
+    public function get_aircraft(string $id, Request $request): AircraftResource
     {
         $where = [];
         if ($request->filled('type')) {

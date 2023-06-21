@@ -6,11 +6,9 @@ use App\Models\Flight;
 
 class DuplicateFlight extends AbstractHttpException
 {
-    private $flight;
-
-    public function __construct(Flight $flight)
-    {
-        $this->flight = $flight;
+    public function __construct(
+        private readonly Flight $flight
+    ) {
         parent::__construct(
             409,
             'Duplicate flight with same number/code/leg found'

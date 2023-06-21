@@ -11,21 +11,12 @@ use App\Repositories\SubfleetRepository;
 
 class AirlineService extends Service
 {
-    private AirlineRepository $airlineRepo;
-    private FlightRepository $flightRepo;
-    private PirepRepository $pirepRepo;
-    private SubfleetRepository $subfleetRepo;
-
     public function __construct(
-        AirlineRepository $airlineRepo,
-        FlightRepository $flightRepo,
-        PirepRepository $pirepRepo,
-        SubfleetRepository $subfleetRepo
+        private readonly AirlineRepository $airlineRepo,
+        private readonly FlightRepository $flightRepo,
+        private readonly PirepRepository $pirepRepo,
+        private readonly SubfleetRepository $subfleetRepo
     ) {
-        $this->airlineRepo = $airlineRepo;
-        $this->flightRepo = $flightRepo;
-        $this->pirepRepo = $pirepRepo;
-        $this->subfleetRepo = $subfleetRepo;
     }
 
     /**

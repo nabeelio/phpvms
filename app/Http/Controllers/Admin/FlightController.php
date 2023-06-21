@@ -23,23 +23,16 @@ use App\Services\FleetService;
 use App\Services\FlightService;
 use App\Services\ImportService;
 use App\Support\Units\Time;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FlightController extends Controller
 {
     use Importable;
-
-    private AirlineRepository $airlineRepo;
-    private AirportRepository $airportRepo;
-    private FareRepository $fareRepo;
-    private FlightRepository $flightRepo;
-    private FlightFieldRepository $flightFieldRepo;
-    private FareService $fareSvc;
-    private FlightService $flightSvc;
-    private ImportService $importSvc;
-    private SubfleetRepository $subfleetRepo;
 
     /**
      * FlightController constructor.
@@ -55,25 +48,16 @@ class FlightController extends Controller
      * @param SubfleetRepository    $subfleetRepo
      */
     public function __construct(
-        AirlineRepository $airlineRepo,
-        AirportRepository $airportRepo,
-        FareRepository $fareRepo,
-        FlightRepository $flightRepo,
-        FlightFieldRepository $flightFieldRepo,
-        FareService $fareSvc,
-        FlightService $flightSvc,
-        ImportService $importSvc,
-        SubfleetRepository $subfleetRepo
+        private readonly AirlineRepository $airlineRepo,
+        private readonly AirportRepository $airportRepo,
+        private readonly FareRepository $fareRepo,
+        private readonly FlightRepository $flightRepo,
+        private readonly FlightFieldRepository $flightFieldRepo,
+        private readonly FareService $fareSvc,
+        private readonly FlightService $flightSvc,
+        private readonly ImportService $importSvc,
+        private readonly SubfleetRepository $subfleetRepo
     ) {
-        $this->airlineRepo = $airlineRepo;
-        $this->airportRepo = $airportRepo;
-        $this->fareRepo = $fareRepo;
-        $this->flightRepo = $flightRepo;
-        $this->flightFieldRepo = $flightFieldRepo;
-        $this->fareSvc = $fareSvc;
-        $this->flightSvc = $flightSvc;
-        $this->importSvc = $importSvc;
-        $this->subfleetRepo = $subfleetRepo;
     }
 
     /**
@@ -106,7 +90,7 @@ class FlightController extends Controller
      *
      * @return array
      */
-    protected function getAvailSubfleets($flight)
+    protected function getAvailSubfleets(Flight $flight): array
     {
         $retval = [];
 
@@ -126,9 +110,9 @@ class FlightController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $flights = $this->flightRepo
             ->with(['dpt_airport', 'arr_airport', 'alt_airport', 'airline'])
@@ -146,9 +130,9 @@ class FlightController extends Controller
     /**
      * Show the form for creating a new Flight.
      *
-     * @return Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.flights.create', [
             'flight'        => null,
@@ -166,9 +150,9 @@ class FlightController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function store(CreateFlightRequest $request)
+    public function store(CreateFlightRequest $request): RedirectResponse
     {
         try {
             $flight = $this->flightSvc->createFlight($request->all());
@@ -183,11 +167,11 @@ class FlightController extends Controller
     }
 
     /**
-     * @param $id
+     * @param string $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function show($id)
+    public function show(string $id): RedirectResponse|View
     {
         $flight = $this->flightRepo->findWithoutFail($id);
 
@@ -206,11 +190,11 @@ class FlightController extends Controller
     }
 
     /**
-     * @param $id
+     * @param string $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(string $id): RedirectResponse|View
     {
         $flight = $this->flightRepo->findWithoutFail($id);
         if (empty($flight)) {
@@ -238,14 +222,14 @@ class FlightController extends Controller
     }
 
     /**
-     * @param                     $id
+     * @param string              $id
      * @param UpdateFlightRequest $request
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function update($id, UpdateFlightRequest $request)
+    public function update(string $id, UpdateFlightRequest $request): RedirectResponse
     {
         $flight = $this->flightRepo->findWithoutFail($id);
 
@@ -267,13 +251,13 @@ class FlightController extends Controller
     }
 
     /**
-     * @param $id
+     * @param string $id
      *
      * @throws \Exception
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(string $id): RedirectResponse
     {
         $flight = $this->flightRepo->findWithoutFail($id);
 
@@ -295,9 +279,9 @@ class FlightController extends Controller
      *
      * @throws \League\Csv\Exception
      *
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return BinaryFileResponse
      */
-    public function export(Request $request)
+    public function export(Request $request): BinaryFileResponse
     {
         $exporter = app(ExportService::class);
 
@@ -319,9 +303,9 @@ class FlightController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function import(Request $request)
+    public function import(Request $request): View
     {
         $logs = [
             'success' => [],
@@ -338,11 +322,11 @@ class FlightController extends Controller
     }
 
     /**
-     * @param $flight
+     * @param Flight $flight
      *
-     * @return mixed
+     * @return View
      */
-    protected function return_fields_view($flight)
+    protected function return_fields_view(Flight $flight): View
     {
         $flight->refresh();
         return view('admin.flights.flight_fields', [
@@ -352,12 +336,12 @@ class FlightController extends Controller
     }
 
     /**
-     * @param         $flight_id
+     * @param string  $flight_id
      * @param Request $request
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function field_values($flight_id, Request $request)
+    public function field_values(string $flight_id, Request $request): RedirectResponse|View
     {
         $flight = $this->flightRepo->findWithoutFail($flight_id);
         if (empty($flight)) {
@@ -403,11 +387,11 @@ class FlightController extends Controller
     }
 
     /**
-     * @param $flight
+     * @param Flight $flight
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    protected function return_subfleet_view($flight)
+    protected function return_subfleet_view(Flight $flight): View
     {
         $avail_subfleets = $this->getAvailSubfleets($flight);
 
@@ -418,12 +402,12 @@ class FlightController extends Controller
     }
 
     /**
-     * @param         $id
+     * @param string  $id
      * @param Request $request
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function subfleets($id, Request $request)
+    public function subfleets(string $id, Request $request): RedirectResponse|View
     {
         $flight = $this->flightRepo->findWithoutFail($id);
         if (empty($flight)) {
@@ -452,12 +436,11 @@ class FlightController extends Controller
     /**
      * Get all the fares that haven't been assigned to a given subfleet
      *
-     * @param mixed $flight
+     * @param Flight $flight
      *
-     * @return mixed
      * @return array
      */
-    protected function getAvailFares($flight)
+    protected function getAvailFares(Flight $flight): array
     {
         $retval = [];
         $all_fares = $this->fareRepo->all();
@@ -472,9 +455,9 @@ class FlightController extends Controller
     /**
      * @param Flight $flight
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    protected function return_fares_view(Flight $flight)
+    protected function return_fares_view(Flight $flight): View
     {
         $flight->refresh();
 
@@ -487,9 +470,9 @@ class FlightController extends Controller
     /**
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function fares(Request $request)
+    public function fares(Request $request): View
     {
         $id = $request->id;
 

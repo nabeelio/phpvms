@@ -6,11 +6,9 @@ use App\Models\Pirep;
 
 class PirepCancelNotAllowed extends AbstractHttpException
 {
-    private $pirep;
-
-    public function __construct(Pirep $pirep)
-    {
-        $this->pirep = $pirep;
+    public function __construct(
+        private readonly Pirep $pirep
+    ) {
         parent::__construct(
             400,
             'This PIREP can\'t be cancelled'

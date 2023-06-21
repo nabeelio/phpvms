@@ -27,33 +27,15 @@ use App\Services\UserService;
 use App\Support\Units\Fuel;
 use App\Support\Units\Time;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Laracasts\Flash\Flash;
 
 class PirepController extends Controller
 {
-    private AircraftRepository $aircraftRepo;
-
-    private AirlineRepository $airlineRepo;
-
-    private FareService $fareSvc;
-
-    private FlightRepository $flightRepo;
-
-    private GeoService $geoSvc;
-
-    private PirepRepository $pirepRepo;
-
-    private AirportRepository $airportRepo;
-
-    private PirepFieldRepository $pirepFieldRepo;
-
-    private PirepService $pirepSvc;
-
-    private UserService $userSvc;
-
     /**
      * @param AircraftRepository   $aircraftRepo
      * @param AirlineRepository    $airlineRepo
@@ -67,38 +49,27 @@ class PirepController extends Controller
      * @param UserService          $userSvc
      */
     public function __construct(
-        AircraftRepository $aircraftRepo,
-        AirlineRepository $airlineRepo,
-        AirportRepository $airportRepo,
-        FareService $fareSvc,
-        FlightRepository $flightRepo,
-        GeoService $geoSvc,
-        PirepRepository $pirepRepo,
-        PirepFieldRepository $pirepFieldRepo,
-        PirepService $pirepSvc,
-        UserService $userSvc
+        private readonly AircraftRepository $aircraftRepo,
+        private readonly AirlineRepository $airlineRepo,
+        private readonly AirportRepository $airportRepo,
+        private readonly FareService $fareSvc,
+        private readonly FlightRepository $flightRepo,
+        private readonly GeoService $geoSvc,
+        private readonly PirepRepository $pirepRepo,
+        private readonly PirepFieldRepository $pirepFieldRepo,
+        private readonly PirepService $pirepSvc,
+        private readonly UserService $userSvc
     ) {
-        $this->aircraftRepo = $aircraftRepo;
-        $this->airlineRepo = $airlineRepo;
-        $this->pirepRepo = $pirepRepo;
-        $this->airportRepo = $airportRepo;
-        $this->pirepFieldRepo = $pirepFieldRepo;
-
-        $this->fareSvc = $fareSvc;
-        $this->flightRepo = $flightRepo;
-        $this->geoSvc = $geoSvc;
-        $this->pirepSvc = $pirepSvc;
-        $this->userSvc = $userSvc;
     }
 
     /**
      * Dropdown with aircraft grouped by subfleet
      *
-     * @param mixed $add_blank
+     * @param bool $add_blank
      *
      * @return array
      */
-    public function aircraftList($add_blank = false)
+    public function aircraftList(bool $add_blank = false): array
     {
         $user = Auth::user();
         $user_loc = filled(
@@ -131,6 +102,8 @@ class PirepController extends Controller
      * Save any custom fields found
      *
      * @param Request $request
+     *
+     * @return array
      */
     protected function saveCustomFields(Request $request): array
     {
@@ -161,8 +134,10 @@ class PirepController extends Controller
      * @param Request $request
      *
      * @throws \Exception
+     *
+     * @return void
      */
-    protected function saveFares(Pirep $pirep, Request $request)
+    protected function saveFares(Pirep $pirep, Request $request): void
     {
         $fares = [];
         if (!$pirep->aircraft) {
@@ -191,9 +166,9 @@ class PirepController extends Controller
      *
      * @throws \Prettus\Repository\Exceptions\RepositoryException
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $user = Auth::user();
 
@@ -212,11 +187,11 @@ class PirepController extends Controller
     }
 
     /**
-     * @param $id
+     * @param string $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function show($id)
+    public function show(string $id): RedirectResponse|View
     {
         $with = [
             'acars_logs',
@@ -252,9 +227,9 @@ class PirepController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function fares(Request $request)
+    public function fares(Request $request): View
     {
         $aircraft_id = $request->input('aircraft_id');
         $aircraft = $this->aircraftRepo->find($aircraft_id);
@@ -270,9 +245,9 @@ class PirepController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function create(Request $request)
+    public function create(Request $request): View
     {
         $pirep = null;
 
@@ -335,9 +310,9 @@ class PirepController extends Controller
      *
      * @throws \Exception
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function store(CreatePirepRequest $request)
+    public function store(CreatePirepRequest $request): RedirectResponse
     {
         /** @var User $user */
         $user = Auth::user();
@@ -469,11 +444,11 @@ class PirepController extends Controller
     /**
      * Show the form for editing the specified Pirep.
      *
-     * @param int $id
+     * @param string $id
      *
-     * @return mixed
+     * @return RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(string $id): RedirectResponse|View
     {
         /** @var Pirep $pirep */
         $pirep = $this->pirepRepo->findWithoutFail($id);
@@ -531,15 +506,15 @@ class PirepController extends Controller
     }
 
     /**
-     * @param                    $id
+     * @param string             $id
      * @param UpdatePirepRequest $request
      *
      * @throws \Exception
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function update($id, UpdatePirepRequest $request)
+    public function update(string $id, UpdatePirepRequest $request): RedirectResponse
     {
         /** @var User $user */
         $user = Auth::user();
@@ -597,14 +572,14 @@ class PirepController extends Controller
     /**
      * Submit the PIREP
      *
-     * @param         $id
+     * @param string  $id
      * @param Request $request
      *
      * @throws \Exception
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function submit($id, Request $request)
+    public function submit(string $id, Request $request): RedirectResponse
     {
         $pirep = $this->pirepRepo->findWithoutFail($id);
         if (empty($pirep)) {

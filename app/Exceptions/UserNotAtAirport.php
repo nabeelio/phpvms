@@ -9,14 +9,10 @@ class UserNotAtAirport extends AbstractHttpException
 {
     public const MESSAGE = 'Pilot is not at the departure airport';
 
-    private $airport;
-    private $user;
-
-    public function __construct(User $user, Airport $airport)
-    {
-        $this->airport = $airport;
-        $this->user = $user;
-
+    public function __construct(
+        private readonly User $user,
+        private readonly Airport $airport
+    ) {
         parent::__construct(
             400,
             static::MESSAGE
