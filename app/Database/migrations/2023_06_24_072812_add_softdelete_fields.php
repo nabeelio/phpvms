@@ -4,9 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// Add events table and update flights & pirep tables for references
-return new class() extends Migration
-{
+// Adds deleted_at fields to tables with SoftDelete trait
+return new class() extends Migration {
     public function up()
     {
         // Aircraft
@@ -58,6 +57,5 @@ return new class() extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->softDeletes();
         });
-
     }
 };
