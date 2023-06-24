@@ -74,16 +74,7 @@ class ProfileController extends Controller
      */
     public function show(int $id): RedirectResponse|View
     {
-        $with = [
-            'airline',
-            'awards',
-            'current_airport',
-            'fields.field',
-            'home_airport',
-            'last_pirep',
-            'rank',
-            'typeratings',
-        ];
+        $with = ['airline', 'awards', 'current_airport', 'fields.field', 'home_airport', 'last_pirep', 'rank', 'typeratings'];
         /** @var \App\Models\User $user */
         $user = User::with($with)->where('id', $id)->first();
 

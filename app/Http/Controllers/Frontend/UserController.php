@@ -31,22 +31,7 @@ class UserController extends Controller
      */
     public function index(Request $request): View
     {
-        // Support retrieval of deleted relationships
-        $with = [
-            'airline' => function ($query) {
-                return $query->withTrashed();
-            },
-            'current_airport' => function ($query) {
-                return $query->withTrashed();
-            },
-            'fields.field',
-            'home_airport' => function ($query) {
-                return $query->withTrashed();
-            },
-            'rank' => function ($query) {
-                return $query->withTrashed();
-            },
-        ];
+        $with = ['airline', 'current_airport', 'fields.field', 'home_airport', 'rank'];
         $with_count = ['awards'];
 
         $where = [];
