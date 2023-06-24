@@ -8,9 +8,9 @@ use App\Models\Enums\Days;
 use App\Models\Traits\HashIdTrait;
 use App\Support\Units\Distance;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 /**

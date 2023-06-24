@@ -5,9 +5,9 @@ namespace App\Models;
 use App\Contracts\Model;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Airport
