@@ -1,3 +1,4 @@
-subfleet,iata,icao,hub_id,airport_id,name,registration,hex_code,mtow,zfw,status
-A32X,A320,320,,,A320-211,N309US,,,,A
+subfleet,iata,icao,hub_id,airport_id,name,registration,fin,hex_code,mtow,zfw,status
+A32X,A320,320,,,A320-211,N309US,780715,,,,A
+A32X,A320,320,,,A320-232,N319US,,,,,A
 74X,747 400,,, ,,
