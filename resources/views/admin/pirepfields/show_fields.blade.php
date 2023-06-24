@@ -10,6 +10,12 @@
   <p>{{ $field->name }}</p>
 </div>
 
+<!-- Description Field -->
+<div class="form-group">
+  {{ Form::label('description', 'Desc:') }}
+  <p>{{ $field->description }}</p>
+</div>
+
 <!-- Required Field -->
 <div class="form-group">
   {{ Form::label('required', 'Required:') }}

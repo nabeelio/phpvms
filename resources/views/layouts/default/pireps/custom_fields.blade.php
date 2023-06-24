@@ -4,6 +4,9 @@
     @if($field->required === true)
       <span class="text-danger">*</span>
     @endif
+    @if(filled($field->description))
+      <span class="text-info mx-1"><i class="fas fa-info-circle" title="{{ $field->description }}"></i></span>
+    @endif
   </td>
   <td>
     <div class="input-group input-group-sm form-group">
