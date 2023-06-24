@@ -2,6 +2,7 @@
   <thead>
   <th>Name</th>
   <th style="text-align: center;">Registration</th>
+  <th style="text-align: center;">FIN</th>
   <th>Subfleet</th>
   <th style="text-align: center;">Hub</th>
   <th style="text-align: center;">Location</th>
@@ -14,6 +15,7 @@
     <tr>
       <td><a href="{{ route('admin.aircraft.edit', [$ac->id]) }}">{{ $ac->name }}</a></td>
       <td style="text-align: center;">{{ $ac->registration }}</td>
+      <td style="text-align: center;">{{ $ac->fin }}</td>
       <td>
         @if($ac->subfleet_id && $ac->subfleet)
           <a href="{{ route('admin.subfleets.edit', [$ac->subfleet_id]) }}">
