@@ -74,17 +74,28 @@ class ProfileController extends Controller
      */
     public function show(int $id): RedirectResponse|View
     {
-        /** @var \App\Models\User $user */
+        // Support retrieval of deleted relationships
         $with = [
-            'airline',
-            'awards',
-            'current_airport',
+            'airline' => function ($query) {
+                return $query->withTrashed();
+            },
+            'awards' => function ($query) {
+                return $query->withTrashed();
+            },
+            'current_airport' => function ($query) {
+                return $query->withTrashed();
+            },
             'fields.field',
-            'home_airport',
+            'home_airport' => function ($query) {
+                return $query->withTrashed();
+            },
             'last_pirep',
-            'rank',
+            'rank' => function ($query) {
+                return $query->withTrashed();
+            },
             'typeratings',
         ];
+        /** @var \App\Models\User $user */
         $user = User::with($with)->where('id', $id)->first();
 
         if (empty($user)) {
