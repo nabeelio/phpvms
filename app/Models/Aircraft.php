@@ -8,6 +8,7 @@ use App\Models\Enums\AircraftStatus;
 use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Znck\Eloquent\Traits\BelongsToThrough;
@@ -35,10 +36,11 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  */
 class Aircraft extends Model
 {
-    use BelongsToThrough;
+    use HasFactory;
+    use SoftDeletes;
     use ExpensableTrait;
     use FilesTrait;
-    use HasFactory;
+    use BelongsToThrough;
 
     public $table = 'aircraft';
 
