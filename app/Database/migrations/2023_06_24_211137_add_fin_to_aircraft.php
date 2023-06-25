@@ -8,7 +8,7 @@ return new class() extends Migration {
     public function up()
     {
         Schema::table('aircraft', function (Blueprint $table) {
-            $table->unsignedInteger('fin')->unique()->nullable()->after('registration');
+            $table->string('fin', 5)->unique()->nullable()->after('registration');
         });
     }
 };
