@@ -76,6 +76,12 @@
             {{ Form::text('registration', null, ['class' => 'form-control']) }}
             <p class="text-danger">{{ $errors->first('registration') }}</p>
           </div>
+
+          <div class="form-group col-sm-3">
+            {{ Form::label('fin', 'FIN:') }}
+            {{ Form::text('fin', null, ['class' => 'form-control']) }}
+            <p class="text-danger">{{ $errors->first('fin') }}</p>
+          </div>
         </div>
 
         <div class="row">

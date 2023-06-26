@@ -29,6 +29,7 @@ class AircraftImporter extends ImportExport
         'airport_id'   => 'nullable',
         'name'         => 'required',
         'registration' => 'required',
+        'fin'          => 'nullable',
         'hex_code'     => 'nullable',
         'mtow'         => 'nullable|numeric',
         'zfw'          => 'nullable|numeric',
