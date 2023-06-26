@@ -21,6 +21,7 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @property string   name
  * @property string   icao
  * @property string   registration
+ * @property string   fin
  * @property int      flight_time
  * @property float    mtow
  * @property float    zfw
@@ -50,6 +51,7 @@ class Aircraft extends Model
         'icao',
         'name',
         'registration',
+        'fin',
         'hex_code',
         'flight_time',
         'mtow',
@@ -63,23 +65,24 @@ class Aircraft extends Model
      * The attributes that should be casted to native types.
      */
     protected $casts = [
-        'subfleet_id'  => 'integer',
-        'mtow'         => 'float',
-        'zfw'          => 'float',
         'flight_time'  => 'float',
         'fuel_onboard' => FuelCast::class,
+        'mtow'         => 'float',
         'state'        => 'integer',
+        'subfleet_id'  => 'integer',
+        'zfw'          => 'float',
     ];
 
     /**
      * Validation rules
      */
     public static $rules = [
-        'subfleet_id'  => 'required',
-        'name'         => 'required',
-        'status'       => 'required',
-        'registration' => 'required',
+        'fin'          => 'nullable',
         'mtow'         => 'nullable|numeric',
+        'name'         => 'required',
+        'registration' => 'required',
+        'status'       => 'required',
+        'subfleet_id'  => 'required',
         'zfw'          => 'nullable|numeric',
     ];
 
