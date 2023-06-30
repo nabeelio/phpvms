@@ -178,9 +178,9 @@ class RegisterController extends Controller
      *
      * @throws \Exception
      *
-     * @return RedirectResponse
+     * @return RedirectResponse|View
      */
-    public function register(Request $request): RedirectResponse
+    public function register(Request $request): RedirectResponse|View
     {
         $this->validator($request->all())->validate();
 
