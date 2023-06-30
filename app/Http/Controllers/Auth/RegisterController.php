@@ -175,9 +175,9 @@ class RegisterController extends Controller
      * Handle a registration request for the application.
      *
      * @param Request $request
-     * 
+     *
      * @throws \Exception
-     * 
+     *
      * @return RedirectResponse|View
      */
     public function register(Request $request): RedirectResponse|View
