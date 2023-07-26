@@ -6,6 +6,7 @@ use App\Models\Enums\JournalType;
 use App\Models\Traits\JournalTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Contracts\LaratrustUser;
@@ -61,6 +62,7 @@ class User extends Authenticatable implements LaratrustUser
     use HasRolesAndPermissions;
     use JournalTrait;
     use Notifiable;
+    use SoftDeletes;
 
     public $table = 'users';
 
@@ -255,7 +257,7 @@ class User extends Authenticatable implements LaratrustUser
      */
     public function airline()
     {
-        return $this->belongsTo(Airline::class, 'airline_id');
+        return $this->belongsTo(Airline::class, 'airline_id')->withTrashed();
     }
 
     /**
@@ -263,7 +265,7 @@ class User extends Authenticatable implements LaratrustUser
      */
     public function awards()
     {
-        return $this->belongsToMany(Award::class, 'user_awards');
+        return $this->belongsToMany(Award::class, 'user_awards')->withTrashed();
     }
 
     /**
@@ -278,12 +280,12 @@ class User extends Authenticatable implements LaratrustUser
 
     public function home_airport()
     {
-        return $this->belongsTo(Airport::class, 'home_airport_id');
+        return $this->belongsTo(Airport::class, 'home_airport_id')->withTrashed();
     }
 
     public function current_airport()
     {
-        return $this->belongsTo(Airport::class, 'curr_airport_id');
+        return $this->belongsTo(Airport::class, 'curr_airport_id')->withTrashed();
     }
 
     public function last_pirep()
@@ -303,7 +305,7 @@ class User extends Authenticatable implements LaratrustUser
 
     public function rank()
     {
-        return $this->belongsTo(Rank::class, 'rank_id');
+        return $this->belongsTo(Rank::class, 'rank_id')->withTrashed();
     }
 
     public function typeratings()

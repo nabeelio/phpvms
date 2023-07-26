@@ -230,11 +230,20 @@ class FlightController extends Controller
     public function show(string $id): View
     {
         $user_id = Auth::id();
+        // Support retrieval of deleted relationships
         $with_flight = [
-            'airline',
-            'alt_airport',
-            'arr_airport',
-            'dpt_airport',
+            'airline' => function ($query) {
+                return $query->withTrashed();
+            },
+            'alt_airport' => function ($query) {
+                return $query->withTrashed();
+            },
+            'arr_airport' => function ($query) {
+                return $query->withTrashed();
+            },
+            'dpt_airport' => function ($query) {
+                return $query->withTrashed();
+            },
             'subfleets.airline',
             'simbrief' => function ($query) use ($user_id) {
                 $query->where('user_id', $user_id);

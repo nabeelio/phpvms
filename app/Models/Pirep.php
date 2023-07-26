@@ -17,6 +17,7 @@ use App\Support\Units\Fuel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Kleemans\AttributeEvents;
@@ -73,6 +74,7 @@ class Pirep extends Model
     use HashIdTrait;
     use HasFactory;
     use Notifiable;
+    use SoftDeletes;
 
     public $table = 'pireps';
 

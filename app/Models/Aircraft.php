@@ -10,6 +10,7 @@ use App\Models\Traits\FilesTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
 /**
@@ -36,10 +37,11 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  */
 class Aircraft extends Model
 {
-    use BelongsToThrough;
+    use HasFactory;
+    use SoftDeletes;
     use ExpensableTrait;
     use FilesTrait;
-    use HasFactory;
+    use BelongsToThrough;
 
     public $table = 'aircraft';
 
