@@ -174,7 +174,24 @@ class PirepController extends Controller
 
         $where = [['user_id', $user->id]];
         $where[] = ['state', '<>', PirepState::CANCELLED];
-        $with = ['aircraft', 'airline', 'arr_airport', 'comments', 'dpt_airport', 'fares'];
+
+        // Support retrieval of deleted relationships
+        $with = [
+            'aircraft' => function ($query) {
+                return $query->withTrashed();
+            },
+            'airline' => function ($query) {
+                return $query->withTrashed();
+            },
+            'arr_airport' => function ($query) {
+                return $query->withTrashed();
+            },
+            'comments',
+            'dpt_airport' => function ($query) {
+                return $query->withTrashed();
+            },
+            'fares',
+        ];
 
         $this->pirepRepo->with($with)
             ->pushCriteria(new WhereCriteria($request, $where));
@@ -193,17 +210,32 @@ class PirepController extends Controller
      */
     public function show(string $id): RedirectResponse|View
     {
+        // Support retrieval of deleted relationships
         $with = [
             'acars_logs',
-            'aircraft.airline',
-            'airline.journal',
-            'arr_airport',
+            'aircraft' => function ($query) {
+                return $query->withTrashed()->with(['airline' => function ($query) {
+                    return $query->withTrashed();
+                }]);
+            },
+            'airline' => function ($query) {
+                return $query->withTrashed()->with('journal');
+            },
+            'arr_airport' => function ($query) {
+                return $query->withTrashed();
+            },
             'comments',
-            'dpt_airport',
-            'fares.fare',
-            'transactions',
+            'dpt_airport' => function ($query) {
+                return $query->withTrashed();
+            },
+            'fares',
             'simbrief',
-            'user.rank',
+            'transactions',
+            'user' => function ($query) {
+                return $query->withTrashed()->with(['rank' => function ($query) {
+                    return $query->withTrashed();
+                }]);
+            },
         ];
 
         $pirep = $this->pirepRepo->with($with)->find($id);

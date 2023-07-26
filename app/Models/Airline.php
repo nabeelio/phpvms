@@ -8,6 +8,7 @@ use App\Models\Traits\FilesTrait;
 use App\Models\Traits\JournalTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 /**
@@ -26,6 +27,7 @@ class Airline extends Model
     use FilesTrait;
     use HasFactory;
     use JournalTrait;
+    use SoftDeletes;
 
     public $table = 'airlines';
 

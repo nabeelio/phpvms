@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Contracts\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property string  name
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Fare extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     public $table = 'fares';
 

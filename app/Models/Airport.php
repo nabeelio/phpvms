@@ -7,6 +7,7 @@ use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Airport
@@ -32,6 +33,7 @@ class Airport extends Model
     use ExpensableTrait;
     use FilesTrait;
     use HasFactory;
+    use SoftDeletes;
 
     public $table = 'airports';
 

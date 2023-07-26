@@ -8,6 +8,7 @@ use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int     id
@@ -29,6 +30,7 @@ class Subfleet extends Model
     use ExpensableTrait;
     use FilesTrait;
     use HasFactory;
+    use SoftDeletes;
 
     public $fillable = [
         'airline_id',
