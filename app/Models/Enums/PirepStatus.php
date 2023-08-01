@@ -31,7 +31,8 @@ class PirepStatus extends Enum
     public const ON_FINAL = 'FIN';
     public const LANDING = 'LDG';
     public const LANDED = 'LAN';
-    public const ARRIVED = 'ONB'; // On block
+    public const ON_BLOCK = 'ONB';
+    public const ARRIVED = 'ARR';
     public const CANCELLED = 'DX';
     public const EMERG_DESCENT = 'EMG';
     public const PAUSED = 'PSD';
@@ -57,6 +58,7 @@ class PirepStatus extends Enum
         self::ON_FINAL      => 'pireps.status.final_appr',
         self::LANDING       => 'pireps.status.landing',
         self::LANDED        => 'pireps.status.landed',
+        self::ON_BLOCK      => 'pireps.status.arrived',
         self::ARRIVED       => 'pireps.status.arrived',
         self::CANCELLED     => 'pireps.status.cancelled',
         self::EMERG_DESCENT => 'pireps.status.emerg_decent',
