@@ -59,6 +59,7 @@ class PirepStatus extends Enum
         self::LANDING       => 'pireps.status.landing',
         self::LANDED        => 'pireps.status.landed',
         self::ON_BLOCK      => 'pireps.status.arrived',
+        self::ARRIVED       => 'pireps.status.arrived',
         self::CANCELLED     => 'pireps.status.cancelled',
         self::EMERG_DESCENT => 'pireps.status.emerg_decent',
         self::PAUSED        => 'pireps.status.paused',
