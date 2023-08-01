@@ -222,7 +222,7 @@ class PirepFinanceService extends Service
             $prev_flight = Pirep::where([
                 'aircraft_id' => $pirep->aircraft->id,
                 'state'       => PirepState::ACCEPTED,
-                'status'      => PirepStatus::ARRIVED,
+                'status'      => PirepStatus::ON_BLOCK,
             ])
                 ->where('submitted_at', '<=', $pirep->submitted_at)
                 ->orderby('submitted_at', 'desc')

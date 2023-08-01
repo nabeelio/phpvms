@@ -224,7 +224,7 @@ class PirepService extends Service
             $pirep->submitted_at = Carbon::now('UTC');
         }
 
-        $pirep->status = PirepStatus::ARRIVED;
+        $pirep->status = PirepStatus::ON_BLOCK;
 
         // Copy some fields over from Flight if we have it
         if ($pirep->flight) {
