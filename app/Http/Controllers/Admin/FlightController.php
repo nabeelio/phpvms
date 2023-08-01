@@ -141,7 +141,7 @@ class FlightController extends Controller
             'airlines'      => $this->airlineRepo->selectBoxList(),
             'airports'      => $this->airportRepo->selectBoxList(true, false),
             'alt_airports'  => $this->airportRepo->selectBoxList(true),
-            'flight_types'  => FlightType::select(true),
+            'flight_types'  => FlightType::select(false),
         ]);
     }
 
