@@ -66,9 +66,10 @@
     {{ Form::select('rank_id', $ranks, null, ['class' => 'form-control select2', 'placeholder' => 'Select Rank']) }}
   </div>
   <div class="form-group col-sm-4">
-    {{ Form::label('roles', 'Roles:') }}
-    {{ Form::select('roles[]', $roles, $user->roles->pluck('id'),
-        ['class' => 'form-control select2', 'placeholder' => 'Select Roles', 'multiple']) }}
+    @ability('admin', 'admin-user')
+      {{ Form::label('roles', 'Roles:') }}
+      {{ Form::select('roles[]', $roles, $user->roles->pluck('id'), ['class' => 'form-control select2', 'placeholder' => 'Select Roles', 'multiple']) }}
+    @endability
   </div>
 </div>
 
