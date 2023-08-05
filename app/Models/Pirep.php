@@ -372,7 +372,6 @@ class Pirep extends Model
     /**
      * Relationships
      */
-
     public function acars(): HasMany
     {
         return $this->hasMany(Acars::class, 'pirep_id')->where(

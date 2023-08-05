@@ -35,7 +35,6 @@ class News extends Model
     /**
      * Relationships
      */
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

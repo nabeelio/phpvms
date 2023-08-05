@@ -85,7 +85,6 @@ class Subfleet extends Model
     /**
      * Relationships
      */
-
     public function aircraft(): HasMany
     {
         return $this->hasMany(Aircraft::class, 'subfleet_id')->where('status', AircraftStatus::ACTIVE);

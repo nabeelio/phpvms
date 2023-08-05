@@ -24,7 +24,6 @@ class UserAward extends Model
     /**
      * Relationships
      */
-
     public function award(): BelongsTo
     {
         return $this->belongsTo(Award::class, 'award_id');

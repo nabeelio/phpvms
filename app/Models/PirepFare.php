@@ -53,7 +53,6 @@ class PirepFare extends Model
     /**
      * Relationships
      */
-
     public function fare(): BelongsTo
     {
         return $this->belongsTo(Fare::class, 'fare_id');

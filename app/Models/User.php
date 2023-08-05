@@ -258,7 +258,6 @@ class User extends Authenticatable implements LaratrustUser
     /**
      * Relationships
      */
-
     public function airline(): BelongsTo
     {
         return $this->belongsTo(Airline::class, 'airline_id')->withTrashed();

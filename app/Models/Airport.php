@@ -143,7 +143,6 @@ class Airport extends Model
     /**
      * Relationships
      */
-
     public function departures(): HasMany
     {
         return $this->hasMany(Flight::class, 'dpt_airport_id');

@@ -51,7 +51,6 @@ class Journal extends Model
     /**
      * Relationships
      */
-
     public function morphed(): MorphTo
     {
         // Get all of the morphed models

@@ -92,7 +92,6 @@ class SimBrief extends Model
     /*
      * Relationships
      */
-
     public function aircraft(): BelongsTo
     {
         return $this->belongsTo(Aircraft::class, 'aircraft_id');

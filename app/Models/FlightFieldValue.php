@@ -44,7 +44,6 @@ class FlightFieldValue extends Model
     /**
      * Relationships
      */
-
     public function flight(): BelongsTo
     {
         return $this->belongsTo(Flight::class, 'flight_id');

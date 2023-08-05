@@ -56,7 +56,6 @@ class Fare extends Model
     /**
      * Relationships
      */
-
     public function subfleets(): BelongsToMany
     {
         return $this->belongsToMany(Subfleet::class, 'subfleet_fare')->withPivot('price', 'cost', 'capacity');

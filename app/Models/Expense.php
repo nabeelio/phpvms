@@ -57,7 +57,6 @@ class Expense extends Model
     /**
      * Relationships
      */
-
     public function airline(): BelongsTo
     {
         return $this->belongsTo(Airline::class, 'airline_id');

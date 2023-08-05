@@ -37,7 +37,6 @@ class UserFieldValue extends Model
     /**
      * Relationships
      */
-
     public function field(): BelongsTo
     {
         return $this->belongsTo(UserField::class, 'user_field_id');

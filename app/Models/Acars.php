@@ -80,7 +80,6 @@ class Acars extends Model
     /**
      * Relationships
      */
-
     public function pirep(): BelongsTo
     {
         return $this->belongsTo(Pirep::class, 'pirep_id');

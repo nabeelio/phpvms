@@ -115,7 +115,6 @@ class Airline extends Model
     /*
      * Relationships
      */
-
     public function subfleets(): HasMany
     {
         return $this->hasMany(Subfleet::class, 'id', 'airline_id');
