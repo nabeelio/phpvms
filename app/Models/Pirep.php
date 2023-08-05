@@ -17,6 +17,9 @@ use App\Support\Units\Fuel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -367,9 +370,10 @@ class Pirep extends Model
     }
 
     /**
-     * Foreign Keys
+     * Relationships
      */
-    public function acars()
+
+    public function acars(): HasMany
     {
         return $this->hasMany(Acars::class, 'pirep_id')->where(
             'type',
@@ -377,7 +381,7 @@ class Pirep extends Model
         )->orderBy('created_at', 'asc')->orderBy('sim_time', 'asc');
     }
 
-    public function acars_logs()
+    public function acars_logs(): HasMany
     {
         return $this->hasMany(Acars::class, 'pirep_id')->where('type', AcarsType::LOG)->orderBy(
             'created_at',
@@ -385,7 +389,7 @@ class Pirep extends Model
         )->orderBy('sim_time', 'asc');
     }
 
-    public function acars_route()
+    public function acars_route(): HasMany
     {
         return $this->hasMany(Acars::class, 'pirep_id')->where('type', AcarsType::ROUTE)->orderBy(
             'order',
@@ -393,22 +397,22 @@ class Pirep extends Model
         );
     }
 
-    public function aircraft()
+    public function aircraft(): BelongsTo
     {
         return $this->belongsTo(Aircraft::class, 'aircraft_id');
     }
 
-    public function airline()
+    public function airline(): BelongsTo
     {
         return $this->belongsTo(Airline::class, 'airline_id');
     }
 
-    public function flight()
+    public function flight(): BelongsTo
     {
         return $this->belongsTo(Flight::class, 'flight_id');
     }
 
-    public function arr_airport()
+    public function arr_airport(): BelongsTo
     {
         return $this->belongsTo(Airport::class, 'arr_airport_id')->withDefault(function ($model) {
             if (!empty($this->attributes['arr_airport_id'])) {
@@ -421,12 +425,12 @@ class Pirep extends Model
         });
     }
 
-    public function alt_airport()
+    public function alt_airport(): BelongsTo
     {
         return $this->belongsTo(Airport::class, 'alt_airport_id');
     }
 
-    public function dpt_airport()
+    public function dpt_airport(): BelongsTo
     {
         return $this->belongsTo(Airport::class, 'dpt_airport_id')->withDefault(function ($model) {
             if (!empty($this->attributes['dpt_airport_id'])) {
@@ -439,17 +443,17 @@ class Pirep extends Model
         });
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(PirepComment::class, 'pirep_id')->orderBy('created_at', 'desc');
     }
 
-    public function fares()
+    public function fares(): HasMany
     {
         return $this->hasMany(PirepFare::class, 'pirep_id');
     }
 
-    public function field_values()
+    public function field_values(): HasMany
     {
         return $this->hasMany(PirepFieldValue::class, 'pirep_id');
     }
@@ -463,7 +467,7 @@ class Pirep extends Model
      * Relationship that holds the current position, but limits the ACARS
      *  relationship to only one row (the latest), to prevent an N+! problem
      */
-    public function position()
+    public function position(): HasOne
     {
         return $this->hasOne(Acars::class, 'pirep_id')->where(
             'type',
@@ -471,12 +475,12 @@ class Pirep extends Model
         )->latest();
     }
 
-    public function simbrief()
+    public function simbrief(): BelongsTo
     {
         return $this->belongsTo(SimBrief::class, 'id', 'pirep_id');
     }
 
-    public function transactions()
+    public function transactions(): HasMany
     {
         return $this->hasMany(JournalTransaction::class, 'ref_model_id')->where(
             'ref_model',
@@ -484,7 +488,7 @@ class Pirep extends Model
         )->orderBy('credit', 'desc')->orderBy('debit', 'desc');
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }

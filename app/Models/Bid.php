@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Contracts\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int    user_id
@@ -29,12 +30,13 @@ class Bid extends Model
     /**
      * Relationships
      */
-    public function flight()
+
+    public function flight(): BelongsTo
     {
         return $this->belongsTo(Flight::class, 'flight_id');
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }

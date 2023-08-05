@@ -8,6 +8,9 @@ use App\Models\Traits\FilesTrait;
 use App\Models\Traits\JournalTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -110,26 +113,31 @@ class Airline extends Model
     }
 
     /*
-     * FKs
+     * Relationships
      */
 
-    public function subfleets()
+    public function subfleets(): HasMany
     {
-        return $this->hasMany(Subfleet::class, 'airline_id');
+        return $this->hasMany(Subfleet::class, 'id', 'airline_id');
     }
 
-    public function aircraft()
+    public function aircraft(): HasManyThrough
     {
         return $this->hasManyThrough(Aircraft::class, Subfleet::class);
     }
 
-    public function flights()
+    public function flights(): BelongsTo
     {
         return $this->belongsTo(Flight::class, 'airline_id');
     }
 
-    public function pireps()
+    public function pireps(): BelongsTo
     {
         return $this->belongsTo(Pirep::class, 'airline_id');
+    }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'id', 'airline_id');
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -137,5 +138,36 @@ class Airport extends Model
                 'timezone' => $value,
             ]
         );
+    }
+
+    /**
+     * Relationships
+     */
+
+    public function departures(): HasMany
+    {
+        return $this->hasMany(Flight::class, 'dpt_airport_id');
+    }
+
+    public function arrivals(): HasMany
+    {
+        return $this->hasMany(Flight::class, 'arr_airport_id');
+    }
+
+    public function aircraft(): HasMany
+    {
+        return $this->hasMany(Aircraft::class, 'airport_id');
+    }
+
+    public function pilots(): HasMany
+    {
+        // Users currently at this airport
+        return $this->hasMany(User::class, 'curr_airport_id');
+    }
+
+    public function users(): HasMany
+    {
+        // Users based at this airport
+        return $this->hasMany(User::class, 'home_airport_id');
     }
 }

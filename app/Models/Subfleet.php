@@ -8,6 +8,10 @@ use App\Models\Traits\ExpensableTrait;
 use App\Models\Traits\FilesTrait;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -81,40 +85,39 @@ class Subfleet extends Model
     /**
      * Relationships
      */
-    public function aircraft()
+
+    public function aircraft(): HasMany
     {
-        return $this->hasMany(Aircraft::class, 'subfleet_id')
-            ->where('status', AircraftStatus::ACTIVE);
+        return $this->hasMany(Aircraft::class, 'subfleet_id')->where('status', AircraftStatus::ACTIVE);
     }
 
-    public function airline()
+    public function airline(): BelongsTo
     {
         return $this->belongsTo(Airline::class, 'airline_id');
     }
 
-    public function hub()
+    public function hub(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'hub_id');
     }
 
-    public function fares()
+    public function fares(): BelongsToMany
     {
-        return $this->belongsToMany(Fare::class, 'subfleet_fare')
-            ->withPivot('price', 'cost', 'capacity');
+        return $this->belongsToMany(Fare::class, 'subfleet_fare')->withPivot('price', 'cost', 'capacity');
     }
 
-    public function flights()
+    public function flights(): BelongsToMany
     {
         return $this->belongsToMany(Flight::class, 'flight_subfleet');
     }
 
-    public function ranks()
+    public function ranks(): BelongsToMany
     {
         return $this->belongsToMany(Rank::class, 'subfleet_rank')
-            ->withPivot('acars_pay', 'manual_pay');
+        ->withPivot('acars_pay', 'manual_pay');
     }
 
-    public function typeratings()
+    public function typeratings(): BelongsToMany
     {
         return $this->belongsToMany(Typerating::class, 'typerating_subfleet', 'subfleet_id', 'typerating_id');
     }
