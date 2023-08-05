@@ -14,8 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Znck\Eloquent\Traits\BelongsToThrough;
 use Znck\Eloquent\Relations\BelongsToThrough as ZnckBelongsToThrough;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 /**
  * @property int      id
