@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Znck\Eloquent\Traits\BelongsToThrough;
+use Znck\Eloquent\Relations\BelongsToThrough as ZnckBelongsToThrough;
 
 /**
  * @property int      id
@@ -142,7 +143,7 @@ class Aircraft extends Model
     /**
      * Relationships
      */
-    public function airline(): BelongsToThrough
+    public function airline(): ZnckBelongsToThrough
     {
         return $this->belongsToThrough(Airline::class, Subfleet::class);
     }
