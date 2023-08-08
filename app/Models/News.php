@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Contracts\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 
 /**
@@ -32,9 +33,9 @@ class News extends Model
     ];
 
     /**
-     * FOREIGN KEYS
+     * Relationships
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }

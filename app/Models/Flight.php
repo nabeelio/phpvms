@@ -10,6 +10,10 @@ use App\Support\Units\Distance;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
@@ -224,46 +228,53 @@ class Flight extends Model
     /*
      * Relationships
      */
-
-    public function airline()
+    public function airline(): BelongsTo
     {
         return $this->belongsTo(Airline::class, 'airline_id');
     }
 
-    public function dpt_airport()
+    public function dpt_airport(): HasOne
     {
-        return $this->belongsTo(Airport::class, 'dpt_airport_id');
+        return $this->hasOne(Airport::class, 'id', 'dpt_airport_id');
     }
 
-    public function arr_airport()
+    public function arr_airport(): HasOne
     {
-        return $this->belongsTo(Airport::class, 'arr_airport_id');
+        return $this->hasOne(Airport::class, 'id', 'arr_airport_id');
     }
 
-    public function alt_airport()
+    public function alt_airport(): HasOne
     {
-        return $this->belongsTo(Airport::class, 'alt_airport_id');
+        return $this->hasOne(Airport::class, 'id', 'alt_airport_id');
     }
 
-    public function fares()
+    public function fares(): BelongsToMany
     {
-        return $this->belongsToMany(Fare::class, 'flight_fare')
-            ->withPivot('price', 'cost', 'capacity');
+        return $this->belongsToMany(Fare::class, 'flight_fare')->withPivot('price', 'cost', 'capacity');
     }
 
-    public function field_values()
+    public function field_values(): HasMany
     {
-        return $this->hasMany(FlightFieldValue::class, 'flight_id');
+        return $this->hasMany(FlightFieldValue::class, 'flight_id', 'id');
     }
 
-    public function simbrief()
+    public function simbrief(): BelongsTo
     {
-        // id = key from table, flight_id = reference key
         return $this->belongsTo(SimBrief::class, 'id', 'flight_id');
     }
 
-    public function subfleets()
+    public function subfleets(): BelongsToMany
     {
         return $this->belongsToMany(Subfleet::class, 'flight_subfleet');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id', 'user_id');
+    }
+
+    public function event(): BelongsTo
+    {
+        return $this->belongsTo(Event::class, 'id', 'event_id');
     }
 }
