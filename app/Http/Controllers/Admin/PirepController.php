@@ -214,7 +214,7 @@ class PirepController extends Controller
     {
         return view('admin.pireps.create', [
             'aircraft' => $this->aircraftList(),
-            'airports' => $this->airportRepo->selectBoxList(),
+            'airports' => [],
             'airlines' => $this->airlineRepo->selectBoxList(),
         ]);
     }

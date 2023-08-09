@@ -164,7 +164,7 @@ class FlightController extends Controller
         return view('flights.index', [
             'user'          => $user,
             'airlines'      => $this->airlineRepo->selectBoxList(true),
-            'airports'      => $this->airportRepo->selectBoxList(true),
+            'airports'      => [],
             'flights'       => $flights,
             'saved'         => $saved_flights,
             'subfleets'     => $this->subfleetRepo->selectBoxList(true),
@@ -209,7 +209,7 @@ class FlightController extends Controller
         return view('flights.bids', [
             'user'          => $user,
             'airlines'      => $this->airlineRepo->selectBoxList(true),
-            'airports'      => $this->airportRepo->selectBoxList(true),
+            'airports'      => [],
             'flights'       => $flights,
             'saved'         => $saved_flights,
             'subfleets'     => $this->subfleetRepo->selectBoxList(true),

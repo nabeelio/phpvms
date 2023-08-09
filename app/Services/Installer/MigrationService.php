@@ -53,6 +53,7 @@ class MigrationService extends Service
         $availMigrations = [];
         $runFiles = [];
 
+
         try {
             $runFiles = $migrator->getRepository()->getRan();
         } catch (Exception $e) {
