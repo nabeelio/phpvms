@@ -537,7 +537,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::group([], function () {
                 Route::get('acars', 'AcarsController@live_flights');
                 Route::get('acars/geojson', 'AcarsController@pireps_geojson');
-                
+
                 Route::get('airports/hubs', 'AirportController@index_hubs');
                 Route::get('airports/search', 'AirportController@search');
 
