@@ -486,3 +486,10 @@
   options: ''
   type: boolean
   description: Send out a discord notification when a user's rank is changed
+- key: security.require_email_verification
+  name: Require Email Verification
+  group: security
+  value: false
+  options: ''
+  type: boolean
+  description: Require email verification before a user can login
