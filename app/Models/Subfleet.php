@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * @property int     id
@@ -35,6 +36,7 @@ class Subfleet extends Model
     use FilesTrait;
     use HasFactory;
     use SoftDeletes;
+    use Sortable;
 
     public $fillable = [
         'airline_id',
@@ -70,6 +72,14 @@ class Subfleet extends Model
         'name'                       => 'required',
         'hub_id'                     => 'nullable',
         'ground_handling_multiplier' => 'nullable|numeric',
+    ];
+
+    public $sortable = [
+        'id',
+        'airline_id',
+        'hub_id',
+        'type',
+        'name'
     ];
 
     /**

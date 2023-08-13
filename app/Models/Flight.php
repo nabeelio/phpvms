@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * @property string     id
@@ -60,6 +61,7 @@ class Flight extends Model
     use HashIdTrait;
     use HasFactory;
     use SoftDeletes;
+    use Sortable;
 
     public $table = 'flights';
 
@@ -135,6 +137,23 @@ class Flight extends Model
         'level'                => 'nullable',
         'event_id'             => 'nullable|numeric',
         'user_id'              => 'nullable|numeric',
+    ];
+
+    public $sortable = [
+        'airline_id',
+        'flight_number',
+        'callsign',
+        'route_code',
+        'route_leg',
+        'dpt_airport_id',
+        'arr_airport_id',
+        'dpt_time',
+        'arr_time',
+        'distance',
+        'flight_time',
+        'flight_type',
+        'event_id',
+        'user_id',
     ];
 
     /**

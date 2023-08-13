@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * Class Airport
@@ -35,6 +36,7 @@ class Airport extends Model
     use FilesTrait;
     use HasFactory;
     use SoftDeletes;
+    use Sortable;
 
     public $table = 'airports';
 
@@ -87,6 +89,15 @@ class Airport extends Model
         'fuel_100ll_cost'      => 'nullable|numeric',
         'fuel_jeta_cost'       => 'nullable|numeric',
         'fuel_mogas_cost'      => 'nullable|numeric',
+    ];
+
+    public $sortable = [
+        'id',
+        'iata',
+        'icao',
+        'name',
+        'location',
+        'country',
     ];
 
     /**

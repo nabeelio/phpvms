@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Contracts\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Kyslik\ColumnSortable\Sortable;
 
 class Typerating extends Model
 {
+    use Sortable;
+
     public $table = 'typeratings';
 
     protected $fillable = [
@@ -23,6 +26,13 @@ class Typerating extends Model
         'type'        => 'required',
         'description' => 'nullable',
         'image_url'   => 'nullable',
+    ];
+
+    public $sortable = [
+        'id',
+        'name',
+        'type',
+        'description',
     ];
 
     // Relationships
