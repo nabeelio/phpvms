@@ -79,7 +79,7 @@ class Subfleet extends Model
         'airline_id',
         'hub_id',
         'type',
-        'name'
+        'name',
     ];
 
     /**
