@@ -73,7 +73,6 @@ class SubfleetExporter extends ImportExport
         return $this->objectToMultiString($fares);
     }
 
-
     /**
      * Return any ranks that have been linked to this subfleet
      *

@@ -4,8 +4,8 @@ namespace App\Services\ImportExport;
 
 use App\Contracts\ImportExport;
 use App\Models\Fare;
-use App\Models\Subfleet;
 use App\Models\Rank;
+use App\Models\Subfleet;
 use App\Services\FareService;
 use App\Services\FleetService;
 
@@ -31,7 +31,7 @@ class SubfleetImporter extends ImportExport
         'cost_delay_minute'          => 'nullable',
         'ground_handling_multiplier' => 'nullable',
         'fares'                      => 'nullable',
-        'ranks'                      => 'nullable'
+        'ranks'                      => 'nullable',
     ];
 
     private FareService $fareSvc;
