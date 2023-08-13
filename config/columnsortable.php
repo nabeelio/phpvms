@@ -3,11 +3,11 @@
 return [
     // spec columns
     'columns' => [
-        'alpha'   => [
+        'alpha' => [
             'rows'  => ['description', 'email', 'name', 'slug', 'registration', 'icao', 'iata', 'dpt_airport_id', 'arr_airport_id', 'home_airport_id', 'curr_airport_id', 'airport_id'],
             'class' => 'fa fa-sort-alpha',
         ],
-        'amount'  => [
+        'amount' => [
             'rows'  => ['amount', 'price', 'cost', 'balance'],
             'class' => 'fa fa-sort-amount',
         ],
