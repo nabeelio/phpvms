@@ -72,7 +72,8 @@
         "akaunting/laravel-money": "^4.0.1",
         "staudenmeir/belongs-to-through": "^v2.13.0",
         "staudenmeir/eloquent-has-many-deep": "1.18.0",
-        "spatie/laravel-ignition": "^2.0"
+        "spatie/laravel-ignition": "^2.0",
+        "kyslik/column-sortable": "^6.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",
