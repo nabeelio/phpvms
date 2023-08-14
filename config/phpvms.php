@@ -125,5 +125,5 @@ return [
      */
     'registration' => [
         'email_verification' => false,
-    ]
+    ],
 ];
