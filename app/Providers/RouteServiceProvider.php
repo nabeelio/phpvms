@@ -110,7 +110,7 @@ class RouteServiceProvider extends ServiceProvider
                 'namespace'  => 'Frontend',
                 'prefix'     => '',
                 'as'         => 'frontend.',
-                'middleware' => (setting('security.require_email_verification', false) ? ['auth', 'verified'] : ['auth']),
+                'middleware' => (config('phpvms.registration.email_verification', false) ? ['auth', 'verified'] : ['auth']),
             ], function () {
                 Route::resource('dashboard', 'DashboardController');
 
