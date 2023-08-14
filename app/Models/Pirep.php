@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Kleemans\AttributeEvents;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * @property string      id
@@ -78,6 +79,7 @@ class Pirep extends Model
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
+    use Sortable;
 
     public $table = 'pireps';
 
@@ -163,6 +165,30 @@ class Pirep extends Model
         'level'          => 'nullable|numeric',
         'notes'          => 'nullable',
         'route'          => 'nullable',
+    ];
+
+    public $sortable = [
+        'user_id',
+        'airline_id',
+        'aircraft_id',
+        'event_id',
+        'flight_number',
+        'route_code',
+        'route_leg',
+        'flight_id',
+        'dpt_airport_id',
+        'arr_airport_id',
+        'alt_airport_id',
+        'distance',
+        'flight_time',
+        'fuel_used',
+        'landing_rate',
+        'score',
+        'flight_type',
+        'state',
+        'status',
+        'submitted_at',
+        'created_at',
     ];
 
     /**
