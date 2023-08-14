@@ -147,8 +147,7 @@ class FlightController extends Controller
             ->when($filter_by_user, function ($query) use ($allowed_flights) {
                 return $query->whereIn('id', $allowed_flights);
             })
-            ->orderBy('flight_number')
-            ->orderBy('route_leg')
+            ->sortable('flight_number', 'route_code', 'route_leg')
             ->paginate();
 
         $saved_flights = [];

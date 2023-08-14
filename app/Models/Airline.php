@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * @property mixed   id
@@ -31,6 +32,7 @@ class Airline extends Model
     use HasFactory;
     use JournalTrait;
     use SoftDeletes;
+    use Sortable;
 
     public $table = 'airlines';
 
@@ -68,12 +70,21 @@ class Airline extends Model
      * @var array
      */
     public static $rules = [
+        'callsign' => 'nullable',
         'country'  => 'nullable',
         'iata'     => 'nullable|max:5',
         'icao'     => 'required|max:5',
         'logo'     => 'nullable',
         'name'     => 'required',
-        'callsign' => 'nullable',
+    ];
+
+    public $sortable = [
+        'id',
+        'name',
+        'icao',
+        'iata',
+        'country',
+        'callsign',
     ];
 
     /**
