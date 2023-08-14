@@ -153,6 +153,11 @@ class Aircraft extends Model
         return $this->belongsTo(Airport::class, 'airport_id');
     }
 
+    public function bid(): BelongsTo
+    {
+        return $this->belongsTo(Bid::class, 'aircraft_id');
+    }
+
     public function hub(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'hub_id');
