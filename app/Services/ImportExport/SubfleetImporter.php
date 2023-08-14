@@ -111,7 +111,7 @@ class SubfleetImporter extends ImportExport
                 $rank_attributes = [];
             }
 
-            $rank = Rank::firstOrCreate(['id' => $rank_id], ['name' => $rank_id]);
+            $rank = Rank::firstOrCreate(['id' => $rank_id], ['name' => 'Imported rank '.$rank_id]);
             $this->fleetSvc->addSubfleetToRank($subfleet, $rank, $rank_attributes);
             $rank->save();
         }
