@@ -4,8 +4,10 @@ $(document).ready(function () {
     ajax: {
       url: '{{ Config::get("app.url") }}/api/airports/search',
       data: function (params) {
+        const hubs_only = $(this).hasClass('hubs_only');
         return {
           search: params.term,
+          hubs: hubs_only,
           page: params.page || 1,
           orderBy: 'id',
           sortedBy: 'asc'

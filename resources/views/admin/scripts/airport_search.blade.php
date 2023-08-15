@@ -4,8 +4,10 @@ $(document).ready(function () {
     ajax: {
       url: '{{ Config::get("app.url") }}/api/airports/search',
       data: function (params) {
+        const hub_only = $(this).hasClass('hub_only');
         return {
           search: params.term,
+          hub: hub_only,
           page: params.page || 1,
           orderBy: 'id',
           sortedBy: 'asc'
@@ -16,7 +18,7 @@ $(document).ready(function () {
         const results = data.data.map(apt => {
           return {
             id: apt.id,
-            text: apt.description
+            text: apt.description,
           }
         })
 

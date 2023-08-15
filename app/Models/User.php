@@ -54,6 +54,9 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property Role[]           roles
  * @property Subfleet[]       subfleets
  * @property TypeRating[]     typeratings
+ * @property Airport          home_airport
+ * @property Airport          current_airport
+ * @property Airport          location
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
@@ -291,9 +294,15 @@ class User extends Authenticatable implements LaratrustUser
         return $this->hasMany(Bid::class, 'user_id');
     }
 
+
     public function home_airport(): BelongsTo
     {
         return $this->belongsTo(Airport::class, 'home_airport_id')->withTrashed();
+    }
+
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Airport::class, 'curr_airport_id')->withTrashed();
     }
 
     public function current_airport(): BelongsTo
