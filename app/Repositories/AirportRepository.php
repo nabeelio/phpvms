@@ -12,8 +12,10 @@ class AirportRepository extends Repository implements CacheableInterface
     use CacheableRepository;
 
     protected $fieldSearchable = [
+        'iata' => 'like',
         'icao' => 'like',
         'name' => 'like',
+        'hub',
     ];
 
     public function model()

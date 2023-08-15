@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Kyslik\ColumnSortable\Sortable;
 use Laratrust\Contracts\LaratrustUser;
 use Laratrust\Traits\HasRolesAndPermissions;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
@@ -54,6 +55,9 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property Role[]           roles
  * @property Subfleet[]       subfleets
  * @property TypeRating[]     typeratings
+ * @property Airport          home_airport
+ * @property Airport          current_airport
+ * @property Airport          location
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
@@ -67,6 +71,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
     use JournalTrait;
     use Notifiable;
     use SoftDeletes;
+    use Sortable;
 
     public $table = 'users';
 
@@ -144,6 +149,22 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         'email'    => 'required|email',
         'pilot_id' => 'required|integer',
         'callsign' => 'nullable|max:4',
+    ];
+
+    public $sortable = [
+        'id',
+        'name',
+        'pilot_id',
+        'callsign',
+        'country',
+        'airline_id',
+        'rank_id',
+        'home_airport_id',
+        'curr_airport_id',
+        'flights',
+        'flight_time',
+        'transfer_time',
+        'created_at',
     ];
 
     /**
@@ -279,6 +300,11 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
     public function home_airport(): BelongsTo
     {
         return $this->belongsTo(Airport::class, 'home_airport_id')->withTrashed();
+    }
+
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Airport::class, 'curr_airport_id')->withTrashed();
     }
 
     public function current_airport(): BelongsTo

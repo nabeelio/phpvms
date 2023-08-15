@@ -6,6 +6,7 @@ use App\Contracts\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * @property int       id
@@ -18,6 +19,7 @@ class News extends Model
 {
     use HasFactory;
     use Notifiable;
+    use Sortable;
 
     public $table = 'news';
 
@@ -30,6 +32,13 @@ class News extends Model
     public static $rules = [
         'subject' => 'required',
         'body'    => 'required',
+    ];
+
+    public $sortable = [
+        'id',
+        'subject',
+        'user_id',
+        'created_at',
     ];
 
     /**

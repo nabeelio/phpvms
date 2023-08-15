@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Kleemans\AttributeEvents;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * @property string      id
@@ -42,6 +43,8 @@ use Kleemans\AttributeEvents;
  * @property string      arr_airport_id
  * @property Airport     dpt_airport
  * @property string      dpt_airport_id
+ * @property Airport     alt_airport
+ * @property string      alt_airport_id
  * @property Carbon      block_off_time
  * @property Carbon      block_on_time
  * @property int         block_time
@@ -70,6 +73,7 @@ use Kleemans\AttributeEvents;
  * @property Acars[]     acars
  * @property mixed       cancelled
  * @property PirepFare[] $fares
+ * @property SimBrief    $simbrief
  */
 class Pirep extends Model
 {
@@ -78,6 +82,7 @@ class Pirep extends Model
     use HasFactory;
     use Notifiable;
     use SoftDeletes;
+    use Sortable;
 
     public $table = 'pireps';
 
@@ -163,6 +168,30 @@ class Pirep extends Model
         'level'          => 'nullable|numeric',
         'notes'          => 'nullable',
         'route'          => 'nullable',
+    ];
+
+    public $sortable = [
+        'user_id',
+        'airline_id',
+        'aircraft_id',
+        'event_id',
+        'flight_number',
+        'route_code',
+        'route_leg',
+        'flight_id',
+        'dpt_airport_id',
+        'arr_airport_id',
+        'alt_airport_id',
+        'distance',
+        'flight_time',
+        'fuel_used',
+        'landing_rate',
+        'score',
+        'flight_type',
+        'state',
+        'status',
+        'submitted_at',
+        'created_at',
     ];
 
     /**

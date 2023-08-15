@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * @property string name
@@ -21,6 +22,7 @@ class Rank extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use Sortable;
 
     public $table = 'ranks';
 
@@ -47,6 +49,14 @@ class Rank extends Model
         'hours'                => 'required|integer',
         'acars_base_pay_rate'  => 'nullable|numeric',
         'manual_base_pay_rate' => 'nullable|numeric',
+    ];
+
+    public $sortable = [
+        'id',
+        'name',
+        'hours',
+        'acars_base_pay_rate',
+        'manual_base_pay_rate',
     ];
 
     /*
