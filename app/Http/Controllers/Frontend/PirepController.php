@@ -193,9 +193,8 @@ class PirepController extends Controller
             'fares',
         ];
 
-        $this->pirepRepo->with($with)
-            ->pushCriteria(new WhereCriteria($request, $where));
-        $pireps = $this->pirepRepo->orderBy('created_at', 'desc')->paginate();
+        $this->pirepRepo->with($with)->pushCriteria(new WhereCriteria($request, $where));
+        $pireps = $this->pirepRepo->sortable(['submitted_at' => 'desc'])->paginate();
 
         return view('pireps.index', [
             'user'   => $user,

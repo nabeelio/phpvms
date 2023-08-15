@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 use Znck\Eloquent\Relations\BelongsToThrough as ZnckBelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -41,11 +42,12 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  */
 class Aircraft extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use BelongsToThrough;
     use ExpensableTrait;
     use FilesTrait;
-    use BelongsToThrough;
+    use HasFactory;
+    use SoftDeletes;
+    use Sortable;
 
     public $table = 'aircraft';
 
@@ -90,6 +92,24 @@ class Aircraft extends Model
         'status'       => 'required',
         'subfleet_id'  => 'required',
         'zfw'          => 'nullable|numeric',
+    ];
+
+    public $sortable = [
+        'subfleet_id',
+        'airport_id',
+        'hub_id',
+        'iata',
+        'icao',
+        'name',
+        'registration',
+        'fin',
+        'hex_code',
+        'flight_time',
+        'mtow',
+        'zfw',
+        'fuel_onboard',
+        'status',
+        'state',
     ];
 
     /**

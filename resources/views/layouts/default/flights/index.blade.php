@@ -15,7 +15,7 @@
   </div>
   <div class="row">
     <div class="col-12 text-center">
-      {{ $flights->appends(\Illuminate\Support\Facades\Request::except('page'))->links('pagination.default') }}
+      {{ $flights->withQueryString()->links('pagination.default') }}
     </div>
   </div>
   @include('flights.bids_aircraft')

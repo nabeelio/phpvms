@@ -1,3 +1,19 @@
+<div class="row">
+  <div class="col">
+    <table class="table table-sm table-borderless align-middle text-nowrap mb-2">
+      <tr>
+        <th>@sortablelink('airline_id', __('common.airline'))</th>
+        <th>@sortablelink('flight_number', __('flights.flightnumber'))</th>
+        <th>@sortablelink('dpt_airport_id', __('airports.departure'))</th>
+        <th>@sortablelink('arr_airport_id', __('airports.arrival'))</th>
+        <th>@sortablelink('dpt_time', 'STD')</th>
+        <th>@sortablelink('arr_time', 'STA')</th>
+        <th>@sortablelink('distance', 'Distance')</th>
+        <th>@sortablelink('flight_time', 'Flight Time')</th>
+      </tr>
+    </table>
+  </div>
+</div>
 @foreach($flights as $flight)
   <div class="card border-blue-bottom">
     <div class="card-body" style="min-height: 0">
