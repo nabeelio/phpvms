@@ -538,6 +538,9 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('acars', 'AcarsController@live_flights');
                 Route::get('acars/geojson', 'AcarsController@pireps_geojson');
 
+                Route::get('airports/hubs', 'AirportController@index_hubs');
+                Route::get('airports/search', 'AirportController@search');
+
                 Route::get('pireps/{pirep_id}', 'PirepController@get');
                 Route::get('pireps/{pirep_id}/acars/geojson', 'AcarsController@acars_geojson');
 
@@ -556,7 +559,6 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('airlines/{id}', 'AirlineController@get');
 
                 Route::get('airports', 'AirportController@index');
-                Route::get('airports/hubs', 'AirportController@index_hubs');
                 Route::get('airports/{id}', 'AirportController@get');
                 Route::get('airports/{id}/lookup', 'AirportController@lookup');
                 Route::get('airports/{id}/distance/{to}', 'AirportController@distance');
