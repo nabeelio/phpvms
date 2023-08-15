@@ -196,11 +196,24 @@ class FlightController extends Controller
      */
     public function edit(string $id): RedirectResponse|View
     {
-        $flight = $this->flightRepo->findWithoutFail($id);
+        /** @var Flight $flight */
+        $flight = $this->flightRepo
+            ->with(['dpt_airport', 'arr_airport', 'alt_airport'])
+            ->findWithoutFail($id);
+
         if (empty($flight)) {
             Flash::error('Flight not found');
-
             return redirect(route('admin.flights.index'));
+        }
+
+        $airports = [
+            ['' => ''],
+            [$flight->arr_airport->id => $flight->arr_airport->full_name],
+            [$flight->dpt_airport->id => $flight->dpt_airport->full_name],
+        ];
+
+        if ($flight->alt_airport) {
+            $airports[] = [$flight->alt_airport->id => $flight->alt_airport->full_name];
         }
 
         $time = new Time($flight->flight_time);
@@ -213,8 +226,8 @@ class FlightController extends Controller
             'days'            => $flight->days,
             'flight_fields'   => $this->flightFieldRepo->all(),
             'airlines'        => $this->airlineRepo->selectBoxList(),
-            'airports'        => [],
-            'alt_airports'    => $this->airportRepo->selectBoxList(true),
+            'airports'        => $airports,
+            'alt_airports'    => $airports,
             'avail_fares'     => $this->getAvailFares($flight),
             'avail_subfleets' => $this->getAvailSubfleets($flight),
             'flight_types'    => FlightType::select(true),
