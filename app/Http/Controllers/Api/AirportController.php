@@ -123,7 +123,7 @@ class AirportController extends Controller
     {
         $this->airportRepo->resetCriteria();
         $this->airportRepo->pushCriteria(app(RequestCriteria::class));
-        $airports = $this->airportRepo->paginate(null, ['id', 'icao', 'name', 'hub']);
+        $airports = $this->airportRepo->paginate(null, ['id', 'iata', 'icao', 'name', 'hub']);
 
         return AirportResource::collection($airports);
     }

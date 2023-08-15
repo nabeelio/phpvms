@@ -14,7 +14,7 @@ $(document).ready(function () {
       processResults: function (data, params) {
         if (!data.data) { return [] }
         const results = data.data.map(apt => {
-          const text = `${apt.icao} - ${apt.name} ${apt.hub === true ? `(hub)` : ``}`;
+          const text = `${apt.icao}${apt.iata !== '' ? `/${apt.iata}` : ``} - ${apt.name} ${apt.hub === true ? `(hub)` : ``}`;
           return {
             id: apt.id,
             text: text
