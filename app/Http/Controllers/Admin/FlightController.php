@@ -123,7 +123,7 @@ class FlightController extends Controller
         return view('admin.flights.index', [
             'flights'  => $flights,
             'airlines' => $this->airlineRepo->selectBoxList(true),
-            'airports' => $this->airportRepo->selectBoxList(true),
+            'airports' => [],
         ]);
     }
 
@@ -139,7 +139,7 @@ class FlightController extends Controller
             'days'          => 0,
             'flight_fields' => $this->flightFieldRepo->all(),
             'airlines'      => $this->airlineRepo->selectBoxList(),
-            'airports'      => $this->airportRepo->selectBoxList(true, false),
+            'airports'      => [],
             'alt_airports'  => $this->airportRepo->selectBoxList(true),
             'flight_types'  => FlightType::select(false),
         ]);
@@ -213,7 +213,7 @@ class FlightController extends Controller
             'days'            => $flight->days,
             'flight_fields'   => $this->flightFieldRepo->all(),
             'airlines'        => $this->airlineRepo->selectBoxList(),
-            'airports'        => $this->airportRepo->selectBoxList(),
+            'airports'        => [],
             'alt_airports'    => $this->airportRepo->selectBoxList(true),
             'avail_fares'     => $this->getAvailFares($flight),
             'avail_subfleets' => $this->getAvailSubfleets($flight),

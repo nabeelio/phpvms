@@ -111,4 +111,20 @@ class AirportController extends Controller
             'distance' => $distance,
         ]);
     }
+
+    /**
+     * Search for airports in the database
+     *
+     * @param string $searchString
+     *
+     * @return AnonymousResourceCollection
+     */
+    public function search(Request $request): AnonymousResourceCollection
+    {
+        $this->airportRepo->resetCriteria();
+        $this->airportRepo->pushCriteria(app(RequestCriteria::class));
+        $airports = $this->airportRepo->paginate(null, ['id', 'iata', 'icao', 'name', 'hub']);
+
+        return AirportResource::collection($airports);
+    }
 }
