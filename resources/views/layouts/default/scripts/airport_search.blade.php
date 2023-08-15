@@ -4,8 +4,10 @@ $(document).ready(function () {
     ajax: {
       url: '{{ Config::get("app.url") }}/api/airports/search',
       data: function (params) {
+        const hubs_only = $(this).hasClass('hubs_only');
         return {
           search: params.term,
+          hubs: hubs_only,
           page: params.page || 1,
           orderBy: 'id',
           sortedBy: 'asc'
@@ -14,10 +16,9 @@ $(document).ready(function () {
       processResults: function (data, params) {
         if (!data.data) { return [] }
         const results = data.data.map(apt => {
-          const text = `${apt.icao}${apt.iata !== '' ? `/${apt.iata}` : ``} - ${apt.name} ${apt.hub === true ? `(hub)` : ``}`;
           return {
             id: apt.id,
-            text: text
+            text: apt.description,
           }
         })
 

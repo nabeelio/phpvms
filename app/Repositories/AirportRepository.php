@@ -15,6 +15,7 @@ class AirportRepository extends Repository implements CacheableInterface
         'iata' => 'like',
         'icao' => 'like',
         'name' => 'like',
+        'hub',
     ];
 
     public function model()

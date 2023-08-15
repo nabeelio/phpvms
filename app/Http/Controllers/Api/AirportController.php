@@ -6,6 +6,7 @@ use App\Contracts\Controller;
 use App\Http\Resources\Airport as AirportResource;
 use App\Http\Resources\AirportDistance as AirportDistanceResource;
 use App\Repositories\AirportRepository;
+use App\Repositories\Criteria\WhereCriteria;
 use App\Services\AirportService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -123,6 +124,12 @@ class AirportController extends Controller
     {
         $this->airportRepo->resetCriteria();
         $this->airportRepo->pushCriteria(app(RequestCriteria::class));
+
+        // Restrict search to hubs only?
+        if (get_truth_state($request->get('hubs', false)) === true) {
+            $this->airportRepo->pushCriteria(new WhereCriteria($request, ['hub' => true]));
+        }
+
         $airports = $this->airportRepo->paginate(null, ['id', 'iata', 'icao', 'name', 'hub']);
 
         return AirportResource::collection($airports);

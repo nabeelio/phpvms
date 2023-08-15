@@ -23,13 +23,13 @@
 
         <div class="form-group col-sm-3">
           {{ Form::label('hub_id', 'Hub:') }}
-          {{ Form::select('hub_id', $hubs, null, ['class' => 'form-control select2']) }}
+          {{ Form::select('hub_id', $hubs, null, ['class' => 'form-control airport_search']) }}
           <p class="text-danger">{{ $errors->first('hub_id') }}</p>
         </div>
 
         <div class="form-group col-sm-3">
           {{ Form::label('airport_id', 'Location:') }}
-          {{ Form::select('airport_id', $airports, null, ['class' => 'form-control select2']) }}
+          {{ Form::select('airport_id', $airports, null, ['class' => 'form-control airport_search']) }}
           <p class="text-danger">{{ $errors->first('airport_id') }}</p>
         </div>
       </div>

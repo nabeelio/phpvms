@@ -149,7 +149,7 @@
           <!-- Alt Airport Id Field -->
           <div class="form-group col-sm-4">
             {{ Form::label('alt_airport_id', 'Alt Airport:') }}
-            {{ Form::select('alt_airport_id', $alt_airports, null , ['class' => 'form-control select2']) }}
+            {{ Form::select('alt_airport_id', $alt_airports, null , ['class' => 'form-control airport_search']) }}
             <p class="text-danger">{{ $errors->first('alt_airport_id') }}</p>
           </div>
 
