@@ -107,7 +107,7 @@ class BidService extends Service
      *
      * @return mixed
      */
-    public function addBid(Flight $flight, User $user, ?Aircraft $aircraft)
+    public function addBid(Flight $flight, User $user, ?Aircraft $aircraft = null)
     {
         // Get all of the bids for this user. See if they're allowed to have multiple
         // bids
