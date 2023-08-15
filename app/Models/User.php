@@ -294,7 +294,6 @@ class User extends Authenticatable implements LaratrustUser
         return $this->hasMany(Bid::class, 'user_id');
     }
 
-
     public function home_airport(): BelongsTo
     {
         return $this->belongsTo(Airport::class, 'home_airport_id')->withTrashed();

@@ -147,9 +147,9 @@ class Airport extends Model
     {
         return Attribute::make(
             get: fn ($_, $attrs) => $attrs['icao']
-                .(!empty($attrs['iata'])?'/'.$attrs['iata']:'')
+                .(!empty($attrs['iata']) ? '/'.$attrs['iata'] : '')
                 .' - '.$attrs['name']
-                .($attrs['hub']?' (hub)':'')
+                .($attrs['hub'] ? ' (hub)' : '')
         );
     }
 

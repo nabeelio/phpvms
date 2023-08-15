@@ -105,7 +105,7 @@ class ProfileController extends Controller
     public function edit(Request $request): RedirectResponse|View
     {
         /** @var \App\Models\User $user */
-        $user = User::with('fields.field', 'location',)->where('id', Auth::id())->first();
+        $user = User::with('fields.field', 'location')->where('id', Auth::id())->first();
 
         if (empty($user)) {
             Flash::error('User not found!');

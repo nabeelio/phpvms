@@ -9,11 +9,11 @@ use App\Contracts\Resource;
  */
 class Airport extends Resource
 {
-     public function toArray($request)
-     {
-         $res = parent::toArray($request);
-         $res['description'] = $this->description;
+    public function toArray($request)
+    {
+        $res = parent::toArray($request);
+        $res['description'] = $this->description;
 
-         return $res;
-     }
+        return $res;
+    }
 }
