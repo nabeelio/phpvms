@@ -99,8 +99,8 @@ class BidService extends Service
     /**
      * Allow a user to bid on a flight. Check settings and all that good stuff
      *
-     * @param Flight $flight
-     * @param User   $user
+     * @param Flight    $flight
+     * @param User      $user
      * @param ?Aircraft $aircraft
      *
      * @throws \App\Exceptions\BidExistsForFlight
@@ -118,7 +118,9 @@ class BidService extends Service
 
         if (setting('bids.block_aircraft') && $aircraft) {
             $ac_bid_count = Bid::where(['aircraft_id' => $aircraft->id])->count();
-            if ($ac_bid_count > 0) throw new BidExistsForAircraft($aircraft);
+            if ($ac_bid_count > 0) {
+                throw new BidExistsForAircraft($aircraft);
+            }
         }
 
         // Get all of the bids for this flight
@@ -158,9 +160,9 @@ class BidService extends Service
 
         if (setting('bids.block_aircraft') && $aircraft) {
             $bid = Bid::firstOrCreate([
-                'user_id'       => $user->id,
-                'flight_id'     => $flight->id,
-                'aircraft_id'   => $aircraft->id,
+                'user_id'     => $user->id,
+                'flight_id'   => $flight->id,
+                'aircraft_id' => $aircraft->id,
             ]);
         } else {
             $bid = Bid::firstOrCreate([

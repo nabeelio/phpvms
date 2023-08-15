@@ -23,11 +23,11 @@ class Bid extends Model
     protected $fillable = [
         'user_id',
         'flight_id',
-        'aircraft_id'
+        'aircraft_id',
     ];
 
     protected $casts = [
-        'user_id' => 'integer',
+        'user_id'     => 'integer',
         'aircraft_id' => 'integer',
     ];
 

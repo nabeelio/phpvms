@@ -190,7 +190,7 @@ class FlightController extends Controller
 
     /**
      * Get a flight's aircrafts
-     * 
+     *
      * @param string  $id
      * @param Request $request
      */
@@ -225,6 +225,7 @@ class FlightController extends Controller
                 return $query->having('bid_count', 0);
             })->whereIn('subfleet_id', $subfleet_ids)
             ->orderby('icao')->orderby('registration')
+            ->limit(20)
             ->get();
 
         return $aircraft;
