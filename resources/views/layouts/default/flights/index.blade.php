@@ -18,6 +18,7 @@
       {{ $flights->appends(\Illuminate\Support\Facades\Request::except('page'))->links('pagination.default') }}
     </div>
   </div>
+  @include('flights.bids_aircraft')
 @endsection
 
 @include('flights.scripts')
