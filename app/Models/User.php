@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Enums\JournalType;
 use App\Models\Traits\JournalTrait;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -54,12 +55,15 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property Role[]           roles
  * @property Subfleet[]       subfleets
  * @property TypeRating[]     typeratings
+ * @property Airport          home_airport
+ * @property Airport          current_airport
+ * @property Airport          location
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\HasRolesAndPermissions
  */
-class User extends Authenticatable implements LaratrustUser
+class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
 {
     use HasFactory;
     use HasRelationships;
@@ -106,6 +110,7 @@ class User extends Authenticatable implements LaratrustUser
         'notes',
         'created_at',
         'updated_at',
+        'email_verified_at',
     ];
 
     /**
@@ -124,18 +129,19 @@ class User extends Authenticatable implements LaratrustUser
     ];
 
     protected $casts = [
-        'id'            => 'integer',
-        'pilot_id'      => 'integer',
-        'flights'       => 'integer',
-        'flight_time'   => 'integer',
-        'transfer_time' => 'integer',
-        'balance'       => 'double',
-        'state'         => 'integer',
-        'status'        => 'integer',
-        'toc_accepted'  => 'boolean',
-        'opt_in'        => 'boolean',
-        'lastlogin_at'  => 'datetime',
-        'deleted_at'    => 'datetime',
+        'id'                => 'integer',
+        'pilot_id'          => 'integer',
+        'flights'           => 'integer',
+        'flight_time'       => 'integer',
+        'transfer_time'     => 'integer',
+        'balance'           => 'double',
+        'state'             => 'integer',
+        'status'            => 'integer',
+        'toc_accepted'      => 'boolean',
+        'opt_in'            => 'boolean',
+        'lastlogin_at'      => 'datetime',
+        'deleted_at'        => 'datetime',
+        'email_verified_at' => 'datetime',
     ];
 
     public static $rules = [
@@ -294,6 +300,11 @@ class User extends Authenticatable implements LaratrustUser
     public function home_airport(): BelongsTo
     {
         return $this->belongsTo(Airport::class, 'home_airport_id')->withTrashed();
+    }
+
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Airport::class, 'curr_airport_id')->withTrashed();
     }
 
     public function current_airport(): BelongsTo

@@ -43,6 +43,8 @@ use Kyslik\ColumnSortable\Sortable;
  * @property string      arr_airport_id
  * @property Airport     dpt_airport
  * @property string      dpt_airport_id
+ * @property Airport     alt_airport
+ * @property string      alt_airport_id
  * @property Carbon      block_off_time
  * @property Carbon      block_on_time
  * @property int         block_time
@@ -71,6 +73,7 @@ use Kyslik\ColumnSortable\Sortable;
  * @property Acars[]     acars
  * @property mixed       cancelled
  * @property PirepFare[] $fares
+ * @property SimBrief    $simbrief
  */
 class Pirep extends Model
 {
