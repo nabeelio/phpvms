@@ -124,6 +124,6 @@ return [
      * Enable/disable email verification on registration
      */
     'registration' => [
-        'email_verification' => false,
+        'email_verification' => true,
     ],
 ];

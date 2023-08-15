@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
 return new class() extends Migration {
     /**
@@ -13,5 +14,7 @@ return new class() extends Migration {
         Schema::table('users', function (Blueprint $table) {
             $table->timestamp('email_verified_at')->nullable();
         });
+
+        User::where('email_verified_at', null)->update(['email_verified_at' => now()]);
     }
 };
