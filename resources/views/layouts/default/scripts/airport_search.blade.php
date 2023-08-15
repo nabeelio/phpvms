@@ -37,7 +37,6 @@ $(document).ready(function () {
     },
     width: 'resolve',
     placeholder: 'Type to search',
-    debug: true,
   });
 });
 </script>
