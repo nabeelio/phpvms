@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Enums\JournalType;
 use App\Models\Traits\JournalTrait;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -62,7 +63,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\HasRolesAndPermissions
  */
-class User extends Authenticatable implements LaratrustUser
+class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
 {
     use HasFactory;
     use HasRelationships;
@@ -109,6 +110,7 @@ class User extends Authenticatable implements LaratrustUser
         'notes',
         'created_at',
         'updated_at',
+        'email_verified_at',
     ];
 
     /**
@@ -127,18 +129,19 @@ class User extends Authenticatable implements LaratrustUser
     ];
 
     protected $casts = [
-        'id'            => 'integer',
-        'pilot_id'      => 'integer',
-        'flights'       => 'integer',
-        'flight_time'   => 'integer',
-        'transfer_time' => 'integer',
-        'balance'       => 'double',
-        'state'         => 'integer',
-        'status'        => 'integer',
-        'toc_accepted'  => 'boolean',
-        'opt_in'        => 'boolean',
-        'lastlogin_at'  => 'datetime',
-        'deleted_at'    => 'datetime',
+        'id'                => 'integer',
+        'pilot_id'          => 'integer',
+        'flights'           => 'integer',
+        'flight_time'       => 'integer',
+        'transfer_time'     => 'integer',
+        'balance'           => 'double',
+        'state'             => 'integer',
+        'status'            => 'integer',
+        'toc_accepted'      => 'boolean',
+        'opt_in'            => 'boolean',
+        'lastlogin_at'      => 'datetime',
+        'deleted_at'        => 'datetime',
+        'email_verified_at' => 'datetime',
     ];
 
     public static $rules = [
