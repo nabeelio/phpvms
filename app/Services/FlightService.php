@@ -166,7 +166,7 @@ class FlightService extends Service
                             return false;
                         }
 
-                        if ($aircraft_not_booked && $aircraft->bid->count() !== 0) {
+                        if ($aircraft_not_booked && $aircraft->bid && $aircraft->bid->count() !== 0) {
                             return false;
                         }
 
