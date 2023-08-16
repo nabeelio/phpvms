@@ -113,7 +113,7 @@ class UserController extends Controller
                 $aircraft = app(AircraftRepository::class)->findWithoutFail($aircraft_id);
             }
             $flight = $this->flightRepo->find($flight_id);
-            $bid = $this->bidSvc->addBid($flight, $user, $aircraft);
+            $bid = $this->bidSvc->addBid($flight, $user, $aircraft ?? null);
 
             return new BidResource($bid);
         }
