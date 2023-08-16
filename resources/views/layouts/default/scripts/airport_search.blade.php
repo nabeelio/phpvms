@@ -4,7 +4,7 @@ $(document).ready(function () {
     ajax: {
       url: '{{ Config::get("app.url") }}/api/airports/search',
       data: function (params) {
-        const hubs_only = $(this).hasClass('hubs_only');
+        const hubs_only = $(this).hasClass('hubs_only') ? 1 : 0;
         return {
           search: params.term,
           hubs: hubs_only,
