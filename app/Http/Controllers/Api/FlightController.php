@@ -67,6 +67,7 @@ class FlightController extends Controller
             'fares',
             'subfleets',
             'subfleets.aircraft',
+            'subfleets.aircraft.bid',
             'subfleets.fares',
             'field_values',
             'simbrief' => function ($query) use ($user) {
@@ -121,6 +122,7 @@ class FlightController extends Controller
                     'fares',
                     'subfleets',
                     'subfleets.aircraft',
+                    'subfleets.aircraft.bid',
                     'subfleets.fares',
                     'field_values',
                     'simbrief' => function ($query) use ($user) {
@@ -196,7 +198,7 @@ class FlightController extends Controller
      */
     public function aircraft(string $id, Request $request)
     {
-        $flight = $this->flightRepo->find($id);
+        $flight = $this->flightRepo->with('subfleets')->find($id);
 
         $user_subfleets = $this->userSvc->getAllowableSubfleets(Auth::user())->pluck('id')->toArray();
         $flight_subfleets = $flight->subfleets->pluck('id')->toArray();
@@ -225,7 +227,6 @@ class FlightController extends Controller
                 return $query->having('bid_count', 0);
             })->whereIn('subfleet_id', $subfleet_ids)
             ->orderby('icao')->orderby('registration')
-            ->limit(20)
             ->get();
 
         return $aircraft;
