@@ -44,6 +44,7 @@ class BidService extends Service
             'flight.simbrief.aircraft.subfleet',
             'flight.subfleets',
             'flight.subfleets.aircraft',
+            'flight.subfleets.aircraft.bid',
             'flight.subfleets.fares',
         ];
 
@@ -81,6 +82,7 @@ class BidService extends Service
             'flight.simbrief.aircraft.subfleet',
             'flight.subfleets',
             'flight.subfleets.aircraft',
+            'flight.subfleets.aircraft.bid',
             'flight.subfleets.fares',
         ];
 
