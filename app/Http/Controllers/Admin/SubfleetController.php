@@ -85,6 +85,7 @@ class SubfleetController extends Controller
     {
         return view('admin.subfleets.create', [
             'airlines'   => Airline::all()->pluck('name', 'id'),
+            'airports'   => [],
             'hubs'       => Airport::where('hub', 1)->pluck('name', 'id'),
             'fuel_types' => FuelType::labels(),
         ]);
