@@ -144,8 +144,9 @@ class SubfleetController extends Controller
      */
     public function edit(int $id): RedirectResponse|View
     {
+        /** @var Subfleet $subfleet */
         $subfleet = $this->subfleetRepo
-            ->with(['fares', 'ranks', 'typeratings'])
+            ->with(['home', 'fares', 'ranks', 'typeratings'])
             ->findWithoutFail($id);
 
         if (empty($subfleet)) {
@@ -158,9 +159,14 @@ class SubfleetController extends Controller
         $avail_ranks = $this->getAvailRanks($subfleet);
         $avail_ratings = $this->getAvailTypeRatings($subfleet);
 
+        $airports = [];
+        if ($subfleet->home) {
+            $airports[$subfleet->home->id] = $subfleet->home->description;
+        }
+
         return view('admin.subfleets.edit', [
             'airlines'      => Airline::all()->pluck('name', 'id'),
-            'hubs'          => Airport::where('hub', 1)->pluck('name', 'id'),
+            'airports'      => $airports,
             'fuel_types'    => FuelType::labels(),
             'avail_fares'   => $avail_fares,
             'avail_ranks'   => $avail_ranks,

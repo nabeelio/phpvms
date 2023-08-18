@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-group col-sm-3">
-          {{ Form::label('hub_id', 'Hub:') }}
+          {{ Form::label('hub_id', 'Home:') }}
           {{ Form::select('hub_id', $hubs, null, ['class' => 'form-control airport_search']) }}
           <p class="text-danger">{{ $errors->first('hub_id') }}</p>
         </div>

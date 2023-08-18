@@ -132,4 +132,6 @@
       });
     });
   </script>
+
+  @include('admin.scripts.airport_search')
 @endsection
