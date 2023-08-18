@@ -112,6 +112,7 @@ class Subfleet extends Model
 
     /**
      * @deprecated use home()
+     *
      * @return HasOne
      */
     public function hub(): HasOne

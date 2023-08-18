@@ -183,6 +183,7 @@ class Aircraft extends Model
      * Use home()
      *
      * @deprecated
+     *
      * @return HasOne
      */
     public function hub(): HasOne
