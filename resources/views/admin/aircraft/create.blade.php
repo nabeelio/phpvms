@@ -15,4 +15,6 @@
     </div>
   </div>
 @endsection
-@include('admin.aircraft.script')
+@section('scripts')
+  @include('admin.aircraft.script')
+@endsection

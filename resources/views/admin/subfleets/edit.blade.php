@@ -40,4 +40,7 @@
     </div>
   </div>
 @endsection
-@include('admin.subfleets.script')
+@section('scripts')
+  @include('admin.subfleets.script')
+@endsection
+
