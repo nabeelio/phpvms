@@ -15,7 +15,5 @@
     </div>
   </div>
 @endsection
-@section('scripts')
-  @include('admin.subfleets.script')
-@endsection
+@include('admin.subfleets.script')
 
