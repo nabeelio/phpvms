@@ -136,14 +136,14 @@ class Airline extends Model
         return $this->hasManyThrough(Aircraft::class, Subfleet::class, 'airline_id', 'subfleet_id', 'id', 'id');
     }
 
-    public function flights(): BelongsTo
+    public function flights(): HasMany
     {
-        return $this->belongsTo(Flight::class, 'id', 'airline_id');
+        return $this->hasMany(Flight::class, 'airline_id', 'id');
     }
 
-    public function pireps(): BelongsTo
+    public function pireps(): HasMany
     {
-        return $this->belongsTo(Pirep::class, 'id', 'airline_id');
+        return $this->HasMany(Pirep::class, 'airline_id', 'id');
     }
 
     public function users(): HasMany
