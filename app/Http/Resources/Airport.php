@@ -13,6 +13,10 @@ class Airport extends Resource
     {
         $res = parent::toArray($request);
 
+        if (!empty($this->description)) {
+            $res['description'] = $this->description;
+        }
+
         return $res;
     }
 }
