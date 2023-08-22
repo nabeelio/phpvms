@@ -36,6 +36,12 @@ class InstallerService extends Service
             return true;
         }
 
+        $pendingDataMigrations = count($this->migrationSvc->dataMigrationsAvailable());
+        if ($pendingDataMigrations > 0) {
+            Log::info('Found '.$pendingDataMigrations.' pending data migrations, update available');
+            return true;
+        }
+
         return false;
     }
 
