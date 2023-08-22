@@ -27,7 +27,7 @@ use Kyslik\ColumnSortable\Sortable;
  * @property float   cost_block_hour
  * @property float   cost_delay_minute
  * @property Airline airline
- * @property Airport hub
+ * @property Airport home
  * @property int     fuel_type
  */
 class Subfleet extends Model
@@ -105,6 +105,16 @@ class Subfleet extends Model
         return $this->belongsTo(Airline::class, 'airline_id');
     }
 
+    public function home(): HasOne
+    {
+        return $this->hasOne(Airport::class, 'id', 'hub_id');
+    }
+
+    /**
+     * @deprecated use home()
+     *
+     * @return HasOne
+     */
     public function hub(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'hub_id');

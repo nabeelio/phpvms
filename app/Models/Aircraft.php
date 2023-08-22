@@ -34,6 +34,7 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @property string   hex_code
  * @property Airport  airport
  * @property Airport  hub
+ * @property Airport  home
  * @property Subfleet subfleet
  * @property int      status
  * @property int      state
@@ -178,6 +179,18 @@ class Aircraft extends Model
         return $this->belongsTo(Bid::class, 'id', 'aircraft_id');
     }
 
+    public function home(): HasOne
+    {
+        return $this->hasOne(Airport::class, 'id', 'hub_id');
+    }
+
+    /**
+     * Use home()
+     *
+     * @deprecated
+     *
+     * @return HasOne
+     */
     public function hub(): HasOne
     {
         return $this->hasOne(Airport::class, 'id', 'hub_id');
