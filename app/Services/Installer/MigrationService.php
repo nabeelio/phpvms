@@ -30,6 +30,8 @@ class MigrationService extends Service
      * Find all of the possible paths that migrations exist.
      * Include looking in all of the modules Database/migrations directories
      *
+     * @param mixed $dir
+     *
      * @return array
      */
     public function getMigrationPaths($dir = 'migrations'): array
