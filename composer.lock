@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39c4011503c8328a9aa6d74f95d8dff9",
+    "content-hash": "c611d8408347667a1a864ba8f4346c99",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -2676,16 +2676,16 @@
         },
         {
             "name": "igaster/laravel-theme",
-            "version": "v2.0.19",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/igaster/laravel-theme.git",
-                "reference": "94fed84d84ca1b27959d6189bb7872110c80d299"
+                "url": "https://github.com/arthurpar06/laravel-theme.git",
+                "reference": "145d7854051203bec3cf4719fb70c8c7b1c140b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/igaster/laravel-theme/zipball/94fed84d84ca1b27959d6189bb7872110c80d299",
-                "reference": "94fed84d84ca1b27959d6189bb7872110c80d299",
+                "url": "https://api.github.com/repos/arthurpar06/laravel-theme/zipball/145d7854051203bec3cf4719fb70c8c7b1c140b6",
+                "reference": "145d7854051203bec3cf4719fb70c8c7b1c140b6",
                 "shasum": ""
             },
             "require": {
@@ -2694,6 +2694,7 @@
             "suggest": {
                 "orchestra/asset": "Use '@css' and '@js' in Blade files"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -2711,7 +2712,6 @@
                     "Igaster\\LaravelTheme\\Tests\\": "tests/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -2732,10 +2732,9 @@
                 "views"
             ],
             "support": {
-                "issues": "https://github.com/igaster/laravel-theme/issues",
-                "source": "https://github.com/igaster/laravel-theme/tree/v2.0.19"
+                "source": "https://github.com/arthurpar06/laravel-theme/tree/1.0.0"
             },
-            "time": "2023-05-03T17:50:00+00:00"
+            "time": "2023-08-18T15:57:19+00:00"
         },
         {
             "name": "intervention/image",
@@ -2913,6 +2912,54 @@
                 }
             ],
             "time": "2023-02-25T16:31:15+00:00"
+        },
+        {
+            "name": "jlorente/laravel-data-migrations",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jlorente/laravel-data-migrations.git",
+                "reference": "58368913f305419540a7dc720a8795f822bc8012"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jlorente/laravel-data-migrations/zipball/58368913f305419540a7dc720a8795f822bc8012",
+                "reference": "58368913f305419540a7dc720a8795f822bc8012",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=8.0",
+                "php": ">=7.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Jlorente\\DataMigrations\\DataMigrationsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Jlorente\\DataMigrations\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jose Lorente",
+                    "email": "jose.lorente.martin@gmail.com"
+                }
+            ],
+            "description": "An extension to allow you to separate data migrations from structure migrations",
+            "support": {
+                "issues": "https://github.com/jlorente/laravel-data-migrations/issues",
+                "source": "https://github.com/jlorente/laravel-data-migrations/tree/2.0.1"
+            },
+            "time": "2022-09-07T12:47:06+00:00"
         },
         {
             "name": "jmikola/geojson",
@@ -13349,7 +13396,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "igaster/laravel-theme": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
