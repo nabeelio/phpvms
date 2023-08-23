@@ -453,7 +453,7 @@ class UserTest extends TestCase
     public function testEventCalledWhenProfileUpdated()
     {
         Event::fake();
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         $body = [
             'name'       => 'Test User',
