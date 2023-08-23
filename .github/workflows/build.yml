@@ -72,7 +72,7 @@ jobs:
         sleep 15
         # Downgrade composer version to 1.x
         composer install --dev --no-interaction --verbose
-        cp .github/scripts/env.php env.php
+        cp .github/scripts/env.test .env
         cp .github/scripts/phpunit.xml phpunit.xml
         php artisan database:create --reset
         php artisan migrate:refresh --seed
