@@ -80,8 +80,7 @@
         "staudenmeir/eloquent-has-many-deep": "1.18.0",
         "spatie/laravel-ignition": "^2.0",
         "kyslik/column-sortable": "^6.5",
-        "jlorente/laravel-data-migrations": "^2.0",
-        "laravel/sail": "^1.23"
+        "jlorente/laravel-data-migrations": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",
@@ -90,7 +89,8 @@
         "mockery/mockery": "^1.5.0",
         "nunomaduro/collision": "^v6.1.0",
         "phpunit/phpunit": "~9.5.14",
-        "sempro/phpunit-pretty-print": "^1.4.0"
+        "sempro/phpunit-pretty-print": "^1.4.0",
+        "laravel/sail": "^1.23"
     },
     "autoload": {
         "classmap": [
