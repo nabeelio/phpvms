@@ -21,7 +21,7 @@ storage/settings.json
 storage/*.sqlite
 .env.php
 .env
-.env.*
+.github/scripts/.env.test
 .vagrant
 #Homestead.yaml
 Homestead.json
