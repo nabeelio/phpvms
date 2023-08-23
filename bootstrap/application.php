@@ -21,7 +21,7 @@ class application extends Illuminate\Foundation\Application
         parent::__construct($rootPath);
 
         if (is_file($rootPath.'/env.php')) {
-            die('Please rename env.php to .env');
+            exit('Please rename env.php to .env');
         }
 
         $this->useDatabasePath($this->basePath.'/app/Database');
