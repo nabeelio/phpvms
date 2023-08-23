@@ -24,7 +24,7 @@ storage/*.sqlite
 .env
 .env.*
 .env.bak
-env.php
+.env
 .env.generated
 .vagrant
 #Homestead.yaml

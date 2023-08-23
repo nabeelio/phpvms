@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Log;
 use Nwidart\Modules\Support\Stub;
 use PDO;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-
 use function extension_loaded;
 use function is_bool;
 
@@ -290,9 +289,9 @@ class ConfigService extends Service
 
         $env_file = App::environmentFilePath();
         if (file_exists($env_file) && !is_writable($env_file)) {
-            Log::error('Permissions on existing env.php is not writable');
+            Log::error('Permissions on existing .env is not writable');
 
-            throw new FileException('Can\'t write to the env.php file! Check the permissions');
+            throw new FileException('Can\'t write to the .env file! Check the permissions');
         }
 
         /*
@@ -303,7 +302,7 @@ class ConfigService extends Service
             $stub->render();
             $stub->saveTo(App::environmentPath(), App::environmentFile());
         } catch (Exception $e) {
-            throw new FileException('Couldn\'t write env.php. ('.$e.')');
+            throw new FileException('Couldn\'t write .env file. ('.$e.')');
         }
 
         /*
