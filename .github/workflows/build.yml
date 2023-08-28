@@ -14,7 +14,7 @@ jobs:
       key: cache-v1
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # Configure Caching
     - name: Setup cache environment
@@ -26,7 +26,7 @@ jobs:
         key: ${{ env.key }}
 
     - name: Cache extensions
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: ${{ steps.cache-env.outputs.dir }}
         key: ${{ steps.cache-env.outputs.key }}
@@ -37,7 +37,7 @@ jobs:
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
     - name: Cache dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -93,7 +93,7 @@ jobs:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -128,10 +128,10 @@ jobs:
       - name: Build Distro
         run: .github/scripts/build.sh
 
-      - name: Env Var Check
-        run: |
-          echo $DISCORD_MSG
-          echo $TAR_NAME
+#      - name: Env Var Check
+#        run: |
+#          echo $DISCORD_MSG
+#          echo $TAR_NAME
 
       - name: Upload S3
         uses: shallwefootball/s3-upload-action@master
@@ -145,6 +145,7 @@ jobs:
       - name: Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_MSG: "$DISCORD_MSG"
         uses: Ilshidur/action-discord@0.3.2
         with:
           # DISCORD_MSG is defined in versions.sh
