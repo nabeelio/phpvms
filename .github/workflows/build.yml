@@ -158,7 +158,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: phpvms-package
-          path: dist
+          path: 'dist/*'
 
   # This runs after all of the tests, run have run. Creates a cleaned up version of the
   # distro, and then creates the artifact to push up to S3 or wherever
