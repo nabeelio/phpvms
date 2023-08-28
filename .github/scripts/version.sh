@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-cd ../../
-
 if test "$GIT_TAG_NAME"; then
   export VERSION=$GIT_TAG_NAME
 
