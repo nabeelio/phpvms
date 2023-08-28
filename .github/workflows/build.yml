@@ -175,6 +175,11 @@ jobs:
         with:
           name: phpvms-package
 
+        # Dependencies
+      - name: 'List files'
+        run: |
+          find . -maxdepth 2  -type f
+
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
