@@ -128,19 +128,13 @@ jobs:
         run: .github/scripts/build.sh
 
       - name: Upload S3
-        uses: shallwefootball/s3-upload-action@v1.1.3
+        uses: shallwefootball/s3-upload-action
         with:
           aws_key_id: ${{ secrets.S3_BUILD_ARTIFACTS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.S3_BUILD_ARTIFACTS_SECRET_ACCESS_KEY}}
           aws_bucket: ${{ secrets.S3_BUCKET_NAME }}
           source_dir: 'dist'
           destination_dir: ''
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: phpvms-package
-          path: .
 
       - name: Discord notification
         env:
@@ -149,6 +143,12 @@ jobs:
         with:
           # DISCORD_MSG is defined in versions.sh
           args: '$DISCORD_MSG'
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: phpvms-package
+          path: dist
 
   # This runs after all of the tests, run have run. Creates a cleaned up version of the
   # distro, and then creates the artifact to push up to S3 or wherever
@@ -200,7 +200,7 @@ jobs:
 #          asset_content_type: application/zip
 
       - name: Upload S3
-        uses: shallwefootball/s3-upload-action@v1.1.3
+        uses: shallwefootball/s3-upload-action
         with:
           aws_key_id: ${{ secrets.S3_BUILD_ARTIFACTS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.S3_BUILD_ARTIFACTS_SECRET_ACCESS_KEY}}
