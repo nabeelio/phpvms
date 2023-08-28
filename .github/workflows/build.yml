@@ -74,6 +74,7 @@ jobs:
         composer install --dev --no-interaction --verbose
         cp .github/scripts/env.test .env
         cp .github/scripts/phpunit.xml phpunit.xml
+        .github/scripts/version.sh
         php artisan database:create --reset
         php artisan migrate:refresh --seed
 
@@ -142,7 +143,7 @@ jobs:
         uses: Ilshidur/action-discord@0.3.0
         with:
           # DISCORD_MSG is defined in versions.sh
-          args: ${{ DISCORD_MSG }}
+          args: "$DISCORD_MSG"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
