@@ -128,7 +128,7 @@ jobs:
         run: .github/scripts/build.sh
 
       - name: Upload S3
-        uses: shallwefootball/s3-upload-action
+        uses: shallwefootball/s3-upload-action@master
         with:
           aws_key_id: ${{ secrets.S3_BUILD_ARTIFACTS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.S3_BUILD_ARTIFACTS_SECRET_ACCESS_KEY}}
@@ -200,7 +200,7 @@ jobs:
 #          asset_content_type: application/zip
 
       - name: Upload S3
-        uses: shallwefootball/s3-upload-action
+        uses: shallwefootball/s3-upload-action@master
         with:
           aws_key_id: ${{ secrets.S3_BUILD_ARTIFACTS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.S3_BUILD_ARTIFACTS_SECRET_ACCESS_KEY}}
