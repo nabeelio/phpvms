@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cd ../../
+
 if test "$GIT_TAG_NAME"; then
   export VERSION=$GIT_TAG_NAME
 
@@ -28,9 +30,9 @@ export ZIP_NAME="$FILE_NAME.zip"
 export BASE_DIR=`pwd`
 
 # https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions#environment-files
-echo "BRANCH=${BRANCH}" >> $GITHUB_ENV
-echo "FILE_NAME=${FILE_NAME}" >> $GITHUB_ENV
-echo "TAR_NAME=${TAR_NAME}" >> $GITHUB_ENV
-echo "ZIP_NAME=${ZIP_NAME}" >> $GITHUB_ENV
-echo "BASE_DIR=${BASE_DIR}" >> $GITHUB_ENV
-echo "DISCORD_MSG=Version ${FULL_VERSION} is available, download: [zip](http://downloads.phpvms.net/$ZIP_NAME) | [tar](http://downloads.phpvms.net/$TAR_NAME)" >> $GITHUB_ENV
+echo "BRANCH=${BRANCH}" >> "$GITHUB_ENV"
+echo "FILE_NAME=${FILE_NAME}" >> "$GITHUB_ENV"
+echo "TAR_NAME=${TAR_NAME}" >> "$GITHUB_ENV"
+echo "ZIP_NAME=${ZIP_NAME}" >> "$GITHUB_ENV"
+echo "BASE_DIR=${BASE_DIR}" >> "$GITHUB_ENV"
+echo "DISCORD_MSG=Version ${FULL_VERSION} is available, download: [zip](http://downloads.phpvms.net/$ZIP_NAME) | [tar](http://downloads.phpvms.net/$TAR_NAME)" >> "$GITHUB_ENV"
