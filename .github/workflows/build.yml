@@ -74,7 +74,7 @@ jobs:
       run: |
         php --version
         mysql --version
-        sleep 15
+        # sleep 10
         # Downgrade composer version to 1.x
         composer install --dev --no-interaction --verbose
         cp .github/scripts/env.test .env
@@ -107,6 +107,11 @@ jobs:
 
       - uses: olegtarasov/get-tag@v2.1.2
         id: tagName
+
+      # Configure Caching
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Cache dependencies
         uses: actions/cache@v3
