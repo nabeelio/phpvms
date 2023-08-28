@@ -30,7 +30,7 @@ return [
     'key'    => env('APP_KEY', 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY='),
     'cipher' => 'AES-256-CBC',
 
-    'providers' =>  \Illuminate\Support\ServiceProvider::defaultProviders()->merge([
+    'providers' => \Illuminate\Support\ServiceProvider::defaultProviders()->merge([
         /*
          * Package Service Providers...
          */
@@ -57,12 +57,12 @@ return [
     ]),
 
     'aliases' => \Illuminate\Support\Facades\Facade::defaultAliases()->merge([
-        'Carbon'       => Carbon::class,
-        'Flash'        => Laracasts\Flash\Flash::class,
-        'Form'         => Collective\Html\FormFacade::class,
-        'Html'         => Collective\Html\HtmlFacade::class,
-        'Theme'        => Igaster\LaravelTheme\Facades\Theme::class,
-        'Yaml'         => Symfony\Component\Yaml\Yaml::class,
+        'Carbon' => Carbon::class,
+        'Flash'  => Laracasts\Flash\Flash::class,
+        'Form'   => Collective\Html\FormFacade::class,
+        'Html'   => Collective\Html\HtmlFacade::class,
+        'Theme'  => Igaster\LaravelTheme\Facades\Theme::class,
+        'Yaml'   => Symfony\Component\Yaml\Yaml::class,
 
         // ENUMS
         'ActiveState' => App\Models\Enums\ActiveState::class,
