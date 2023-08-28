@@ -183,50 +183,9 @@ jobs:
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "dist/*"
+          artifacts: "."
           allowUpdates: true
           generateReleaseNotes: true
           name: ${{ github.ref_name }}
           tag: ${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      # Upload the tar file to the release
-#      - name: Upload Tar Asset
-#        id: upload-tar-asset
-#        uses: actions/upload-release-asset@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          upload_url: ${{ steps.create_release.outputs.upload_url }}
-#          asset_path: "dist/$TAR_NAME"
-#          asset_name: "$TAR_NAME"
-#          asset_content_type: application/gzip
-#
-#      # upload the zip file to the release
-#      - name: Upload Zip Asset
-#        id: upload-zip-asset
-#        uses: actions/upload-release-asset@v1
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          upload_url: ${{ steps.create_release.outputs.upload_url }}
-#          asset_path: "dist/$ZIP_NAME"
-#          asset_name: "$ZIP_NAME"
-#          asset_content_type: application/zip
-
-      - name: Upload S3
-        uses: shallwefootball/s3-upload-action@master
-        with:
-          aws_key_id: ${{ secrets.S3_BUILD_ARTIFACTS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.S3_BUILD_ARTIFACTS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.S3_BUCKET_NAME }}
-          source_dir: 'dist'
-          destination_dir: ''
-
-      - name: Discord notification
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@0.3.0
-        with:
-          # DISCORD_MSG is defined in versions.sh
-          args: "$DISCORD_MSG"
