@@ -166,13 +166,13 @@ jobs:
           name: phpvms-package
 
       - name: Create Release
-        id: create_release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "dist/*"
           allowUpdates: true
           generateReleaseNotes: true
-          name: ${{ github.ref }}
+          name: ${{ github.ref_name }}
+          tag: ${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       # Upload the tar file to the release
