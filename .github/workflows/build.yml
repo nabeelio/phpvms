@@ -223,8 +223,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/${{TAR_NAME}}
-          asset_name: ${{ TAR_NAME }}
+          asset_path: "dist/$TAR_NAME"
+          asset_name: "$TAR_NAME"
           asset_content_type: application/gzip
 
       # upload the zip file to the release
@@ -235,8 +235,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/${{ZIP_NAME}}
-          asset_name: ${{ ZIP_NAME }}
+          asset_path: "dist/$ZIP_NAME"
+          asset_name: "$ZIP_NAME"
           asset_content_type: application/zip
 
       - name: Discord notification
