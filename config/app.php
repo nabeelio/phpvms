@@ -54,7 +54,7 @@ return [
         App\Providers\MeasurementsProvider::class,
         App\Providers\ObserverServiceProviders::class,
         App\Providers\RouteServiceProvider::class,
-    ]),
+    ])->toArray(),
 
     'aliases' => \Illuminate\Support\Facades\Facade::defaultAliases()->merge([
         'Carbon' => Carbon::class,
@@ -70,5 +70,5 @@ return [
         'PirepSource' => App\Models\Enums\PirepSource::class,
         'PirepState'  => App\Models\Enums\PirepState::class,
         'PirepStatus' => App\Models\Enums\PirepStatus::class,
-    ]),
+    ])->toArray(),
 ];
