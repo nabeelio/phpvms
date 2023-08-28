@@ -108,11 +108,6 @@ jobs:
       - uses: olegtarasov/get-tag@v2.1.2
         id: tagName
 
-      # Configure Caching
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
@@ -137,11 +132,6 @@ jobs:
       - name: Build Distro
         run: .github/scripts/build.sh
 
-#      - name: Env Var Check
-#        run: |
-#          echo $DISCORD_MSG
-#          echo $TAR_NAME
-
       - name: Upload S3
         uses: shallwefootball/s3-upload-action@master
         with:
@@ -155,7 +145,6 @@ jobs:
         uses: Ilshidur/action-discord@0.3.2
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_MSG: "$DISCORD_MSG"
         with:
           args: ${{ steps.discord.outputs.discord_msg }}
 
