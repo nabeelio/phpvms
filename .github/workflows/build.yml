@@ -147,13 +147,12 @@ jobs:
           destination_dir: ''
 
       - name: Discord notification
+        uses: Ilshidur/action-discord@0.3.2
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_MSG: "$DISCORD_MSG"
-        uses: Ilshidur/action-discord@0.3.2
         with:
-          # DISCORD_MSG is defined in versions.sh
-          args: ${{ steps.discord.outputs.discord_msg }}
+          args: ${{ steps.discord.outputs.d iscord_msg }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
