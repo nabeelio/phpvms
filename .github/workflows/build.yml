@@ -140,10 +140,10 @@ jobs:
       - name: Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@0.3.0
+        uses: Ilshidur/action-discord@0.3.2
         with:
           # DISCORD_MSG is defined in versions.sh
-          args: "$DISCORD_MSG"
+          args: "$DISCORD_MSG ${DISCORD_MSG} $ZIP_NAME"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
