@@ -152,7 +152,7 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
           DISCORD_MSG: "$DISCORD_MSG"
         with:
-          args: ${{ steps.discord.outputs.d iscord_msg }}
+          args: ${{ steps.discord.outputs.discord_msg }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
