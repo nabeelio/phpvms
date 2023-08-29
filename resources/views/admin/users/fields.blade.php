@@ -47,11 +47,11 @@
   </div>
   <div class="form-group col-sm-6">
     {{ Form::label('home_airport_id', 'Home Airport:') }}
-    {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control select2']) }}
+    {{ Form::select('home_airport_id', $airports, null , ['class' => 'form-control airport_search']) }}
     <p class="text-danger">{{ $errors->first('home_airport_id') }}</p>
     <br/><br/>
     {{ Form::label('curr_airport_id', 'Current Airport:') }}
-    {{ Form::select('curr_airport_id', $airports, null , ['class' => 'form-control select2']) }}
+    {{ Form::select('curr_airport_id', $airports, null , ['class' => 'form-control airport_search']) }}
     <p class="text-danger">{{ $errors->first('curr_airport_id') }}</p>
   </div>
 </div>
@@ -66,9 +66,10 @@
     {{ Form::select('rank_id', $ranks, null, ['class' => 'form-control select2', 'placeholder' => 'Select Rank']) }}
   </div>
   <div class="form-group col-sm-4">
-    {{ Form::label('roles', 'Roles:') }}
-    {{ Form::select('roles[]', $roles, $user->roles->pluck('id'),
-        ['class' => 'form-control select2', 'placeholder' => 'Select Roles', 'multiple']) }}
+    @ability('admin', 'admin-user')
+      {{ Form::label('roles', 'Roles:') }}
+      {{ Form::select('roles[]', $roles, $user->roles->pluck('id'), ['class' => 'form-control select2', 'placeholder' => 'Select Roles', 'multiple']) }}
+    @endability
   </div>
 </div>
 

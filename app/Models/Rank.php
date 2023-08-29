@@ -4,6 +4,10 @@ namespace App\Models;
 
 use App\Contracts\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 
 /**
  * @property string name
@@ -17,6 +21,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Rank extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+    use Sortable;
 
     public $table = 'ranks';
 
@@ -45,13 +51,24 @@ class Rank extends Model
         'manual_base_pay_rate' => 'nullable|numeric',
     ];
 
+    public $sortable = [
+        'id',
+        'name',
+        'hours',
+        'acars_base_pay_rate',
+        'manual_base_pay_rate',
+    ];
+
     /*
      * Relationships
      */
-
-    public function subfleets()
+    public function subfleets(): BelongsToMany
     {
-        return $this->belongsToMany(Subfleet::class, 'subfleet_rank')
-            ->withPivot('acars_pay', 'manual_pay');
+        return $this->belongsToMany(Subfleet::class, 'subfleet_rank')->withPivot('acars_pay', 'manual_pay');
+    }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'rank_id');
     }
 }

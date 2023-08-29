@@ -29,7 +29,18 @@ class AirportController extends Controller
     public function show(string $id, Request $request): RedirectResponse|View
     {
         $id = strtoupper($id);
-        $with_flights = ['airline', 'arr_airport', 'dpt_airport'];
+        // Support retrieval of deleted relationships
+        $with_flights = [
+            'airline' => function ($query) {
+                return $query->withTrashed();
+            },
+            'arr_airport' => function ($query) {
+                return $query->withTrashed();
+            },
+            'dpt_airport' => function ($query) {
+                return $query->withTrashed();
+            },
+        ];
 
         $airport = $this->airportRepo->with('files')->where('id', $id)->first();
         if (!$airport) {

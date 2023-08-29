@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Contracts\Controller;
+use App\Events\ProfileUpdated;
 use App\Models\User;
 use App\Models\UserField;
 use App\Models\UserFieldValue;
@@ -74,17 +75,8 @@ class ProfileController extends Controller
      */
     public function show(int $id): RedirectResponse|View
     {
+        $with = ['airline', 'awards', 'current_airport', 'fields.field', 'home_airport', 'last_pirep', 'rank', 'typeratings'];
         /** @var \App\Models\User $user */
-        $with = [
-            'airline',
-            'awards',
-            'current_airport',
-            'fields.field',
-            'home_airport',
-            'last_pirep',
-            'rank',
-            'typeratings',
-        ];
         $user = User::with($with)->where('id', $id)->first();
 
         if (empty($user)) {
@@ -114,7 +106,7 @@ class ProfileController extends Controller
     public function edit(Request $request): RedirectResponse|View
     {
         /** @var \App\Models\User $user */
-        $user = User::with('fields.field')->where('id', Auth::id())->first();
+        $user = User::with('fields.field', 'location')->where('id', Auth::id())->first();
 
         if (empty($user)) {
             Flash::error('User not found!');
@@ -122,14 +114,20 @@ class ProfileController extends Controller
             return redirect(route('frontend.dashboard.index'));
         }
 
+        if ($user->location) {
+            $airports = [$user->location->id => $user->location->description];
+        } else {
+            $airports = ['' => ''];
+        }
+
         $airlines = $this->airlineRepo->selectBoxList();
-        $airports = $this->airportRepo->selectBoxList(false, setting('pilots.home_hubs_only'));
         $userFields = $this->userRepo->getUserFields($user);
 
         return view('profile.edit', [
             'user'       => $user,
             'airlines'   => $airlines,
             'airports'   => $airports,
+            'hubs_only'  => setting('pilots.home_hubs_only'),
             'countries'  => Countries::getSelectList(),
             'timezones'  => Timezonelist::toArray(),
             'userFields' => $userFields,
@@ -226,6 +224,9 @@ class ProfileController extends Controller
                 'user_id'       => $id,
             ], ['value' => $request->get($field_name)]);
         }
+
+        // Dispatch event including whether an avatar has been updated
+        ProfileUpdated::dispatch($user, $request->hasFile('avatar'));
 
         Flash::success('Profile updated successfully!');
 

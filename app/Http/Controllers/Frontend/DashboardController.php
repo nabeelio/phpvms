@@ -30,7 +30,19 @@ class DashboardController extends Controller
     public function index(): View
     {
         $last_pirep = null;
-        $with_pirep = ['aircraft', 'arr_airport', 'comments', 'dpt_airport'];
+        // Support retrieval of deleted relationships
+        $with_pirep = [
+            'aircraft' => function ($query) {
+                return $query->withTrashed();
+            },
+            'arr_airport' => function ($query) {
+                return $query->withTrashed();
+            },
+            'comments',
+            'dpt_airport' => function ($query) {
+                return $query->withTrashed();
+            },
+        ];
 
         /** @var \App\Models\User $user */
         $user = Auth::user();
