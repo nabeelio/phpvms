@@ -4,10 +4,16 @@ namespace App\Models;
 
 use App\Models\Enums\JournalType;
 use App\Models\Traits\JournalTrait;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Kyslik\ColumnSortable\Sortable;
 use Laratrust\Contracts\LaratrustUser;
 use Laratrust\Traits\HasRolesAndPermissions;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
@@ -49,18 +55,23 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property Role[]           roles
  * @property Subfleet[]       subfleets
  * @property TypeRating[]     typeratings
+ * @property Airport          home_airport
+ * @property Airport          current_airport
+ * @property Airport          location
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\HasRolesAndPermissions
  */
-class User extends Authenticatable implements LaratrustUser
+class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
 {
     use HasFactory;
     use HasRelationships;
     use HasRolesAndPermissions;
     use JournalTrait;
     use Notifiable;
+    use SoftDeletes;
+    use Sortable;
 
     public $table = 'users';
 
@@ -99,6 +110,7 @@ class User extends Authenticatable implements LaratrustUser
         'notes',
         'created_at',
         'updated_at',
+        'email_verified_at',
     ];
 
     /**
@@ -117,18 +129,19 @@ class User extends Authenticatable implements LaratrustUser
     ];
 
     protected $casts = [
-        'id'            => 'integer',
-        'pilot_id'      => 'integer',
-        'flights'       => 'integer',
-        'flight_time'   => 'integer',
-        'transfer_time' => 'integer',
-        'balance'       => 'double',
-        'state'         => 'integer',
-        'status'        => 'integer',
-        'toc_accepted'  => 'boolean',
-        'opt_in'        => 'boolean',
-        'lastlogin_at'  => 'datetime',
-        'deleted_at'    => 'datetime',
+        'id'                => 'integer',
+        'pilot_id'          => 'integer',
+        'flights'           => 'integer',
+        'flight_time'       => 'integer',
+        'transfer_time'     => 'integer',
+        'balance'           => 'double',
+        'state'             => 'integer',
+        'status'            => 'integer',
+        'toc_accepted'      => 'boolean',
+        'opt_in'            => 'boolean',
+        'lastlogin_at'      => 'datetime',
+        'deleted_at'        => 'datetime',
+        'email_verified_at' => 'datetime',
     ];
 
     public static $rules = [
@@ -136,6 +149,22 @@ class User extends Authenticatable implements LaratrustUser
         'email'    => 'required|email',
         'pilot_id' => 'required|integer',
         'callsign' => 'nullable|max:4',
+    ];
+
+    public $sortable = [
+        'id',
+        'name',
+        'pilot_id',
+        'callsign',
+        'country',
+        'airline_id',
+        'rank_id',
+        'home_airport_id',
+        'curr_airport_id',
+        'flights',
+        'flight_time',
+        'transfer_time',
+        'created_at',
     ];
 
     /**
@@ -251,76 +280,65 @@ class User extends Authenticatable implements LaratrustUser
     }
 
     /**
-     * Foreign Keys
+     * Relationships
      */
-    public function airline()
+    public function airline(): BelongsTo
     {
-        return $this->belongsTo(Airline::class, 'airline_id');
+        return $this->belongsTo(Airline::class, 'airline_id')->withTrashed();
     }
 
-    /**
-     * @return \App\Models\Award[]|mixed
-     */
-    public function awards()
+    public function awards(): BelongsToMany
     {
-        return $this->belongsToMany(Award::class, 'user_awards');
+        return $this->belongsToMany(Award::class, 'user_awards')->withTrashed();
     }
 
-    /**
-     * The bid rows
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function bids()
+    public function bids(): HasMany
     {
         return $this->hasMany(Bid::class, 'user_id');
     }
 
-    public function home_airport()
+    public function home_airport(): BelongsTo
     {
-        return $this->belongsTo(Airport::class, 'home_airport_id');
+        return $this->belongsTo(Airport::class, 'home_airport_id')->withTrashed();
     }
 
-    public function current_airport()
+    public function location(): BelongsTo
     {
-        return $this->belongsTo(Airport::class, 'curr_airport_id');
+        return $this->belongsTo(Airport::class, 'curr_airport_id')->withTrashed();
     }
 
-    public function last_pirep()
+    public function current_airport(): BelongsTo
+    {
+        return $this->belongsTo(Airport::class, 'curr_airport_id')->withTrashed();
+    }
+
+    public function last_pirep(): BelongsTo
     {
         return $this->belongsTo(Pirep::class, 'last_pirep_id');
     }
 
-    public function fields()
+    public function fields(): HasMany
     {
         return $this->hasMany(UserFieldValue::class, 'user_id');
     }
 
-    public function pireps()
+    public function pireps(): HasMany
     {
         return $this->hasMany(Pirep::class, 'user_id');
     }
 
-    public function rank()
+    public function rank(): BelongsTo
     {
-        return $this->belongsTo(Rank::class, 'rank_id');
+        return $this->belongsTo(Rank::class, 'rank_id')->withTrashed();
     }
 
-    public function typeratings()
+    public function typeratings(): BelongsToMany
     {
-        return $this->belongsToMany(
-            Typerating::class,
-            'typerating_user',
-            'user_id',
-            'typerating_id'
-        );
+        return $this->belongsToMany(Typerating::class, 'typerating_user', 'user_id', 'typerating_id');
     }
 
     public function rated_subfleets()
     {
-        return $this->hasManyDeep(
-            Subfleet::class,
-            ['typerating_user', Typerating::class, 'typerating_subfleet']
-        );
+        return $this->hasManyDeep(Subfleet::class, ['typerating_user', Typerating::class, 'typerating_subfleet']);
     }
 }

@@ -17,6 +17,7 @@ class PirepField extends Model
     protected $fillable = [
         'name',
         'slug',
+        'description',
         'required',
     ];
 
@@ -25,7 +26,8 @@ class PirepField extends Model
     ];
 
     public static $rules = [
-        'name' => 'required',
+        'name'        => 'required',
+        'description' => 'nullable',
     ];
 
     /**

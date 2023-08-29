@@ -20,6 +20,7 @@ use App\Repositories\SubfleetRepository;
 use App\Repositories\TypeRatingRepository;
 use App\Services\ExportService;
 use App\Services\FareService;
+use App\Services\FileService;
 use App\Services\FleetService;
 use App\Services\ImportService;
 use Illuminate\Http\RedirectResponse;
@@ -39,6 +40,7 @@ class SubfleetController extends Controller
      * @param AircraftRepository   $aircraftRepo
      * @param FareRepository       $fareRepo
      * @param FareService          $fareSvc
+     * @param FileService          $fileSvc
      * @param FleetService         $fleetSvc
      * @param ImportService        $importSvc
      * @param RankRepository       $rankRepo
@@ -49,6 +51,7 @@ class SubfleetController extends Controller
         private readonly AircraftRepository $aircraftRepo,
         private readonly FareRepository $fareRepo,
         private readonly FareService $fareSvc,
+        private readonly FileService $fileSvc,
         private readonly FleetService $fleetSvc,
         private readonly ImportService $importSvc,
         private readonly RankRepository $rankRepo,
@@ -85,6 +88,7 @@ class SubfleetController extends Controller
     {
         return view('admin.subfleets.create', [
             'airlines'   => Airline::all()->pluck('name', 'id'),
+            'airports'   => [],
             'hubs'       => Airport::where('hub', 1)->pluck('name', 'id'),
             'fuel_types' => FuelType::labels(),
         ]);
@@ -144,8 +148,9 @@ class SubfleetController extends Controller
      */
     public function edit(int $id): RedirectResponse|View
     {
+        /** @var Subfleet $subfleet */
         $subfleet = $this->subfleetRepo
-            ->with(['fares', 'ranks', 'typeratings'])
+            ->with(['home', 'fares', 'ranks', 'typeratings'])
             ->findWithoutFail($id);
 
         if (empty($subfleet)) {
@@ -158,9 +163,14 @@ class SubfleetController extends Controller
         $avail_ranks = $this->getAvailRanks($subfleet);
         $avail_ratings = $this->getAvailTypeRatings($subfleet);
 
+        $airports = [];
+        if ($subfleet->home) {
+            $airports[$subfleet->home->id] = $subfleet->home->description;
+        }
+
         return view('admin.subfleets.edit', [
             'airlines'      => Airline::all()->pluck('name', 'id'),
-            'hubs'          => Airport::where('hub', 1)->pluck('name', 'id'),
+            'airports'      => $airports,
             'fuel_types'    => FuelType::labels(),
             'avail_fares'   => $avail_fares,
             'avail_ranks'   => $avail_ranks,
@@ -219,6 +229,10 @@ class SubfleetController extends Controller
             Flash::error('There are aircraft still assigned to this subfleet, you can\'t delete it!')->important();
 
             return redirect(route('admin.subfleets.index'));
+        }
+
+        foreach ($subfleet->files as $file) {
+            $this->fileSvc->removeFile($file);
         }
 
         $this->subfleetRepo->delete($id);
