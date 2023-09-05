@@ -43,7 +43,13 @@ class Flight extends Resource
     {
         $res = parent::toArray($request);
 
-        $res['ident'] = $this->ident;
+        // Display flight callsign if pilot ident usage is not forced by VA
+        if (!setting('simbrief.callsign', true)) {
+            $callsign = !empty($this->callsign) ? $this->airline->icao.$this->callsign : $this->airline->icao.$this->flight_number;
+            $res['ident'] = $callsign.' | '.$this->ident;
+        } else {
+            $res['ident'] = $this->ident;
+        }
 
         if (empty($res['load_factor'])) {
             $res['load_factor'] = setting('flights.default_load_factor');
