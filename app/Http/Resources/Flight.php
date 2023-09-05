@@ -45,8 +45,7 @@ class Flight extends Resource
 
         // Display flight callsign if pilot ident usage is not forced by VA
         if (!setting('simbrief.callsign', true)) {
-            $callsign = !empty($this->callsign) ? $this->airline->icao.$this->callsign : $this->airline->icao.$this->flight_number;
-            $res['ident'] = $callsign.' | '.$this->ident;
+            $res['ident'] = $this->atc.' | '.$this->ident;
         } else {
             $res['ident'] = $this->ident;
         }
