@@ -44,7 +44,7 @@ class Flight extends Resource
         $res = parent::toArray($request);
 
         // Display flight callsign if pilot ident usage is not forced by VA
-        if (!setting('simbrief.callsign', true)) {
+        if (!empty($this->callsign) && !setting('simbrief.callsign', true)) {
             $res['ident'] = $this->atc.' | '.$this->ident;
         } else {
             $res['ident'] = $this->ident;
