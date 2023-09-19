@@ -60,11 +60,33 @@ class AircraftController extends Controller
 
         $aircraft = $this->aircraftRepo->with(['subfleet'])->whereOrder($w, 'registration', 'asc');
         $aircraft = $aircraft->all();
+        $trashed = $this->aircraftRepo->onlyTrashed()->orderBy('deleted_at', 'desc')->get();
 
         return view('admin.aircraft.index', [
             'aircraft'    => $aircraft,
             'subfleet_id' => $request->input('subfleet'),
+            'trashed'     => $trashed,
         ]);
+    }
+
+    /**
+     * Recycle Bin operations, either restore or permanently delete the object
+     */
+    public function trashbin(Request $request)
+    {
+        $object_id = (isset($request->object_id)) ? $request->object_id : null;
+
+        if ($object_id && $request->action === 'restore') {
+            Aircraft::where('id', $object_id)->restore();
+            Flash::success('Aircraft RESTORED successfully.');
+        } elseif ($object_id && $request->action === 'delete') {
+            Aircraft::where('id', $object_id)->forceDelete();
+            Flash::error('Aircraft DELETED PERMANENTLY.');
+        } else {
+            Flash::info('Nothing done!');
+        }
+
+        return back();
     }
 
     /**
