@@ -235,13 +235,13 @@
   options: ''
   type: number
   description: 'How much the load factor can vary per-flight'
-- key: flights.different_cargo_load_factor
+- key: flights.use_cargo_load_factor
   name: 'Different Cargo Load Factor'
   group: flights
   value: false
   options: ''
   type: boolean
-  description: 'When enabled, v7 will use a different load factor for cargo and passengers fares'
+  description: 'When enabled these values will be used for cargo fares'
 - key: flights.default_cargo_load_factor
   name: 'Cargo Load Factor'
   group: flights
