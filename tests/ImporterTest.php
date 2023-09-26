@@ -664,8 +664,9 @@ class ImporterTest extends TestCase
         $this->assertEquals('AUS', $airport->iata);
         $this->assertEquals('KAUS', $airport->icao);
         $this->assertEquals('Austin-Bergstrom', $airport->name);
-        $this->assertEquals('Austin, Texas, USA', $airport->location);
-        $this->assertEquals('United States', $airport->country);
+        $this->assertEquals('Austin', $airport->location);
+        $this->assertEquals('Texas', $airport->region);
+        $this->assertEquals('US', $airport->country);
         $this->assertEquals('America/Chicago', $airport->timezone);
         $this->assertEquals(true, $airport->hub);
         $this->assertEquals('30.1945', $airport->lat);
