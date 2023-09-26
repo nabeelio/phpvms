@@ -150,8 +150,7 @@ class SimBriefController
             $loadmax = 100;
         }
 
-        if (setting('flights.different_cargo_load_factor', false))
-        {
+        if (setting('flights.different_cargo_load_factor', false)) {
             $cgolfactor = $flight->load_factor ?? setting('flights.default_cargo_load_factor');
             $cgolfactorv = $flight->load_factor_variance ?? setting('flights.cargo_load_factor_variance');
 
