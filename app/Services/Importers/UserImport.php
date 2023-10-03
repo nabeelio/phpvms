@@ -113,15 +113,6 @@ class UserImport extends BaseImporter
 
             $user->addRole($newRoleId);
         }
-
-        // Assign the groups to the new user
-        if (!empty($newRoles)) {
-            // try {
-            //
-            // } catch (\Exception $e) {
-            //     Log::error('Error adding role');
-            // }
-        }
     }
 
     /**
