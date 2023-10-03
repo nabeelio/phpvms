@@ -7,6 +7,7 @@ use App\Repositories\KvpRepository;
 use App\Services\Importers\AircraftImporter;
 use App\Services\Importers\AirlineImporter;
 use App\Services\Importers\AirportImporter;
+use App\Services\Importers\BaseImporter;
 use App\Services\Importers\ClearDatabase;
 use App\Services\Importers\ExpenseImporter;
 use App\Services\Importers\FinalizeImporter;
