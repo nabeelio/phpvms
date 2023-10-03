@@ -3,6 +3,7 @@
 namespace App\Services\Importers;
 
 use App\Models\Enums\UserState;
+use App\Models\Role;
 use App\Models\User;
 use App\Services\UserService;
 use App\Support\Units\Time;
@@ -16,10 +17,7 @@ class UserImport extends BaseImporter
     protected $table = 'pilots';
     protected $idField = 'pilotid';
 
-    /**
-     * @var UserService
-     */
-    private $userSvc;
+    private UserService $userSvc;
 
     public function run($start = 0)
     {
@@ -61,6 +59,7 @@ class UserImport extends BaseImporter
 
             $attrs = [
                 'pilot_id'        => $pilot_id,
+                'callsign'        => $pilot_id,
                 'name'            => $name,
                 'password'        => Hash::make($new_password),
                 'api_key'         => Utils::generateApiKey(),
@@ -99,6 +98,7 @@ class UserImport extends BaseImporter
         // Be default add them to the user role, and then determine if they
         // belong to any other groups, and add them to that
         $newRoles = [];
+        $roleCache = Role::all()->keyBy('id');
 
         // Figure out what other groups they belong to... read from the old table, and map
         // them to the new group(s)
@@ -111,11 +111,17 @@ class UserImport extends BaseImporter
                 continue;
             }
 
-            $newRoles[] = $newRoleId;
+            $user->addRole($newRoleId);
         }
 
         // Assign the groups to the new user
-        $user->addRole($newRoles);
+        if (!empty($newRoles)) {
+            // try {
+            //
+            // } catch (\Exception $e) {
+            //     Log::error('Error adding role');
+            // }
+        }
     }
 
     /**
