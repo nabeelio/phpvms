@@ -34,7 +34,7 @@ class AirportImporter extends BaseImporter
             }
 
             $fuel_jetA_cost = 0;
-            if (property_exists($row, 'fuel_jeta_cost') && !empty($fuel_jetA_cost)) {
+            if (property_exists($row, 'fuel_jeta_cost') && !empty($row->fuel_jeta_cost)) {
                 $fuel_jetA_cost = (float) $row->fuel_jeta_cost;
             }
 
