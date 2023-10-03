@@ -28,7 +28,6 @@ class AirportImporter extends BaseImporter
         $count = 0;
         $rows = $this->db->readRows($this->table, $this->idField, $start);
         foreach ($rows as $row) {
-
             $ground_handling_cost = 0;
             if (property_exists($row, 'ground_handling_cost') && !empty($row->ground_handling_cost)) {
                 $ground_handling_cost = (float) $row->ground_handling_cost;
