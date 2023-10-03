@@ -32,6 +32,7 @@ use Kyslik\ColumnSortable\Sortable;
  * @property float  lat
  * @property float  lon
  * @property int    elevation
+ * @property bool   hub
  */
 class Airport extends Model
 {
