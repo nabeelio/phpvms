@@ -3,7 +3,6 @@
 namespace App\Services\Importers;
 
 use App\Models\Enums\UserState;
-use App\Models\Role;
 use App\Models\User;
 use App\Services\UserService;
 use App\Support\Units\Time;
@@ -95,11 +94,6 @@ class UserImport extends BaseImporter
      */
     protected function updateUserRoles(User $user, $old_pilot_id)
     {
-        // Be default add them to the user role, and then determine if they
-        // belong to any other groups, and add them to that
-        $newRoles = [];
-        $roleCache = Role::all()->keyBy('id');
-
         // Figure out what other groups they belong to... read from the old table, and map
         // them to the new group(s)
         $old_user_groups = $this->db->findBy('groupmembers', ['pilotid' => $old_pilot_id]);
@@ -111,7 +105,9 @@ class UserImport extends BaseImporter
                 continue;
             }
 
-            $user->addRole($newRoleId);
+            if (!$newRoleId !== false) {
+                $user->addRole($newRoleId);
+            }
         }
     }
 
