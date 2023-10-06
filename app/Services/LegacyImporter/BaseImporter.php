@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Importers;
+namespace App\Services\LegacyImporter;
 
 use App\Services\ImporterService;
 use App\Services\Installer\LoggerTrait;

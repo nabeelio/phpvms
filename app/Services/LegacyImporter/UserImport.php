@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Importers;
+namespace App\Services\LegacyImporter;
 
 use App\Models\Enums\UserState;
 use App\Models\User;
@@ -105,7 +105,7 @@ class UserImport extends BaseImporter
                 continue;
             }
 
-            if (!$newRoleId !== false) {
+            if ($newRoleId !== false) {
                 $user->addRole($newRoleId);
             }
         }
