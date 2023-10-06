@@ -38,13 +38,13 @@ class AirportImporter extends BaseImporter
         $rows = $this->db->readRows($this->table, $this->idField, $start);
         foreach ($rows as $row) {
             $attrs = [
-                'id'                   => trim($row->icao),
-                'icao'                 => trim($row->icao),
-                'name'                 => $row->name,
-                'country'              => $row->country,
-                'lat'                  => $row->lat,
-                'lon'                  => $row->lng,
-                'hub'                  => $row->hub,
+                'id'      => trim($row->icao),
+                'icao'    => trim($row->icao),
+                'name'    => $row->name,
+                'country' => $row->country,
+                'lat'     => $row->lat,
+                'lon'     => $row->lng,
+                'hub'     => $row->hub,
             ];
 
             foreach ($set_if_exists as $legacy_name => $current_name) {
