@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-
 use App\Models\Role;
 use App\Models\Subfleet;
 use App\Models\User;
@@ -15,7 +14,8 @@ class AdminControllerTests extends TestCase
         $this->addData('base');
     }
 
-    private function addAdminUser(): User {
+    private function addAdminUser(): User
+    {
         $user = User::factory()->create();
         $role = Role::where(['name' => 'admin'])->first();
         $user->addRole($role);
