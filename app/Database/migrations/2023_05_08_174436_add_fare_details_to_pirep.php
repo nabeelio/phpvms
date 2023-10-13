@@ -26,7 +26,6 @@ return new class() extends Migration {
                     ->nullable()
                     ->after('capacity');
                 $table->softDeletes();
-
             });
         }
 
