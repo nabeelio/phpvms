@@ -18,6 +18,7 @@ use App\Repositories\UserRepository;
 use App\Services\UserService;
 use App\Support\Timezonelist;
 use App\Support\Utils;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -337,7 +338,9 @@ class UserController extends Controller
             return back();
         }
 
-        $user->markEmailAsVerified();
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
+        }
 
         Flash::success('User email verified successfully');
         return back();
