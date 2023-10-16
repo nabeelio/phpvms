@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -63,8 +62,6 @@ class VerificationController extends Controller
 
         if ($user->markEmailAsVerified()) {
             Log::info('Marking user '.$user->id.' as verified');
-            $user->state = UserState::ACTIVE;
-            $this->userSvc->changeUserState($user, UserState::PENDING);
             event(new Verified($user));
         }
 
