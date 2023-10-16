@@ -323,6 +323,50 @@ class UserController extends Controller
         return redirect(route('admin.users.edit', [$id]));
     }
 
+    public function verify_email(int $id, Request $request): RedirectResponse
+    {
+        $user = $this->userRepo->findWithoutFail($id);
+
+        if (empty($user)) {
+            Flash::error('User not found');
+            return back();
+        }
+
+        if ($user->email_verified_at) {
+            Flash::error('User email already verified');
+            return back();
+        }
+
+        $user->update([
+            'email_verified_at' => now(),
+        ]);
+
+        Flash::success('User email verified successfully');
+        return back();
+    }
+
+    public function request_email_verification(int $id, Request $request): RedirectResponse
+    {
+        $user = $this->userRepo->findWithoutFail($id);
+
+        if (empty($user)) {
+            Flash::error('User not found');
+            return back();
+        }
+
+        if (!$user->email_verified_at) {
+            Flash::error('User email already not verified');
+            return back();
+        }
+
+        $user->update([
+            'email_verified_at' => null,
+        ]);
+
+        Flash::success('User email verification requested successfully');
+        return back();
+    }
+
     /**
      * Get the type ratings that are available to the user
      *
