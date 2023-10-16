@@ -33,6 +33,8 @@ class RegistrationTest extends TestCase
 
         $this->assertEquals(UserState::ACTIVE, $user->state);
 
+        $user->markEmailAsVerified();
+
         Notification::assertSentTo([$admin], AdminUserRegistered::class);
         Notification::assertNotSentTo([$user], AdminUserRegistered::class);
     }
