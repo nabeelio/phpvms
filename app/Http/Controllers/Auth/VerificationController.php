@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use App\Services\UserService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\VerifiesEmails;
@@ -37,9 +36,7 @@ class VerificationController extends Controller
      *
      * @return void
      */
-    public function __construct(
-        private readonly UserService $userSvc
-    ) {
+    public function __construct() {
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
