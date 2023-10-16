@@ -361,6 +361,8 @@ class UserController extends Controller
             'email_verified_at' => null,
         ]);
 
+        $user->sendEmailVerificationNotification();
+
         Flash::success('User email verification requested successfully');
         return back();
     }
