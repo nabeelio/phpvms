@@ -332,14 +332,12 @@ class UserController extends Controller
             return back();
         }
 
-        if ($user->email_verified_at) {
+        if ($user->hasVerifiedEmail()) {
             Flash::error('User email already verified');
             return back();
         }
 
-        $user->update([
-            'email_verified_at' => now(),
-        ]);
+        $user->markEmailAsVerified();
 
         Flash::success('User email verified successfully');
         return back();
@@ -354,7 +352,7 @@ class UserController extends Controller
             return back();
         }
 
-        if (!$user->email_verified_at) {
+        if (!$user->hasVerifiedEmail()) {
             Flash::error('User email already not verified');
             return back();
         }
