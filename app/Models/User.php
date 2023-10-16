@@ -35,7 +35,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property string           home_airport_id
  * @property string           avatar
  * @property Airline          airline
- * @property Flight[]         flights
+ * @property int              flights
  * @property int              flight_time
  * @property int              transfer_time
  * @property string           remember_token

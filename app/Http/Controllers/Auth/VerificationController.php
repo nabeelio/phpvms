@@ -63,6 +63,7 @@ class VerificationController extends Controller
 
         if ($user->markEmailAsVerified()) {
             Log::info('Marking user '.$user->id.' as verified');
+            $user->state = UserState::ACTIVE;
             $this->userSvc->changeUserState($user, UserState::PENDING);
             event(new Verified($user));
         }
