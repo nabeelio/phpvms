@@ -117,7 +117,9 @@ class NotificationEventsHandler extends Listener
     public function onEmailVerified(Verified $event): void
     {
         // Return if the user has any flights (email change / admin requests new verification)
-        if ($event->user->flights > 0) return;
+        if ($event->user->flights > 0) {
+            return;
+        }
 
         Log::info('NotificationEvents::onUserRegister: '
             .$event->user->ident.' is '
