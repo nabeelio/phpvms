@@ -461,6 +461,12 @@ class RouteServiceProvider extends ServiceProvider
             Route::get('users/{id}/regen_apikey', 'UserController@regen_apikey')
                 ->name('users.regen_apikey')->middleware('ability:admin,users');
 
+            Route::get('users/{id}/verify_email', 'UserController@verify_email')
+                ->name('users.verify_email')->middleware('ability:admin,users');
+
+            Route::get('users/{id}/request_email_verification', 'UserController@request_email_verification')
+                ->name('users.request_email_verification')->middleware('ability:admin,users');
+
             Route::resource('users', 'UserController')->middleware('ability:admin,users');
 
             Route::match([
