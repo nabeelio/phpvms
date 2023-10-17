@@ -71,7 +71,7 @@ class UserImport extends BaseImporter
                 'flight_time'       => Time::hoursToMinutes($row->totalhours),
                 'state'             => $state,
                 'created_at'        => $this->parseDate($row->joindate),
-                'email_verified_at' => now()
+                'email_verified_at' => now(),
             ];
 
             $user = User::updateOrCreate(['email' => $row->email], $attrs);
