@@ -88,11 +88,19 @@ class SubfleetController extends Controller
     {
         $object_id = (isset($request->object_id)) ? $request->object_id : null;
 
+        $subfleet = Subfleet::where('id', $object_id)->get();
+        $duplicate_check = Subfleet::where('type', $subfleet->type)->count();
+
         if ($object_id && $request->action === 'restore') {
-            Subfleet::where('id', $object_id)->restore();
+            // Change the type id if it is used
+            if ($duplicate_check > 0) {
+                $subfleet->type = $subfleet->type.'_RESTORED';
+                $subfleet->save();
+            }
+            $subfleet->restore();
             Flash::success('Subfleet RESTORED successfully.');
         } elseif ($object_id && $request->action === 'delete') {
-            Subfleet::where('id', $object_id)->forceDelete();
+            $subfleet->forceDelete();
             Flash::error('Subfleet DELETED PERMANENTLY.');
         } else {
             Flash::info('Nothing done!');

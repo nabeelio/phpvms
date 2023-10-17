@@ -76,12 +76,19 @@ class AircraftController extends Controller
     {
         $object_id = (isset($request->object_id)) ? $request->object_id : null;
 
+        $aircraft = Aircraft::withCount('pireps')->where('id', $object_id)->get();
+
         if ($object_id && $request->action === 'restore') {
-            Aircraft::where('id', $object_id)->restore();
+            $aircraft->restore();
             Flash::success('Aircraft RESTORED successfully.');
         } elseif ($object_id && $request->action === 'delete') {
-            Aircraft::where('id', $object_id)->forceDelete();
-            Flash::error('Aircraft DELETED PERMANENTLY.');
+            // Check if the aircraft is used or not
+            if ($aircraft->pireps_count > 0) {
+                Flash::info('Can not delete aircraft, it is used in pireps');
+            } else {
+                $aircraft->forceDelete();
+                Flash::error('Aircraft DELETED PERMANENTLY.');
+            }
         } else {
             Flash::info('Nothing done!');
         }
