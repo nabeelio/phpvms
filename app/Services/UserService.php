@@ -175,7 +175,7 @@ class UserService extends Service
      */
     public function getNextAvailablePilotId(): int
     {
-        return (int) User::max('pilot_id') + 1;
+        return (int) User::withTrashed()->max('pilot_id') + 1;
     }
 
     /**
