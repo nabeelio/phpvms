@@ -543,6 +543,8 @@ class RouteServiceProvider extends ServiceProvider
             'as'         => 'api.',
         ], function () {
             Route::group([], function () {
+                Route::get('/', 'StatusController@status');
+
                 Route::get('acars', 'AcarsController@live_flights');
                 Route::get('acars/geojson', 'AcarsController@pireps_geojson');
 
