@@ -243,8 +243,8 @@ class RouteServiceProvider extends ServiceProvider
             ], 'aircraft/{id}/expenses', 'AircraftController@expenses')
                 ->middleware('ability:admin,aircraft');
 
-            Route::resource('aircraft', 'AircraftController')
-                ->middleware('ability:admin,aircraft');
+            Route::resource('aircraft', 'AircraftController')->middleware('ability:admin,aircraft');
+            Route::post('aircraft/trashbin', 'AircraftController@trashbin')->name('aircraft.trashbin')->middleware('ability:admin,aircraft');
 
             // expenses
             Route::get('expenses/export', 'ExpenseController@export')
@@ -274,6 +274,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('ability:admin,finances');
 
             Route::resource('fares', 'FareController')->middleware('ability:admin,finances');
+            Route::post('fares/trashbin', 'FareController@trashbin')->name('fares.trashbin')->middleware('ability:admin,finances');
 
             // files
             Route::post('files', 'FileController@store')
@@ -451,6 +452,7 @@ class RouteServiceProvider extends ServiceProvider
             ], 'subfleets/{id}/typeratings', 'SubfleetController@typeratings')->middleware('ability:admin,fleet');
 
             Route::resource('subfleets', 'SubfleetController')->middleware('ability:admin,fleet');
+            Route::post('subfleets/trashbin', 'SubfleetController@trashbin')->name('subfleets.trashbin')->middleware('ability:admin,fleet');
 
             /**
              * USERS
