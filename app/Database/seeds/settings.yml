@@ -375,6 +375,13 @@
   options: ''
   type: int
   description: 'The time in hours to delete a rejected PIREP'
+- key: pireps.handle_diversion
+  name: 'Handle pirep diversion'
+  group: pireps
+  value: true
+  options: ''
+  type: boolean
+  description: 'Auto Handle Diversions (move assets and create re position flight)'
 - key: pilots.id_length
   name: 'Pilot ID Length'
   group: pilots
