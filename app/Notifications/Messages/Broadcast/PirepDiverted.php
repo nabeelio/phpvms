@@ -5,7 +5,6 @@ namespace App\Notifications\Messages\Broadcast;
 use App\Contracts\Notification;
 use App\Models\Pirep;
 use App\Notifications\Channels\Discord\DiscordMessage;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PirepDiverted extends Notification
 {
@@ -49,7 +48,7 @@ class PirepDiverted extends Notification
             ->title($title)
             ->thumbnail(['url' => $user_avatar])
             ->author([
-                'name' => 'Pilot In Command: ' .$pirep->user->ident.' - '.$pirep->user->name_private,
+                'name' => 'Pilot In Command: '.$pirep->user->ident.' - '.$pirep->user->name_private,
                 'url'  => route('frontend.profile.show', [$pirep->user_id]),
             ])
             ->fields($fields);
@@ -65,19 +64,19 @@ class PirepDiverted extends Notification
         $diversion_apt = $pirep->fields->firstWhere('slug', 'diversion-airport')->value;
         if (abs($pirep->landing_rate) > 1500) {
             // Possible crash due to the high landing rate
-            $diversion_reason = 'Crashed Near ' . $diversion_apt;
+            $diversion_reason = 'Crashed Near '.$diversion_apt;
         } else {
             // Diverted but not crashed and airport is found with lookup
-            $diversion_reason = "Operational";
+            $diversion_reason = 'Operational';
         }
 
         $fields = [
-            '__Flight #__' => $pirep->ident,
-            '__Orig__' => $pirep->dpt_airport_id,
-            '__Dest__'   => $pirep->arr_airport_id,
-            '__Equipment__' => $pirep->aircraft?->ident ?? "Not Reported",
-            '__Diverted__' => $diversion_apt,
-            '__Reason__' => $diversion_reason,
+            '__Flight #__'  => $pirep->ident,
+            '__Orig__'      => $pirep->dpt_airport_id,
+            '__Dest__'      => $pirep->arr_airport_id,
+            '__Equipment__' => $pirep->aircraft?->ident ?? 'Not Reported',
+            '__Diverted__'  => $diversion_apt,
+            '__Reason__'    => $diversion_reason,
         ];
 
         return $fields;

@@ -7,13 +7,11 @@ use App\Events\CronNightly;
 use App\Events\PirepFiled;
 use App\Services\FlightService;
 use App\Services\PirepService;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class DiversionHandler extends Listener
 {
     public static $callbacks = [
-        PirepFiled::class => 'onPirepFiled',
+        PirepFiled::class  => 'onPirepFiled',
         CronNightly::class => 'onCronNightly',
     ];
 

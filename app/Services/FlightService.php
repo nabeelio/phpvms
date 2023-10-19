@@ -25,8 +25,10 @@ class FlightService extends Service
      * @param FareService       $fareSvc
      * @param FlightRepository  $flightRepo
      * @param NavdataRepository $navDataRepo
+     *
      * @parma PirepRepository   $pirepRepo
-     * @param UserService       $userSvc
+     *
+     * @param UserService $userSvc
      */
     public function __construct(
         private readonly AirportService $airportSvc,
@@ -282,12 +284,12 @@ class FlightService extends Service
     {
         $flights = $this->flightRepo->where('route_code', PirepStatus::DIVERTED)->get();
 
-        foreach($flights as $flight)
-        {
+        foreach ($flights as $flight) {
             $diverted_pirep = $this->pirepRepo->with('aircraft')->where(['user_id' => $flight->user_id, 'arr_airport_id' => $flight->dpt_airport_id, 'status' => PirepStatus::DIVERTED, 'state' => PirepState::ACCEPTED])->orderBy('submitted_at', 'desc')->first();
             $ac = $diverted_pirep->aircraft;
-            if ($ac->airport_id != $flight->dpt_airport_id) // Aircraft has moved
+            if ($ac->airport_id != $flight->dpt_airport_id) { // Aircraft has moved
                 $flight->delete();
+            }
         }
     }
 }

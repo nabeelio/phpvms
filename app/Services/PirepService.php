@@ -60,31 +60,30 @@ class PirepService extends Service
      * @param UserService        $userSvc
      */
     public function __construct(
-        private readonly AirportRepository  $airportRepo,
-        private readonly AirportService     $airportSvc,
+        private readonly AirportRepository $airportRepo,
+        private readonly AirportService $airportSvc,
         private readonly AircraftRepository $aircraftRepo,
-        private readonly FareService        $fareSvc,
-        private readonly FlightRepository   $flightRepo,
-        private readonly GeoService         $geoSvc,
-        private readonly PirepRepository    $pirepRepo,
-        private readonly SimBriefService    $simBriefSvc,
-        private readonly UserService        $userSvc
-    )
-    {
+        private readonly FareService $fareSvc,
+        private readonly FlightRepository $flightRepo,
+        private readonly GeoService $geoSvc,
+        private readonly PirepRepository $pirepRepo,
+        private readonly SimBriefService $simBriefSvc,
+        private readonly UserService $userSvc
+    ) {
     }
 
     /**
      * Create a prefiled PIREP
      *
-     * @param User $user
-     * @param array $attrs
+     * @param User              $user
+     * @param array             $attrs
      * @param PirepFieldValue[] $fields
-     * @param PirepFare[] $fares
+     * @param PirepFare[]       $fares
+     *
+     * @throws \Exception
+     * @throws AirportNotFound If one of the departure or arrival airports isn't found locally
      *
      * @return \App\Models\Pirep
-     * @throws \Exception
-     *
-     * @throws AirportNotFound If one of the departure or arrival airports isn't found locally
      */
     public function prefile(User $user, array $attrs, array $fields = [], array $fares = []): Pirep
     {
@@ -168,7 +167,7 @@ class PirepService extends Service
         $dupe_pirep = $this->findDuplicate($pirep);
         if ($dupe_pirep !== false) {
             $pirep = $dupe_pirep;
-            Log::info('Found duplicate PIREP, id=' . $dupe_pirep->id);
+            Log::info('Found duplicate PIREP, id='.$dupe_pirep->id);
             if ($pirep->cancelled) {
                 throw new \App\Exceptions\PirepCancelled($pirep);
             }
@@ -250,7 +249,7 @@ class PirepService extends Service
 
     /**
      * @param PirepFieldValue[] $fields
-     * @param PirepFare[] $fares
+     * @param PirepFare[]       $fares
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      * @throws \Exception
@@ -267,14 +266,14 @@ class PirepService extends Service
     /**
      * Finalize a PIREP (meaning it's been filed)
      *
-     * @param Pirep $pirep
-     * @param array $attrs
+     * @param Pirep             $pirep
+     * @param array             $attrs
      * @param PirepFieldValue[] $fields
-     * @param PirepFare[] $fares
+     * @param PirepFare[]       $fares
      *
-     * @return Pirep
      * @throws \Exception
      *
+     * @return Pirep
      */
     public function file(Pirep $pirep, array $attrs = [], array $fields = [], array $fares = []): Pirep
     {
@@ -356,9 +355,9 @@ class PirepService extends Service
         $time_limit = Carbon::now('UTC')->subMinutes($minutes)->toDateTimeString();
 
         $where = [
-            'user_id' => $pirep->user_id,
-            'airline_id' => $pirep->airline_id,
-            'flight_number' => $pirep->flight_number,
+            'user_id'        => $pirep->user_id,
+            'airline_id'     => $pirep->airline_id,
+            'flight_number'  => $pirep->flight_number,
             'dpt_airport_id' => $pirep->dpt_airport_id,
             'arr_airport_id' => $pirep->arr_airport_id,
         ];
@@ -394,16 +393,16 @@ class PirepService extends Service
      *
      * @param Pirep $pirep
      *
-     * @return Pirep
      * @throws \Exception
      *
+     * @return Pirep
      */
     public function saveRoute(Pirep $pirep): Pirep
     {
         // Delete all the existing nav points
         Acars::where([
             'pirep_id' => $pirep->id,
-            'type' => AcarsType::ROUTE,
+            'type'     => AcarsType::ROUTE,
         ])->delete();
 
         // See if a route exists
@@ -412,7 +411,7 @@ class PirepService extends Service
         }
 
         if (!filled($pirep->dpt_airport)) {
-            Log::error('saveRoute: dpt_airport not found: ' . $pirep->dpt_airport_id);
+            Log::error('saveRoute: dpt_airport not found: '.$pirep->dpt_airport_id);
             return $pirep;
         }
 
@@ -502,20 +501,20 @@ class PirepService extends Service
      *
      * @param Pirep $pirep
      *
-     * @return Pirep
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
+     * @return Pirep
      */
     public function cancel(Pirep $pirep): Pirep
     {
         if (in_array($pirep->state, Pirep::$cancel_states, true)) {
-            Log::info('PIREP ' . $pirep->id . ' can\'t be cancelled, state=' . $pirep->state);
+            Log::info('PIREP '.$pirep->id.' can\'t be cancelled, state='.$pirep->state);
 
             throw new PirepCancelNotAllowed($pirep);
         }
 
         $pirep = $this->pirepRepo->update([
-            'state' => PirepState::CANCELLED,
+            'state'  => PirepState::CANCELLED,
             'status' => PirepStatus::CANCELLED,
         ], $pirep->id);
 
@@ -561,7 +560,7 @@ class PirepService extends Service
     /**
      * Update any custom PIREP fields
      *
-     * @param string $pirep_id
+     * @param string            $pirep_id
      * @param PirepFieldValue[] $field_values
      */
     public function updateCustomFields(string $pirep_id, array $field_values): void
@@ -580,15 +579,15 @@ class PirepService extends Service
 
     /**
      * @param Pirep $pirep
-     * @param int $new_state
+     * @param int   $new_state
      *
-     * @return Pirep
      * @throws \Exception
      *
+     * @return Pirep
      */
     public function changeState(Pirep $pirep, int $new_state): Pirep
     {
-        Log::info('PIREP ' . $pirep->id . ' state change from ' . $pirep->state . ' to ' . $new_state);
+        Log::info('PIREP '.$pirep->id.' state change from '.$pirep->state.' to '.$new_state);
 
         if ($pirep->state === $new_state) {
             return $pirep;
@@ -631,9 +630,9 @@ class PirepService extends Service
     /**
      * @param Pirep $pirep
      *
-     * @return Pirep
      * @throws \Exception
      *
+     * @return Pirep
      */
     public function accept(Pirep $pirep): Pirep
     {
@@ -655,7 +654,7 @@ class PirepService extends Service
         $pirep->save();
         $pirep->refresh();
 
-        Log::info('PIREP ' . $pirep->id . ' state change to ACCEPTED');
+        Log::info('PIREP '.$pirep->id.' state change to ACCEPTED');
 
         $fuel_remain = $pirep->block_fuel->internal() - $pirep->fuel_used->internal();
         $fuel_on_board = Fuel::make($fuel_remain, config('phpvms.internal_units.fuel'));
@@ -703,7 +702,7 @@ class PirepService extends Service
         $pirep->aircraft->flight_time -= $pirep->flight_time;
         $pirep->aircraft->save();
 
-        Log::info('PIREP ' . $pirep->id . ' state change to REJECTED');
+        Log::info('PIREP '.$pirep->id.' state change to REJECTED');
 
         event(new PirepRejected($pirep));
 
@@ -711,7 +710,7 @@ class PirepService extends Service
     }
 
     /**
-     * @param User $pilot
+     * @param User  $pilot
      * @param Pirep $pirep
      */
     public function setPilotState(User $pilot, Pirep $pirep)
@@ -731,36 +730,41 @@ class PirepService extends Service
     public function handleDiversion(Pirep $pirep): void
     {
         // Return if diversion handling is disabled
-        if (!setting('pireps.handle_diversion', false)) return;
+        if (!setting('pireps.handle_diversion', false)) {
+            return;
+        }
 
         $diversion_airport_id = $pirep->fields->where('slug', 'diversion-airport')->first()?->value;
 
         // Return if no diversion
-        if (!$diversion_airport_id) return;
+        if (!$diversion_airport_id) {
+            return;
+        }
 
         $diversion_airport = $this->airportRepo->findWithoutFail($diversion_airport_id);
 
         // Return if diversion airport not found and airport lookup is disabled
-        if (!$diversion_airport && !setting('general.auto_airport_lookup', false)) return;
+        if (!$diversion_airport && !setting('general.auto_airport_lookup', false)) {
+            return;
+        }
 
         if (!$diversion_airport) {
             $diversion_airport = $this->airportSvc->lookupAirportIfNotFound($diversion_airport_id);
         }
 
-
         // Return if we still not have any diversion airport
-        if (!$diversion_airport) return;
+        if (!$diversion_airport) {
+            return;
+        }
 
         $pirep->loadMissing('aircraft', 'flight', 'user');
         $aircraft = $pirep->aircraft;
         $flight = $pirep->flight;
         $user = $pirep->user;
 
-
         $has_vmsacars = Module::find('VMSAcars');
 
-        if ($has_vmsacars && $flight)
-        {
+        if ($has_vmsacars && $flight) {
             $free_flights_enabled = DB::table('vmsacars_config')->find('free_flights_airline_aircraft_only')?->value;
 
             if (get_truth_state($free_flights_enabled) === false) {
@@ -768,7 +772,7 @@ class PirepService extends Service
                 $reposition_flights_count = $this->flightRepo->where([
                     'dpt_airport_id' => $diversion_airport->id,
                     'arr_airport_id' => $pirep->arr_airport_id,
-                    'airline_id' => $pirep->airline_id,
+                    'airline_id'     => $pirep->airline_id,
                 ])->whereHas('subfleets', function ($query) use ($aircraft) {
                     $query->where('subfleet_id', $aircraft->subfleet_id);
                 })->count();
@@ -776,24 +780,24 @@ class PirepService extends Service
                 // Create a reposition flight if there is no flight
                 if ($reposition_flights_count == 0) {
                     $reposition_flight = $this->flightRepo->create([
-                        'airline_id' => $flight->airline_id,
-                        'flight_number' => $flight->flight_number,
-                        'callsign' => $flight->callsign,
-                        'route_code' => PirepStatus::DIVERTED,
+                        'airline_id'     => $flight->airline_id,
+                        'flight_number'  => $flight->flight_number,
+                        'callsign'       => $flight->callsign,
+                        'route_code'     => PirepStatus::DIVERTED,
                         'dpt_airport_id' => $diversion_airport->id,
-                        'arr_airport_id'    => $pirep->arr_airport_id,
-                        'distance' => $this->airportSvc->calculateDistance($diversion_airport->id, $pirep->arr_airport_id),
-                        'flight_time' => 1,
-                        'flight_type' => $flight->flight_type,
-                        'notes' => 'DIVERTED FLIGHT RE-POSITIONING TO DESTINATION',
-                        'visible' => true,
-                        'active' => true,
-                        'user_id' => $user->id
+                        'arr_airport_id' => $pirep->arr_airport_id,
+                        'distance'       => $this->airportSvc->calculateDistance($diversion_airport->id, $pirep->arr_airport_id),
+                        'flight_time'    => 1,
+                        'flight_type'    => $flight->flight_type,
+                        'notes'          => 'DIVERTED FLIGHT RE-POSITIONING TO DESTINATION',
+                        'visible'        => true,
+                        'active'         => true,
+                        'user_id'        => $user->id,
                     ]);
 
                     $reposition_flight->subfleets()->syncWithoutDetaching([$aircraft->subfleet_id]);
 
-                    Log::info('Divertion repositioning flight ' .$reposition_flight->id. ' from ' .$diversion_airport->id. ' to ' .$pirep->arr_airport_id. ' created');
+                    Log::info('Divertion repositioning flight '.$reposition_flight->id.' from '.$diversion_airport->id.' to '.$pirep->arr_airport_id.' created');
                 }
             }
         }
@@ -810,13 +814,13 @@ class PirepService extends Service
 
         // Update pirep details
         $pirep->update([
-            'notes' => 'DIVERTED FROM ' . $pirep->arr_airport_id . ' TO ' . $diversion_airport->id . ' ' . $pirep->notes,
+            'notes'          => 'DIVERTED FROM '.$pirep->arr_airport_id.' TO '.$diversion_airport->id.' '.$pirep->notes,
             'alt_airport_id' => $pirep->arr_airport_id, // Save intended dest as alternate for fixing it back when needed
             'arr_airport_id' => $diversion_airport->id, // Use diversion dest as the new arrival
-            'flight_id' => null, // Remove the flight id to drop the relationship
-            'route_leg' => null // Remove the route_leg to exclude this pirep from tour checks
+            'flight_id'      => null, // Remove the flight id to drop the relationship
+            'route_leg'      => null, // Remove the route_leg to exclude this pirep from tour checks
         ]);
 
-        Log::info('Pirep ' . $pirep->id . ' Flight ' . $pirep->ident . ' DIVERTED to ' . $diversion_airport->id . ', assets MOVED to Diversion Airport');
+        Log::info('Pirep '.$pirep->id.' Flight '.$pirep->ident.' DIVERTED to '.$diversion_airport->id.', assets MOVED to Diversion Airport');
     }
 }
