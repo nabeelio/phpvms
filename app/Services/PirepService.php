@@ -33,6 +33,7 @@ use App\Models\PirepFare;
 use App\Models\PirepFieldValue;
 use App\Models\SimBrief;
 use App\Models\User;
+use App\Notifications\Messages\Broadcast\PirepDiverted;
 use App\Repositories\AircraftRepository;
 use App\Repositories\AirportRepository;
 use App\Repositories\FlightRepository;
@@ -42,6 +43,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Nwidart\Modules\Facades\Module;
 
 class PirepService extends Service
@@ -794,6 +796,10 @@ class PirepService extends Service
                     Log::info('Divertion repositioning flight ' .$reposition_flight->id. ' from ' .$diversion_airport->id. ' to ' .$pirep->arr_airport_id. ' created');
                 }
             }
+        }
+
+        if (setting('notifications.discord_pirep_diverted', false)) {
+            Notification::send([$user->id], new PirepDiverted($pirep));
         }
 
         // Update aircraft position
