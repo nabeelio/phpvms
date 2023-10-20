@@ -288,10 +288,10 @@ class FlightService extends Service
             $diverted_pirep = $this->pirepRepo
                 ->with('aircraft')
                 ->where([
-                    'user_id' => $flight->user_id,
+                    'user_id'        => $flight->user_id,
                     'arr_airport_id' => $flight->dpt_airport_id,
-                    'status' => PirepStatus::DIVERTED,
-                    'state' => PirepState::ACCEPTED
+                    'status'         => PirepStatus::DIVERTED,
+                    'state'          => PirepState::ACCEPTED,
                 ])
                 ->orderBy('submitted_at', 'desc')
                 ->first();
