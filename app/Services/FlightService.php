@@ -285,7 +285,17 @@ class FlightService extends Service
         $flights = $this->flightRepo->where('route_code', PirepStatus::DIVERTED)->get();
 
         foreach ($flights as $flight) {
-            $diverted_pirep = $this->pirepRepo->with('aircraft')->where(['user_id' => $flight->user_id, 'arr_airport_id' => $flight->dpt_airport_id, 'status' => PirepStatus::DIVERTED, 'state' => PirepState::ACCEPTED])->orderBy('submitted_at', 'desc')->first();
+            $diverted_pirep = $this->pirepRepo
+                ->with('aircraft')
+                ->where([
+                    'user_id' => $flight->user_id,
+                    'arr_airport_id' => $flight->dpt_airport_id,
+                    'status' => PirepStatus::DIVERTED,
+                    'state' => PirepState::ACCEPTED
+                ])
+                ->orderBy('submitted_at', 'desc')
+                ->first();
+
             $ac = $diverted_pirep->aircraft;
             if ($ac->airport_id != $flight->dpt_airport_id) { // Aircraft has moved
                 $flight->delete();
