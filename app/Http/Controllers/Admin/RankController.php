@@ -250,8 +250,7 @@ class RankController extends Controller
 
         // add aircraft to flight
         if ($request->isMethod('post')) {
-            foreach ($request->input('subfleet_ids') as $subfleet_id)
-            {
+            foreach ($request->input('subfleet_ids') as $subfleet_id) {
                 $subfleet = $this->subfleetRepo->find($subfleet_id);
                 $this->fleetSvc->addSubfleetToRank($subfleet, $rank);
             }
