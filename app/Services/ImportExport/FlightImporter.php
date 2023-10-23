@@ -95,7 +95,7 @@ class FlightImporter extends ImportExport
         $row['dpt_airport'] = strtoupper($row['dpt_airport']);
         $row['arr_airport'] = strtoupper($row['arr_airport']);
 
-        // Airport atttributes
+        // Airport attributes
         $flight->setAttribute('days', $this->setDays($row['days']));
         $flight->setAttribute('dpt_airport_id', $row['dpt_airport']);
         $flight->setAttribute('arr_airport_id', $row['arr_airport']);
@@ -106,6 +106,43 @@ class FlightImporter extends ImportExport
         // Handle Route and Level Fields
         $flight->setAttribute('route', strtoupper($row['route']));
         $flight->setAttribute('level', $row['level']);
+
+        // Check row for empty/blank values and set them null
+        if (blank($row['route_leg'])) {
+            $flight->setAttribute('route_leg', null);
+        }
+
+        if (blank($row['level'])) {
+            $flight->setAttribute('level', null);
+        }
+
+        if (blank($row['load_factor'])) {
+            $flight->setAttribute('load_factor', null);
+        }
+
+        if (blank($row['load_factor_variance'])) {
+            $flight->setAttribute('load_factor_variance', null);
+        }
+
+        if (blank($row['pilot_pay'])) {
+            $flight->setAttribute('pilot_pay', null);
+        }
+
+        if (blank($row['start_date'])) {
+            $flight->setAttribute('start_date', null);
+        }
+
+        if (blank($row['end_date'])) {
+            $flight->setAttribute('end_date', null);
+        }
+
+        if (blank($row['event_id'])) {
+            $flight->setAttribute('event_id', null);
+        }
+
+        if (blank($row['user_id'])) {
+            $flight->setAttribute('user_id', null);
+        }
 
         // Any specific transformations
 
