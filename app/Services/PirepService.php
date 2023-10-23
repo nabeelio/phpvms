@@ -762,6 +762,8 @@ class PirepService extends Service
         $flight = $pirep->flight;
         $user = $pirep->user;
 
+        event(new PirepDiverted($pirep));
+
         $has_vmsacars = Module::find('VMSAcars');
 
         if ($has_vmsacars && $flight) {
