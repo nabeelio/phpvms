@@ -58,7 +58,7 @@ class PirepImporter extends BaseImporter
                 'arr_airport_id' => $row->arricao,
                 'block_fuel'     => $row->fuelused,
                 'fuel_used'      => $row->fuelused,
-                'landing_rate'   => $row->landingrate ?: null,
+                'landing_rate'   => $row->landingrate,
                 'route'          => $row->route ?: '',
                 'source_name'    => $row->source,
                 'state'          => $this->mapState($row->accepted),
