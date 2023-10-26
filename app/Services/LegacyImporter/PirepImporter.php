@@ -30,6 +30,7 @@ class PirepImporter extends BaseImporter
             'accepted',
             'submitdate',
             'distance',
+            'landingrate',
             'flighttime_stamp',
             'flighttype',
         ];
@@ -56,9 +57,12 @@ class PirepImporter extends BaseImporter
                 'dpt_airport_id' => $row->depicao,
                 'arr_airport_id' => $row->arricao,
                 'block_fuel'     => $row->fuelused,
+                'fuel_used'      => $row->fuelused,
+                'landing_rate'   => $row->landingrate,
                 'route'          => $row->route ?: '',
                 'source_name'    => $row->source,
                 'state'          => $this->mapState($row->accepted),
+                'submitted_at'   => $this->parseDate($row->submitdate),
                 'created_at'     => $this->parseDate($row->submitdate),
                 'updated_at'     => $this->parseDate($row->submitdate),
             ];
