@@ -144,7 +144,12 @@ class FlightImporter extends ImportExport
             $flight->setAttribute('user_id', null);
         }
 
-        // Any specific transformations
+        // Check/calculate the distance
+        if (blank($row['distance'])) {
+            $flight->setAttribute('distance', $this->airportSvc->calculateDistance($row['dpt_airport'], $row['arr_airport']));
+        }
+
+        // Any other specific transformations
 
         // Check for a valid value
         $flight_type = $row['flight_type'];
@@ -167,14 +172,6 @@ class FlightImporter extends ImportExport
         $this->processAirport($row['arr_airport']);
         if ($row['alt_airport']) {
             $this->processAirport($row['alt_airport']);
-        }
-
-        // Check/calculate the distance
-        if (empty($row['distance'])) {
-            $row['distance'] = $this->airportSvc->calculateDistance(
-                $row['dpt_airport'],
-                $row['arr_airport']
-            );
         }
 
         $this->processSubfleets($flight, $row['subfleets']);
