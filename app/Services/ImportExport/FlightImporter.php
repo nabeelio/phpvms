@@ -85,29 +85,37 @@ class FlightImporter extends ImportExport
 
         // Try to find this flight
         /** @var Flight $flight */
-        $flight = Flight::firstOrNew([
-            'airline_id'    => $airline->id,
-            'flight_number' => $row['flight_number'],
-            'route_code'    => $row['route_code'],
-            'route_leg'     => $row['route_leg'],
+        $flight = Flight::withTrashed()->firstOrNew([
+            'airline_id'     => $airline->id,
+            'flight_number'  => $row['flight_number'],
+            'dpt_airport_id' => strtoupper($row['dpt_airport']),
+            'arr_airport_id' => strtoupper($row['arr_airport']),
+            'route_code'     => filled($row['route_code']) ? $row['route_code'] : null,
+            'route_leg'      => filled($row['route_leg']) ? $row['route_leg'] : null,
         ], $row);
 
         $row['dpt_airport'] = strtoupper($row['dpt_airport']);
         $row['arr_airport'] = strtoupper($row['arr_airport']);
 
         // Airport attributes
-        $flight->setAttribute('days', $this->setDays($row['days']));
         $flight->setAttribute('dpt_airport_id', $row['dpt_airport']);
         $flight->setAttribute('arr_airport_id', $row['arr_airport']);
-        if ($row['alt_airport']) {
-            $flight->setAttribute('alt_airport_id', $row['alt_airport']);
+        if (filled($row['alt_airport'])) {
+            $flight->setAttribute('alt_airport_id', strtoupper($row['alt_airport']));
         }
 
-        // Handle Route and Level Fields
+        // Handle schedule details (days)
+        $flight->setAttribute('days', $this->setDays($row['days']));
+
+        // Handle route and Level fields
         $flight->setAttribute('route', strtoupper($row['route']));
         $flight->setAttribute('level', $row['level']);
 
         // Check row for empty/blank values and set them null
+        if (blank($row['route_code'])) {
+            $flight->setAttribute('route_code', null);
+        }
+
         if (blank($row['route_leg'])) {
             $flight->setAttribute('route_leg', null);
         }
@@ -148,6 +156,9 @@ class FlightImporter extends ImportExport
         if (blank($row['distance'])) {
             $flight->setAttribute('distance', $this->airportSvc->calculateDistance($row['dpt_airport'], $row['arr_airport']));
         }
+
+        // Restore the flight if it is deleted
+        $flight->setAttribute('deleted_at', null);
 
         // Any other specific transformations
 
