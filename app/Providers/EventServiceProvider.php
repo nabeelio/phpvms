@@ -9,6 +9,7 @@ use App\Events\ProfileUpdated;
 use App\Events\UserStatsChanged;
 use App\Listeners\AwardHandler;
 use App\Listeners\BidEventHandler;
+use App\Listeners\DiversionHandler;
 use App\Listeners\ExpenseListener;
 use App\Listeners\FareListener;
 use App\Listeners\FinanceEventHandler;
@@ -54,6 +55,7 @@ class EventServiceProvider extends ServiceProvider
 
     protected $subscribe = [
         BidEventHandler::class,
+        DiversionHandler::class,
         FinanceEventHandler::class,
         NotificationEventsHandler::class,
         AwardHandler::class,
