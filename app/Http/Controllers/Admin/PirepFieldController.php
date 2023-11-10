@@ -67,6 +67,7 @@ class PirepFieldController extends Controller
         $attrs = $request->all();
         $attrs['slug'] = str_slug($attrs['name']);
         $attrs['required'] = get_truth_state($attrs['required']);
+        $attrs['manual_only'] = get_truth_state($attrs['manual_only']);
 
         $this->pirepFieldRepo->create($attrs);
 
@@ -141,6 +142,7 @@ class PirepFieldController extends Controller
         $attrs = $request->all();
         $attrs['slug'] = str_slug($attrs['name']);
         $attrs['required'] = get_truth_state($attrs['required']);
+        $attrs['manual_only'] = get_truth_state($attrs['manual_only']);
         $this->pirepFieldRepo->update($attrs, $id);
 
         Flash::success('Field updated successfully.');

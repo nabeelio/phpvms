@@ -1,10 +1,10 @@
 <div class="row">
-  <div class="form-group col-sm-5">
+  <div class="form-group col-sm-4">
     {{ Form::label('name', 'Name:') }}&nbsp;&nbsp;<span class="required">*</span>
     {{ Form::text('name', null, ['class' => 'form-control']) }}
     <p class="text-danger">{{ $errors->first('name') }}</p>
   </div>
-  <div class="form-group col-sm-5">
+  <div class="form-group col-sm-4">
     {{ Form::label('description', 'Desc:') }}
     {{ Form::text('description', null, ['class' => 'form-control']) }}
     <p class="text-danger">{{ $errors->first('description') }}</p>
@@ -13,6 +13,11 @@
     {{ Form::label('required', 'Required:') }}
     {{ Form::hidden('required', 0) }}
     {{ Form::checkbox('required', null) }}
+  </div>
+  <div class="form-group col-sm-2">
+    {{ Form::label('manual_only', 'Manual PIREPs Only:') }}
+    {{ Form::hidden('manual_only', 0) }}
+    {{ Form::checkbox('manual_only', null) }}
   </div>
 </div>
 <div class="row">

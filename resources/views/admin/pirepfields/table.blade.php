@@ -1,7 +1,7 @@
 <div class="content table-responsive table-full-width">
   <div class="header">
     @component('admin.components.info')
-      PIREP fields are only shown for manual PIREPs.
+      By default PIREP fields are shown for Acars and Manual PIREPs.
     @endcomponent
   </div>
   <table class="table table-hover table-responsive" id="pirepFields-table">
@@ -9,6 +9,7 @@
       <th>Name</th>
       <th>Description</th>
       <th style="text-align: center;">Required</th>
+      <th style="text-align: center;">Manual Pirep Only</th>
       <th></th>
     </thead>
     <tbody>
@@ -19,6 +20,13 @@
           <td style="text-align: center;">
             @if($field->required === true)
               <span class="label label-success">Required</span>
+            @endif
+          </td>
+          <td style="text-align: center;">
+            @if($field->manual_only === true)
+              <span class="label label-success">YES</span>
+            @else
+              <span class="label label-warning">NO</span>
             @endif
           </td>
           <td class="text-right">
