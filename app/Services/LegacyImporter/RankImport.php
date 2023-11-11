@@ -19,8 +19,8 @@ class RankImport extends BaseImporter
             $rank = Rank::updateOrCreate(['name' => $row->rank], [
                 'image_url'           => $row->rankimage,
                 'hours'               => $row->minhours,
-                'acars_base_payrate'  => $row->payrate,
-                'manual_base_payrate' => $row->payrate,
+                'acars_base_pay_rate'  => $row->payrate,
+                'manual_base_pay_rate' => $row->payrate,
             ]);
 
             $this->idMapper->addMapping('ranks', $row->rankid, $rank->id);
