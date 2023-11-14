@@ -11,10 +11,10 @@ class MoneyTest extends TestCase
      */
     public function testMoney()
     {
-       $money = Money::create(100);
-       $this->assertEquals('$1.00', $money->render());
+        $money = Money::create(100);
+        $this->assertEquals('$1.00', $money->render());
 
-       $moneyDollar = Money::createFromAmount(1.00);
-       $this->assertEquals($money->getAmount(), $moneyDollar->getAmount());
+        $moneyDollar = Money::createFromAmount(1.00);
+        $this->assertEquals($money->getAmount(), $moneyDollar->getAmount());
     }
 }
