@@ -180,12 +180,11 @@ class FlightService extends Service
 
                         return true;
                     }
-                )->sortBy(function(Aircraft $ac, int $key) {
+                )->sortBy(function (Aircraft $ac, int $key) {
                     return !empty($ac->bid);
                 });
             }
         }
-
 
         $flight->subfleets = $subfleets;
 

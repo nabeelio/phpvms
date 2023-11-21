@@ -89,7 +89,7 @@ class Subfleet extends Model
     public function type(): Attribute
     {
         return Attribute::make(
-            set: fn($type) => str_replace([' ', ','], ['-', ''], $type)
+            set: fn ($type) => str_replace([' ', ','], ['-', ''], $type)
         );
     }
 
@@ -116,8 +116,8 @@ class Subfleet extends Model
 
     /**
      * @return HasOne
-     * @deprecated use home()
      *
+     * @deprecated use home()
      */
     public function hub(): HasOne
     {
