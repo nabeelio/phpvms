@@ -290,7 +290,7 @@ class BidTest extends TestCase
         $this->assertTrue($flight->has_bid);
 
         // Expect aircraft to have a bid
-        $this->assertEquals($aircraft->bid->count(), 1);
+        $this->assertEquals(1, $aircraft->bid->count());
 
         // Now add another bid on another flight with the same aircraft, should throw an exception
         $flight2 = $this->addFlight($user, $subfleet['subfleet']->id);

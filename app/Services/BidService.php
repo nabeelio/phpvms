@@ -59,8 +59,8 @@ class BidService extends Service
         // TODO: Only do this if there isn't a Simbrief attached?
         if (!empty($bid->aircraft)) {
             $ac = $bid->aircraft;
-            $ac->subfleet->aircraft = $ac;
-            $bid->flight->subfleets = [$ac->subfleet];
+            $ac->subfleet->aircraft = Collection::make([$ac]);
+            $bid->flight->subfleets = Collection::make([$ac->subfleet]);
         } else {
             $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight, $bid);
         }
@@ -97,7 +97,14 @@ class BidService extends Service
         $bids = Bid::with($with)->where(['user_id' => $user->id])->get();
 
         foreach ($bids as $bid) {
-            $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight, $bid);
+             if (!empty($bid->aircraft)) {
+                $ac = $bid->aircraft;
+                $ac->subfleet->aircraft = Collection::make([$ac]);
+                $bid->flight->subfleets = Collection::make([$ac->subfleet]);
+            } else {
+                $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight, $bid);
+            }
+
             $bid->flight = $this->fareSvc->getReconciledFaresForFlight($bid->flight);
         }
 
