@@ -97,7 +97,7 @@ class BidService extends Service
         $bids = Bid::with($with)->where(['user_id' => $user->id])->get();
 
         foreach ($bids as $bid) {
-             if (!empty($bid->aircraft)) {
+            if (!empty($bid->aircraft)) {
                 $ac = $bid->aircraft;
                 $ac->subfleet->aircraft = Collection::make([$ac]);
                 $bid->flight->subfleets = Collection::make([$ac->subfleet]);
