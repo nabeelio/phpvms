@@ -130,7 +130,7 @@ class FlightService extends Service
      *
      * @return mixed
      */
-    public function filterSubfleets(User $user, Flight $flight)
+    public function filterSubfleets(User $user, Flight $flight, ?Bid $bid = null)
     {
         // Eager load some of the relationships needed
         //$flight->load(['flight.subfleets', 'flight.subfleets.aircraft', 'flight.subfleets.fares']);

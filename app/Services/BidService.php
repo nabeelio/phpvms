@@ -35,6 +35,7 @@ class BidService extends Service
     {
         $with = [
             'aircraft',
+            'aircraft.subfleet',
             'flight',
             'flight.fares',
             'flight.simbrief' => function ($query) use ($user) {
@@ -56,7 +57,14 @@ class BidService extends Service
 
         // Reconcile the aircraft for this bid
         // TODO: Only do this if there isn't a Simbrief attached?
-        $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
+        if (!empty($bid->aircraft)) {
+            $ac = $bid->aircraft;
+            $ac->subfleet->aircraft = $ac;
+            $bid->flight->subfleets = [$ac->subfleet];
+        } else {
+            $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight, $bid);
+        }
+
         $bid->flight = $this->fareSvc->getReconciledFaresForFlight($bid->flight);
 
         return $bid;
@@ -89,10 +97,8 @@ class BidService extends Service
         $bids = Bid::with($with)->where(['user_id' => $user->id])->get();
 
         foreach ($bids as $bid) {
-            // if (empty($bid->flight->simbrief)) {
-            $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight);
+            $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight, $bid);
             $bid->flight = $this->fareSvc->getReconciledFaresForFlight($bid->flight);
-            // }
         }
 
         return $bids;

@@ -265,18 +265,25 @@ class BidTest extends TestCase
      */
     public function testBidWithAircraft()
     {
+        $this->settingsRepo->store('pireps.restrict_aircraft_to_rank', false);
+        $this->settingsRepo->store('pireps.only_aircraft_at_dpt_airport', false);
         $this->settingsRepo->store('bids.allow_multiple_bids', true);
         $this->settingsRepo->store('bids.block_aircraft', true);
 
         $user = User::factory()->create();
         $headers = $this->headers($user);
 
-        $subfleet = $this->createSubfleetWithAircraft(1);
+        $subfleet_unused = $this->createSubfleetWithAircraft(10);
+        $subfleet = $this->createSubfleetWithAircraft(10);
         $aircraft = $subfleet['aircraft']->first();
 
         $flight = $this->addFlight($user, $subfleet['subfleet']->id);
+        $flight->subfleets()->syncWithoutDetaching([$subfleet_unused['subfleet']->id]);
 
         $bid = $this->bidSvc->addBid($flight, $user, $aircraft);
+        $bid_flight = $bid->flight;
+        $this->assertEquals(1, $bid_flight->subfleets[0]->aircraft->count());
+
         $this->assertEquals($user->id, $bid->user_id);
         $this->assertEquals($flight->id, $bid->flight_id);
         $this->assertEquals($aircraft->id, $bid->aircraft_id);
