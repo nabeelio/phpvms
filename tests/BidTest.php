@@ -4,7 +4,6 @@ namespace Tests;
 
 use App\Exceptions\BidExistsForAircraft;
 use App\Exceptions\BidExistsForFlight;
-use App\Models\Aircraft;
 use App\Models\Bid;
 use App\Models\Fare;
 use App\Models\Flight;
@@ -64,6 +63,7 @@ class BidTest extends TestCase
         $this->settingsRepo->store('bids.allow_multiple_bids', true);
         $this->settingsRepo->store('bids.disable_flight_on_bid', false);
 
+        /** @var Subfleet $subfleet */
         $subfleet = $this->createSubfleetWithAircraft(2);
         $rank = $this->createRank(2, [$subfleet['subfleet']->id]);
 
@@ -87,10 +87,12 @@ class BidTest extends TestCase
         /** @var Flight $flight */
         $flight = $this->addFlight($user, $subfleet['subfleet']->id);
 
-        $bid = $this->bidSvc->addBid($flight, $user);
+        $bid = $this->bidSvc->addBid($flight, $user, $subfleet['aircraft'][0]);
         $this->assertEquals($user->id, $bid->user_id);
         $this->assertEquals($flight->id, $bid->flight_id);
         $this->assertTrue($flight->has_bid);
+
+        $flight = $bid->flight;
 
         // Refresh
         $flight = Flight::find($flight->id);

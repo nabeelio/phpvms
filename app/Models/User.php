@@ -59,6 +59,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property Airport          home_airport
  * @property Airport          current_airport
  * @property Airport          location
+ * @property Bid[]            bids
  *
  * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable

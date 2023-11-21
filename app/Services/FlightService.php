@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Exceptions\DuplicateFlight;
+use App\Models\Aircraft;
 use App\Models\Bid;
 use App\Models\Enums\Days;
 use App\Models\Enums\PirepState;
@@ -179,9 +180,12 @@ class FlightService extends Service
 
                         return true;
                     }
-                );
+                )->sortBy(function(Aircraft $ac, int $key) {
+                    return !empty($ac->bid);
+                });
             }
         }
+
 
         $flight->subfleets = $subfleets;
 
