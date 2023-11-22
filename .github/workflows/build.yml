@@ -80,10 +80,10 @@ jobs:
         mysql password: ''
 
     - name: Wait for MySQL
-        run: |
-          while ! mysqladmin ping --host=127.0.0.1 --password=$MYSQL_ROOT_PASSWORD --silent; do
-            sleep 1
-          done
+      run: |
+        while ! mysqladmin ping --host=127.0.0.1 --password=$MYSQL_ROOT_PASSWORD --silent; do
+          sleep 1
+        done
 
     - name: Configure Environment
       run: |
