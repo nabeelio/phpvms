@@ -151,7 +151,7 @@ class FlightService extends Service
      *
      * @return mixed
      */
-    public function filterSubfleets(User $user, Flight $flight, ?Bid $bid = null)
+    public function filterSubfleets(User $user, Flight $flight)
     {
         // Eager load some of the relationships needed
         //$flight->load(['flight.subfleets', 'flight.subfleets.aircraft', 'flight.subfleets.fares']);
@@ -178,6 +178,8 @@ class FlightService extends Service
                 if ($allowed_subfleets->contains($subfleet->id)) {
                     return true;
                 }
+
+                return false;
             });
         }
 
@@ -201,7 +203,7 @@ class FlightService extends Service
 
                         return true;
                     }
-                )->sortBy(function (Aircraft $ac, int $key) {
+                )->sortBy(function (Aircraft $ac, int $_) {
                     return !empty($ac->bid);
                 });
             }
