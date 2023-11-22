@@ -130,7 +130,8 @@ class FlightService extends Service
      *
      * @return mixed
      */
-    public function getSubfleetsForBid(Bid $bid) {
+    public function getSubfleetsForBid(Bid $bid)
+    {
         $sf = Subfleet::with([
             'fares',
             'aircraft' => function ($query) use ($bid) {
