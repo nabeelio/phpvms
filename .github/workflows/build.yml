@@ -17,6 +17,7 @@ jobs:
     env:
       extensions: intl, pcov, mbstring
       key: cache-v1
+      MYSQL_ROOT_PASSWORD: root
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -75,13 +76,13 @@ jobs:
       with:
         mysql version: '8.0'
         mysql database: 'phpvms'
-        mysql root password: 'root'
+        mysql root password: $MYSQL_ROOT_PASSWORD
         mysql user: ''
         mysql password: ''
 
     - name: Wait for MySQL
       run: |
-        while ! mysqladmin ping --host=127.0.0.1 --password=root --silent; do
+        while ! mysqladmin ping --host=127.0.0.1 --password=$MYSQL_ROOT_PASSWORD --silent; do
           sleep 1
         done
 
