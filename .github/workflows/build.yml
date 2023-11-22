@@ -82,7 +82,7 @@ jobs:
 
     - name: Wait for MySQL
       run: |
-        while ! mysqladmin ping -hlocalhost --silent; do
+        while ! mysqladmin ping -h127.0.0.1 --silent; do
           sleep 1
         done
 
