@@ -11,6 +11,7 @@ use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 use App\Models\Flight;
 use App\Models\FlightFieldValue;
+use App\Models\Subfleet;
 use App\Models\User;
 use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
@@ -120,6 +121,25 @@ class FlightService extends Service
         }
 
         return $fields;
+    }
+
+    /**
+     * Return the proper subfleets for the given bid
+     *
+     * @param Bid $bid
+     *
+     * @return mixed
+     */
+    public function getSubfleetsForBid(Bid $bid) {
+        $sf = Subfleet::with([
+            'fares',
+            'aircraft' => function ($query) use ($bid) {
+                $query->where('id', $bid->aircraft_id);
+            }])
+            ->where('id', $bid->aircraft->subfleet_id)
+            ->get();
+
+        return $sf;
     }
 
     /**

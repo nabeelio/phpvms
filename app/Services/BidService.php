@@ -58,9 +58,7 @@ class BidService extends Service
         // Reconcile the aircraft for this bid
         // TODO: Only do this if there isn't a Simbrief attached?
         if (!empty($bid->aircraft)) {
-            $ac = $bid->aircraft;
-            $ac->subfleet->aircraft = Collection::make([$ac]);
-            $bid->flight->subfleets = Collection::make([$ac->subfleet]);
+            $bid->flight->subfleets = $this->flightSvc->getSubfleetsForBid($bid);
         } else {
             $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight, $bid);
         }
@@ -98,9 +96,7 @@ class BidService extends Service
 
         foreach ($bids as $bid) {
             if (!empty($bid->aircraft)) {
-                $ac = $bid->aircraft;
-                $ac->subfleet->aircraft = Collection::make([$ac]);
-                $bid->flight->subfleets = Collection::make([$ac->subfleet]);
+                $bid->flight->subfleets = $this->flightSvc->getSubfleetsForBid($bid);
             } else {
                 $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight, $bid);
             }
