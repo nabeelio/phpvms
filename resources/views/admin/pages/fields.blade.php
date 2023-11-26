@@ -114,7 +114,7 @@
 
 <script>
   $(document).ready(function () {
-    CKEDITOR.replace('editor');
+    CKEDITOR.replace('editor', {allowedContent: true});
     const select_id = "select#content-type-select";
 
     function swap_content() {
