@@ -115,9 +115,10 @@ class FlightController extends Controller
     public function index(Request $request): View
     {
         $flights = $this->flightRepo
-            ->with(['dpt_airport', 'arr_airport', 'alt_airport', 'airline'])
+            ->with(['dpt_airport', 'arr_airport', 'alt_airport', 'airline', 'subfleets'])
+            ->withCount(['subfleets', 'fares'])
             ->searchCriteria($request, false)
-            ->orderBy('flight_number', 'asc')
+            ->sortable('flight_number')->orderBy('route_code')->orderBy('route_leg')
             ->paginate();
 
         return view('admin.flights.index', [
