@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'backup' => [
 
         /*
@@ -192,13 +191,13 @@ return [
     'notifications' => [
 
         'notifications' => [
-            \Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification::class => explode(',', env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')),
+            \Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification::class         => explode(',', env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')),
             \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification::class => explode(',', env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')),
-            \Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification::class => explode(',', env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')),
+            \Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification::class        => explode(',', env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')),
 
-            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', 'mail')),
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class   => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', 'mail')),
             \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification::class => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', 'mail')),
-            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification::class => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', 'mail')),
+            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification::class  => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', 'mail')),
         ],
 
         /*
@@ -212,7 +211,7 @@ return [
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'name' => env('MAIL_FROM_NAME', 'Example'),
+                'name'    => env('MAIL_FROM_NAME', 'Example'),
             ],
         ],
 
@@ -252,10 +251,10 @@ return [
      */
     'monitor_backups' => [
         [
-            'name' => env('APP_NAME', 'laravel-backup'),
-            'disks' => explode(',', env('BACKUP_DISKS', 'local')),
+            'name'          => env('APP_NAME', 'laravel-backup'),
+            'disks'         => explode(',', env('BACKUP_DISKS', 'local')),
             'health_checks' => [
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
+                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class          => 1,
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
             ],
         ],
