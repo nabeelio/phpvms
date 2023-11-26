@@ -195,9 +195,9 @@ return [
             \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification::class => explode(',', env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')),
             \Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification::class        => explode(',', env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')),
 
-            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class   => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', 'mail')),
-            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification::class => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', 'mail')),
-            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification::class  => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', 'mail')),
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class   => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', '')),
+            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification::class => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', '')),
+            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification::class  => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', '')),
         ],
 
         /*
