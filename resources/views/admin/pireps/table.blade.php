@@ -31,7 +31,7 @@
           </td>
           <td>
             <a href="{{ route('admin.users.edit', [$pirep->user->id]) }}">
-              {{ $pirep->user_id.' | '.optional($pirep->user)->ident.' '.optional($pirep->user)->name_private }}
+              {{ $pirep->user_id.' | '.optional($pirep->user)->name_private }}
             </a>
           </td>
           <td>
