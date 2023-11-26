@@ -10,6 +10,8 @@ return [
          */
         'name' => env('APP_NAME', 'laravel-backup'),
 
+        'enabled' => env('BACKUP_ENABLED', false),
+
         'source' => [
 
             'files' => [
