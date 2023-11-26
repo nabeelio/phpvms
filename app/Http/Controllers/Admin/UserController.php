@@ -61,9 +61,7 @@ class UserController extends Controller
     public function index(Request $request): View
     {
         try {
-            $users = $this->userRepo->searchCriteria($request, false)
-                ->orderBy('created_at', 'desc')
-                ->paginate();
+            $users = $this->userRepo->searchCriteria($request, false)->sortable(['created_at' => 'desc'])->paginate();
         } catch (RepositoryException $e) {
         }
 
