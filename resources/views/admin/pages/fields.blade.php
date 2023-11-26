@@ -107,7 +107,7 @@
       @endif
 
       {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) }}
-      <a href="{{ route('admin.roles.index') }}" class="btn btn-default">Cancel</a>
+      <a href="{{ route('admin.pages.index') }}" class="btn btn-default">Cancel</a>
     </div>
   </div>
 </div>
