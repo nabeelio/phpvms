@@ -151,12 +151,9 @@ class UserController extends Controller
             return redirect(route('admin.users.index'));
         }
 
-        $pireps = $this->pirepRepo
-            ->whereOrder(['user_id' => $id], 'created_at', 'desc')
-            ->paginate();
+        $pireps = $this->pirepRepo->where('user_id', $id)->sortable(['submitted_at' => 'desc'])->paginate();
 
-        $countries = collect((new ISO3166())->all())
-            ->mapWithKeys(fn ($item, $key) => [strtolower($item['alpha2']) => $item['name']]);
+        $countries = collect((new ISO3166())->all())->mapWithKeys(fn ($item, $key) => [strtolower($item['alpha2']) => $item['name']]);
 
         $airlines = $this->airlineRepo->selectBoxList();
         $roles = $this->roleRepo->selectBoxList(false, true);
