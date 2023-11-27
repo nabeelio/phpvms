@@ -21,6 +21,7 @@
         "ext-bcmath": "*",
         "ext-pdo": "*",
         "ext-intl": "*",
+        "ext-zip": "*",
         "fisharebest/ext-calendar": "^2.5",
         "symfony/flex": "^1.0",
         "symfony/polyfill-iconv": "~1.22.0",
@@ -80,7 +81,8 @@
         "staudenmeir/eloquent-has-many-deep": "1.18.0",
         "spatie/laravel-ignition": "^2.0",
         "kyslik/column-sortable": "^6.5",
-        "jlorente/laravel-data-migrations": "^2.0"
+        "jlorente/laravel-data-migrations": "^2.0",
+        "spatie/laravel-backup": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",
