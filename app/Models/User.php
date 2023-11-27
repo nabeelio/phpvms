@@ -167,6 +167,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         'flight_time',
         'transfer_time',
         'created_at',
+        'state',
     ];
 
     /**
