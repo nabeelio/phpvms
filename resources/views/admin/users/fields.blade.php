@@ -91,7 +91,7 @@
     {{-- <a href="{{ route('admin.users.regen_apikey', [$user->id]) }}" class="btn btn-warning" onclick="return confirm('Are you sure? This will reset this user\'s API key.')">New API Key</a> --}}
     &nbsp;
     @if (!$user->email_verified_at)
-      <a href="{{ route('admin.users.verify_email', [$user->id]) }}" class="btn btn-warning">Verify email</a>
+      <a href="{{ route('admin.users.verify_email', [$user->id]) }}" class="btn btn-danger">Verify email manually</a>
     @else
       <a href="{{ route('admin.users.request_email_verification', [$user->id]) }}" class="btn btn-warning">Request new email verification</a>
     @endif
@@ -148,6 +148,8 @@
         <td>
           @if(filled($user->email_verified_at))
             {{ show_datetime($user->email_verified_at) }}
+          @else
+            <span class="btn btn-sm btn-danger mx-1 my-0 p-1">USER E-MAIL NOT VERIFIED !!!</span>
           @endif
         </td>
       </tr>
