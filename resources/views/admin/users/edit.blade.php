@@ -37,7 +37,7 @@
 
       <div class="row">
         <div class="col-12 text-center">
-          {{ $pireps->links('admin.pagination.default') }}
+          {{ $pireps->withQueryString()->links('admin.pagination.default') }}
         </div>
       </div>
     </div>
