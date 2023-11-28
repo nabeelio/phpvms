@@ -171,6 +171,7 @@ class FlightImporter extends ImportExport
 
         $flight->setAttribute('flight_type', $flight_type);
         $flight->setAttribute('active', get_truth_state($row['active']));
+        $flight->setAttribute('ref_model', Flight::class);
 
         try {
             $flight->save();

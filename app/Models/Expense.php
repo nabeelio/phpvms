@@ -46,7 +46,7 @@ class Expense extends Model
         'flight_type' => CommaDelimitedCast::class,
     ];
 
-    public static $rules = [
+    public static array $rules = [
         'active'         => 'bool',
         'airline_id'     => 'integer',
         'amount'         => 'float',

@@ -52,7 +52,9 @@ class FlightFactory extends Factory
             'created_at'           => $this->faker->dateTimeBetween('-1 week')->format(
                 DateTime::ATOM
             ),
-            'updated_at' => static fn (array $flight) => $flight['created_at'],
+            'updated_at'   => static fn (array $flight) => $flight['created_at'],
+            'ref_model'    => Flight::class,
+            'ref_model_id' => null,
         ];
     }
 }
