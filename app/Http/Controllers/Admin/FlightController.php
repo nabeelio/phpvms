@@ -157,8 +157,6 @@ class FlightController extends Controller
     {
         try {
             $fields = $request->all();
-            $fields['ref_model'] = Flight::class;
-
             $flight = $this->flightSvc->createFlight($fields);
             Flash::success('Flight saved successfully.');
 
