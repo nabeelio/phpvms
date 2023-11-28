@@ -64,6 +64,6 @@ class Expense extends Model
 
     public function ref_model(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo('ref_model', 'ref_model', 'ref_model_id');
     }
 }
