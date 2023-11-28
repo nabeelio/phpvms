@@ -6,7 +6,6 @@ use App\Contracts\Model;
 use App\Models\Casts\DistanceCast;
 use App\Models\Enums\Days;
 use App\Models\Traits\HashIdTrait;
-use App\Models\Traits\ReferenceTrait;
 use App\Support\Units\Distance;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -65,7 +64,6 @@ class Flight extends Model
     use HasFactory;
     use SoftDeletes;
     use Sortable;
-    use ReferenceTrait;
 
     public $table = 'flights';
 
