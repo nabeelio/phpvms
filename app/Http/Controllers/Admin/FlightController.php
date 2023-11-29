@@ -156,7 +156,8 @@ class FlightController extends Controller
     public function store(CreateFlightRequest $request): RedirectResponse
     {
         try {
-            $flight = $this->flightSvc->createFlight($request->all());
+            $fields = $request->all();
+            $flight = $this->flightSvc->createFlight($fields);
             Flash::success('Flight saved successfully.');
 
             return redirect(route('admin.flights.edit', $flight->id));
