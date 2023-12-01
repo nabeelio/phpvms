@@ -176,9 +176,9 @@ return [
             'cache-lifetime' => 60 * 60 * 24 * 7, // 1 week
         ],
         'database' => [
-            'class' => DatabaseActivator::class,
+            'class'          => DatabaseActivator::class,
             'statuses-file'  => config_path('modules_statuses.json'),
-            'cache-key' => 'activator.installed',
+            'cache-key'      => 'activator.installed',
             'cache-lifetime' => 60 * 60 * 24 * 7, // 1 week
         ],
     ],
