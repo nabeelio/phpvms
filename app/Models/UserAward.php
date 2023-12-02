@@ -12,7 +12,7 @@ class UserAward extends Model
 {
     use Notifiable;
     use Sortable;
-    
+
     public $table = 'user_awards';
 
     protected $fillable = [
