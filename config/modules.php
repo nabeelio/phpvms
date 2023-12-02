@@ -154,7 +154,7 @@ return [
         'enabled'  => true,
         'driver'   => env('CACHE_DRIVER', 'file'),
         'key'      => 'phpvms-modules',
-        'lifetime' => 60,
+        'lifetime' => 60 * 60 * 6, // 6 hours
     ],
     /*
     |--------------------------------------------------------------------------
