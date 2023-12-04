@@ -1,13 +1,14 @@
 <table class="table table-hover table-responsive" id="awards-table">
   <thead>
-    <th>Name</th>
-    <th>Description</th>
+    <th>@sortablelink('name', 'Name')</th>
+    <th>@sortablelink('description', 'Description')</th>
     <th>Image</th>
-    <th class="text-center">Active</th>
+    <th class="text-center">Owners</th>
+    <th class="text-center">@sortablelink('active', 'Active')</th>
     <th class="text-right">Action</th>
   </thead>
   <tbody>
-    @foreach($awards->sortby('name', SORT_NATURAL) as $award)
+    @foreach($awards as $award)
       <tr>
         <td>
           <a href="{{ route('admin.awards.edit', [$award->id]) }}">{{ $award->name }}</a>
@@ -22,6 +23,7 @@
             -
           @endif
         </td>
+        <td class="text-center">{{ $counts[$award->id] }}</td>
         <td class="text-center">
           @if($award->active)
             <i class="fas fa-check-circle fa-2x text-success"></i>

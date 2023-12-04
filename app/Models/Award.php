@@ -48,6 +48,8 @@ class Award extends Model
         'id',
         'name',
         'description',
+        'active',
+        'created_at',
     ];
 
     /**
