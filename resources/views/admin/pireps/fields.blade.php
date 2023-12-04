@@ -205,7 +205,7 @@
             {{ Form::label('score', 'Score:') }}
             <div class="row">
               <div class="col-sm-12">
-                {{ Form::number('score', null, ['class' => 'form-control', 'min' => 0]) }}
+                {{ Form::number('score', null, ['class' => 'form-control', 'min' => 0, 'max' => 100]) }}
                 <p class="text-danger">{{ $errors->first('score') }}</p>
               </div>
             </div>
