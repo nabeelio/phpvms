@@ -10,9 +10,6 @@ class PirepFieldCollection extends ResourceCollection
     {
         $res = [];
         foreach ($this->collection as $field) {
-            if ($field->manual_only == 1) {
-                continue;
-            }
             $res[$field->name] = $field->value;
         }
 

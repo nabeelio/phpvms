@@ -8,7 +8,7 @@ return new class() extends Migration {
     public function up()
     {
         Schema::table('pirep_fields', function (Blueprint $table) {
-            $table->tinyint('pirep_source')->nullable()->default(3)->after('required');
+            $table->tinyInteger('pirep_source')->nullable()->default(3)->after('required');
         });
     }
 };
