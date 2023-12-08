@@ -322,6 +322,8 @@ class PirepController extends Controller
             $aircraft_list = $this->aircraftList(true);
         }
 
+        $pirep_source = filled(optional($pirep)->source) ? $pirep->source : PirepSource::MANUAL;
+
         return view('pireps.create', [
             'aircraft'      => $aircraft,
             'pirep'         => $pirep,
@@ -329,7 +331,7 @@ class PirepController extends Controller
             'airline_list'  => $this->airlineRepo->selectBoxList(true),
             'aircraft_list' => $aircraft_list,
             'airport_list'  => [], // $this->airportRepo->selectBoxList(true),
-            'pirep_fields'  => $this->pirepFieldRepo->whereIn('pirep_source', [$pirep->source, PirepFieldSource::BOTH])->get(),
+            'pirep_fields'  => $this->pirepFieldRepo->whereIn('pirep_source', [$pirep_source, PirepFieldSource::BOTH])->get(),
             'field_values'  => [],
             'fare_values'   => $fare_values,
             'simbrief_id'   => $simbrief_id,
