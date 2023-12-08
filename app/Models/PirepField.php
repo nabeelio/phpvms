@@ -23,7 +23,7 @@ class PirepField extends Model
     ];
 
     protected $casts = [
-        'required'    => 'boolean',
+        'required' => 'boolean',
     ];
 
     public static $rules = [
