@@ -15,9 +15,8 @@
     {{ Form::checkbox('required', null) }}
   </div>
   <div class="form-group col-sm-2">
-    {{ Form::label('manual_only', 'Manual PIREPs Only:') }}
-    {{ Form::hidden('manual_only', 0) }}
-    {{ Form::checkbox('manual_only', null) }}
+    {{ Form::label('pirep_source', 'Pirep Source:') }}
+    {{ Form::select('pirep_source', \App\Models\Enums\FlightType::select(), null, ['class' => 'form-control select2', 'style' => 'width: 100%']) }}
   </div>
 </div>
 <div class="row">

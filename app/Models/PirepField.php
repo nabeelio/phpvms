@@ -19,12 +19,11 @@ class PirepField extends Model
         'slug',
         'description',
         'required',
-        'manual_only',
+        'pirep_source',
     ];
 
     protected $casts = [
         'required'    => 'boolean',
-        'manual_only' => 'boolean',
     ];
 
     public static $rules = [

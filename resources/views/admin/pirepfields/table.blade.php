@@ -9,25 +9,25 @@
       <th>Name</th>
       <th>Description</th>
       <th style="text-align: center;">Required</th>
-      <th style="text-align: center;">Manual Pirep Only</th>
+      <th style="text-align: center;">Pirep Source</th>
       <th></th>
     </thead>
     <tbody>
       @foreach($fields as $field)
         <tr>
-          <td>{{ $field->name }}</td>
-          <td>{{ $field->description }}</td>
+          <td>
+            {{ $field->name }}
+          </td>
+          <td>
+            {{ $field->description }}
+          </td>
           <td style="text-align: center;">
             @if($field->required === true)
               <span class="label label-success">Required</span>
             @endif
           </td>
           <td style="text-align: center;">
-            @if($field->manual_only === true)
-              <span class="label label-success">YES</span>
-            @else
-              <span class="label label-warning">NO</span>
-            @endif
+            {{ \App\Models\Enums\PirepFieldSource::label($field->pirep_source) }}
           </td>
           <td class="text-right">
             {{ Form::open(['route' => ['admin.pirepfields.destroy', $field->id], 'method' => 'delete']) }}
