@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Laracasts\Flash\Flash;
+use League\ISO3166\ISO3166;
 use Prettus\Repository\Criteria\RequestCriteria;
 
 class AirlinesController extends Controller
@@ -37,10 +38,11 @@ class AirlinesController extends Controller
     public function index(Request $request): View
     {
         $this->airlineRepo->pushCriteria(new RequestCriteria($request));
-        $airlines = $this->airlineRepo->orderby('name', 'asc')->get();
+        $airlines = $this->airlineRepo->sortable('name')->get();
 
         return view('admin.airlines.index', [
             'airlines' => $airlines,
+            'country'  => new ISO3166(),
         ]);
     }
 

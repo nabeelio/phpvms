@@ -58,8 +58,7 @@ class AircraftController extends Controller
             $w['subfleet_id'] = $request->input('subfleet');
         }
 
-        $aircraft = $this->aircraftRepo->with(['subfleet'])->whereOrder($w, 'registration', 'asc');
-        $aircraft = $aircraft->all();
+        $aircraft = $this->aircraftRepo->with(['subfleet'])->where($w)->sortable('registration')->get();
         $trashed = $this->aircraftRepo->onlyTrashed()->orderBy('deleted_at', 'desc')->get();
 
         return view('admin.aircraft.index', [
@@ -76,7 +75,7 @@ class AircraftController extends Controller
     {
         $object_id = (isset($request->object_id)) ? $request->object_id : null;
 
-        $aircraft = Aircraft::withCount('pireps')->where('id', $object_id)->get();
+        $aircraft = Aircraft::onlyTrashed()->withCount('pireps')->where('id', $object_id)->first();
 
         if ($object_id && $request->action === 'restore') {
             $aircraft->restore();

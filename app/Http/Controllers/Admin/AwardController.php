@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Http\Requests\CreateAwardRequest;
 use App\Http\Requests\UpdateAwardRequest;
+use App\Models\UserAward;
 use App\Repositories\AwardRepository;
 use App\Services\AwardService;
 use Illuminate\Http\RedirectResponse;
@@ -62,10 +63,17 @@ class AwardController extends Controller
     public function index(Request $request): View
     {
         $this->awardRepo->pushCriteria(new RequestCriteria($request));
-        $awards = $this->awardRepo->all();
+        $awards = $this->awardRepo->sortable('name')->get();
+
+        $counts = [];
+
+        foreach ($awards as $aw) {
+            $counts[$aw->id] = UserAward::where('award_id', $aw->id)->count();
+        }
 
         return view('admin.awards.index', [
             'awards' => $awards,
+            'counts' => $counts,
         ]);
     }
 
@@ -139,10 +147,13 @@ class AwardController extends Controller
 
         $class_refs = $this->getAwardClassesAndDescriptions();
 
+        $owners = UserAward::with('user')->where('award_id', $id)->sortable(['created_at' => 'desc'])->get();
+
         return view('admin.awards.edit', [
             'award'              => $award,
             'award_classes'      => $class_refs['awards'],
             'award_descriptions' => $class_refs['descriptions'],
+            'owners'             => $owners,
         ]);
     }
 

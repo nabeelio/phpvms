@@ -4,12 +4,14 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Exceptions\DuplicateFlight;
+use App\Models\Aircraft;
 use App\Models\Bid;
 use App\Models\Enums\Days;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 use App\Models\Flight;
 use App\Models\FlightFieldValue;
+use App\Models\Subfleet;
 use App\Models\User;
 use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
@@ -122,6 +124,26 @@ class FlightService extends Service
     }
 
     /**
+     * Return the proper subfleets for the given bid
+     *
+     * @param Bid $bid
+     *
+     * @return mixed
+     */
+    public function getSubfleetsForBid(Bid $bid)
+    {
+        $sf = Subfleet::with([
+            'fares',
+            'aircraft' => function ($query) use ($bid) {
+                $query->where('id', $bid->aircraft_id);
+            }])
+            ->where('id', $bid->aircraft->subfleet_id)
+            ->get();
+
+        return $sf;
+    }
+
+    /**
      * Filter out subfleets to only include aircraft that a user has access to
      *
      * @param User   $user
@@ -156,6 +178,8 @@ class FlightService extends Service
                 if ($allowed_subfleets->contains($subfleet->id)) {
                     return true;
                 }
+
+                return false;
             });
         }
 
@@ -168,18 +192,20 @@ class FlightService extends Service
         if ($aircraft_at_dpt_airport || $aircraft_not_booked) {
             foreach ($subfleets as $subfleet) {
                 $subfleet->aircraft = $subfleet->aircraft->filter(
-                    function ($aircraft, $i) use ($flight, $aircraft_at_dpt_airport, $aircraft_not_booked) {
+                    function ($aircraft, $i) use ($user, $flight, $aircraft_at_dpt_airport, $aircraft_not_booked) {
                         if ($aircraft_at_dpt_airport && $aircraft->airport_id !== $flight->dpt_airport_id) {
                             return false;
                         }
 
-                        if ($aircraft_not_booked && $aircraft->bid && $aircraft->bid->count() !== 0) {
+                        if ($aircraft_not_booked && $aircraft->bid && $aircraft->bid->user_id !== $user->id) {
                             return false;
                         }
 
                         return true;
                     }
-                );
+                )->sortBy(function (Aircraft $ac, int $_) {
+                    return !empty($ac->bid);
+                });
             }
         }
 
@@ -296,8 +322,8 @@ class FlightService extends Service
                 ->orderBy('submitted_at', 'desc')
                 ->first();
 
-            $ac = $diverted_pirep->aircraft;
-            if ($ac->airport_id != $flight->dpt_airport_id) { // Aircraft has moved
+            $ac = $diverted_pirep?->aircraft;
+            if (!$ac || $ac->airport_id != $flight->dpt_airport_id) { // Aircraft has moved or diverted pirep/aircraft no longer exists
                 $flight->delete();
             }
         }

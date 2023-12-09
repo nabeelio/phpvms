@@ -72,7 +72,7 @@ class SubfleetController extends Controller
     public function index(Request $request): View
     {
         $this->subfleetRepo->with(['airline'])->pushCriteria(new RequestCriteria($request));
-        $subfleets = $this->subfleetRepo->orderby('name', 'asc')->get();
+        $subfleets = $this->subfleetRepo->sortable('name')->get();
         $trashed = $this->subfleetRepo->onlyTrashed()->orderBy('deleted_at', 'desc')->get();
 
         return view('admin.subfleets.index', [
@@ -88,7 +88,7 @@ class SubfleetController extends Controller
     {
         $object_id = (isset($request->object_id)) ? $request->object_id : null;
 
-        $subfleet = Subfleet::where('id', $object_id)->get();
+        $subfleet = Subfleet::onlyTrashed()->where('id', $object_id)->first();
         $duplicate_check = Subfleet::where('type', $subfleet->type)->count();
 
         if ($object_id && $request->action === 'restore') {

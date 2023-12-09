@@ -8,5 +8,10 @@
       {{ Form::close() }}
     </div>
   </div>
+  @if(filled($owners))
+    <div class="card border-blue-bottom">
+      @include('admin.awards.owners_table')
+    </div>
+  @endif
 @endsection
 @include('admin.awards.scripts')
