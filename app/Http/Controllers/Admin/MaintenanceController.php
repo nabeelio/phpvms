@@ -49,18 +49,26 @@ class MaintenanceController extends Controller
     {
         $calls = [];
         $type = $request->get('type');
+        $theme_cache_file = base_path().'/bootstrap/cache/themes.php';
+        $module_cache_files = base_path().'/bootstrap/cache/*_module.php';
 
-        // When clearing the application, clear the config and the app itself
+        // When clearing the application, clear the config, module cache and the app itself
         if ($type === 'application' || $type === 'all') {
             $calls[] = 'config:cache';
             $calls[] = 'cache:clear';
             $calls[] = 'route:cache';
             $calls[] = 'clear-compiled';
+
+            $module_cache = exec('rm '.$module_cache_files) ? 'Module cache files not found!' : 'Module cache files deleted';
+            Log::debug($module_cache.' | '.$module_cache_files);
         }
 
-        // If we want to clear only the views but keep everything else
+        // If we want to clear only the views and theme cache but keep everything else
         if ($type === 'views' || $type === 'all') {
             $calls[] = 'view:clear';
+
+            $theme_cache = unlink($theme_cache_file) ? 'Theme cache file deleted' : 'Theme cache file not found!';
+            Log::debug($theme_cache.' | '.$theme_cache_file);
         }
 
         foreach ($calls as $call) {
