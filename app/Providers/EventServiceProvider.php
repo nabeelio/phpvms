@@ -63,7 +63,6 @@ class EventServiceProvider extends ServiceProvider
             \SocialiteProviders\Discord\DiscordExtendSocialite::class.'@handle',
         ],
 
-
     ];
 
     protected $subscribe = [

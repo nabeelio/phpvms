@@ -9,7 +9,6 @@ use Laravel\Socialite\Facades\Socialite;
 
 class OAuthController extends Controller
 {
-
     public function redirectToDiscordProvider(): RedirectResponse
     {
         return Socialite::driver('discord')->scopes(['identify'])->redirect();

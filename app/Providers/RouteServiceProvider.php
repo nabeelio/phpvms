@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -173,10 +172,10 @@ class RouteServiceProvider extends ServiceProvider
             });
 
             Route::group([
-                'namespace' => 'Auth',
-                'prefix' => 'auth',
-                'as'     => 'auth.',
-                'middleware' => 'auth'
+                'namespace'  => 'Auth',
+                'prefix'     => 'auth',
+                'as'         => 'auth.',
+                'middleware' => 'auth',
             ], function () {
                 Route::get('discord/redirect', 'OAuthController@redirectToDiscordProvider')->name('discord.redirect');
                 Route::get('discord/callback', 'OAuthController@handleDiscordProviderCallback')->name('discord.callback');
