@@ -19,9 +19,9 @@ class OAuthController extends Controller
     {
         $user = Socialite::driver('discord')->user();
 
-        if ($user->id) {
+        if ($user->getId()) {
             Auth::user()?->update([
-                'discord_id' => $user->id,
+                'discord_id' => $user->getId(),
             ]);
 
             flash()->success('Discord account linked!');
