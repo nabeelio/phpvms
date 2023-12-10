@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -169,6 +170,17 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('livemap', 'LiveMapController@index')->name('livemap.index');
 
                 Route::get('lang/{lang}', 'LanguageController@switchLang')->name('lang.switch');
+            });
+
+            Route::group([
+                'namespace' => 'Auth',
+                'prefix' => 'auth',
+                'as'     => 'auth.',
+                'middleware' => 'auth'
+            ], function () {
+                Route::get('discord/redirect', 'OAuthController@redirectToDiscordProvider')->name('discord.redirect');
+                Route::get('discord/callback', 'OAuthController@handleDiscordProviderCallback')->name('discord.callback');
+                Route::get('discord/logout', 'OAuthController@logoutDiscordProvider')->name('discord.logout');
             });
 
             Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');

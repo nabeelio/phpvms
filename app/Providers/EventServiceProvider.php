@@ -57,6 +57,13 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         ProfileUpdated::class => [],
+
+        // For discord OAuth
+        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+            \SocialiteProviders\Discord\DiscordExtendSocialite::class.'@handle',
+        ],
+
+
     ];
 
     protected $subscribe = [
