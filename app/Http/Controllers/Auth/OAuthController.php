@@ -22,12 +22,12 @@ class OAuthController extends Controller
 
         if ($user->getId()) {
             // Let's retrieve the private_channel_id
-            if (!is_null(env('DISCORD_BOT_TOKEN'))) {
+            if (!is_null(config('services.discord.token'))) {
                 try {
                     $httpClient = new Client();
                     $response = $httpClient->request('POST', 'https://discord.com/api/users/@me/channels', [
                         'headers' => [
-                            'Authorization' => 'Bot '.env('DISCORD_BOT_TOKEN'),
+                            'Authorization' => 'Bot '.config('services.discord.token'),
                         ],
                         'json' => [
                             'recipient_id' => $user->getId(),
