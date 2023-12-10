@@ -8,7 +8,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
-use function PHPUnit\Framework\isNull;
 
 class OAuthController extends Controller
 {
@@ -22,14 +21,13 @@ class OAuthController extends Controller
         $user = Socialite::driver('discord')->user();
 
         if ($user->getId()) {
-
             // Let's retrieve the private_channel_id
             if (!is_null(env('DISCORD_BOT_TOKEN'))) {
                 try {
                     $httpClient = new Client();
                     $response = $httpClient->request('POST', 'https://discord.com/api/users/@me/channels', [
                         'headers' => [
-                            'Authorization' => 'Bot ' . env('DISCORD_BOT_TOKEN')
+                            'Authorization' => 'Bot '.env('DISCORD_BOT_TOKEN'),
                         ],
                         'json' => [
                             'recipient_id' => $user->getId(),
@@ -38,7 +36,7 @@ class OAuthController extends Controller
 
                     $privateChannel = json_decode($response->getBody()->getContents(), true)['id'];
                 } catch (\Exception $e) {
-                    Log::error('Discord OAuth Error: ' .$e->getMessage());
+                    Log::error('Discord OAuth Error: '.$e->getMessage());
                     $privateChannel = null;
                 }
             }
