@@ -1,7 +1,7 @@
 <div class="content table-responsive table-full-width">
   <div class="header">
     @component('admin.components.info')
-      PIREP fields are only shown for manual PIREPs.
+      By default PIREP fields are shown for Acars and Manual PIREPs.
     @endcomponent
   </div>
   <table class="table table-hover table-responsive" id="pirepFields-table">
@@ -9,17 +9,25 @@
       <th>Name</th>
       <th>Description</th>
       <th style="text-align: center;">Required</th>
+      <th style="text-align: center;">Pirep Source</th>
       <th></th>
     </thead>
     <tbody>
       @foreach($fields as $field)
         <tr>
-          <td>{{ $field->name }}</td>
-          <td>{{ $field->description }}</td>
+          <td>
+            {{ $field->name }}
+          </td>
+          <td>
+            {{ $field->description }}
+          </td>
           <td style="text-align: center;">
             @if($field->required === true)
               <span class="label label-success">Required</span>
             @endif
+          </td>
+          <td style="text-align: center;">
+            {{ \App\Models\Enums\PirepFieldSource::label($field->pirep_source) }}
           </td>
           <td class="text-right">
             {{ Form::open(['route' => ['admin.pirepfields.destroy', $field->id], 'method' => 'delete']) }}
