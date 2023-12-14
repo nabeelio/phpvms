@@ -141,6 +141,7 @@ class PirepFieldController extends Controller
         $attrs = $request->all();
         $attrs['slug'] = str_slug($attrs['name']);
         $attrs['required'] = get_truth_state($attrs['required']);
+
         $this->pirepFieldRepo->update($attrs, $id);
 
         Flash::success('Field updated successfully.');
