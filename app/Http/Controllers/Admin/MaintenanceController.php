@@ -59,6 +59,7 @@ class MaintenanceController extends Controller
             $calls[] = 'cache:clear';
             $calls[] = 'route:cache';
             $calls[] = 'clear-compiled';
+            $calls[] = 'queue:flush';
 
             $files = File::glob($module_cache_files);
             foreach ($files as $file) {
