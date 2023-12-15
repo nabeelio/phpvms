@@ -10,6 +10,7 @@ use App\Support\Utils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Laracasts\Flash\Flash;
@@ -59,8 +60,11 @@ class MaintenanceController extends Controller
             $calls[] = 'route:cache';
             $calls[] = 'clear-compiled';
 
-            $module_cache = exec('rm '.$module_cache_files) ? 'Module cache files not found!' : 'Module cache files deleted';
-            Log::debug($module_cache.' | '.$module_cache_files);
+            $files = File::glob($module_cache_files);
+            foreach ($files as $file) {
+                $module_cache = File::delete($file) ? 'Module cache file deleted' : 'Module cache file not found!';
+                Log::debug($module_cache.' | '.$file);
+            }
         }
 
         // If we want to clear only the views and theme cache but keep everything else
