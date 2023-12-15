@@ -33,6 +33,6 @@ return [
     'accountsuspended'         => 'Cuenta suspendida',
     'suspendedmessage'         => 'Tu cuenta ha sido suspendida. Por favor, contacta con un administrador.',
     'transferhours'            => 'Transferir horas',
-    'loginwith'                => 'Iniciar sesión con :provider'
+    'loginwith'                => 'Iniciar sesión con :provider',
 
 ];

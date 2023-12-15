@@ -14,7 +14,6 @@ use Laravel\Socialite\Facades\Socialite;
 
 class OAuthController extends Controller
 {
-
     public function __construct(
         private readonly UserService $userSvc
     ) {
@@ -29,7 +28,9 @@ class OAuthController extends Controller
         // Using a switch statement since we might need different scopes according to the provider
         switch ($provider) {
             case 'discord':
-                if (!config('services.discord.enabled')) abort(404);
+                if (!config('services.discord.enabled')) {
+                    abort(404);
+                }
                 return Socialite::driver('discord')->scopes(['identify'])->redirect();
             default:
                 abort(404);
@@ -53,7 +54,7 @@ class OAuthController extends Controller
         }
 
         if (!$providerUser) {
-            flash()->error('Provider ' .$provider .' not found');
+            flash()->error('Provider '.$provider.' not found');
             return redirect(url('/login'));
         }
 
@@ -62,29 +63,29 @@ class OAuthController extends Controller
             $user = Auth::user();
 
             $user->update([
-                $provider. '_id' => $providerUser->getId(),
+                $provider.'_id' => $providerUser->getId(),
             ]);
 
             $tokens = UserOAuthToken::updateOrCreate([
-                'user_id'   => $user->id,
-                'provider'  => $provider,
+                'user_id'  => $user->id,
+                'provider' => $provider,
             ], [
                 'token'             => $providerUser->token,
                 'refresh_token'     => $providerUser->refreshToken,
                 'last_refreshed_at' => now(),
             ]);
 
-            flash()->success(ucfirst($provider). ' account linked!');
+            flash()->success(ucfirst($provider).' account linked!');
 
             return redirect(route('frontend.profile.index'));
         }
 
-        $user = User::where($provider .'_id', $providerUser->getId())->first();
+        $user = User::where($provider.'_id', $providerUser->getId())->first();
 
         if ($user) {
             $tokens = UserOAuthToken::updateOrCreate([
-                'user_id'   => $user->id,
-                'provider'  => $provider,
+                'user_id'  => $user->id,
+                'provider' => $provider,
             ], [
                 'token'             => $providerUser->token,
                 'refresh_token'     => $providerUser->refreshToken,
@@ -97,12 +98,12 @@ class OAuthController extends Controller
         }
 
         $attrs = [
-            'name'              => $providerUser->getName(),
-            'email'             => $providerUser->getEmail(),
-            'avatar'            => $providerUser->getAvatar(),
-            'airline_id'        => Airline::select('id')->first()->id,
-            'home_airport_id'   => Airport::select('id')->where('hub', true)->first()->id,
-            $provider . '_id'   => $providerUser->getId(),
+            'name'            => $providerUser->getName(),
+            'email'           => $providerUser->getEmail(),
+            'avatar'          => $providerUser->getAvatar(),
+            'airline_id'      => Airline::select('id')->first()->id,
+            'home_airport_id' => Airport::select('id')->where('hub', true)->first()->id,
+            $provider.'_id'   => $providerUser->getId(),
         ];
 
         $user = $this->userSvc->createUser($attrs);
@@ -135,10 +136,10 @@ class OAuthController extends Controller
         }
 
         $user->update([
-            $provider. '_id'    => null,
+            $provider.'_id' => null,
         ]);
 
-        flash()->success(ucfirst($provider). ' account unlinked!');
+        flash()->success(ucfirst($provider).' account unlinked!');
 
         return redirect()->route('frontend.profile.index');
     }

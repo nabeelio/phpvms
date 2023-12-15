@@ -172,9 +172,9 @@ class RouteServiceProvider extends ServiceProvider
             });
 
             Route::group([
-                'namespace'  => 'Auth',
-                'prefix'     => 'oauth',
-                'as'         => 'oauth.',
+                'namespace' => 'Auth',
+                'prefix'    => 'oauth',
+                'as'        => 'oauth.',
             ], function () {
                 Route::get('{provider}/redirect', 'OAuthController@redirectToProvider')->name('redirect');
                 Route::get('{provider}/callback', 'OAuthController@handleProviderCallback')->name('callback');

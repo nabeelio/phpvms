@@ -30,7 +30,7 @@ class UserOAuthToken extends Model
         'provider'          => 'string',
         'token'             => 'string',
         'refresh_token'     => 'string',
-        'last_refreshed_at' => 'datetime'
+        'last_refreshed_at' => 'datetime',
     ];
 
     public static $rules = [
@@ -45,5 +45,4 @@ class UserOAuthToken extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
 }
