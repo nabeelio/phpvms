@@ -178,7 +178,7 @@ class RouteServiceProvider extends ServiceProvider
             ], function () {
                 Route::get('{provider}/redirect', 'OAuthController@redirectToProvider')->name('redirect');
                 Route::get('{provider}/callback', 'OAuthController@handleProviderCallback')->name('callback');
-                Route::get('{provider}/logout', 'OAuthController@logoutProvider')->name('logout');
+                Route::get('{provider}/logout', 'OAuthController@logoutProvider')->name('logout')->middleware('auth');
             });
 
             Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
