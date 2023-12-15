@@ -122,7 +122,19 @@ class OAuthController extends Controller
 
     public function logoutProvider(string $provider): RedirectResponse
     {
-        Auth::user()?->update([
+        if (!config('services.'.$provider.'.enabled', false)) {
+            abort(404);
+        }
+
+        $user = Auth::user();
+        $otherProviders = UserOAuthToken::where('user_id', $user->id)->where('provider', '!=', $provider)->count();
+
+        if (empty($user->password) && $otherProviders === 0) {
+            flash()->error('You cannot unlink your only login method!');
+            return redirect()->route('frontend.profile.index');
+        }
+
+        $user->update([
             $provider. '_id'    => null,
         ]);
 
