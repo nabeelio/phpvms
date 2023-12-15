@@ -59,7 +59,6 @@ class MaintenanceController extends Controller
             $calls[] = 'cache:clear';
             $calls[] = 'route:cache';
             $calls[] = 'clear-compiled';
-            $calls[] = 'queue:flush';
 
             $files = File::glob($module_cache_files);
             foreach ($files as $file) {
@@ -81,6 +80,14 @@ class MaintenanceController extends Controller
         }
 
         Flash::success('Cache cleared!');
+        return redirect(route('admin.maintenance.index'));
+    }
+
+    public function queue(Request $request): RedirectResponse
+    {
+        Artisan::call('queue:flush');
+
+        Flash::success('Failed jobs flushed!');
         return redirect(route('admin.maintenance.index'));
     }
 
