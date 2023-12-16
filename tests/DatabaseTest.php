@@ -13,7 +13,7 @@ class DatabaseTest extends TestCase
      */
     public function testSeeder()
     {
-        /** @var  DatabaseService $dbSvc */
+        /** @var DatabaseService $dbSvc */
         $file = file_get_contents(base_path('tests/data/seed.yml'));
         $yml = Yaml::parse($file);
 

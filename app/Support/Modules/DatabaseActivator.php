@@ -155,7 +155,7 @@ class DatabaseActivator implements ActivatorInterface
         $module = $this->getModuleByName($module->getName());
         if (!$module) {
             $module = \App\Models\Module::create([
-                'name'    => $module->name,
+                'name' => $module->name,
             ]);
         }
 
