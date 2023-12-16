@@ -5,8 +5,10 @@ namespace Tests;
 use App\Contracts\Factory;
 use App\Contracts\Unit;
 use App\Exceptions\Handler;
+use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\DatabaseService;
+use App\Services\ModuleService;
 use Carbon\Carbon;
 use DateTimeImmutable;
 use Exception;
@@ -20,6 +22,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Testing\TestResponse;
+use Nwidart\Modules\Facades\Module;
 use ReflectionClass;
 
 /**
@@ -33,18 +36,20 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * The base URL to use while testing the application.
      */
-    public static $prefix = '/api';
+    public static string $prefix = '/api';
 
     protected $app;
-    protected $baseUrl = 'http://localhost';
-    protected $connectionsToTransact = ['test'];
+    protected string $baseUrl = 'http://localhost';
+    protected array $connectionsToTransact = ['test'];
 
-    /** @var \App\Models\User */
+    /** @var User */
     protected $user;
 
-    protected static $auth_headers = [
+    protected static array $auth_headers = [
         'x-api-key' => 'testadminapikey',
     ];
+
+    private Client $client;
 
     /**
      * @throws Exception
@@ -60,6 +65,16 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         Artisan::call('database:create', ['--reset' => true]);
         Artisan::call('migrate', ['--env' => 'testing', '--force' => true]);
+
+        /** @var ModuleService $moduleSvc */
+        $moduleSvc = app(ModuleService::class);
+        $modules = Module::all();
+
+        // Call migrate on all modules
+        /** @var \Nwidart\Modules\Module[] $modules */
+        foreach ($modules as $module) {
+            $moduleSvc->addModule($module->getName());
+        }
 
         Notification::fake();
         // $this->disableExceptionHandling();
