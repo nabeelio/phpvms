@@ -35,4 +35,44 @@ class DatabaseTest extends TestCase
         $value = setting('test.setting');
         $this->assertEquals('changed', $value);
     }
+
+    public function testSeederValueIgnoreValue()
+    {
+        /** @var DatabaseService $dbSvc */
+        $file = file_get_contents(base_path('tests/data/seed.yml'));
+        $yml = Yaml::parse($file);
+
+        Database::seed_from_yaml($yml);
+        $value = setting('test.setting');
+        $this->assertEquals('default', $value);
+
+        // Try updating the value now
+        $yml['settings']['data'][0]['value'] = 'changed';
+
+        // The value shouldn't change here
+        Database::seed_from_yaml($yml);
+        $value = setting('test.setting');
+        $this->assertEquals('default', $value);
+    }
+
+    public function testSeederDontIgnoreValue()
+    {
+        /** @var DatabaseService $dbSvc */
+        $file = file_get_contents(base_path('tests/data/seed.yml'));
+        $yml = Yaml::parse($file);
+
+        $yml['settings']['ignore_on_update'] = [];
+
+        Database::seed_from_yaml($yml);
+        $value = setting('test.setting');
+        $this->assertEquals('default', $value);
+
+        // Change the value
+        $yml['settings']['data'][0]['value'] = 'changed';
+
+        // Now the value should change
+        Database::seed_from_yaml($yml);
+        $value = setting('test.setting');
+        $this->assertEquals('changed', $value);
+    }
 }
