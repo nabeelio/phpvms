@@ -22,9 +22,15 @@ class DatabaseTest extends TestCase
         $this->assertEquals('default', $value);
 
         // Try updating the value now
-        $yml['settings']['ignore_on_update'] = [];
         $yml['settings']['data'][0]['value'] = 'changed';
 
+        // The value shouldn't change here
+        Database::seed_from_yaml($yml);
+        $value = setting('test.setting');
+        $this->assertEquals('default', $value);
+
+        // Now the value should change
+        $yml['settings']['ignore_on_update'] = [];
         Database::seed_from_yaml($yml);
         $value = setting('test.setting');
         $this->assertEquals('changed', $value);
