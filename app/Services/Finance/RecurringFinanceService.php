@@ -38,23 +38,22 @@ class RecurringFinanceService extends Service
             /** @var Airline $airline */
             $journal = Journal::where([
                 'morphed_type' => Airline::class,
-                'morphed_id' => $expense->airline_id])
+                'morphed_id'   => $expense->airline_id])
                 ->get();
 
             return $journal;
-        } else {
-            $airline_ids = [];
-            $airlines = Airline::get(['id', 'icao']);
-            foreach ($airlines as $airline) {
-                $airline_ids[] = $airline->id;
-            }
-
-            $journals = Journal::where(['morphed_type' => Airline::class])
-                    ->whereIn('morphed_id', $airline_ids)
-                    ->get();
-
-            return $journals;
         }
+        $airline_ids = [];
+        $airlines = Airline::get(['id', 'icao']);
+        foreach ($airlines as $airline) {
+            $airline_ids[] = $airline->id;
+        }
+
+        $journals = Journal::where(['morphed_type' => Airline::class])
+                ->whereIn('morphed_id', $airline_ids)
+                ->get();
+
+        return $journals;
     }
 
     /**
@@ -147,7 +146,6 @@ class RecurringFinanceService extends Service
                 }
 
                 // Determine if this object actually belongs to this airline or not
-
 
                 $this->financeSvc->debitFromJournal(
                     $journal,

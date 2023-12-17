@@ -9,7 +9,7 @@ use App\Repositories\FlightRepository;
 use App\Repositories\PirepRepository;
 use App\Repositories\SubfleetRepository;
 
-class wAirlineService extends Service
+class AirlineService extends Service
 {
     public function __construct(
         private readonly AirlineRepository $airlineRepo,

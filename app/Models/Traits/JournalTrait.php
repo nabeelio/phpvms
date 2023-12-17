@@ -32,9 +32,9 @@ trait JournalTrait
      *
      * @param string $currency_code
      *
-     * @return Journal
      * @throws \Exception
      *
+     * @return Journal
      */
     public function initJournal(string $currency_code = 'USD')
     {
