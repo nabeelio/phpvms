@@ -312,7 +312,7 @@ class AircraftController extends Controller
     public function expenses(int $id, Request $request): View
     {
         /** @var Aircraft $aircraft */
-        $aircraft = $this->aircraftRepo->with('subfleet')->findWithoutFail($id);
+        $aircraft = $this->aircraftRepo->with('airline')->findWithoutFail($id);
         if (empty($aircraft)) {
             return $this->return_expenses_view($aircraft);
         }
@@ -325,7 +325,7 @@ class AircraftController extends Controller
             $this->financeSvc->addExpense(
                 $request->post(),
                 $aircraft,
-                $aircraft->subfleet->airline_id
+                $aircraft->airline->id
             );
         } elseif ($request->isMethod('put')) {
             $expense = Expense::findOrFail($request->input('expense_id'));
