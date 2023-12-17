@@ -42,12 +42,8 @@ class RecurringFinanceService extends Service
 
             return $journal;
         }
-        $airline_ids = [];
-        $airlines = Airline::get(['id', 'icao']);
-        foreach ($airlines as $airline) {
-            $airline_ids[] = $airline->id;
-        }
 
+        $airline_ids = Airline::get(['id'])->pluck('id')->all();
         $journals = Journal::where(['morphed_type' => Airline::class])
                 ->whereIn('morphed_id', $airline_ids)
                 ->get();
