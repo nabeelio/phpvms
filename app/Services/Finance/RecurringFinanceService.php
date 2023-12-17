@@ -35,7 +35,6 @@ class RecurringFinanceService extends Service
     {
         \DB::enableQueryLog();
         if ($expense->airline_id) {
-            /** @var Airline $airline */
             $journal = Journal::where([
                 'morphed_type' => Airline::class,
                 'morphed_id'   => $expense->airline_id])
