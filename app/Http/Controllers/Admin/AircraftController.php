@@ -15,6 +15,7 @@ use App\Repositories\AircraftRepository;
 use App\Repositories\AirportRepository;
 use App\Services\ExportService;
 use App\Services\FileService;
+use App\Services\FinanceService;
 use App\Services\ImportService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,20 +26,13 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 class AircraftController extends Controller
 {
     use Importable;
-
-    /**
-     * AircraftController constructor.
-     *
-     * @param AirportRepository  $airportRepo
-     * @param AircraftRepository $aircraftRepo
-     * @param FileService        $fileSvc
-     * @param ImportService      $importSvc
-     */
+    
     public function __construct(
         private readonly AirportRepository $airportRepo,
         private readonly AircraftRepository $aircraftRepo,
         private readonly FileService $fileSvc,
         private readonly ImportService $importSvc,
+        private readonly FinanceService $financeSvc,
     ) {
     }
 
@@ -317,7 +311,8 @@ class AircraftController extends Controller
      */
     public function expenses(int $id, Request $request): View
     {
-        $aircraft = $this->aircraftRepo->findWithoutFail($id);
+        /** @var Aircraft $aircraft */
+        $aircraft = $this->aircraftRepo->with('subfleet')->findWithoutFail($id);
         if (empty($aircraft)) {
             return $this->return_expenses_view($aircraft);
         }
@@ -327,10 +322,11 @@ class AircraftController extends Controller
         }
 
         if ($request->isMethod('post')) {
-            $expense = new Expense($request->post());
-            $expense->ref_model = Aircraft::class;
-            $expense->ref_model_id = $aircraft->id;
-            $expense->save();
+            $this->financeSvc->addExpense(
+                $request->post(),
+                $aircraft,
+                $aircraft->subfleet->airline_id
+            );
         } elseif ($request->isMethod('put')) {
             $expense = Expense::findOrFail($request->input('expense_id'));
             $expense->{$request->name} = $request->value;

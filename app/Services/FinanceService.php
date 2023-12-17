@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Contracts\Model;
 use App\Contracts\Service;
 use App\Models\Airline;
+use App\Models\Expense;
 use App\Models\Journal;
 use App\Models\JournalTransaction;
 use App\Repositories\AirlineRepository;
@@ -17,6 +19,40 @@ class FinanceService extends Service
         private readonly AirlineRepository $airlineRepo,
         private readonly JournalRepository $journalRepo
     ) {
+    }
+
+    /**
+     * Add an expense, and properly tie it to a model, and know which
+     * airline this needs to be charged to
+     *
+     * @param array      $attrs      Array of attributes
+     * @param Model|null $model      The model this expense is tied to
+     * @param mixed|null $airline_id The airline this expense should get charged to
+     *
+     * @return Expense
+     */
+    public function addExpense(array $attrs, Model $model = null, mixed $airline_id = null): Expense
+    {
+        $expense = new Expense($attrs);
+
+        if (!empty($model)) {
+            $expense->ref_model = get_class($model);
+
+            // In case it's a generic expense not tied to a specific instance
+            if (!empty($model->id)) {
+                $expense->ref_model_id = $model->id;
+            }
+        } else {
+            $expense->ref_model = Expense::class;
+        }
+
+        if (!empty($airline_id)) {
+            $expense->airline_id = $airline_id;
+        }
+
+        $expense->save();
+
+        return $expense;
     }
 
     /**
