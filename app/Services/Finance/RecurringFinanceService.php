@@ -73,7 +73,7 @@ class RecurringFinanceService extends Service
         }
 
         if (empty($obj)) {
-            return [null, null, null];
+            return [null, null];
         }
 
         if ($klass === 'Airport') {
@@ -90,7 +90,7 @@ class RecurringFinanceService extends Service
             $transaction_group = "Expense: {$expense->name}";
         }
 
-        return [$obj, $memo, $transaction_group];
+        return [$memo, $transaction_group];
     }
 
     /**
@@ -140,7 +140,7 @@ class RecurringFinanceService extends Service
                     continue;
                 }
 
-                [$obj, $memo, $ta_group] = $this->getMemoAndGroup($expense);
+                [$memo, $ta_group] = $this->getMemoAndGroup($expense);
                 if (empty($memo) || empty($ta_group)) {
                     continue;
                 }
