@@ -1244,6 +1244,6 @@ final class FinanceTest extends TestCase
 
         $txn_airline1 = $journalRepo->getAllForObject($airline);
         $txn_airline2 = $journalRepo->getAllForObject($airline2);
-        dd($txn_airline1);
+        // dd($txn_airline1);
     }
 }
