@@ -216,10 +216,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
     {
         return Attribute::make(
             get: function ($_, $attrs) {
-
-                return $this->whereHas('pireps', function (\Illuminate\Database\Eloquent\Builder $query) {
-                    $query->where('state', PirepState::IN_PROGRESS);
-                })->get()->isNotEmpty();
+                return boolval(Pirep::where(['user_id' => $this->id, 'state' => PirepState::IN_PROGRESS])->count());
             }
         );
     }
