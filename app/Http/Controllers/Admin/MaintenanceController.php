@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Repositories\KvpRepository;
 use App\Services\CronService;
+use App\Services\Installer\SeederService;
 use App\Services\VersionService;
 use App\Support\Utils;
 use Illuminate\Http\RedirectResponse;
@@ -20,7 +21,8 @@ class MaintenanceController extends Controller
     public function __construct(
         private readonly CronService $cronSvc,
         private readonly KvpRepository $kvpRepo,
-        private readonly VersionService $versionSvc
+        private readonly VersionService $versionSvc,
+        private readonly SeederService $seederSvc,
     ) {
     }
 
@@ -113,6 +115,19 @@ class MaintenanceController extends Controller
             Flash::success('New version available: '.$new_version_tag);
         }
 
+        return redirect(route('admin.maintenance.index'));
+    }
+
+    /**
+     * Run the module reseeding tasks
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return RedirectResponse
+     */
+    public function reseed(Request $request): RedirectResponse
+    {
+        $this->seederSvc->syncAllSeeds();
         return redirect(route('admin.maintenance.index'));
     }
 
