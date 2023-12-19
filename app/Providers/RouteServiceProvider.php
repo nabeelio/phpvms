@@ -421,6 +421,9 @@ class RouteServiceProvider extends ServiceProvider
             Route::match(['post'], 'maintenance/forcecheck', 'MaintenanceController@forcecheck')
                 ->name('maintenance.forcecheck')->middleware('ability:admin,maintenance');
 
+            Route::match(['post'], 'maintenance/reseed', 'MaintenanceController@reseed')
+                ->name('maintenance.reseed')->middleware('ability:admin,maintenance');
+
             Route::match(['post'], 'maintenance/cron_enable', 'MaintenanceController@cron_enable')
                 ->name('maintenance.cron_enable')->middleware('ability:admin,maintenance');
 
