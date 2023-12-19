@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Enums\JournalType;
+use App\Models\Enums\PirepState;
 use App\Models\Traits\JournalTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -25,6 +26,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property string           callsign
  * @property string           name
  * @property string           name_private Only first name, rest are initials
+ * @property bool             is_flying
  * @property string           email
  * @property string           password
  * @property string           api_key
@@ -61,7 +63,6 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property Airport          location
  * @property Bid[]            bids
  *
- * @mixin \Illuminate\Database\Eloquent\Builder
  * @mixin \Illuminate\Notifications\Notifiable
  * @mixin \Laratrust\Traits\HasRolesAndPermissions
  */
@@ -202,6 +203,23 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
                 $atc = filled($attrs['callsign']) ? $ident_code.$attrs['callsign'] : $ident_code.$attrs['pilot_id'];
 
                 return $atc;
+            }
+        );
+    }
+
+    /**
+     * Returns a boolean value whether the pilot is actively flying or not.
+     *
+     * @return Attribute
+     */
+    public function isFlying(): Attribute
+    {
+        return Attribute::make(
+            get: function ($_, $attrs) {
+
+                return $this->whereHas('pireps', function (\Illuminate\Database\Eloquent\Builder $query) {
+                    $query->where('state', PirepState::IN_PROGRESS);
+                })->get()->isNotEmpty();
             }
         );
     }
