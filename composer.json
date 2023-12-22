@@ -84,7 +84,8 @@
         "jlorente/laravel-data-migrations": "^2.0",
         "spatie/laravel-backup": "*",
         "laravel/socialite": "^5.11",
-        "socialiteproviders/discord": "^4.2"
+        "socialiteproviders/discord": "^4.2",
+        "symfony/postmark-mailer": "^6.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",
