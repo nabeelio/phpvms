@@ -18,11 +18,6 @@ return new class() extends Migration {
             $table->string('refresh_token');
             $table->dateTime('last_refreshed_at')->nullable();
             $table->timestamps();
-
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnDelete();
         });
     }
 
