@@ -141,7 +141,7 @@ class OAuthController extends Controller
         }
 
         $user->update([
-            $provider.'_id' => null,
+            $provider.'_id' => '',
         ]);
 
         flash()->success(ucfirst($provider).' account unlinked!');
