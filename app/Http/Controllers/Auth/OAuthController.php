@@ -84,11 +84,11 @@ class OAuthController extends Controller
 
         if ($user) {
             $tokens = UserOAuthToken::updateOrCreate([
-                'user_id' => $user->id,
+                'user_id'  => $user->id,
                 'provider' => $provider,
             ], [
-                'token' => $providerUser->token,
-                'refresh_token' => $providerUser->refreshToken,
+                'token'             => $providerUser->token,
+                'refresh_token'     => $providerUser->refreshToken,
                 'last_refreshed_at' => now(),
             ]);
 
