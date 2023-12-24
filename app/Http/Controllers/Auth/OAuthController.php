@@ -84,17 +84,22 @@ class OAuthController extends Controller
 
         if ($user) {
             $tokens = UserOAuthToken::updateOrCreate([
-                'user_id'  => $user->id,
+                'user_id' => $user->id,
                 'provider' => $provider,
             ], [
-                'token'             => $providerUser->token,
-                'refresh_token'     => $providerUser->refreshToken,
+                'token' => $providerUser->token,
+                'refresh_token' => $providerUser->refreshToken,
                 'last_refreshed_at' => now(),
             ]);
 
             Auth::login($user);
 
             return redirect(route('frontend.dashboard.index'));
+        }
+
+        if (User::where('email', $providerUser->getEmail())->exists()) {
+            flash()->error('An account with this email already exists. Please login with your email and password and link your account.');
+            return redirect(url('/login'));
         }
 
         $attrs = [
