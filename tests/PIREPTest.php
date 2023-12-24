@@ -671,17 +671,17 @@ class PIREPTest extends TestCase
 
         /** @var Pirep $pirep */
         $pirep = Pirep::factory()->create([
-            'user_id'             => $user->id,
-            'aircraft_id'         => $aircraft->id,
-            'arr_airport_id'      => $originalArrivalAirport->id,
+            'user_id'        => $user->id,
+            'aircraft_id'    => $aircraft->id,
+            'arr_airport_id' => $originalArrivalAirport->id,
         ]);
 
         $this->pirepSvc->create($pirep, [
             [
                 'name'   => 'Diversion Airport',
                 'value'  => $diversionAirport->id,
-                'source' => PirepFieldSource::ACARS
-            ]
+                'source' => PirepFieldSource::ACARS,
+            ],
         ]);
 
         $this->pirepSvc->submit($pirep);
