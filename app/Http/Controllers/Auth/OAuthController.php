@@ -8,8 +8,10 @@ use App\Models\Airport;
 use App\Models\User;
 use App\Models\UserOAuthToken;
 use App\Services\UserService;
+use App\Support\Utils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
 class OAuthController extends Controller
@@ -80,9 +82,13 @@ class OAuthController extends Controller
             return redirect(route('frontend.profile.index'));
         }
 
-        $user = User::where($provider.'_id', $providerUser->getId())->first();
+        $user = User::where($provider.'_id', $providerUser->getId())->orWhere('email', $providerUser->getEmail())->first();
 
         if ($user) {
+            $user->update([
+                $provider.'_id' => $providerUser->getId(),
+            ]);
+
             $tokens = UserOAuthToken::updateOrCreate([
                 'user_id'  => $user->id,
                 'provider' => $provider,
@@ -97,33 +103,8 @@ class OAuthController extends Controller
             return redirect(route('frontend.dashboard.index'));
         }
 
-        if (User::where('email', $providerUser->getEmail())->exists()) {
-            flash()->error('An account with this email already exists. Please login with your email and password and link your account.');
-            return redirect(url('/login'));
-        }
-
-        $attrs = [
-            'name'            => $providerUser->getName(),
-            'email'           => $providerUser->getEmail(),
-            'avatar'          => $providerUser->getAvatar(),
-            'airline_id'      => Airline::select('id')->first()->id,
-            'home_airport_id' => Airport::select('id')->where('hub', true)->first()->id,
-            $provider.'_id'   => $providerUser->getId(),
-        ];
-
-        $user = $this->userSvc->createUser($attrs);
-
-        UserOAuthToken::create([
-            'user_id'           => $user->id,
-            'provider'          => $provider,
-            'token'             => $providerUser->token,
-            'refresh_token'     => $providerUser->refreshToken,
-            'last_refreshed_at' => now(),
-        ]);
-
-        Auth::login($user);
-
-        return redirect(route('frontend.profile.edit', ['profile' => $user->id]));
+        flash()->error('No user linked to this account found. Please register first.');
+        return redirect(url('/login'));
     }
 
     public function logoutProvider(string $provider): RedirectResponse
@@ -134,11 +115,6 @@ class OAuthController extends Controller
 
         $user = Auth::user();
         $otherProviders = UserOAuthToken::where('user_id', $user->id)->where('provider', '!=', $provider)->count();
-
-        if (empty($user->password) && $otherProviders === 0) {
-            flash()->error('You cannot unlink your only login method!');
-            return redirect()->route('frontend.profile.index');
-        }
 
         $user->update([
             $provider.'_id' => '',
