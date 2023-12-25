@@ -260,7 +260,6 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
     {
         return Attribute::make(
             get: function ($_, $attrs) {
-                dd($attrs);
                 if (!$attrs['avatar']) {
                     return null;
                 }
