@@ -28,7 +28,7 @@ class OAuthTest extends TestCase
                 'getId'     => 123456789,
                 'getName'   => 'OAuth user',
                 'getEmail'  => 'oauth.user@phpvms.net',
-                'getAvatar' => 'https://en.gravatar.com/userimage',
+                'getAvatar' => 'https://en.gravatar.com/userimage/12856995/aa6c0527a723abfd5fb9e246f0ff8af4.png',
             ]);
 
         $abstractUser->token = 'token';
