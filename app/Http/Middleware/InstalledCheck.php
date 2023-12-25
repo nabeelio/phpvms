@@ -6,8 +6,10 @@
 namespace App\Http\Middleware;
 
 use App\Contracts\Middleware;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Check the app.key to see whether we're installed or not
@@ -28,7 +30,7 @@ class InstalledCheck implements Middleware
         }
 
         if (!empty($key) && $key !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY='
-            && $request->is(['install', 'install/*'])
+            && $request->is(['install', 'install/*'] && Schema::hasTable('users') && User::count() > 0)
         ) {
             return response(view('system.installer.errors.already-installed'));
         }
