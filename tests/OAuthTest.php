@@ -2,8 +2,6 @@
 
 namespace Tests;
 
-use App\Models\Airline;
-use App\Models\Airport;
 use App\Models\User;
 use App\Models\UserOAuthToken;
 use Illuminate\Support\Facades\Auth;
@@ -15,22 +13,22 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class OAuthTest extends TestCase
 {
-
     /** @var array|string[] The drivers we want to test */
     protected array $drivers = ['discord'];
 
     /**
      * Simulate what would be returned by the OAuth provider
+     *
      * @return LegacyMockInterface|MockInterface
      */
     protected function getMockedProvider(): LegacyMockInterface|MockInterface
     {
         $abstractUser = \Mockery::mock('Laravel\Socialite\Two\User')
             ->allows([
-                'getId'           => 123456789,
-                'getName'         => 'OAuth user',
-                'getEmail'        => 'oauth.user@phpvms.net',
-                'getAvatar'       => 'https://en.gravatar.com/userimage',
+                'getId'     => 123456789,
+                'getName'   => 'OAuth user',
+                'getEmail'  => 'oauth.user@phpvms.net',
+                'getAvatar' => 'https://en.gravatar.com/userimage',
             ]);
 
         $abstractUser->token = 'token';
@@ -44,12 +42,13 @@ class OAuthTest extends TestCase
 
     /**
      * Try to link a logged-in user to an OAuth account from profile
+     *
      * @return void
      */
     public function testLinkAccountFromProfile(): void
     {
         $user = User::factory()->create([
-            'name' => 'OAuth user',
+            'name'  => 'OAuth user',
             'email' => 'oauth.user@phpvms.net',
         ]);
         Auth::login($user);
@@ -74,14 +73,15 @@ class OAuthTest extends TestCase
 
     /**
      * Try to link a non-logged-in user from the login page using its email
+     *
      * @return void
      */
     public function testLinkAccountFromLogin(): void
     {
         $user = User::factory()->create([
-            'name' => 'OAuth user',
+            'name'  => 'OAuth user',
             'email' => 'oauth.user@phpvms.net',
-            ]);
+        ]);
 
         foreach ($this->drivers as $driver) {
             Socialite::shouldReceive('driver')->with($driver)->andReturn($this->getMockedProvider());
@@ -103,22 +103,23 @@ class OAuthTest extends TestCase
 
     /**
      * Try to log in an already linked user
+     *
      * @return void
      */
     public function testLoginWithLinkedAccount(): void
     {
         $user = User::factory()->create([
-            'name' => 'OAuth user',
-            'email' => 'oauth.user@phpvms.net',
+            'name'       => 'OAuth user',
+            'email'      => 'oauth.user@phpvms.net',
             'discord_id' => 123456789,
         ]);
 
         foreach ($this->drivers as $driver) {
             UserOAuthToken::create([
-                'user_id' => $user->id,
-                'provider'  => $driver,
-                'token' => 'token',
-                'refresh_token' => 'refresh_token',
+                'user_id'           => $user->id,
+                'provider'          => $driver,
+                'token'             => 'token',
+                'refresh_token'     => 'refresh_token',
                 'last_refreshed_at' => now(),
             ]);
 
@@ -141,6 +142,7 @@ class OAuthTest extends TestCase
 
     /**
      * Try to log in someone not in DB
+     *
      * @return void
      */
     public function testNoAccountFound()
@@ -155,13 +157,14 @@ class OAuthTest extends TestCase
 
     /**
      * Try to unlink an account from profile
+     *
      * @return void
      */
     public function testUnlinkAccount(): void
     {
         $user = User::factory()->create([
-            'name'        => 'OAuth user',
-            'email'       => 'oauth.user@phpvms.net',
+            'name'  => 'OAuth user',
+            'email' => 'oauth.user@phpvms.net',
         ]);
 
         foreach ($this->drivers as $driver) {
@@ -181,6 +184,7 @@ class OAuthTest extends TestCase
 
     /**
      * Try to access a non-existing provider callback
+     *
      * @return void
      */
     public function testNonExistingProvider(): void
@@ -196,6 +200,7 @@ class OAuthTest extends TestCase
 
     /**
      * Try to access a disabled provider callback
+     *
      * @return void
      */
     public function testDisabledProvider(): void

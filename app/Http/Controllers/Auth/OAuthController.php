@@ -3,15 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Controller;
-use App\Models\Airline;
-use App\Models\Airport;
 use App\Models\User;
 use App\Models\UserOAuthToken;
 use App\Services\UserService;
-use App\Support\Utils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
 class OAuthController extends Controller
