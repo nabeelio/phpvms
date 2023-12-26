@@ -87,12 +87,12 @@ class OAuthController extends Controller
         if ($user) {
             $user->update([
                 $provider.'_id' => $providerUser->getId(),
+                'lastlogin_at'  => now(),
             ]);
 
             if (setting('general.record_user_ip', true)) {
                 $user->update([
-                    'last_ip'      => $request->ip(),
-                    'lastlogin_at' => now(),
+                    'last_ip'   => $request->ip(),
                 ]);
             }
 

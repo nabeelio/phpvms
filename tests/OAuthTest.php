@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Models\UserOAuthToken;
 use Illuminate\Support\Facades\Auth;
@@ -100,6 +101,7 @@ class OAuthTest extends TestCase
 
             $user->refresh();
             $this->assertEquals(123456789, $user->{$driver.'_id'});
+            $this->assertTrue($user->lastlogin_at->diffInSeconds(now()) <= 2);
 
             $tokens = $user->oauth_tokens()->where('provider', $driver)->first();
 
@@ -139,6 +141,7 @@ class OAuthTest extends TestCase
 
             $user->refresh();
             $this->assertEquals(123456789, $user->{$driver.'_id'});
+            $this->assertTrue($user->lastlogin_at->diffInSeconds(now()) <= 2);
 
             $tokens = $user->oauth_tokens()->where('provider', $driver)->first();
 
@@ -146,6 +149,27 @@ class OAuthTest extends TestCase
             $this->assertEquals('token', $tokens->token);
             $this->assertEquals('refresh_token', $tokens->refresh_token);
             $this->assertTrue($tokens->last_refreshed_at->diffInSeconds(now()) <= 2);
+        }
+    }
+
+    /**
+     * Try to log in a user with a pending account
+     *
+     * @return void
+     */
+    public function testLoginWithPendingAccount(): void
+    {
+        $user = User::factory()->create([
+            'name'  => 'OAuth user',
+            'email' => 'oauth.user@phpvms.net',
+            'state' => UserState::PENDING,
+        ]);
+
+        foreach ($this->drivers as $driver) {
+            Socialite::shouldReceive('driver')->with($driver)->andReturn($this->getMockedProvider());
+
+            $this->get(route('oauth.callback', ['provider' => $driver]))
+                ->assertViewIs('auth.pending');
         }
     }
 
