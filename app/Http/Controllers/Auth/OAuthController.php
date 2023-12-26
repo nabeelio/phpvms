@@ -92,7 +92,7 @@ class OAuthController extends Controller
 
             if (setting('general.record_user_ip', true)) {
                 $user->update([
-                    'last_ip'   => $request->ip(),
+                    'last_ip' => $request->ip(),
                 ]);
             }
 
