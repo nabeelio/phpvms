@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Controller;
+use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Models\UserOAuthToken;
 use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 use Laravel\Socialite\Facades\Socialite;
 
 class OAuthController extends Controller
@@ -35,7 +39,7 @@ class OAuthController extends Controller
         }
     }
 
-    public function handleProviderCallback(string $provider): RedirectResponse
+    public function handleProviderCallback(string $provider, Request $request): View|RedirectResponse
     {
         $providerUser = null;
 
@@ -84,6 +88,35 @@ class OAuthController extends Controller
             $user->update([
                 $provider.'_id' => $providerUser->getId(),
             ]);
+
+            if (setting('general.record_user_ip', true)) {
+                $user->update([
+                    'last_ip'      => $request->ip(),
+                    'lastlogin_at' => now(),
+                ]);
+            }
+
+            // We don't want to log in a non-active user
+            if ($user->state !== UserState::ACTIVE && $user->state !== UserState::ON_LEAVE) {
+                Log::info('Trying to login '.$user->ident.', state '.UserState::label($user->state));
+
+                // Log them out
+                Auth::logout();
+                $request->session()->invalidate();
+
+                // Redirect to one of the error pages
+                if ($user->state === UserState::PENDING) {
+                    return view('auth.pending');
+                }
+
+                if ($user->state === UserState::REJECTED) {
+                    return view('auth.rejected');
+                }
+
+                if ($user->state === UserState::SUSPENDED) {
+                    return view('auth.suspended');
+                }
+            }
 
             $tokens = UserOAuthToken::updateOrCreate([
                 'user_id'  => $user->id,
