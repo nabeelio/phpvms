@@ -10,6 +10,11 @@
         <a href="{{ route('admin.users.create') }}">Add User</a>
       </li>
   @endif
+  @if(setting('general.invite_only_registration', false))
+      <li>
+        <a href="{{ route('admin.invites.index') }}">Invites</a>
+      </li>
+  @endif
   <li>
     <a href="{{ route('admin.users.index') }}?state=0">@lang(UserState::label(UserState::PENDING))</a>
   </li>

@@ -3,7 +3,15 @@
 namespace App\Models;
 
 use App\Contracts\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
+/**
+ * @property string $email
+ * @property string $token
+ * @property int $usage_count
+ * @property int $usage_limit
+ * @property \Carbon\Carbon $expires_at
+ */
 class Invite extends Model
 {
     public $table = 'invites';
@@ -31,4 +39,11 @@ class Invite extends Model
         'usage_limit' => 'nullable|integer',
         'expires_at'  => 'nullable|datetime'
     ];
+
+    public function link(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value, $attrs) => url('/register?invite='.$attrs['id'].'&token='.$attrs['token'])
+            );
+    }
 }
