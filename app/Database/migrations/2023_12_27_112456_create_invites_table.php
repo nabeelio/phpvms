@@ -10,7 +10,7 @@ return new class() extends Migration {
         Schema::create('invites', function (Blueprint $table) {
             $table->id();
             $table->string('email')->nullable();
-            $table->longText('token');
+            $table->string('token');
             $table->integer('usage_count')->default(0);
             $table->integer('usage_limit')->nullable();
             $table->dateTime('expires_at')->nullable();
