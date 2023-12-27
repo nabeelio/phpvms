@@ -84,21 +84,19 @@ class UserService extends Service
      *
      * @param array $attrs Array with the user data
      * @param array $roles List of "display_name" of groups to assign
-     *
-     * @throws \Exception
-     *
+     * @param int|null $state
      * @return User
      */
-    public function createUser(array $attrs, array $roles = []): User
+    public function createUser(array $attrs, array $roles = [], ?int $state = null): User
     {
         $user = User::create($attrs);
         $user->api_key = Utils::generateApiKey();
         $user->curr_airport_id = $user->home_airport_id;
 
         // Determine if we want to auto accept
-        if (setting('pilots.auto_accept') === true) {
+        if ($state === null && setting('pilots.auto_accept') === true) {
             $user->state = UserState::ACTIVE;
-        } else {
+        } else if ($state === null) {
             $user->state = UserState::PENDING;
         }
 

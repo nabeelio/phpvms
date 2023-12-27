@@ -5,6 +5,11 @@
   <li>
     <a href="{{ route('admin.userfields.index') }}"></i>Profile Fields</a>
   </li>
+  @if(setting('general.disable_registration', false))
+      <li>
+        <a href="{{ route('admin.users.create') }}">Add User</a>
+      </li>
+  @endif
   <li>
     <a href="{{ route('admin.users.index') }}?state=0">@lang(UserState::label(UserState::PENDING))</a>
   </li>

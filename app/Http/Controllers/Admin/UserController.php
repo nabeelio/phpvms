@@ -107,11 +107,22 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request): RedirectResponse
     {
-        $input = $request->all();
-        $user = $this->userRepo->create($input);
+        if (!setting('general.disable_registration', false)) {
+            Flash::error('User registration is not disabled');
+            return redirect(route('admin.users.index'));
+        }
 
-        Flash::success('User saved successfully.');
-        return redirect(route('admin.users.index'));
+        $opts = $request->all();
+        $opts['password'] = Hash::make($opts['password']);
+
+        if (isset($opts['transfer_time'])) {
+            $opts['transfer_time'] *= 60;
+        }
+
+        $user = $this->userSvc->createUser($opts, $opts['roles'] ?? [], $opts['state'] ?? null);
+
+        Flash::success('User created successfully.');
+        return redirect(route('admin.users.edit', [$user->id]));
     }
 
     /**
