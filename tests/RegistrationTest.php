@@ -47,7 +47,8 @@ class RegistrationTest extends TestCase
         Notification::assertNotSentTo([$user], AdminUserRegistered::class);
     }
 
-    protected function getUserData(): array {
+    protected function getUserData(): array
+    {
         $airline = Airline::factory()->create();
         $home = Airport::factory()->create(['hub' => true]);
 
@@ -58,7 +59,7 @@ class RegistrationTest extends TestCase
             'home_airport_id'       => $home->id,
             'password'              => 'secret',
             'password_confirmation' => 'secret',
-            'toc_accepted'          => true
+            'toc_accepted'          => true,
         ];
     }
 
@@ -103,7 +104,7 @@ class RegistrationTest extends TestCase
 
         $userData = array_merge($this->getUserData(), [
             'invite'       => $invite->id,
-            'invite_token' => base64_encode($invite->token)
+            'invite_token' => base64_encode($invite->token),
         ]);
 
         $this->post('/register', $userData)
@@ -125,7 +126,7 @@ class RegistrationTest extends TestCase
 
         $expiredUserData = array_merge($this->getUserData(), [
             'invite'       => $expiredInvite->id,
-            'invite_token' => base64_encode($expiredInvite->token)
+            'invite_token' => base64_encode($expiredInvite->token),
         ]);
 
         $this->get($expiredInvite->link)
@@ -137,7 +138,7 @@ class RegistrationTest extends TestCase
         // Invalid token
         $invalidUserData = array_merge($this->getUserData(), [
             'invite'       => 1,
-            'invite_token' => 'invalid'
+            'invite_token' => 'invalid',
         ]);
 
         $this->get('/register?invite=1&invite_token=invalid')
@@ -155,7 +156,7 @@ class RegistrationTest extends TestCase
 
         $tooUsedUserData = array_merge($this->getUserData(), [
             'invite'       => $tooUsedInvite->id,
-            'invite_token' => base64_encode($tooUsedInvite->token)
+            'invite_token' => base64_encode($tooUsedInvite->token),
         ]);
 
         $this->get($tooUsedInvite->link)

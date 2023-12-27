@@ -5,7 +5,6 @@ namespace App\Cron\Hourly;
 use App\Contracts\Listener;
 use App\Events\CronHourly;
 use App\Models\Invite;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 /**

@@ -16,7 +16,7 @@ class CreateInviteRequest extends FormRequest
         return [
             'email'       => 'nullable|string',
             'usage_limit' => 'nullable|integer',
-            'expires_at'  => 'nullable|date|after:today'
+            'expires_at'  => 'nullable|date|after:today',
         ];
     }
 }

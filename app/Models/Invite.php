@@ -6,10 +6,10 @@ use App\Contracts\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
 /**
- * @property string $email
- * @property string $token
- * @property int $usage_count
- * @property int $usage_limit
+ * @property string         $email
+ * @property string         $token
+ * @property int            $usage_count
+ * @property int            $usage_limit
  * @property \Carbon\Carbon $expires_at
  */
 class Invite extends Model
@@ -21,7 +21,7 @@ class Invite extends Model
         'token',
         'usage_count',
         'usage_limit',
-        'expires_at'
+        'expires_at',
     ];
 
     protected $casts = [
@@ -29,7 +29,7 @@ class Invite extends Model
         'token'       => 'string',
         'usage_count' => 'integer',
         'usage_limit' => 'integer',
-        'expires_at'  => 'datetime'
+        'expires_at'  => 'datetime',
     ];
 
     public static array $rules = [
@@ -37,13 +37,13 @@ class Invite extends Model
         'token'       => 'required|string',
         'usage_count' => 'integer',
         'usage_limit' => 'nullable|integer',
-        'expires_at'  => 'nullable|datetime'
+        'expires_at'  => 'nullable|datetime',
     ];
 
     public function link(): Attribute
     {
         return Attribute::make(
             get: fn ($value, $attrs) => url('/register?invite='.$attrs['id'].'&token='.$attrs['token'])
-            );
+        );
     }
 }

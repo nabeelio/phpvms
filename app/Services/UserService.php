@@ -82,9 +82,10 @@ class UserService extends Service
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
      *
-     * @param array $attrs Array with the user data
-     * @param array $roles List of "display_name" of groups to assign
+     * @param array    $attrs Array with the user data
+     * @param array    $roles List of "display_name" of groups to assign
      * @param int|null $state
+     *
      * @return User
      */
     public function createUser(array $attrs, array $roles = [], ?int $state = null): User
@@ -96,7 +97,7 @@ class UserService extends Service
         // Determine if we want to auto accept
         if ($state === null && setting('pilots.auto_accept') === true) {
             $user->state = UserState::ACTIVE;
-        } else if ($state === null) {
+        } elseif ($state === null) {
             $user->state = UserState::PENDING;
         }
 

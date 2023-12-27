@@ -55,6 +55,7 @@ class RegisterController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return View
      */
     public function showRegistrationForm(Request $request): View

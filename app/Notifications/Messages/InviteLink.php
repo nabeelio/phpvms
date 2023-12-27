@@ -21,7 +21,7 @@ class InviteLink extends Notification
         parent::__construct();
 
         $this->setMailable(
-            'You have been invited to join ' .config('app.name'),
+            'You have been invited to join '.config('app.name'),
             'notifications.mail.user.invite',
             ['invite' => $invite]
         );

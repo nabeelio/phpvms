@@ -46,7 +46,7 @@ class InviteController extends Controller
 
         $invite = Invite::create([
             'email'       => $request->get('email'),
-            'token'       => sha1(hrtime(true) . str_random()),
+            'token'       => sha1(hrtime(true).str_random()),
             'usage_count' => 0,
             'usage_limit' => !is_null($request->get('email')) ? 1 : $request->get('usage_limit'),
             'expires_at'  => $request->get('expires_at'),
@@ -57,7 +57,7 @@ class InviteController extends Controller
                 ->notify(new InviteLink($invite));
         }
 
-        Flash::success('Invite created successfully. The link is: ' . $invite->link);
+        Flash::success('Invite created successfully. The link is: '.$invite->link);
 
         return redirect(route('admin.invites.index'));
     }
@@ -81,5 +81,4 @@ class InviteController extends Controller
         Flash::success('Invite deleted successfully');
         return redirect(route('admin.invites.index'));
     }
-
 }

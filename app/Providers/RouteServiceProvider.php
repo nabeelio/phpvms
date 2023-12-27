@@ -491,7 +491,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->except([
                     'show',
                     'edit',
-                    'update'
+                    'update',
                 ]);
 
             Route::match([
