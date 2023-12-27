@@ -105,6 +105,11 @@
             @endif
           @endif
 
+          @if($invite)
+            {{ Form::hidden('invite', $invite->id) }}
+            {{ Form::hidden('invite_token', base64_encode($invite->token)) }}
+          @endif
+
           <div>
             @include('auth.toc')
             <br/>
