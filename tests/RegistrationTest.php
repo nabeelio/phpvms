@@ -173,13 +173,13 @@ class RegistrationTest extends TestCase
 
         $this->expectException(HttpException::class);
         $invite = Invite::create([
-            'email'       => 'invited_email@phpvms.net',
-            'token'       => 'test',
+            'email' => 'invited_email@phpvms.net',
+            'token' => 'test',
         ]);
 
         $userData = array_merge($this->getUserData(), [
             'invite'       => $invite->id,
-            'invite_token' => base64_encode($invite->token)
+            'invite_token' => base64_encode($invite->token),
         ]);
 
         $this->get($invite->link)
