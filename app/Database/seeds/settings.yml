@@ -61,6 +61,20 @@
   options: ''
   type: boolean
   description: Record the user's IP address on register/login
+- key: general.invite_only_registration
+  name: 'Invite Only Registration'
+  group: general
+  value: false
+  options: ''
+  type: boolean
+  description: If checked, only users with an invite can register
+- key: general.disable_registration
+  name: 'Disable registration'
+  group: general
+  value: false
+  options: ''
+  type: boolean
+  description: If checked, registration will be disabled and only admins can add pilots
 - key: captcha.enabled
   name: 'hCaptcha Enabled'
   group: captcha
