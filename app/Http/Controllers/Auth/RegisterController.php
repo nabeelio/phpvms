@@ -72,6 +72,14 @@ class RegisterController extends Controller
             if (!$invite || $invite->token !== $request->get('token')) {
                 abort(403, 'Invalid invite');
             }
+
+            if ($invite->usage_limit && $invite->usage_count >= $invite->usage_limit) {
+                abort(403, 'Invite has been used too many times');
+            }
+
+            if ($invite->expires_at && $invite->expires_at->isPast()) {
+                abort(403, 'Invite has expired');
+            }
         }
 
         $airlines = $this->airlineRepo->selectBoxList();
