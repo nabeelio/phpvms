@@ -107,7 +107,7 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request): RedirectResponse
     {
-        if (!setting('general.disable_registration', false)) {
+        if (!setting('general.disable_registrations', false)) {
             Flash::error('User registration is not disabled');
             return redirect(route('admin.users.index'));
         }

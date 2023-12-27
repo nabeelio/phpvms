@@ -15,7 +15,7 @@ class InviteController extends Controller
 {
     public function index(): RedirectResponse|View
     {
-        if (!setting('general.invite_only_registration', false)) {
+        if (!setting('general.invite_only_registrations', false)) {
             Flash::error('Registration is not on invite only');
             return redirect(route('admin.users.index'));
         }
@@ -29,7 +29,7 @@ class InviteController extends Controller
 
     public function create(): RedirectResponse|View
     {
-        if (!setting('general.invite_only_registration', false)) {
+        if (!setting('general.invite_only_registrations', false)) {
             Flash::error('Registration is not on invite only');
             return redirect(route('admin.users.index'));
         }
@@ -39,7 +39,7 @@ class InviteController extends Controller
 
     public function store(CreateInviteRequest $request): RedirectResponse
     {
-        if (!setting('general.invite_only_registration', false)) {
+        if (!setting('general.invite_only_registrations', false)) {
             Flash::error('Registration is not on invite only');
             return redirect(route('admin.users.index'));
         }
@@ -64,7 +64,7 @@ class InviteController extends Controller
 
     public function destroy(int $id): RedirectResponse
     {
-        if (!setting('general.invite_only_registration', false)) {
+        if (!setting('general.invite_only_registrations', false)) {
             Flash::error('Registration is not on invite only');
             return redirect(route('admin.users.index'));
         }
