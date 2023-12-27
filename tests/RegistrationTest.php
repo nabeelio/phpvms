@@ -165,4 +165,27 @@ class RegistrationTest extends TestCase
         $this->post('/register', $tooUsedUserData)
             ->assertForbidden();
     }
+
+    public function testWithInvalidEmail()
+    {
+        $this->updateSetting('general.disable_registrations', false);
+        $this->updateSetting('general.invite_only_registrations', true);
+
+        $this->expectException(HttpException::class);
+        $invite = Invite::create([
+            'email'       => 'invited_email@phpvms.net',
+            'token'       => 'test',
+        ]);
+
+        $userData = array_merge($this->getUserData(), [
+            'invite'       => $invite->id,
+            'invite_token' => base64_encode($invite->token)
+        ]);
+
+        $this->get($invite->link)
+            ->assertOk();
+
+        $this->post('/register', $userData)
+            ->assertForbidden();
+    }
 }
