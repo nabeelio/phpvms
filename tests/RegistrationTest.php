@@ -63,6 +63,17 @@ class RegistrationTest extends TestCase
         ];
     }
 
+    public function testAccessToRegistrationWhenRegistrationEnabled(): void {
+        $this->updateSetting('general.disable_registrations', false);
+        $this->updateSetting('general.invite_only_registrations', false);
+
+        $this->get('/register')
+            ->assertOk();
+
+        $this->post('/register', $this->getUserData())
+            ->assertRedirect('/dashboard');
+    }
+
     public function testAccessToRegistrationWhenRegistrationDisabled(): void
     {
         $this->updateSetting('general.disable_registrations', true);
