@@ -63,4 +63,5 @@ return [
     'abouttoleave'         => 'Estás a punto de abandonar este sitio web y ser redirigido a',
     'wanttocontinue'       => '¿Quieres continuar?',
     'continue'             => 'Continuar',
+    'alwaystrustdomain'    => 'Confiar siempre en este dominio',
 ];

@@ -9,6 +9,12 @@
       </div>
       <div class="modal-body">
         @lang('common.abouttoleave') <span class="text-primary" id="externalRedirectHost"></span>. @lang('common.wanttocontinue')
+        <div class="input-group form-group-no-border mt-2">
+          <input id="redirectAlwaysTrustThisDomain" type="checkbox" value="1">
+          <label for="redirectAlwaysTrustThisDomain" class="control-label mb-0 ml-2">
+            @lang('common.alwaystrustdomain')
+          </label>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('common.close')</button>
