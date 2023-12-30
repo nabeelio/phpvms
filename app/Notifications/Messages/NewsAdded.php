@@ -33,7 +33,8 @@ class NewsAdded extends Notification implements ShouldQueue
     }
 
     /**
-     * @param News $news
+     * @param News  $news
+     * @param mixed $notifiable
      *
      * @return DiscordMessage|null
      */
