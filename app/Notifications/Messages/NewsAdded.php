@@ -37,23 +37,31 @@ class NewsAdded extends Notification implements ShouldQueue
      *
      * @return DiscordMessage|null
      */
-    public function toDiscordChannel($news): ?DiscordMessage
-    {
-        if (empty(setting('notifications.discord_public_webhook_url'))) {
-            return null;
-        }
 
-        $dm = new DiscordMessage();
-        return $dm->webhook(setting('notifications.discord_public_webhook_url'))
-            ->success()
-            ->title('News: '.$news->subject)
-            ->author([
-                'name'     => $news->user->ident.' - '.$news->user->name_private,
-                'url'      => '',
-                'icon_url' => $news->user->resolveAvatarUrl(),
-            ])
-            ->description($news->body);
-    }
+    /*
+     * DASHED OUT ON PURPOSE TO FIX ISSUE  #1741
+     * AS IT GENERATES EXCEPTIONS DUE TO MISSING USER OBJECT
+     * AND GENERATES MULTIPLE MESSAGES IN DISCORD
+     *
+        public function toDiscordChannel($news): ?DiscordMessage
+        {
+            if (empty(setting('notifications.discord_public_webhook_url'))) {
+                return null;
+            }
+
+            $dm = new DiscordMessage();
+            return $dm->webhook(setting('notifications.discord_public_webhook_url'))
+                ->success()
+                ->title('News: '.$news->subject)
+                ->author([
+                    'name'     => $news->user->ident.' - '.$news->user->name_private,
+                    'url'      => '',
+                    'icon_url' => $news->user->resolveAvatarUrl(),
+                ])
+                ->description($news->body);
+        }
+    *
+    */
 
     /**
      * Get the array representation of the notification.
