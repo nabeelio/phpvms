@@ -29,7 +29,7 @@ class NewsAdded extends Notification implements ShouldQueue
 
     public function via($notifiable)
     {
-        return ['mail', DiscordWebhook::class];
+        return ['mail'];
     }
 
     /**
