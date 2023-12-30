@@ -5,11 +5,9 @@
   <li>
     <a href="{{ route('admin.userfields.index') }}"></i>Profile Fields</a>
   </li>
-  @if(setting('general.disable_registrations', false))
-      <li>
-        <a href="{{ route('admin.users.create') }}">Add User</a>
-      </li>
-  @endif
+  <li>
+    <a href="{{ route('admin.users.create') }}">Add User</a>
+  </li>
   @if(setting('general.invite_only_registrations', false))
       <li>
         <a href="{{ route('admin.invites.index') }}">Invites</a>
