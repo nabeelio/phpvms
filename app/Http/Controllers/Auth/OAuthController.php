@@ -77,6 +77,10 @@ class OAuthController extends Controller
                 'last_refreshed_at' => now(),
             ]);
 
+            if ($provider === 'discord') {
+                $this->userSvc->retrieveDiscordPrivateChannelId($user);
+            }
+
             flash()->success(ucfirst($provider).' account linked!');
 
             return redirect(route('frontend.profile.index'));
@@ -129,6 +133,10 @@ class OAuthController extends Controller
 
             Auth::login($user);
 
+            if ($provider === 'discord') {
+                $this->userSvc->retrieveDiscordPrivateChannelId($user);
+            }
+
             return redirect(route('frontend.dashboard.index'));
         }
 
@@ -148,6 +156,12 @@ class OAuthController extends Controller
         $user->update([
             $provider.'_id' => '',
         ]);
+
+        if ($provider === 'discord' && $user->discord_private_channel_id) {
+            $user->update([
+                'discord_private_channel_id' => ''
+            ]);
+        }
 
         flash()->success(ucfirst($provider).' account unlinked!');
 
