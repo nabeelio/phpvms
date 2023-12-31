@@ -614,7 +614,7 @@ class UserService extends Service
         try {
             $httpClient = new Client();
 
-            $response = $httpClient->post( 'https://discord.com/api/users/@me/channels', [
+            $response = $httpClient->post('https://discord.com/api/users/@me/channels', [
                 'headers' => [
                     'Authorization' => 'Bot '.config('services.discord.bot_token'),
                 ],
@@ -628,9 +628,9 @@ class UserService extends Service
                 'discord_private_channel_id' => $privateChannel,
             ]);
         } catch (\Exception $e) {
-            Log::error('Discord OAuth Error: ' . $e->getMessage());
+            Log::error('Discord OAuth Error: '.$e->getMessage());
         } catch (GuzzleException $e) {
-            Log::error('Discord OAuth Error: ' . $e->getMessage());
+            Log::error('Discord OAuth Error: '.$e->getMessage());
         }
     }
 }

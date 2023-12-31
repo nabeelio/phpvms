@@ -159,7 +159,7 @@ class OAuthController extends Controller
 
         if ($provider === 'discord' && $user->discord_private_channel_id) {
             $user->update([
-                'discord_private_channel_id' => ''
+                'discord_private_channel_id' => '',
             ]);
         }
 
