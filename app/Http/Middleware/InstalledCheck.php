@@ -29,8 +29,7 @@ class InstalledCheck implements Middleware
             return response(view('system.errors.not_installed'));
         }
 
-        if (!empty($key) && $key !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=' && $request->is(['install', 'install/*']) && Schema::hasTable('users') && User::count() > 0) 
-        {
+        if (!empty($key) && $key !== 'base64:zdgcDqu9PM8uGWCtMxd74ZqdGJIrnw812oRMmwDF6KY=' && $request->is(['install', 'install/*']) && Schema::hasTable('users') && User::count() > 0) {
             return response(view('system.installer.errors.already-installed'));
         }
 
