@@ -321,7 +321,7 @@ flight reports that have been filed. You've been warned!
         <div class="row">
           <div class="col">
             <div class="input-group input-group-sm form-group">
-              <textarea name="route" id="route" placeholder="@lang('flights.route')" class="form-control">@if(!empty($pirep) && $pirep->read_only){{ $pirep->route }}@else{{ old('route') }}@endif</textarea>
+              <textarea name="route" id="route" placeholder="@lang('flights.route')" class="form-control">@if(!empty($pirep)){{ $pirep->route }}@else{{ old('route') }}@endif</textarea>
               <p class="text-danger">{{ $errors->first('route') }}</p>
             </div>
           </div>
@@ -337,7 +337,7 @@ flight reports that have been filed. You've been warned!
         <div class="row">
           <div class="col">
             <div class="input-group input-group-sm form-group">
-              <textarea name="notes" id="notes" placeholder="{{ trans_choice('common.note', 2) }}" class="form-control">@if(!empty($pirep) && $pirep->read_only){{ $pirep->notes }}@else{{ old('notes') }}@endif</textarea>
+              <textarea name="notes" id="notes" placeholder="{{ trans_choice('common.note', 2) }}" class="form-control">@if(!empty($pirep)){{ $pirep->notes }}@else{{ old('notes') }}@endif</textarea>
               <p class="text-danger">{{ $errors->first('notes') }}</p>
             </div>
           </div>
