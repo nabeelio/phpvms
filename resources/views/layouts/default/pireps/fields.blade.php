@@ -178,7 +178,7 @@ flight reports that have been filed. You've been warned!
         <div class="row">
           <div class="col-6">
             <label for="dpt_airport_id">@lang('airports.departure')</label>
-            @if(!empty($pirep) && $pirep->read_only)
+            @if(!empty($pirep) && ($pirep->read_only || request()->has('flight_id')))
               {{ $pirep->dpt_airport->name }}
               (<a href="{{route('frontend.airports.show', [
                                     'id' => $pirep->dpt_airport->icao
@@ -204,7 +204,7 @@ flight reports that have been filed. You've been warned!
 
           <div class="col-6">
             <label for="arr_airport_id">@lang('airports.arrival')</label>
-            @if(!empty($pirep) && $pirep->read_only)
+            @if(!empty($pirep) && ($pirep->read_only || request()->has('flight_id')))
               {{ $pirep->arr_airport->name }}
               (<a href="{{route('frontend.airports.show', [
                                     'id' => $pirep->arr_airport->icao
