@@ -532,7 +532,7 @@ class PirepController extends Controller
         }
 
         $airports = [
-            '' => '',
+            ''                      => '',
             $pirep->arr_airport->id => $pirep->arr_airport->full_name,
             $pirep->dpt_airport->id => $pirep->dpt_airport->full_name,
         ];
