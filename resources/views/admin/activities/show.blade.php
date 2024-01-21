@@ -75,12 +75,23 @@
                     <tbody>
                     {{-- Check if 'attributes' key exists --}}
                     @foreach($activity->changes['attributes'] as $field => $newValue)
-                      <tr>
-                        <td>{{ $field }}</td>
-                        <td>{{ $newValue }}</td>
-                        {{-- Check if 'old' key exists --}}
-                        <td>{{ $activity->changes['old'][$field] ?? 'N/A' }}</td>
-                      </tr>
+                       @if(!is_array($newValue))
+                        <tr>
+                          <td>{{ $field }}</td>
+                          <td>{{ $newValue }}</td>
+                          {{-- Check if 'old' key exists --}}
+                          <td>{{ $activity->changes['old'][$field] ?? 'N/A' }}</td>
+                        </tr>
+                       @else
+                         @foreach($newValue as $subField => $newSubFieldValue)
+                           <td>{{ $field.'.'.$subField}}</td>
+                           <td>
+                             {{ $newSubFieldValue }}
+                           </td>
+                           {{-- Check if 'old' key exists --}}
+                           <td>{{ $activity->changes['old'][$field][$subField] ?? 'N/A' }}</td>
+                         @endforeach
+                       @endif
                     @endforeach
                     </tbody>
                   </table>
