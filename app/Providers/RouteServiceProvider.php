@@ -513,6 +513,10 @@ class RouteServiceProvider extends ServiceProvider
             ], 'dashboard/news', ['uses' => 'DashboardController@news'])
                 ->name('dashboard.news')->middleware('update_pending', 'ability:admin,admin-access');
 
+            Route::resource('activities', 'ActivityController')
+                ->only(['index', 'show'])
+                ->middleware('ability:admin,admin-access');
+
             //Modules
             Route::group([
                 'as'         => 'modules.',

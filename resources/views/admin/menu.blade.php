@@ -86,6 +86,10 @@
       <li><a href="{{ url('/admin/maintenance') }}"><i class="pe-7s-tools"></i>maintenance</a></li>
       @endability
 
+      @ability('admin', 'admin-access')
+      <li><a href="{{ url('/admin/activities') }}"><i class="pe-7s-news-paper"></i>activities</a></li>
+      @endability
+
       @ability('admin', 'settings')
       <li><a href="{{ url('/admin/settings') }}"><i class="pe-7s-config"></i>settings</a></li>
       @endability
