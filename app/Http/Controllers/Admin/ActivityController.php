@@ -15,7 +15,7 @@ class ActivityController extends Controller
         $activities = Activity::with('causer')->orderBy('created_at', 'desc')->paginate();
 
         return view('admin.activities.index', [
-            'activities' => $activities
+            'activities' => $activities,
         ]);
     }
 
@@ -29,7 +29,7 @@ class ActivityController extends Controller
         }
 
         return view('admin.activities.show', [
-            'activity' => $activity
+            'activity' => $activity,
         ]);
     }
 }

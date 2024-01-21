@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Log;
 
 class ActivityLogClean extends CronCommand
 {
-
     protected $signature = 'cron:activitylog-clean';
     protected $description = 'Clean up old activity logs';
 
