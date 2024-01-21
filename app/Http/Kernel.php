@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\ApiAuth;
+use App\Http\Middleware\DisableActivityLogging;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\InstalledCheck;
 use App\Http\Middleware\JsonResponse;
@@ -39,6 +40,7 @@ class Kernel extends HttpKernel
             // 'throttle:60,1',
             'bindings',
             'json',
+            DisableActivityLogging::class,
         ],
         'web' => [
             InstalledCheck::class,
