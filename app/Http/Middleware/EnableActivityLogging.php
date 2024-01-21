@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DisableActivityLogging
+class EnableActivityLogging
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class DisableActivityLogging
      */
     public function handle(Request $request, Closure $next): Response
     {
-        activity()->disableLogging();
+        activity()->enableLogging();
         return $next($request);
     }
 }
