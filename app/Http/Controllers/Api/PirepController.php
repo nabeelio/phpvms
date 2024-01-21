@@ -207,7 +207,6 @@ class PirepController extends Controller
      */
     public function prefile(PrefileRequest $request): PirepResource
     {
-
         /**
          * @var $user \App\Models\User
          */
