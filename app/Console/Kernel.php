@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Cron\ActivityLogClean;
 use App\Console\Cron\FifteenMinute;
 use App\Console\Cron\FiveMinute;
 use App\Console\Cron\Hourly;
@@ -55,6 +56,10 @@ class Kernel extends ConsoleKernel
             $schedule->command('backup:run')->daily()->at('01:00');
             $schedule->command('backup:clean')->daily()->at('01:20');
             $schedule->command('backup:monitor')->daily()->at('01:30');
+        }
+
+        if (config('activitylog.enabled', false) === true) {
+            $schedule->command(ActivityLogClean::class)->dailyAt('01:00');
         }
 
         // Update the last time the cron was run

@@ -5,6 +5,7 @@
 
 namespace App\Console;
 
+use App\Console\Cron\ActivityLogClean;
 use App\Console\Cron\FifteenMinute;
 use App\Console\Cron\FiveMinute;
 use App\Console\Cron\Hourly;
@@ -33,6 +34,7 @@ class Cron
         Nightly::class,
         Weekly::class,
         Monthly::class,
+        ActivityLogClean::class,
     ];
 
     /**
