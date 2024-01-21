@@ -241,7 +241,7 @@ class PirepController extends Controller
      */
     public function update(string $pirep_id, UpdateRequest $request): PirepResource
     {
-        Log::info('PIREP Update, pirep_id: '.$pirep_id.', user_id: '.Auth::id());
+        Log::debug('PIREP Update, pirep_id: '.$pirep_id.', user_id: '.Auth::id());
 
         /** @var User $user */
         $user = Auth::user();
