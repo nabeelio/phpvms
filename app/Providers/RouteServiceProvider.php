@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\DisableActivityLogging;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -103,7 +104,7 @@ class RouteServiceProvider extends ServiceProvider
     private function mapWebRoutes()
     {
         Route::group([
-            'middleware' => ['web'],
+            'middleware' => ['web', DisableActivityLogging::class],
             'namespace'  => $this->namespace,
         ], function () {
             Route::group([
