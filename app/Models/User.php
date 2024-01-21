@@ -16,6 +16,8 @@ use Illuminate\Notifications\Notifiable;
 use Kyslik\ColumnSortable\Sortable;
 use Laratrust\Contracts\LaratrustUser;
 use Laratrust\Traits\HasRolesAndPermissions;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
@@ -75,6 +77,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
     use Notifiable;
     use SoftDeletes;
     use Sortable;
+    use LogsActivity;
 
     public $table = 'users';
 
@@ -298,6 +301,15 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         }
 
         return $avatar->url;
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->fillable)
+            ->logExcept(array_merge($this->hidden, ['created_at', 'updated_at']))
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     /**
