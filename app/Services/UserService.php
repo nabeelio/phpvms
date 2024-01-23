@@ -24,6 +24,8 @@ use App\Repositories\UserRepository;
 use App\Support\Units\Time;
 use App\Support\Utils;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
@@ -601,5 +603,34 @@ class UserService extends Service
         $user->refresh();
 
         return $user;
+    }
+
+    public function retrieveDiscordPrivateChannelId(User $user): void
+    {
+        if (is_null(config('services.discord.bot_token'))) {
+            return;
+        }
+
+        try {
+            $httpClient = new Client();
+
+            $response = $httpClient->post('https://discord.com/api/users/@me/channels', [
+                'headers' => [
+                    'Authorization' => 'Bot '.config('services.discord.bot_token'),
+                ],
+                'json' => [
+                    'recipient_id' => $user->discord_id,
+                ],
+            ]);
+
+            $privateChannel = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR)['id'];
+            $user->update([
+                'discord_private_channel_id' => $privateChannel,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Discord OAuth Error: '.$e->getMessage());
+        } catch (GuzzleException $e) {
+            Log::error('Discord OAuth Error: '.$e->getMessage());
+        }
     }
 }
