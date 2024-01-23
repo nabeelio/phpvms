@@ -1,4 +1,4 @@
-<table class="table" style="border-style: hidden; margin-bottom: 0px; padding:0px;">
+<table class="table" style="border-style: hidden; margin-bottom: 0; padding:0;background-color:transparent;">
   <tr style="border-style: hidden;">
     @if ($pirep->state === PirepState::PENDING || $pirep->state === PirepState::REJECTED)
       <td>
