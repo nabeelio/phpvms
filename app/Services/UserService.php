@@ -148,7 +148,7 @@ class UserService extends Service
             $user->state = UserState::DELETED;
             $user->save();
         } else {
-            $user->delete();
+            $user->forceDelete();
         }
     }
 
