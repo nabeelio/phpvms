@@ -123,7 +123,6 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         'api_key',
         'email',
         'name',
-        'discord_id',
         'discord_private_channel_id',
         'password',
         'last_ip',
