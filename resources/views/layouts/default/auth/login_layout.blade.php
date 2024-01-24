@@ -22,6 +22,7 @@
 
 <!-- End Navbar -->
 <div class="page-header">
+@include('flash::message')
 
   <div class="container">
     @yield('content')

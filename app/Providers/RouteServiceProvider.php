@@ -487,6 +487,13 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::resource('users', 'UserController')->middleware('ability:admin,users');
 
+            Route::resource('invites', 'InviteController')->middleware('ability:admin,users')
+                ->except([
+                    'show',
+                    'edit',
+                    'update',
+                ]);
+
             Route::match([
                 'get',
                 'post',

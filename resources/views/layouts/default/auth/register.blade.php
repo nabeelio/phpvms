@@ -125,6 +125,11 @@
             @endif
           @endif
 
+          @if($invite)
+            <input type="hidden" name="invite" value="{{ $invite->id }}" />
+            <input type="hidden" name="invite_token" value="{{ base64_encode($invite->token) }}" />
+          @endif
+
           <div>
             @include('auth.toc')
             <br/>
