@@ -11,10 +11,10 @@
     @endif
 
     <div class="row">
-      <div class="col-md-7">
+      <div class="col-md-9">
         @include('admin.dashboard.news')
       </div>
-      <div class="col-md-5">
+      <div class="col-md-3">
         @component('admin.components.infobox')
           @slot('icon', 'pe-7s-users')
           @slot('type', 'Pilots')
