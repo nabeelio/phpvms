@@ -41,7 +41,7 @@
             <tr>
               <th>{{ $item->subject }}</th>
               <td>{!! $item->body!!}</td>
-              <td>{{ $item->user->name_private }}</td>
+              <td>{{ optional($item->user)->name_private }}</td>
               <td>{{ $item->created_at->format('d.M.y') }}</td>
               <td>
                 {{ Form::open(['route' => 'admin.dashboard.news', 'method' => 'delete', 'class' => 'pjax_news_form']) }}
