@@ -44,16 +44,6 @@
               <td>{{ $item->user->name_private }}</td>
               <td>{{ $item->created_at->format('d.M.y') }}</td>
               <td>
-                @if($item->draft)
-                  {{ Form::open(['route' => 'admin.dashboard.news', 'method' => 'put', 'class' => 'pjax_news_form']) }}
-                  {{ Form::hidden('id', $item->id) }}
-                  {{ Form::hidden('subject', $item->subject) }}
-                  {{ Form::hidden('body', $item->body) }}
-                  {{ Form::hidden('draft', false) }}
-                  {{ Form::button('Publish', ['type' => 'submit', 'class' => 'btn btn-success btn-xs text-small', 'onclick' => "return confirm('Are you sure?')"]) }}
-                  {{ Form::close() }}
-                  <br>
-                @endif
                 {{ Form::open(['route' => 'admin.dashboard.news', 'method' => 'delete', 'class' => 'pjax_news_form']) }}
                 {{ Form::hidden('news_id', $item->id) }}
                 {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs text-small', 'onclick' => "return confirm('Are you sure?')"]) }}
