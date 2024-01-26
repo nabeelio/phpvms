@@ -122,8 +122,8 @@ class OAuthTest extends TestCase
     public function testLoginWithLinkedAccount(): void
     {
         $user = User::factory()->create([
-            'name'       => 'OAuth user',
-            'email'      => 'oauth.user@phpvms.net',
+            'name'  => 'OAuth user',
+            'email' => 'oauth.user@phpvms.net',
         ]);
 
         foreach ($this->drivers as $driver) {

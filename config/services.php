@@ -48,6 +48,6 @@ return [
         'redirect'      => '/oauth/vatsim/callback',
 
         // For local development only
-        'test'          => env('VATSIM_TEST', false),
+        'test' => env('VATSIM_TEST', false),
     ],
 ];
