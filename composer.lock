@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfdeb674b83929dc487d333bb5856a2d",
+    "content-hash": "ee249582e1078b12bb99b7d68f9b7f09",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -3116,37 +3116,39 @@
         },
         {
             "name": "jmikola/geojson",
-            "version": "1.0.3",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jmikola/geojson.git",
-                "reference": "f5b122e15c804fabc5881da214c57d52ea0c5715"
+                "reference": "e28f3855bb61a91aab32b74c176d76dd0b5658d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jmikola/geojson/zipball/f5b122e15c804fabc5881da214c57d52ea0c5715",
-                "reference": "f5b122e15c804fabc5881da214c57d52ea0c5715",
+                "url": "https://api.github.com/repos/jmikola/geojson/zipball/e28f3855bb61a91aab32b74c176d76dd0b5658d7",
+                "reference": "e28f3855bb61a91aab32b74c176d76dd0b5658d7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "ext-json": "*",
+                "php": "^7.4 || ^8.0",
+                "symfony/polyfill-php80": "^1.25"
             },
             "require-dev": {
-                "phpunit/phpunit": "~3.7"
+                "phpunit/phpunit": "^9.5",
+                "scrutinizer/ocular": "^1.8.1",
+                "slevomat/coding-standard": "^8.0",
+                "squizlabs/php_codesniffer": "^3.6"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "1.1-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "GeoJson\\": "src/"
-                },
-                "classmap": [
-                    "stubs/"
-                ]
+                "psr-4": {
+                    "GeoJson\\": "src"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3167,9 +3169,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jmikola/geojson/issues",
-                "source": "https://github.com/jmikola/geojson/tree/1.0.3"
+                "source": "https://github.com/jmikola/geojson/tree/1.2.0"
             },
-            "time": "2022-01-21T04:20:33+00:00"
+            "time": "2023-12-04T17:19:43+00:00"
         },
         {
             "name": "joshbrw/laravel-module-installer",
