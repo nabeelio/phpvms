@@ -4,9 +4,6 @@
          testdox="true"
          processIsolation="false"
          stopOnFailure="true"
-         convertErrorsToExceptions="false"
-         convertNoticesToExceptions="false"
-         convertWarningsToExceptions="false"
          beStrictAboutOutputDuringTests="false"
          beStrictAboutTestsThatDoNotTestAnything="false">
     <testsuites>
@@ -14,11 +11,6 @@
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./app</directory>
-        </whitelist>
-    </filter>
     <!--<listeners>
         <listener class="NunoMaduro\Collision\Adapters\Phpunit\Listener"/>
     </listeners>-->
