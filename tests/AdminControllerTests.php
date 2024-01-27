@@ -29,7 +29,7 @@ class AdminControllerTests extends TestCase
      *
      * @return void
      */
-    public function testAddSubfleet()
+    public function testAddSubfleet(): void
     {
         $user = $this->addAdminUser();
         $add = Subfleet::factory()->make(['type' => 'B737'])->toArray();

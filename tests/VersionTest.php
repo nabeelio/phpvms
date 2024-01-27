@@ -7,7 +7,7 @@ use App\Services\VersionService;
 
 class VersionTest extends TestCase
 {
-    private $kvpRepo;
+    private KvpRepository $kvpRepo;
 
     protected function setUp(): void
     {

@@ -20,10 +20,10 @@ use Illuminate\Support\Facades\Hash;
 class UserTest extends TestCase
 {
     /** @var SettingRepository */
-    protected $settingsRepo;
+    protected SettingRepository $settingsRepo;
 
     /** @var UserService */
-    protected $userSvc;
+    protected UserService $userSvc;
 
     protected function setUp(): void
     {
@@ -36,7 +36,7 @@ class UserTest extends TestCase
      * Makes sure that the subfleet/aircraft returned are allowable
      * by the users rank.
      */
-    public function testRankSubfleets()
+    public function testRankSubfleets(): void
     {
         // Add subfleets and aircraft, but also add another
         // set of subfleets
@@ -93,7 +93,7 @@ class UserTest extends TestCase
      *
      * @throws \Exception
      */
-    public function testGetAllAircraft()
+    public function testGetAllAircraft(): void
     {
         $fare_svc = app(FareService::class);
 
