@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee249582e1078b12bb99b7d68f9b7f09",
+    "content-hash": "f3290cb1ce51929e574482d3eb6b30a5",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -7008,16 +7008,16 @@
         },
         {
             "name": "santigarcor/laratrust",
-            "version": "8.2.1",
+            "version": "8.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/santigarcor/laratrust.git",
-                "reference": "58d75e531de46f162d61f91f17e771a9ecb1132e"
+                "reference": "c95c52079d522c6707bc0b48dd46506a2faebe76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/santigarcor/laratrust/zipball/58d75e531de46f162d61f91f17e771a9ecb1132e",
-                "reference": "58d75e531de46f162d61f91f17e771a9ecb1132e",
+                "url": "https://api.github.com/repos/santigarcor/laratrust/zipball/c95c52079d522c6707bc0b48dd46506a2faebe76",
+                "reference": "c95c52079d522c6707bc0b48dd46506a2faebe76",
                 "shasum": ""
             },
             "require": {
@@ -7071,7 +7071,7 @@
             ],
             "support": {
                 "issues": "https://github.com/santigarcor/laratrust/issues",
-                "source": "https://github.com/santigarcor/laratrust/tree/8.2.1"
+                "source": "https://github.com/santigarcor/laratrust/tree/8.2.2"
             },
             "funding": [
                 {
@@ -7079,7 +7079,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-24T20:19:58+00:00"
+            "time": "2024-01-18T23:02:24+00:00"
         },
         {
             "name": "seld/jsonlint",
