@@ -8,9 +8,6 @@ use App\Services\FareService;
 
 final class SubfleetTest extends TestCase
 {
-    protected $ac_svc;
-    protected $ICAO = 'B777';
-
     protected function setUp(): void
     {
         parent::setUp();
