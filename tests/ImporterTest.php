@@ -30,7 +30,7 @@ class ImporterTest extends TestCase
     private $importSvc;
     private $fareSvc;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->importBaseClass = new ImportExport();

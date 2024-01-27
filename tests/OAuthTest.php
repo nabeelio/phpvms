@@ -17,7 +17,7 @@ class OAuthTest extends TestCase
     /** @var array|string[] The drivers we want to test */
     protected array $drivers = ['discord'];
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

@@ -12,7 +12,7 @@ class NewsTest extends TestCase
     /** @var NewsService */
     private $newsSvc;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

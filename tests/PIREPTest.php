@@ -37,7 +37,7 @@ class PIREPTest extends TestCase
     /** @var SettingRepository */
     protected $settingsRepo;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->addData('base');

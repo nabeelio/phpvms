@@ -33,7 +33,7 @@ class AcarsTest extends TestCase
     /** @var FareService */
     protected $fareSvc;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->addData('base');

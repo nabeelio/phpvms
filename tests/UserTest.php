@@ -25,7 +25,7 @@ class UserTest extends TestCase
     /** @var UserService */
     protected $userSvc;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->userSvc = app(UserService::class);

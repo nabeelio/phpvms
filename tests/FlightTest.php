@@ -24,7 +24,7 @@ class FlightTest extends TestCase
     protected $flightSvc;
     protected $settingsRepo;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->addData('base');

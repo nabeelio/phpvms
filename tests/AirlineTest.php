@@ -11,7 +11,7 @@ class AirlineTest extends TestCase
     /** @var AirlineService */
     protected $airlineSvc;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->addData('base');

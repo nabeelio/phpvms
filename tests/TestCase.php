@@ -54,7 +54,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * @throws Exception
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 

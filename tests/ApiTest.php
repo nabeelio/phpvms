@@ -22,7 +22,7 @@ use function random_int;
  */
 class ApiTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->addData('base');
