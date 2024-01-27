@@ -25,7 +25,7 @@ use App\Services\ImportService;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\CannotInsertRecord;
 
-class ImporterTest extends TestCase
+final class ImporterTest extends TestCase
 {
     private ImportExport $importBaseClass;
     private ImportService $importSvc;

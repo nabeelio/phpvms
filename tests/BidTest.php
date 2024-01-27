@@ -14,7 +14,7 @@ use App\Services\BidService;
 use App\Services\FareService;
 use App\Services\FlightService;
 
-class BidTest extends TestCase
+final class BidTest extends TestCase
 {
     /** @var BidService */
     protected BidService $bidSvc;

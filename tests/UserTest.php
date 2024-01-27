@@ -17,7 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 
-class UserTest extends TestCase
+final class UserTest extends TestCase
 {
     /** @var SettingRepository */
     protected SettingRepository $settingsRepo;

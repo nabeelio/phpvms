@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
-class UtilsTest extends TestCase
+final class UtilsTest extends TestCase
 {
     public function testDates(): void
     {

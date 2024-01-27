@@ -6,7 +6,7 @@ use App\Models\Role;
 use App\Models\Subfleet;
 use App\Models\User;
 
-class AdminControllerTests extends TestCase
+final class AdminControllerTests extends TestCase
 {
     protected function setUp(): void
     {

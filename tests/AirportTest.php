@@ -5,7 +5,7 @@ namespace Tests;
 use App\Models\Airport;
 use App\Models\User;
 
-class AirportTest extends TestCase
+final class AirportTest extends TestCase
 {
     public function testSavingAirportFromApiResponse(): void
     {

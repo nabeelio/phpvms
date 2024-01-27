@@ -5,7 +5,7 @@ namespace Tests;
 use App\Repositories\KvpRepository;
 use App\Services\VersionService;
 
-class VersionTest extends TestCase
+final class VersionTest extends TestCase
 {
     private KvpRepository $kvpRepo;
 

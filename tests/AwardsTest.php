@@ -11,7 +11,7 @@ use App\Services\PirepService;
 use Modules\Awards\Awards\FlightRouteAwards;
 use Modules\Awards\Awards\PilotFlightAwards;
 
-class AwardsTest extends TestCase
+final class AwardsTest extends TestCase
 {
     /** @var AwardService */
     private AwardService $awardSvc;

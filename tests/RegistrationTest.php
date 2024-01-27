@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class RegistrationTest extends TestCase
+final class RegistrationTest extends TestCase
 {
     /**
      * A basic test example.

@@ -10,7 +10,7 @@ use App\Models\Pirep;
 use App\Models\User;
 use Carbon\Carbon;
 
-class CronTest extends TestCase
+final class CronTest extends TestCase
 {
     /**
      * Create a new sample PIREP

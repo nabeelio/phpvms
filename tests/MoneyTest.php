@@ -4,7 +4,7 @@ namespace Tests;
 
 use App\Support\Money;
 
-class MoneyTest extends TestCase
+final class MoneyTest extends TestCase
 {
     /**
      * Test adding/subtracting a percentage

@@ -7,7 +7,7 @@ use App\Support\Units\Distance;
 use PhpUnitsOfMeasure\Exception\NonNumericValue;
 use PhpUnitsOfMeasure\Exception\NonStringUnitName;
 
-class MathTest extends TestCase
+final class MathTest extends TestCase
 {
     /**
      * Test adding/subtracting a percentage

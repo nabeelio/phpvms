@@ -25,7 +25,7 @@ use function random_int;
 /**
  * Test API calls and authentication, etc
  */
-class AcarsTest extends TestCase
+final class AcarsTest extends TestCase
 {
     /** @var SettingRepository */
     protected SettingRepository $settingsRepo;

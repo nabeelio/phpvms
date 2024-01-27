@@ -7,7 +7,7 @@ use App\Notifications\Messages\NewsAdded;
 use App\Services\NewsService;
 use Illuminate\Support\Facades\Notification;
 
-class NewsTest extends TestCase
+final class NewsTest extends TestCase
 {
     /** @var NewsService */
     private NewsService $newsSvc;

@@ -9,7 +9,7 @@ use App\Models\Pirep;
 use App\Services\AirlineService;
 use Prettus\Validator\Exceptions\ValidatorException;
 
-class AirlineTest extends TestCase
+final class AirlineTest extends TestCase
 {
     /** @var AirlineService */
     protected AirlineService $airlineSvc;

@@ -6,7 +6,7 @@ use App\Services\DatabaseService;
 use App\Support\Database;
 use Symfony\Component\Yaml\Yaml;
 
-class DatabaseTest extends TestCase
+final class DatabaseTest extends TestCase
 {
     /**
      * Make sure the seeder works correctly

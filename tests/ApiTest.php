@@ -20,7 +20,7 @@ use function random_int;
 /**
  * Test API calls and authentication, etc
  */
-class ApiTest extends TestCase
+final class ApiTest extends TestCase
 {
     protected function setUp(): void
     {

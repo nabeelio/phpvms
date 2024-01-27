@@ -9,7 +9,7 @@ use App\Support\Metar;
 /**
  * Test the parsing/support class of the metar
  */
-class MetarTest extends TestCase
+final class MetarTest extends TestCase
 {
     /** @var SettingRepository */
     private SettingRepository $settingsRepo;

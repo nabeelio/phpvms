@@ -15,7 +15,7 @@ use App\Services\SimBriefService;
 use App\Support\Utils;
 use Carbon\Carbon;
 
-class SimBriefTest extends TestCase
+final class SimBriefTest extends TestCase
 {
     private static string $simbrief_flight_id = 'simbriefflightid';
 

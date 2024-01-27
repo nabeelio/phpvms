@@ -6,7 +6,7 @@ use App\Models\Navdata;
 use Exception;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
-class GeoTest extends TestCase
+final class GeoTest extends TestCase
 {
     use WithoutMiddleware;
 

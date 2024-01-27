@@ -27,7 +27,7 @@ use App\Support\Math;
 use App\Support\Money;
 use Exception;
 
-class FinanceTest extends TestCase
+final class FinanceTest extends TestCase
 {
     /** @var ExpenseRepository */
     private ExpenseRepository $expenseRepo;

@@ -19,7 +19,7 @@ use App\Services\FlightService;
 use Carbon\Carbon;
 use Exception;
 
-class FlightTest extends TestCase
+final class FlightTest extends TestCase
 {
     protected FlightService $flightSvc;
     protected SettingRepository $settingsRepo;

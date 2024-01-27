@@ -12,7 +12,7 @@ use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class OAuthTest extends TestCase
+final class OAuthTest extends TestCase
 {
     /** @var array|string[] The drivers we want to test */
     protected array $drivers = ['discord'];
