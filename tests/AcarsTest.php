@@ -112,6 +112,7 @@ final class AcarsTest extends TestCase
 
         $response = $this->post($uri, $pirep);
         $response->assertStatus(400);
+        $this->fail();
     }
 
     public function testPrefileAircraftNotAtAirport(): void
