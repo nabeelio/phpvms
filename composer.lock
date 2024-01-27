@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfdeb674b83929dc487d333bb5856a2d",
+    "content-hash": "5e8a41393e67014086eb16b6866ca39b",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -14350,44 +14350,6 @@
                 }
             ],
             "time": "2020-09-28T06:39:44+00:00"
-        },
-        {
-            "name": "sempro/phpunit-pretty-print",
-            "version": "1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/s360digital/phpunit-pretty-print.git",
-                "reference": "fa623aa8a17aece4a2b69e54b07a5e37572d1f1d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/s360digital/phpunit-pretty-print/zipball/fa623aa8a17aece4a2b69e54b07a5e37572d1f1d",
-                "reference": "fa623aa8a17aece4a2b69e54b07a5e37572d1f1d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0",
-                "phpunit/phpunit": "^7 || ^8 || ^9"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Sempro\\PHPUnitPrettyPrinter\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Prettify PHPUnit output",
-            "support": {
-                "issues": "https://github.com/s360digital/phpunit-pretty-print/issues",
-                "source": "https://github.com/s360digital/phpunit-pretty-print/tree/1.4.0"
-            },
-            "time": "2021-01-04T13:25:10+00:00"
         },
         {
             "name": "symfony/options-resolver",
