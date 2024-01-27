@@ -39,7 +39,7 @@
         "psr/container": "1.1.1",
         "composer/composer": "~2.6.5",
         "composer/installers": "~1.12.0",
-        "laravel/framework": "~v10.0",
+        "laravel/framework": "~v10.22",
         "arrilot/laravel-widgets": "~3.13.0",
         "doctrine/dbal": "^3.0",
         "guzzlehttp/guzzle": "~7.4.1",
