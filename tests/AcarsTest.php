@@ -277,6 +277,7 @@ final class AcarsTest extends TestCase
 
     /**
      * Post a PIREP into a PREFILE state and post ACARS
+     *
      * @throws \Exception
      */
     public function testPrefileAndUpdates(): void
@@ -626,6 +627,7 @@ final class AcarsTest extends TestCase
 
     /**
      * Post a PIREP into a PREFILE state and post ACARS
+     *
      * @throws \Exception
      */
     public function testFilePirepApi(): void
@@ -693,6 +695,7 @@ final class AcarsTest extends TestCase
 
     /**
      * Test aircraft is allowed
+     *
      * @throws \Exception
      */
     public function testAircraftAllowed(): void
@@ -740,6 +743,7 @@ final class AcarsTest extends TestCase
 
     /**
      * Test aircraft permissions being ignored
+     *
      * @throws \Exception
      */
     public function testIgnoreAircraftAllowed(): void
@@ -861,6 +865,7 @@ final class AcarsTest extends TestCase
 
     /**
      * Test the validation
+     *
      * @throws \Exception
      */
     public function testAcarsInvalidRoutePost(): void
@@ -992,6 +997,7 @@ final class AcarsTest extends TestCase
 
     /**
      * Try to refile the same PIREP
+     *
      * @throws \Exception
      */
     public function testDuplicatePirep(): void

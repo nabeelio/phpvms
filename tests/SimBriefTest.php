@@ -48,9 +48,9 @@ final class SimBriefTest extends TestCase
     /**
      * Load SimBrief
      *
-     * @param User $user
-     * @param Aircraft $aircraft
-     * @param array $fares
+     * @param User        $user
+     * @param Aircraft    $aircraft
+     * @param array       $fares
      * @param string|null $flight_id
      *
      * @return SimBrief
@@ -96,6 +96,7 @@ final class SimBriefTest extends TestCase
 
     /**
      * Read from the SimBrief URL
+     *
      * @throws \Exception
      */
     public function testReadSimbrief(): void
@@ -137,6 +138,7 @@ final class SimBriefTest extends TestCase
 
     /**
      * Check that the API calls are working (simbrief in the response, can retrieve the briefing)
+     *
      * @throws \Exception
      */
     public function testApiCalls(): void
@@ -183,6 +185,7 @@ final class SimBriefTest extends TestCase
 
     /**
      * Make sure the user's bids have the Simbrief data show up
+     *
      * @throws \Exception
      */
     public function testUserBidSimbrief(): void
@@ -332,6 +335,7 @@ final class SimBriefTest extends TestCase
 
     /**
      * Test clearing expired briefs
+     *
      * @throws \Exception
      */
     public function testClearExpiredBriefs(): void

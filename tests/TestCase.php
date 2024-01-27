@@ -120,7 +120,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
     /**
      * @param User|null $user
-     * @param array $headers
+     * @param array     $headers
      *
      * @return array
      */
@@ -258,8 +258,9 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      * @param string $methodName
      * @param array  $parameters
      *
-     * @return mixed
      * @throws \ReflectionException
+     *
+     * @return mixed
      */
     public function invokeMethod(&$object, string $methodName, array $parameters = []): mixed
     {

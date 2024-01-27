@@ -165,6 +165,7 @@ final class PIREPTest extends TestCase
 
     /**
      * Make sure the unit conversions look to be proper
+     *
      * @throws \Exception
      */
     public function testUnitFields(): void
@@ -306,6 +307,7 @@ final class PIREPTest extends TestCase
 
     /**
      * check the stats/ranks, etc have incremented properly
+     *
      * @throws \Exception
      */
     public function testPilotStatsIncr(): void
@@ -420,6 +422,7 @@ final class PIREPTest extends TestCase
 
     /**
      * check the stats/ranks, etc have incremented properly
+     *
      * @throws \Exception
      */
     public function testPilotStatsIncrWithTransferHours(): void
@@ -560,6 +563,7 @@ final class PIREPTest extends TestCase
 
     /**
      * When a PIREP is accepted, ensure that the bid is removed
+     *
      * @throws \Exception
      */
     public function testPirepBidRemoved(): void

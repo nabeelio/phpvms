@@ -284,6 +284,7 @@ final class ImporterTest extends TestCase
 
     /**
      * Test exporting all the flights to a file
+     *
      * @throws CannotInsertRecord
      */
     public function testAirportExporter(): void
@@ -312,6 +313,7 @@ final class ImporterTest extends TestCase
 
     /**
      * Test exporting all the flights to a file
+     *
      * @throws CannotInsertRecord
      */
     public function testFlightExporter(): void

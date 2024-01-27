@@ -558,6 +558,7 @@ final class FinanceTest extends TestCase
 
     /**
      * Get the pilot pay, derived from the rank
+     *
      * @throws Exception
      */
     public function testGetPilotPayNoOverride(): void
@@ -582,6 +583,7 @@ final class FinanceTest extends TestCase
 
     /**
      * Get the pilot pay, but include different overrides
+     *
      * @throws Exception
      */
     public function testGetPilotPayWithOverride(): void
@@ -634,6 +636,7 @@ final class FinanceTest extends TestCase
 
     /**
      * Get the payment for a pilot
+     *
      * @throws Exception
      */
     public function testGetPirepPilotPay(): void

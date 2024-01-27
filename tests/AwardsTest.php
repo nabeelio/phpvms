@@ -38,6 +38,7 @@ final class AwardsTest extends TestCase
 
     /**
      * Test to make sure that the award is actually given out
+     *
      * @throws \Exception
      */
     public function testAwardsGiven(): void

@@ -204,6 +204,7 @@ final class BidTest extends TestCase
 
     /**
      * Delete a flight and make sure all the bids are gone
+     *
      * @throws \Exception
      */
     public function testDeleteFlightWithBids(): void
@@ -245,6 +246,7 @@ final class BidTest extends TestCase
 
     /**
      * Create a bid with an aircraft and check the aircraft booking
+     *
      * @throws \Exception
      */
     public function testBidWithAircraft(): void

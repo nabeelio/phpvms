@@ -553,6 +553,7 @@ final class FlightTest extends TestCase
 
     /**
      * Delete a flight and make sure all the bids are gone
+     *
      * @throws Exception
      */
     public function testDeleteFlight(): void

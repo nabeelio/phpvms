@@ -105,7 +105,7 @@ trait TestData
     /**
      * Add a single flight
      *
-     * @param User $user
+     * @param User  $user
      * @param array $flight_properties
      *
      * @return mixed
@@ -151,7 +151,7 @@ trait TestData
     /**
      * Create a subfleet with a number of aircraft assigned
      *
-     * @param int|null $aircraft_count
+     * @param int|null    $aircraft_count
      * @param string|null $airport_id
      *
      * @return array
