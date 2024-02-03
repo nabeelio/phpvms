@@ -7,8 +7,6 @@ use App\Support\HttpClient;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
-use function count;
-
 /**
  * Return the raw METAR/TAF string from the NOAA Aviation Weather Service
  */
