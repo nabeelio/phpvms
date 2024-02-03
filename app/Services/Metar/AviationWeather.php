@@ -45,7 +45,8 @@ class AviationWeather extends Metar
         $url = static::METAR_URL.$icao;
 
         try {
-            return $this->httpClient->get($url);
+            $raw_metar = $this->httpClient->get($url);
+            return trim($raw_metar);
         } catch (Exception $e) {
             Log::error('Error reading METAR: '.$e->getMessage());
             return '';
@@ -70,7 +71,9 @@ class AviationWeather extends Metar
         $url = static::TAF_URL.$icao;
 
         try {
-            return $this->httpClient->get($url);
+            $raw_taf = $this->httpClient->get($url);
+            // Remove " \n" to remove new lines from the metar content
+            return trim(str_replace(" \n", '', $raw_taf));
         } catch (Exception $e) {
             Log::error('Error reading TAF: '.$e->getMessage());
             return '';
