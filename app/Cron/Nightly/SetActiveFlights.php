@@ -45,7 +45,7 @@ class SetActiveFlights extends Listener
             }
 
             // Set to visible by default if not owned by a module
-            if ($flight['owner_type'] === null) {
+            if (blank($flight->owner_type)) {
                 $flight->visible = true;
             }
 
