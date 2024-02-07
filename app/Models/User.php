@@ -170,6 +170,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         'transfer_time',
         'created_at',
         'state',
+        'vatsim_id',
     ];
 
     /**
