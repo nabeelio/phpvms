@@ -56,9 +56,9 @@ class Kernel extends ConsoleKernel
 
         // When spatie-backups runs
         if (config('backup.backup.enabled', false) === true) {
-            $schedule->command(BackupRun::class)->daily()->at('01:10');
-            $schedule->command(BackupClean::class)->daily()->at('01:20');
-            $schedule->command(BackupMonitor::class)->daily()->at('01:30');
+            $schedule->command(BackupRun::class)->dailyAt('01:15');
+            $schedule->command(BackupClean::class)->dailyAt('01:30');
+            $schedule->command(BackupMonitor::class)->dailyAt('01:45');
         }
 
         if (config('activitylog.enabled', false) === true) {
