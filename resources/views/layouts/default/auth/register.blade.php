@@ -65,7 +65,7 @@
 
           <label for="timezone" class="control-label">@lang('common.timezone')</label>
           <div class="input-group form-group-no-border {{ $errors->has('timezone') ? 'has-danger' : '' }}">
-            <select name="timezone" id="timezone" class="form-control select2">}
+            <select name="timezone" id="timezone" class="form-control select2">
               @foreach($timezones as $group_name => $group_timezones)
                 <optgroup label="{{ $group_name }}">
                   @foreach($group_timezones as $timezone_id => $timezone_label)
@@ -152,8 +152,8 @@
             <tr>
               <td>
                 <div class="input-group form-group-no-border">
-                  <input type="hidden" name="opt_in" id="opt_in" value="0">
-                  <input type="checkbox" name="opt_in" id="opt_in" value="1">
+                  <input type="hidden" name="opt_in" value="0"/>
+                  <input type="checkbox" name="opt_in" id="opt_in" value="1"/>
                 </div>
               </td>
               <td>
