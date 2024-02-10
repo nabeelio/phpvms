@@ -152,7 +152,8 @@
             <tr>
               <td>
                 <div class="input-group form-group-no-border">
-                  <input type="checkbox" name="opt_in" id="opt_in" />
+                  <input type="hidden" name="opt_in" id="opt_in" value="0">
+                  <input type="checkbox" name="opt_in" id="opt_in" value="1">
                 </div>
               </td>
               <td>
