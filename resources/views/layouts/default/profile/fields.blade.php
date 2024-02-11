@@ -151,7 +151,8 @@
         <td>{{ __('profile.opt-in') }}</td>
         <td>
           <div class="input-group form-group-no-border">
-            <input type="checkbox" name="opt_in" id="opt_in" checked="{{ $user->opt_in }}">
+            <input type="hidden" name="opt_in" value="0" />
+            <input type="checkbox" name="opt_in" id="opt_in" checked="{{ $user->opt_in }}" />
           </div>
           <p class="small">{{ __('profile.opt-in-descrip') }}
           </p>
