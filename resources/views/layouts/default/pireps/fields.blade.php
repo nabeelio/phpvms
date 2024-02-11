@@ -32,7 +32,7 @@ flight reports that have been filed. You've been warned!
               <input type="hidden" name="airline_id" value="{{ $pirep->airline_id }}" />
             @else
               <div class="input-group input-group form-group">
-                <select name="airline_id" id="airline_id" class="custom-select select2" style="width: 100%" readonly>
+                <select name="airline_id" id="airline_id" class="custom-select select2" style="width: 100%">
                   @foreach($airline_list as $airline_id => $airline_label)
                     <option value="{{ $airline_id }}" @if(!empty($pirep) && $airline_id === $pirep->airline_id) selected @endif>{{ $airline_label }}</option>
                   @endforeach
@@ -98,7 +98,6 @@ flight reports that have been filed. You've been warned!
                   id="flight_type"
                   class="custom-select select2"
                   style="width: 100%;"
-                  @if(!empty($pirep) && $pirep->read_only) readonly @endif
                 >
                   @foreach(\App\Models\Enums\FlightType::select() as $flight_type_id => $flight_type_label)
                     <option value="{{ $flight_type_id }}" @if(!empty($pirep) && $pirep->flight_type == $flight_type_id) selected @endif>{{ $flight_type_label }}</option>
@@ -191,7 +190,6 @@ flight reports that have been filed. You've been warned!
                   id="dpt_airport_id"
                   class="custom-select airport_search"
                   style="width: 100%"
-                  @if(!empty($pirep) && $pirep->read_only) readonly @endif
                 >
                   @foreach($airport_list as $dpt_airport_id => $dpt_airport_label)
                     <option value="{{ $dpt_airport_id }}" @if(!empty($pirep) && $pirep->dpt_airport_id == $dpt_airport_id) selected @endif>{{ $dpt_airport_label }}</option>
@@ -217,7 +215,6 @@ flight reports that have been filed. You've been warned!
                   id="arr_airport_id"
                   class="custom-select airport_search"
                   style="width: 100%"
-                  @if(!empty($pirep) && $pirep->read_only) readonly @endif
                 >
                   @foreach($airport_list as $arr_airport_id => $arr_airport_label)
                     <option value="{{ $arr_airport_id }}" @if(!empty($pirep) && $pirep->arr_airport_id == $arr_airport_id) selected @endif>{{ $arr_airport_label }}</option>
@@ -249,7 +246,6 @@ flight reports that have been filed. You've been warned!
                   name="aircraft_id"
                   id="aircraft_select"
                   class="custom-select select2"
-                  @if(!empty($pirep) && $pirep->read_only) readonly @endif
                 >
                   @foreach($aircraft_list as $subfleet => $sf_aircraft)
                     @if ($subfleet === '')
