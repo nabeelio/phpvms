@@ -158,7 +158,7 @@ flight reports that have been filed. You've been warned!
                        class="form-control"
                        @if(!empty($pirep) && $pirep->read_only) readonly @endif
                        min="0"
-                       step="0.0.1"
+                       step="0.01"
                        value="{{ !empty($pirep) ? $pirep->level : old('level') }}"
                 />
               </div>
