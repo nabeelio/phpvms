@@ -159,6 +159,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
     public $sortable = [
         'id',
         'name',
+        'email',
         'pilot_id',
         'callsign',
         'country',
