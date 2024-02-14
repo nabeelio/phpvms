@@ -6,6 +6,7 @@ use App\Contracts\Service;
 use App\Models\Airline;
 use App\Models\Enums\ExpenseType;
 use App\Models\Expense;
+use App\Models\Journal;
 use App\Models\JournalTransaction;
 use App\Services\FinanceService;
 use App\Support\Money;
@@ -28,21 +29,26 @@ class RecurringFinanceService extends Service
      *
      * @param Expense $expense
      *
-     * @return \Generator
+     * @return Journal[]
      */
     protected function findJournals(Expense $expense)
     {
+        \DB::enableQueryLog();
         if ($expense->airline_id) {
-            $airline = Airline::find($expense->airline_id)->first(['id', 'icao']);
-            Log::info('Charging to '.$airline->icao);
-            yield $airline->journal;
-        } else {
-            $airlines = Airline::all(['id', 'icao']);
-            foreach ($airlines as $airline) {
-                Log::info('Charging to '.$airline->icao);
-                yield $airline->journal;
-            }
+            $journal = Journal::where([
+                'morphed_type' => Airline::class,
+                'morphed_id'   => $expense->airline_id])
+                ->get();
+
+            return $journal;
         }
+
+        $airline_ids = Airline::get(['id'])->pluck('id')->all();
+        $journals = Journal::where(['morphed_type' => Airline::class])
+                ->whereIn('morphed_id', $airline_ids)
+                ->get();
+
+        return $journals;
     }
 
     /**
@@ -89,7 +95,7 @@ class RecurringFinanceService extends Service
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function processExpenses($type = ExpenseType::DAILY): void
+    public function processExpenses(string $type = ExpenseType::DAILY): void
     {
         $expenses = Expense::where(['type' => $type])->get();
 
@@ -117,6 +123,9 @@ class RecurringFinanceService extends Service
                     'ref_model_id' => $expense->id,
                 ];
 
+                $ref = explode('\\', $expense->ref_model);
+                $type = end($ref);
+
                 $found = JournalTransaction::where($w)
                     ->whereDate('post_date', '=', Carbon::now('UTC')->toDateString())
                     ->count(['id']);
@@ -130,6 +139,8 @@ class RecurringFinanceService extends Service
                 if (empty($memo) || empty($ta_group)) {
                     continue;
                 }
+
+                // Determine if this object actually belongs to this airline or not
 
                 $this->financeSvc->debitFromJournal(
                     $journal,

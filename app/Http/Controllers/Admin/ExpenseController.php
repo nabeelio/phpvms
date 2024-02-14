@@ -11,6 +11,7 @@ use App\Models\Expense;
 use App\Repositories\AirlineRepository;
 use App\Repositories\ExpenseRepository;
 use App\Services\ExportService;
+use App\Services\FinanceService;
 use App\Services\ImportService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,17 +24,11 @@ class ExpenseController extends Controller
 {
     use Importable;
 
-    /**
-     * expensesController constructor.
-     *
-     * @param AirlineRepository $airlineRepo
-     * @param ExpenseRepository $expenseRepo
-     * @param ImportService     $importSvc
-     */
     public function __construct(
         private readonly AirlineRepository $airlineRepo,
         private readonly ExpenseRepository $expenseRepo,
-        private readonly ImportService $importSvc
+        private readonly ImportService $importSvc,
+        private readonly FinanceService $financeSvc,
     ) {
     }
 
@@ -81,9 +76,7 @@ class ExpenseController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $input = $request->all();
-        $input['ref_model'] = Expense::class;
-        $this->expenseRepo->create($input);
+        $this->financeSvc->addExpense($request->all(), null, null);
 
         Flash::success('Expense saved successfully.');
 

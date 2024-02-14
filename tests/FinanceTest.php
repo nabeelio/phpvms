@@ -21,6 +21,8 @@ use App\Repositories\JournalRepository;
 use App\Services\BidService;
 use App\Services\FareService;
 use App\Services\Finance\PirepFinanceService;
+use App\Services\Finance\RecurringFinanceService;
+use App\Services\FinanceService;
 use App\Services\FleetService;
 use App\Services\PirepService;
 use App\Support\Math;
@@ -29,20 +31,11 @@ use Exception;
 
 class FinanceTest extends TestCase
 {
-    /** @var \App\Repositories\ExpenseRepository */
-    private $expenseRepo;
-
-    /** @var \App\Services\FareService */
-    private $fareSvc;
-
-    /** @var PirepFinanceService */
-    private $financeSvc;
-
-    /** @var FleetService */
-    private $fleetSvc;
-
-    /** @var PirepService */
-    private $pirepSvc;
+    private ExpenseRepository$expenseRepo;
+    private FareService $fareSvc;
+    private PirepFinanceService $financeSvc;
+    private FleetService $fleetSvc;
+    private PirepService $pirepSvc;
 
     /**
      * @throws Exception
@@ -68,7 +61,7 @@ class FinanceTest extends TestCase
      *
      * @return array
      */
-    public function createFullPirep()
+    public function createFullPirep(Airline $airline = null)
     {
         /**
          * Setup tests
@@ -96,9 +89,16 @@ class FinanceTest extends TestCase
         ]);
 
         /** @var User $user */
-        $user = User::factory()->create([
+        $u = [
             'rank_id' => $rank->id,
-        ]);
+        ];
+
+        if (!empty($airline)) {
+            $u['airline_id'] = $airline->id;
+        }
+
+        $user = User::factory()->create($u);
+        $user->airline->initJournal('USD');
 
         /** @var Flight $flight */
         $flight = Flight::factory()->create([
@@ -1083,6 +1083,7 @@ class FinanceTest extends TestCase
         /** @var Airline $airline */
         $airline = Airline::factory()->create();
 
+        /** @var JournalRepository $journalRepo */
         $journalRepo = app(JournalRepository::class);
 
         // Add an expense that's only for a cargo flight
@@ -1165,5 +1166,72 @@ class FinanceTest extends TestCase
         //        $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
         $this->assertEquals(2050.4, $transactions['debits']->getValue());
+    }
+
+    /**
+     * Test that all expenses are pulled properly
+     */
+    public function testPirepExpensesNightly()
+    {
+        /** @var JournalRepository $journalRepo */
+        $journalRepo = app(JournalRepository::class);
+
+        /** @var Airline $airline */
+        $airline = Airline::factory()->create();
+
+        /** @var Airline $airline2 */
+        $airline2 = Airline::factory()->create();
+
+        $ex0 = Expense::factory()->create([
+            'airline_id' => null,
+            'type'       => ExpenseType::DAILY,
+        ]);
+
+        $ex1 = Expense::factory()->create([
+            'airline_id' => $airline->id,
+            'type'       => ExpenseType::DAILY,
+        ]);
+
+        Expense::factory()->create([
+            'airline_id' => $airline2->id,
+            'type'       => ExpenseType::DAILY,
+        ]);
+
+        Expense::factory()->create([
+            'airline_id' => null,
+            'type'       => ExpenseType::DAILY,
+        ]);
+
+        /*
+         * Test the subfleet class
+         */
+
+        $subfleet = Subfleet::factory()->create();
+        $subfleet2 = Subfleet::factory()->create();
+
+        /** @var FinanceService $financeSvc */
+        $financeSvc = app(FinanceService::class);
+
+        $exp = Expense::factory()->make([
+            'airline_id' => null,
+            'type'       => ExpenseType::DAILY,
+        ]);
+
+        $financeSvc->addExpense($exp->toArray(), $subfleet);
+
+        [$user, $pirep, $fares] = $this->createFullPirep();
+        $pirep = $this->pirepSvc->accept($pirep);
+
+        // $transactions = $journalRepo->getAllForObject($pirep);
+        $txn_airline1 = $journalRepo->getAllForObject($airline);
+        $txn_airline2 = $journalRepo->getAllForObject($airline2);
+
+        /** @var RecurringFinanceService $recurringFService */
+        $recurringFService = app(RecurringFinanceService::class);
+        $recurringFService->processExpenses(ExpenseType::DAILY);
+
+        $txn_airline1 = $journalRepo->getAllForObject($airline);
+        $txn_airline2 = $journalRepo->getAllForObject($airline2);
+        // dd($txn_airline1);
     }
 }
