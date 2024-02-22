@@ -92,12 +92,11 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",
-        "filp/whoops": "~2.14.5",
+        "filp/whoops": "^2.15.3",
         "friendsofphp/php-cs-fixer": "^3.17.0",
         "mockery/mockery": "^1.5.0",
-        "nunomaduro/collision": "^v6.1.0",
-        "phpunit/phpunit": "~9.5.14",
-        "sempro/phpunit-pretty-print": "^1.4.0",
+        "nunomaduro/collision": "^v7.5.0",
+        "phpunit/phpunit": "^10.5",
         "laravel/sail": "^1.23"
     },
     "autoload": {
@@ -143,7 +142,7 @@
             "@php artisan package:discover --ansi",
             "@php artisan phpvms:caches"
         ],
-        "test": "phpunit --verbose"
+        "test": "phpunit"
     },
     "config": {
         "bin-dir": "vendor/bin/",
