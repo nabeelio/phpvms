@@ -240,7 +240,7 @@ return [
             /*
              * If this is an empty string, the avatar on the webhook will be used.
              */
-            'avatar_url' => env('BACKUP_DISCORD_AVATAR_URL', 'https://www.phpvms.net/images/favicon-32x32.png'),
+            'avatar_url' => env('BACKUP_DISCORD_AVATAR_URL', env('APP_URL').'/assets/img/logo.png'),
         ],
     ],
 
