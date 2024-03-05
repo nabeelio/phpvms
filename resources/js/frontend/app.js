@@ -7,6 +7,7 @@
 
 // Import the bids functionality
 import { addBid, removeBid } from './bids';
+import handleExternalRedirects from './external_redirect';
 
 require('./../bootstrap');
 
@@ -17,3 +18,6 @@ window.phpvms.bids = {
 
 // Import the mapping function
 window.phpvms.map = require('../maps/index');
+
+// External redirects handler
+handleExternalRedirects();
