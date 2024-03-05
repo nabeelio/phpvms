@@ -88,7 +88,8 @@
         "league/html-to-markdown": "^5.1",
         "league/flysystem-aws-s3-v3": "^3.0",
         "league/flysystem-sftp-v3": "^3.0",
-        "nikolaposa/version": "^4.2"
+        "nikolaposa/version": "^4.2",
+        "spatie/laravel-activitylog": "^4.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",
