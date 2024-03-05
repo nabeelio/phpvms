@@ -137,7 +137,7 @@
             {{ Form::label('block_fuel', 'Block Fuel (lbs):') }}
             <div class="row">
               <div class="col-sm-12">
-                {{ Form::number('block_fuel', null, ['class' => 'form-control', 'min' => 0, 'step' => '0.01']) }}
+                <input class="form-control" type="number" name="block_fuel" value="{{ $pirep->block_fuel->internal() ?? null }}" step="0.01" />
                 <p class="text-danger">{{ $errors->first('block_fuel') }}</p>
               </div>
             </div>
@@ -147,7 +147,7 @@
             {{ Form::label('fuel_used', 'Used Fuel (lbs):') }}
             <div class="row">
               <div class="col-sm-12">
-                {{ Form::number('fuel_used', null, ['class' => 'form-control', 'min' => 0, 'step' => '0.01']) }}
+                <input class="form-control" type="number" name="fuel_used" value="{{ $pirep->fuel_used->internal() ?? null }}" step="0.01" />
                 <p class="text-danger">{{ $errors->first('fuel_used') }}</p>
               </div>
             </div>
@@ -176,7 +176,7 @@
             {{ Form::label('planned_distance', 'Pln.Dist. (nmi):') }}
             <div class="row">
               <div class="col-sm-12">
-                {{ Form::number('planned_distance', null, ['class' => 'form-control', 'readonly' => 'readonly', 'min' => 0, 'step' => '0.01']) }}
+                <input class="form-control" type="number" name="planned_distance" value="{{ $pirep->planned_distance->internal() ?? null }}" min="0" step="0.1" readonly/>
                 <p class="text-danger">{{ $errors->first('planned_distance') }}</p>
               </div>
             </div>
@@ -186,7 +186,7 @@
             {{ Form::label('distance', 'Flt.Dist. (nmi):') }}
             <div class="row">
               <div class="col-sm-12">
-                {{ Form::number('distance', null, ['class' => 'form-control', 'min' => 0, 'step' => '0.01']) }}
+                <input class="form-control" type="number" name="distance" value="{{ $pirep->distance->internal() ?? null}}" min="0" step="0.1" />
                 <p class="text-danger">{{ $errors->first('distance') }}</p>
               </div>
             </div>
