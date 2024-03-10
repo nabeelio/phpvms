@@ -12,15 +12,16 @@
   "dependencies": {
     "@turf/center": "^6.0.1",
     "acorn": "^7.4.1",
+    "alpinejs": "^3.13.3",
     "animate.css": "~3.6",
-    "axios": "^0.21.1",
+    "axios": "^1.6.5",
     "bootstrap": "~4.3",
     "bootstrap-sass": "^3.4.1",
     "bootstrap3": "npm:bootstrap@~3.4",
-    "ckeditor4": "4.14.0",
+    "ckeditor4": "^4.23.0",
     "cookieconsent": "^3.1.0",
     "cross-env": "^5.1.6",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.47",
+    "eonasdan-bootstrap-datetimepicker": "^4.15.35",
     "flag-icon-css": "^2.9.0",
     "geolib": "^2.0.24",
     "icheck": "~1.0",
@@ -34,7 +35,7 @@
     "leaflet-rotatedmarker": "^0.2.0",
     "leaflet.geodesic": "^2.5.2",
     "lodash": ">=4.17.19",
-    "marked": "^2.1.3",
+    "marked": "^11.1.1",
     "minimist": "^1.2.2",
     "moment": "^2.29.1",
     "paper-dashboard": "^1.1.0",
@@ -51,6 +52,7 @@
     "x-editable": "1.5.1"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.16",
     "copy-webpack-plugin": "^9.0.1",
     "eslint": "^6.2.2",
     "eslint-config-airbnb": "^18.0.1",
@@ -59,11 +61,16 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.21.5",
     "node-gyp": "~9.1.0",
+    "postcss": "^8.4.33",
     "sass": "^1.54.5",
     "sass-loader": "^12.1.0",
+<<<<<<< Updated upstream
     "tailwindcss": "^0.5.3",
+=======
+    "tailwindcss": "^3.4.1",
+>>>>>>> Stashed changes
     "vue-template-compiler": "^2.6.12",
-    "webpack-bundle-analyzer": "^3.9.0",
+    "webpack-bundle-analyzer": "^4.10.1",
     "webpack-dev-server": "^4.10.0"
   }
 }

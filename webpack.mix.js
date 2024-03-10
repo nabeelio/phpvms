@@ -145,12 +145,22 @@ function buildApp()
   mix.js('resources/js/admin/app.js', 'public/assets/admin/js/app.js');
 }
 
-copyAssets();
-buildFrontendAssets();
-buildAdminAssets();
-buildInstallerAssets();
-buildGlobalAssets();
-buildApp();
+function buildSasvaAssets()
+{
+  mix.postCss("resources/css/sasva/app.css", "public/assets/sasva/css/app.css", [
+    require("tailwindcss"),
+  ]);
+
+  mix.js("resources/js/sasva/app.js", "public/assets/sasva/js/app.js")
+}
+
+//copyAssets();
+//buildFrontendAssets();
+//buildAdminAssets();
+//buildInstallerAssets();
+//buildGlobalAssets();
+//buildApp();
+buildSasvaAssets();
 
 mix.webpackConfig({
     /*entry: {
