@@ -64,11 +64,7 @@
     "postcss": "^8.4.33",
     "sass": "^1.54.5",
     "sass-loader": "^12.1.0",
-<<<<<<< Updated upstream
-    "tailwindcss": "^0.5.3",
-=======
     "tailwindcss": "^3.4.1",
->>>>>>> Stashed changes
     "vue-template-compiler": "^2.6.12",
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-dev-server": "^4.10.0"
