@@ -44,8 +44,10 @@ class SetActiveFlights extends Listener
                 continue;
             }
 
-            // Set to visible by default
-            $flight->visible = true;
+            // Set to visible by default if not owned by a module
+            if (blank($flight->owner_type)) {
+                $flight->visible = true;
+            }
 
             // dates aren't set, so just save if there were any changes above
             // and move onto the next one
