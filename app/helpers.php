@@ -1,5 +1,6 @@
 <?php
 
+use \Nwidart\Modules\Facades\Module;
 use App\Exceptions\SettingNotFound;
 use App\Repositories\KvpRepository;
 use App\Repositories\SettingRepository;
@@ -423,5 +424,43 @@ if (!function_exists('docs_link')) {
     function docs_link($key)
     {
         return config('phpvms.docs.root').config('phpvms.docs.'.$key);
+    }
+}
+
+if (!function_exists('check_module')) {
+    /**
+     * Check if a module is installed and active
+     * 
+     * @param string $module_name 
+     * 
+     * @return boolean
+     */
+    function check_module($module_name)
+    {
+        $phpvms_module = Module::find($module_name);
+
+        return filled($phpvms_module) ? $phpvms_module->isEnabled() : false;
+    }
+}
+
+if (!function_exists('decode_days')) {
+    /**
+     * Decode days of flights for schedule display
+     * 
+     * @param integer $flight_days
+     * 
+     * @return string Monday, Tuesday, Friday, Sunday
+     */
+    function decode_days($flight_days)
+    {
+        $days = array();
+
+        for ($i = 0; $i < 7; $i++) {
+            if ($flight_days & pow(2, $i)) {
+                $days[] = jddayofweek($i, 1);
+            }
+        }
+
+        return implode(', ', $days);;
     }
 }
