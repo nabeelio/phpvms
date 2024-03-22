@@ -1,6 +1,5 @@
 <?php
 
-use \Nwidart\Modules\Facades\Module;
 use App\Exceptions\SettingNotFound;
 use App\Repositories\KvpRepository;
 use App\Repositories\SettingRepository;
@@ -8,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Nwidart\Modules\Facades\Module;
 
 /*
  * array_key_first only exists in PHP 7.3+
@@ -430,10 +430,10 @@ if (!function_exists('docs_link')) {
 if (!function_exists('check_module')) {
     /**
      * Check if a module is installed and active
-     * 
-     * @param string $module_name 
-     * 
-     * @return boolean
+     *
+     * @param string $module_name
+     *
+     * @return bool
      */
     function check_module($module_name)
     {
@@ -446,14 +446,14 @@ if (!function_exists('check_module')) {
 if (!function_exists('decode_days')) {
     /**
      * Decode days of flights for schedule display
-     * 
-     * @param integer $flight_days
-     * 
+     *
+     * @param int $flight_days
+     *
      * @return string Monday, Tuesday, Friday, Sunday
      */
     function decode_days($flight_days)
     {
-        $days = array();
+        $days = [];
 
         for ($i = 0; $i < 7; $i++) {
             if ($flight_days & pow(2, $i)) {
@@ -461,6 +461,6 @@ if (!function_exists('decode_days')) {
             }
         }
 
-        return implode(', ', $days);;
+        return implode(', ', $days);
     }
 }
