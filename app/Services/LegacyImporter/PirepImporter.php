@@ -41,7 +41,7 @@ class PirepImporter extends BaseImporter
             'flighttype',
             'fuelprice',
             'expenses',
-            'gross'
+            'gross',
         ];
 
         // See if there's a flightlevel column, export that if there is
@@ -145,7 +145,7 @@ class PirepImporter extends BaseImporter
             }
 
             if ($row->expenses && $row->expenses != 0) {
-                $expenses_price  = Money::createFromAmount($row->expenses);
+                $expenses_price = Money::createFromAmount($row->expenses);
                 $financeSvc->debitFromJournal(
                     $pirep->airline->journal,
                     $expenses_price,
@@ -157,7 +157,7 @@ class PirepImporter extends BaseImporter
             }
 
             if ($row->gross && $row->gross != 0) {
-                $gross_revenue  = Money::createFromAmount($row->gross);
+                $gross_revenue = Money::createFromAmount($row->gross);
                 $financeSvc->creditToJournal(
                     $pirep->airline->journal,
                     $gross_revenue,
