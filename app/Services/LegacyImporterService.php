@@ -45,7 +45,6 @@ class LegacyImporterService extends Service
         UserImport::class,
         PirepImporter::class,
         ExpenseImporter::class,
-        LedgerImporter::class,
         SettingsImporter::class,
         FinalizeImporter::class,
     ];
