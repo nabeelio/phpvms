@@ -178,7 +178,7 @@ class PirepImporter extends BaseImporter
             }
 
             if ($row->pilotpay && $row->pilotpay != 0) {
-                $pilot_pay = Money::createFromAmount($row->pilotpay * ($duration)/60);
+                $pilot_pay = Money::createFromAmount($row->pilotpay * $duration / 60);
                 $financeSvc->debitFromJournal(
                     $pirep->airline->journal,
                     $pilot_pay,
