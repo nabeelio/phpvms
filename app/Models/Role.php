@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laratrust\Models\Role as LaratrustRole;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property int id
@@ -17,6 +19,7 @@ use Laratrust\Models\Role as LaratrustRole;
 class Role extends LaratrustRole
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'id',
@@ -39,4 +42,12 @@ class Role extends LaratrustRole
     public static $rules = [
         'display_name' => 'required',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->fillable)
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
 }
