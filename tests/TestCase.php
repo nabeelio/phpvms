@@ -22,7 +22,6 @@ use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Testing\TestResponse;
 use Nwidart\Modules\Facades\Module;
 use ReflectionClass;
