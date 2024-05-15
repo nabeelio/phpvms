@@ -8,1010 +8,1011 @@ DROP TABLE IF EXISTS `acars`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `acars` (
-                         `id` varchar(36) NOT NULL,
-                         `pirep_id` varchar(36) NOT NULL,
-                         `type` tinyint(3) unsigned NOT NULL,
-                         `nav_type` int(10) unsigned DEFAULT NULL,
-                         `order` int(10) unsigned NOT NULL DEFAULT 0,
-                         `name` varchar(191) DEFAULT NULL,
-                         `status` char(3) NOT NULL DEFAULT 'SCH',
-                         `log` varchar(191) DEFAULT NULL,
-                         `lat` decimal(10,5) DEFAULT 0.00000,
-                         `lon` decimal(11,5) DEFAULT 0.00000,
-                         `distance` int(10) unsigned DEFAULT NULL,
-                         `heading` int(10) unsigned DEFAULT NULL,
-                         `altitude` int(10) unsigned DEFAULT NULL,
-                         `vs` double DEFAULT 0,
-                         `gs` int(11) DEFAULT NULL,
-                         `ias` int(11) DEFAULT NULL,
-                         `transponder` int(10) unsigned DEFAULT NULL,
-                         `autopilot` varchar(191) DEFAULT NULL,
-                         `fuel` decimal(8,2) DEFAULT NULL,
-                         `fuel_flow` decimal(8,2) DEFAULT NULL,
-                         `sim_time` varchar(191) DEFAULT NULL,
-                         `created_at` timestamp NULL DEFAULT NULL,
-                         `updated_at` timestamp NULL DEFAULT NULL,
-                         PRIMARY KEY (`id`),
-                         KEY `acars_pirep_id_index` (`pirep_id`),
-                         KEY `acars_created_at_index` (`created_at`)
+  `id` varchar(36) NOT NULL,
+  `pirep_id` varchar(36) NOT NULL,
+  `type` tinyint(3) unsigned NOT NULL,
+  `nav_type` int(10) unsigned DEFAULT NULL,
+  `order` int(10) unsigned NOT NULL DEFAULT 0,
+  `name` varchar(191) DEFAULT NULL,
+  `status` char(3) NOT NULL DEFAULT 'SCH',
+  `log` varchar(191) DEFAULT NULL,
+  `lat` decimal(10,5) DEFAULT 0.00000,
+  `lon` decimal(11,5) DEFAULT 0.00000,
+  `distance` int(10) unsigned DEFAULT NULL,
+  `heading` int(10) unsigned DEFAULT NULL,
+  `altitude` int(10) unsigned DEFAULT NULL,
+  `vs` double DEFAULT 0,
+  `gs` int(11) DEFAULT NULL,
+  `ias` int(11) DEFAULT NULL,
+  `transponder` int(10) unsigned DEFAULT NULL,
+  `autopilot` varchar(191) DEFAULT NULL,
+  `fuel` decimal(8,2) DEFAULT NULL,
+  `fuel_flow` decimal(8,2) DEFAULT NULL,
+  `sim_time` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `acars_pirep_id_index` (`pirep_id`),
+  KEY `acars_created_at_index` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `activity_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `activity_log` (
-                                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                                `log_name` varchar(191) DEFAULT NULL,
-                                `description` text NOT NULL,
-                                `subject_type` varchar(191) DEFAULT NULL,
-                                `event` varchar(191) DEFAULT NULL,
-                                `subject_id` char(36) DEFAULT NULL,
-                                `causer_type` varchar(191) DEFAULT NULL,
-                                `causer_id` bigint(20) unsigned DEFAULT NULL,
-                                `properties` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`properties`)),
-                                `batch_uuid` char(36) DEFAULT NULL,
-                                `created_at` timestamp NULL DEFAULT NULL,
-                                `updated_at` timestamp NULL DEFAULT NULL,
-                                PRIMARY KEY (`id`),
-                                KEY `subject` (`subject_type`,`subject_id`),
-                                KEY `causer` (`causer_type`,`causer_id`),
-                                KEY `activity_log_log_name_index` (`log_name`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `log_name` varchar(191) DEFAULT NULL,
+  `description` text NOT NULL,
+  `subject_type` varchar(191) DEFAULT NULL,
+  `event` varchar(191) DEFAULT NULL,
+  `subject_id` char(36) DEFAULT NULL,
+  `causer_type` varchar(191) DEFAULT NULL,
+  `causer_id` bigint(20) unsigned DEFAULT NULL,
+  `properties` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`properties`)),
+  `batch_uuid` char(36) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `subject` (`subject_type`,`subject_id`),
+  KEY `causer` (`causer_type`,`causer_id`),
+  KEY `activity_log_log_name_index` (`log_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `aircraft`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `aircraft` (
-                            `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                            `subfleet_id` int(10) unsigned NOT NULL,
-                            `icao` varchar(4) DEFAULT NULL,
-                            `iata` varchar(4) DEFAULT NULL,
-                            `airport_id` varchar(5) DEFAULT NULL,
-                            `hub_id` varchar(5) DEFAULT NULL,
-                            `landing_time` timestamp NULL DEFAULT NULL,
-                            `name` varchar(50) NOT NULL,
-                            `registration` varchar(10) DEFAULT NULL,
-                            `fin` varchar(5) DEFAULT NULL,
-                            `hex_code` varchar(10) DEFAULT NULL,
-                            `selcal` varchar(5) DEFAULT NULL,
-                            `dow` decimal(8,2) unsigned DEFAULT NULL,
-                            `mtow` decimal(8,2) unsigned DEFAULT 0.00,
-                            `mlw` decimal(8,2) unsigned DEFAULT NULL,
-                            `zfw` decimal(8,2) unsigned DEFAULT 0.00,
-                            `simbrief_type` varchar(25) DEFAULT NULL,
-                            `fuel_onboard` decimal(8,2) unsigned DEFAULT 0.00,
-                            `flight_time` bigint(20) unsigned DEFAULT 0,
-                            `status` char(1) NOT NULL DEFAULT 'A',
-                            `state` tinyint(3) unsigned NOT NULL DEFAULT 0,
-                            `created_at` timestamp NULL DEFAULT NULL,
-                            `updated_at` timestamp NULL DEFAULT NULL,
-                            `deleted_at` timestamp NULL DEFAULT NULL,
-                            PRIMARY KEY (`id`),
-                            UNIQUE KEY `aircraft_registration_unique` (`registration`),
-                            UNIQUE KEY `aircraft_fin_unique` (`fin`),
-                            KEY `aircraft_airport_id_index` (`airport_id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `subfleet_id` int(10) unsigned NOT NULL,
+  `icao` varchar(4) DEFAULT NULL,
+  `iata` varchar(4) DEFAULT NULL,
+  `airport_id` varchar(5) DEFAULT NULL,
+  `hub_id` varchar(5) DEFAULT NULL,
+  `landing_time` timestamp NULL DEFAULT NULL,
+  `name` varchar(50) NOT NULL,
+  `registration` varchar(10) DEFAULT NULL,
+  `fin` varchar(5) DEFAULT NULL,
+  `hex_code` varchar(10) DEFAULT NULL,
+  `selcal` varchar(5) DEFAULT NULL,
+  `dow` decimal(8,2) unsigned DEFAULT NULL,
+  `mtow` decimal(8,2) unsigned DEFAULT 0.00,
+  `mlw` decimal(8,2) unsigned DEFAULT NULL,
+  `zfw` decimal(8,2) unsigned DEFAULT 0.00,
+  `simbrief_type` varchar(25) DEFAULT NULL,
+  `fuel_onboard` decimal(8,2) unsigned DEFAULT 0.00,
+  `flight_time` bigint(20) unsigned DEFAULT 0,
+  `status` char(1) NOT NULL DEFAULT 'A',
+  `state` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `aircraft_registration_unique` (`registration`),
+  UNIQUE KEY `aircraft_fin_unique` (`fin`),
+  KEY `aircraft_airport_id_index` (`airport_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `airlines`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `airlines` (
-                            `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                            `icao` varchar(5) NOT NULL,
-                            `iata` varchar(5) DEFAULT NULL,
-                            `name` varchar(50) NOT NULL,
-                            `callsign` varchar(191) DEFAULT NULL,
-                            `country` varchar(2) DEFAULT NULL,
-                            `logo` varchar(255) DEFAULT NULL,
-                            `active` tinyint(1) NOT NULL DEFAULT 1,
-                            `total_flights` bigint(20) unsigned DEFAULT 0,
-                            `total_time` bigint(20) unsigned DEFAULT 0,
-                            `created_at` timestamp NULL DEFAULT NULL,
-                            `updated_at` timestamp NULL DEFAULT NULL,
-                            `deleted_at` timestamp NULL DEFAULT NULL,
-                            PRIMARY KEY (`id`),
-                            UNIQUE KEY `airlines_icao_unique` (`icao`),
-                            KEY `airlines_icao_index` (`icao`),
-                            KEY `airlines_iata_index` (`iata`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `icao` varchar(5) NOT NULL,
+  `iata` varchar(5) DEFAULT NULL,
+  `name` varchar(50) NOT NULL,
+  `callsign` varchar(191) DEFAULT NULL,
+  `country` varchar(2) DEFAULT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `total_flights` bigint(20) unsigned DEFAULT 0,
+  `total_time` bigint(20) unsigned DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `airlines_icao_unique` (`icao`),
+  KEY `airlines_icao_index` (`icao`),
+  KEY `airlines_iata_index` (`iata`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `airports`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `airports` (
-                            `id` varchar(4) NOT NULL,
-                            `iata` varchar(5) DEFAULT NULL,
-                            `icao` varchar(5) NOT NULL,
-                            `name` varchar(100) NOT NULL,
-                            `location` varchar(100) DEFAULT NULL,
-                            `region` varchar(150) DEFAULT NULL,
-                            `country` varchar(64) DEFAULT NULL,
-                            `timezone` varchar(64) DEFAULT NULL,
-                            `hub` tinyint(1) NOT NULL DEFAULT 0,
-                            `notes` mediumtext DEFAULT NULL,
-                            `lat` decimal(10,5) DEFAULT 0.00000,
-                            `lon` decimal(11,5) DEFAULT 0.00000,
-                            `elevation` int(11) DEFAULT NULL,
-                            `ground_handling_cost` decimal(8,2) unsigned DEFAULT 0.00,
-                            `fuel_100ll_cost` decimal(8,2) unsigned DEFAULT 0.00,
-                            `fuel_jeta_cost` decimal(8,2) unsigned DEFAULT 0.00,
-                            `fuel_mogas_cost` decimal(8,2) unsigned DEFAULT 0.00,
-                            `deleted_at` timestamp NULL DEFAULT NULL,
-                            PRIMARY KEY (`id`),
-                            KEY `airports_icao_index` (`icao`),
-                            KEY `airports_iata_index` (`iata`),
-                            KEY `airports_hub_index` (`hub`)
+  `id` varchar(4) NOT NULL,
+  `iata` varchar(5) DEFAULT NULL,
+  `icao` varchar(5) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `region` varchar(150) DEFAULT NULL,
+  `country` varchar(64) DEFAULT NULL,
+  `timezone` varchar(64) DEFAULT NULL,
+  `hub` tinyint(1) NOT NULL DEFAULT 0,
+  `notes` mediumtext DEFAULT NULL,
+  `lat` decimal(10,5) DEFAULT 0.00000,
+  `lon` decimal(11,5) DEFAULT 0.00000,
+  `elevation` int(11) DEFAULT NULL,
+  `ground_handling_cost` decimal(8,2) unsigned DEFAULT 0.00,
+  `fuel_100ll_cost` decimal(8,2) unsigned DEFAULT 0.00,
+  `fuel_jeta_cost` decimal(8,2) unsigned DEFAULT 0.00,
+  `fuel_mogas_cost` decimal(8,2) unsigned DEFAULT 0.00,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `airports_icao_index` (`icao`),
+  KEY `airports_iata_index` (`iata`),
+  KEY `airports_hub_index` (`hub`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `awards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `awards` (
-                          `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                          `name` varchar(191) NOT NULL,
-                          `description` text DEFAULT NULL,
-                          `image_url` text DEFAULT NULL,
-                          `ref_model` varchar(191) DEFAULT NULL,
-                          `ref_model_params` text DEFAULT NULL,
-                          `active` tinyint(1) DEFAULT 1,
-                          `created_at` timestamp NULL DEFAULT NULL,
-                          `updated_at` timestamp NULL DEFAULT NULL,
-                          `deleted_at` timestamp NULL DEFAULT NULL,
-                          PRIMARY KEY (`id`),
-                          KEY `awards_ref_model_index` (`ref_model`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `description` text DEFAULT NULL,
+  `image_url` text DEFAULT NULL,
+  `ref_model` varchar(191) DEFAULT NULL,
+  `ref_model_params` text DEFAULT NULL,
+  `active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `awards_ref_model_index` (`ref_model`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `bids`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `bids` (
-                        `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                        `user_id` int(10) unsigned NOT NULL,
-                        `flight_id` varchar(36) NOT NULL,
-                        `aircraft_id` int(10) unsigned DEFAULT NULL,
-                        `created_at` timestamp NULL DEFAULT NULL,
-                        `updated_at` timestamp NULL DEFAULT NULL,
-                        PRIMARY KEY (`id`),
-                        KEY `bids_user_id_index` (`user_id`),
-                        KEY `bids_user_id_flight_id_index` (`user_id`,`flight_id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `flight_id` varchar(36) NOT NULL,
+  `aircraft_id` int(10) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bids_user_id_index` (`user_id`),
+  KEY `bids_user_id_flight_id_index` (`user_id`,`flight_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `events`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `events` (
-                          `id` int(11) NOT NULL,
-                          `type` int(10) unsigned NOT NULL DEFAULT 0,
-                          `name` varchar(250) NOT NULL,
-                          `description` text DEFAULT NULL,
-                          `start_date` date NOT NULL,
-                          `end_date` date NOT NULL,
-                          `active` tinyint(1) DEFAULT 0,
-                          `created_at` timestamp NULL DEFAULT NULL,
-                          `updated_at` timestamp NULL DEFAULT NULL,
-                          PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL,
+  `type` int(10) unsigned NOT NULL DEFAULT 0,
+  `name` varchar(250) NOT NULL,
+  `description` text DEFAULT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `active` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `expenses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `expenses` (
-                            `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                            `airline_id` int(10) unsigned DEFAULT NULL,
-                            `name` varchar(191) NOT NULL,
-                            `amount` int(10) unsigned NOT NULL,
-                            `type` char(191) NOT NULL,
-                            `flight_type` varchar(50) DEFAULT NULL,
-                            `charge_to_user` tinyint(1) DEFAULT 0,
-                            `multiplier` tinyint(1) DEFAULT 0,
-                            `active` tinyint(1) DEFAULT 1,
-                            `ref_model` varchar(191) DEFAULT NULL,
-                            `ref_model_id` varchar(36) DEFAULT NULL,
-                            `created_at` timestamp NULL DEFAULT NULL,
-                            `updated_at` timestamp NULL DEFAULT NULL,
-                            PRIMARY KEY (`id`),
-                            KEY `expenses_ref_model_ref_model_id_index` (`ref_model`,`ref_model_id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `airline_id` int(10) unsigned DEFAULT NULL,
+  `name` varchar(191) NOT NULL,
+  `amount` int(10) unsigned NOT NULL,
+  `type` char(191) NOT NULL,
+  `flight_type` varchar(50) DEFAULT NULL,
+  `charge_to_user` tinyint(1) DEFAULT 0,
+  `multiplier` tinyint(1) DEFAULT 0,
+  `active` tinyint(1) DEFAULT 1,
+  `ref_model` varchar(191) DEFAULT NULL,
+  `ref_model_id` varchar(36) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `expenses_ref_model_ref_model_id_index` (`ref_model`,`ref_model_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `failed_jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `failed_jobs` (
-                               `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                               `connection` text NOT NULL,
-                               `queue` text NOT NULL,
-                               `payload` longtext NOT NULL,
-                               `exception` longtext NOT NULL,
-                               `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
-                               PRIMARY KEY (`id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `fares`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `fares` (
-                         `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                         `code` varchar(50) NOT NULL,
-                         `name` varchar(50) NOT NULL,
-                         `price` decimal(8,2) unsigned DEFAULT 0.00,
-                         `cost` decimal(8,2) unsigned DEFAULT 0.00,
-                         `capacity` int(10) unsigned DEFAULT 0,
-                         `type` tinyint(3) unsigned DEFAULT 0,
-                         `notes` varchar(191) DEFAULT NULL,
-                         `active` tinyint(1) NOT NULL DEFAULT 1,
-                         `created_at` timestamp NULL DEFAULT NULL,
-                         `updated_at` timestamp NULL DEFAULT NULL,
-                         `deleted_at` timestamp NULL DEFAULT NULL,
-                         PRIMARY KEY (`id`),
-                         UNIQUE KEY `fares_code_unique` (`code`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `price` decimal(8,2) unsigned DEFAULT 0.00,
+  `cost` decimal(8,2) unsigned DEFAULT 0.00,
+  `capacity` int(10) unsigned DEFAULT 0,
+  `type` tinyint(3) unsigned DEFAULT 0,
+  `notes` varchar(191) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `fares_code_unique` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `files` (
-                         `id` varchar(16) NOT NULL,
-                         `name` varchar(191) NOT NULL,
-                         `description` varchar(191) DEFAULT NULL,
-                         `disk` mediumtext DEFAULT NULL,
-                         `path` mediumtext DEFAULT NULL,
-                         `public` tinyint(1) NOT NULL DEFAULT 1,
-                         `download_count` int(10) unsigned NOT NULL DEFAULT 0,
-                         `ref_model` varchar(50) DEFAULT NULL,
-                         `ref_model_id` varchar(36) DEFAULT NULL,
-                         `created_at` timestamp NULL DEFAULT NULL,
-                         `updated_at` timestamp NULL DEFAULT NULL,
-                         PRIMARY KEY (`id`),
-                         KEY `files_ref_model_ref_model_id_index` (`ref_model`,`ref_model_id`)
+  `id` varchar(16) NOT NULL,
+  `name` varchar(191) NOT NULL,
+  `description` varchar(191) DEFAULT NULL,
+  `disk` mediumtext DEFAULT NULL,
+  `path` mediumtext DEFAULT NULL,
+  `public` tinyint(1) NOT NULL DEFAULT 1,
+  `download_count` int(10) unsigned NOT NULL DEFAULT 0,
+  `ref_model` varchar(50) DEFAULT NULL,
+  `ref_model_id` varchar(36) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `files_ref_model_ref_model_id_index` (`ref_model`,`ref_model_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `flight_fare`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `flight_fare` (
-                               `flight_id` varchar(36) NOT NULL,
-                               `fare_id` int(10) unsigned NOT NULL,
-                               `price` varchar(10) DEFAULT NULL,
-                               `cost` varchar(10) DEFAULT NULL,
-                               `capacity` varchar(10) DEFAULT NULL,
-                               `created_at` timestamp NULL DEFAULT NULL,
-                               `updated_at` timestamp NULL DEFAULT NULL,
-                               PRIMARY KEY (`flight_id`,`fare_id`)
+  `flight_id` varchar(36) NOT NULL,
+  `fare_id` int(10) unsigned NOT NULL,
+  `price` varchar(10) DEFAULT NULL,
+  `cost` varchar(10) DEFAULT NULL,
+  `capacity` varchar(10) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`flight_id`,`fare_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `flight_field_values`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `flight_field_values` (
-                                       `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                                       `flight_id` varchar(36) NOT NULL,
-                                       `name` varchar(50) NOT NULL,
-                                       `slug` varchar(50) DEFAULT NULL,
-                                       `value` text DEFAULT NULL,
-                                       `created_at` timestamp NULL DEFAULT NULL,
-                                       `updated_at` timestamp NULL DEFAULT NULL,
-                                       PRIMARY KEY (`id`),
-                                       KEY `flight_field_values_flight_id_index` (`flight_id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `flight_id` varchar(36) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `slug` varchar(50) DEFAULT NULL,
+  `value` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `flight_field_values_flight_id_index` (`flight_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `flight_fields`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `flight_fields` (
-                                 `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                 `name` varchar(50) NOT NULL,
-                                 `slug` varchar(50) DEFAULT NULL,
-                                 PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `slug` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `flight_subfleet`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `flight_subfleet` (
-                                   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                                   `subfleet_id` int(10) unsigned NOT NULL,
-                                   `flight_id` varchar(36) NOT NULL,
-                                   PRIMARY KEY (`id`),
-                                   KEY `flight_subfleet_subfleet_id_flight_id_index` (`subfleet_id`,`flight_id`),
-                                   KEY `flight_subfleet_flight_id_subfleet_id_index` (`flight_id`,`subfleet_id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `subfleet_id` int(10) unsigned NOT NULL,
+  `flight_id` varchar(36) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `flight_subfleet_subfleet_id_flight_id_index` (`subfleet_id`,`flight_id`),
+  KEY `flight_subfleet_flight_id_subfleet_id_index` (`flight_id`,`subfleet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `flights`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `flights` (
-                           `id` varchar(36) NOT NULL,
-                           `airline_id` int(10) unsigned NOT NULL,
-                           `flight_number` int(10) unsigned NOT NULL,
-                           `callsign` varchar(4) DEFAULT NULL,
-                           `route_code` varchar(5) DEFAULT NULL,
-                           `route_leg` int(10) unsigned DEFAULT NULL,
-                           `dpt_airport_id` varchar(4) NOT NULL,
-                           `arr_airport_id` varchar(4) NOT NULL,
-                           `alt_airport_id` varchar(4) DEFAULT NULL,
-                           `dpt_time` varchar(10) DEFAULT NULL,
-                           `arr_time` varchar(10) DEFAULT NULL,
-                           `level` int(10) unsigned DEFAULT 0,
-                           `distance` decimal(8,2) unsigned DEFAULT 0.00,
-                           `flight_time` int(10) unsigned DEFAULT NULL,
-                           `flight_type` char(1) NOT NULL DEFAULT 'J',
-                           `load_factor` decimal(5,2) DEFAULT NULL,
-                           `load_factor_variance` decimal(5,2) DEFAULT NULL,
-                           `route` text DEFAULT NULL,
-                           `pilot_pay` decimal(8,2) DEFAULT NULL,
-                           `notes` text DEFAULT NULL,
-                           `scheduled` tinyint(1) DEFAULT 0,
-                           `days` tinyint(3) unsigned DEFAULT NULL,
-                           `start_date` date DEFAULT NULL,
-                           `end_date` date DEFAULT NULL,
-                           `has_bid` tinyint(1) NOT NULL DEFAULT 0,
-                           `active` tinyint(1) NOT NULL DEFAULT 1,
-                           `visible` tinyint(1) NOT NULL DEFAULT 1,
-                           `event_id` int(10) unsigned DEFAULT NULL,
-                           `user_id` int(10) unsigned DEFAULT NULL,
-                           `created_at` timestamp NULL DEFAULT NULL,
-                           `updated_at` timestamp NULL DEFAULT NULL,
-                           `deleted_at` timestamp NULL DEFAULT NULL,
-                           `owner_type` varchar(191) DEFAULT NULL,
-                           `owner_id` varchar(36) DEFAULT NULL,
-                           PRIMARY KEY (`id`),
-                           KEY `flights_flight_number_index` (`flight_number`),
-                           KEY `flights_dpt_airport_id_index` (`dpt_airport_id`),
-                           KEY `flights_arr_airport_id_index` (`arr_airport_id`),
-                           KEY `flights_owner_type_owner_id_index` (`owner_type`,`owner_id`)
+  `id` varchar(36) NOT NULL,
+  `airline_id` int(10) unsigned NOT NULL,
+  `flight_number` int(10) unsigned NOT NULL,
+  `callsign` varchar(4) DEFAULT NULL,
+  `route_code` varchar(5) DEFAULT NULL,
+  `route_leg` int(10) unsigned DEFAULT NULL,
+  `dpt_airport_id` varchar(4) NOT NULL,
+  `arr_airport_id` varchar(4) NOT NULL,
+  `alt_airport_id` varchar(4) DEFAULT NULL,
+  `dpt_time` varchar(10) DEFAULT NULL,
+  `arr_time` varchar(10) DEFAULT NULL,
+  `level` int(10) unsigned DEFAULT 0,
+  `distance` decimal(8,2) unsigned DEFAULT 0.00,
+  `flight_time` int(10) unsigned DEFAULT NULL,
+  `flight_type` char(1) NOT NULL DEFAULT 'J',
+  `load_factor` decimal(5,2) DEFAULT NULL,
+  `load_factor_variance` decimal(5,2) DEFAULT NULL,
+  `route` text DEFAULT NULL,
+  `pilot_pay` decimal(8,2) DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `scheduled` tinyint(1) DEFAULT 0,
+  `days` tinyint(3) unsigned DEFAULT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `has_bid` tinyint(1) NOT NULL DEFAULT 0,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `visible` tinyint(1) NOT NULL DEFAULT 1,
+  `event_id` int(10) unsigned DEFAULT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `owner_type` varchar(191) DEFAULT NULL,
+  `owner_id` varchar(36) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `flights_flight_number_index` (`flight_number`),
+  KEY `flights_dpt_airport_id_index` (`dpt_airport_id`),
+  KEY `flights_arr_airport_id_index` (`arr_airport_id`),
+  KEY `flights_owner_type_owner_id_index` (`owner_type`,`owner_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `invites`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `invites` (
-                           `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                           `email` varchar(191) DEFAULT NULL,
-                           `token` varchar(191) NOT NULL,
-                           `usage_count` int(11) NOT NULL DEFAULT 0,
-                           `usage_limit` int(11) DEFAULT NULL,
-                           `expires_at` datetime DEFAULT NULL,
-                           `created_at` timestamp NULL DEFAULT NULL,
-                           `updated_at` timestamp NULL DEFAULT NULL,
-                           PRIMARY KEY (`id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(191) DEFAULT NULL,
+  `token` varchar(191) NOT NULL,
+  `usage_count` int(11) NOT NULL DEFAULT 0,
+  `usage_limit` int(11) DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `jobs` (
-                        `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                        `queue` varchar(191) NOT NULL,
-                        `payload` longtext NOT NULL,
-                        `attempts` tinyint(3) unsigned NOT NULL,
-                        `reserved_at` int(10) unsigned DEFAULT NULL,
-                        `available_at` int(10) unsigned NOT NULL,
-                        `created_at` int(10) unsigned NOT NULL,
-                        PRIMARY KEY (`id`),
-                        KEY `jobs_queue_index` (`queue`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `queue` varchar(191) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) unsigned NOT NULL,
+  `reserved_at` int(10) unsigned DEFAULT NULL,
+  `available_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `jobs_queue_index` (`queue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `journal_transactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `journal_transactions` (
-                                        `id` char(36) NOT NULL,
-                                        `transaction_group` varchar(191) DEFAULT NULL,
-                                        `journal_id` int(11) NOT NULL,
-                                        `credit` bigint(20) unsigned DEFAULT NULL,
-                                        `debit` bigint(20) unsigned DEFAULT NULL,
-                                        `currency` char(5) NOT NULL,
-                                        `memo` text DEFAULT NULL,
-                                        `tags` varchar(191) DEFAULT NULL,
-                                        `ref_model` varchar(50) DEFAULT NULL,
-                                        `ref_model_id` varchar(36) DEFAULT NULL,
-                                        `created_at` timestamp NULL DEFAULT NULL,
-                                        `updated_at` timestamp NULL DEFAULT NULL,
-                                        `post_date` date NOT NULL,
-                                        PRIMARY KEY (`id`),
-                                        UNIQUE KEY `journal_transactions_id_unique` (`id`),
-                                        KEY `journal_transactions_journal_id_index` (`journal_id`),
-                                        KEY `journal_transactions_transaction_group_index` (`transaction_group`),
-                                        KEY `journal_transactions_ref_model_ref_model_id_index` (`ref_model`,`ref_model_id`)
+  `id` char(36) NOT NULL,
+  `transaction_group` varchar(191) DEFAULT NULL,
+  `journal_id` int(11) NOT NULL,
+  `credit` bigint(20) unsigned DEFAULT NULL,
+  `debit` bigint(20) unsigned DEFAULT NULL,
+  `currency` char(5) NOT NULL,
+  `memo` text DEFAULT NULL,
+  `tags` varchar(191) DEFAULT NULL,
+  `ref_model` varchar(50) DEFAULT NULL,
+  `ref_model_id` varchar(36) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `post_date` date NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `journal_transactions_id_unique` (`id`),
+  KEY `journal_transactions_journal_id_index` (`journal_id`),
+  KEY `journal_transactions_transaction_group_index` (`transaction_group`),
+  KEY `journal_transactions_ref_model_ref_model_id_index` (`ref_model`,`ref_model_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `journals`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `journals` (
-                            `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                            `ledger_id` int(10) unsigned DEFAULT NULL,
-                            `type` tinyint(3) unsigned NOT NULL DEFAULT 0,
-                            `balance` bigint(20) NOT NULL DEFAULT 0,
-                            `currency` varchar(5) NOT NULL,
-                            `morphed_type` varchar(191) DEFAULT NULL,
-                            `morphed_id` bigint(20) unsigned DEFAULT NULL,
-                            `created_at` timestamp NULL DEFAULT NULL,
-                            `updated_at` timestamp NULL DEFAULT NULL,
-                            PRIMARY KEY (`id`),
-                            KEY `journals_morphed_type_morphed_id_index` (`morphed_type`,`morphed_id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ledger_id` int(10) unsigned DEFAULT NULL,
+  `type` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `balance` bigint(20) NOT NULL DEFAULT 0,
+  `currency` varchar(5) NOT NULL,
+  `morphed_type` varchar(191) DEFAULT NULL,
+  `morphed_id` bigint(20) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `journals_morphed_type_morphed_id_index` (`morphed_type`,`morphed_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `kvp`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `kvp` (
-                       `key` varchar(191) NOT NULL,
-                       `value` varchar(191) NOT NULL,
-                       KEY `kvp_key_index` (`key`)
+  `key` varchar(191) NOT NULL,
+  `value` varchar(191) NOT NULL,
+  KEY `kvp_key_index` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `ledgers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ledgers` (
-                           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                           `name` varchar(191) NOT NULL,
-                           `type` enum('asset','liability','equity','income','expense') NOT NULL,
-                           `created_at` timestamp NULL DEFAULT NULL,
-                           `updated_at` timestamp NULL DEFAULT NULL,
-                           PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `type` enum('asset','liability','equity','income','expense') NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `migrations` (
-                              `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                              `migration` varchar(191) NOT NULL,
-                              `batch` int(11) NOT NULL,
-                              PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(191) NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `migrations_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `migrations_data` (
-                                   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                   `migration` varchar(191) NOT NULL,
-                                   `batch` int(11) NOT NULL,
-                                   PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(191) NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `modules`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `modules` (
-                           `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                           `name` varchar(191) NOT NULL,
-                           `enabled` tinyint(1) NOT NULL DEFAULT 1,
-                           `created_at` timestamp NULL DEFAULT NULL,
-                           `updated_at` timestamp NULL DEFAULT NULL,
-                           PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `navdata`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `navdata` (
-                           `id` varchar(5) NOT NULL,
-                           `name` varchar(24) NOT NULL,
-                           `type` int(10) unsigned NOT NULL,
-                           `lat` double(7,4) DEFAULT 0.0000,
-                           `lon` double(7,4) DEFAULT 0.0000,
-                           `freq` varchar(7) DEFAULT NULL,
-                           PRIMARY KEY (`id`,`name`),
-                           KEY `navdata_id_index` (`id`),
-                           KEY `navdata_name_index` (`name`)
+  `id` varchar(5) NOT NULL,
+  `name` varchar(24) NOT NULL,
+  `type` int(10) unsigned NOT NULL,
+  `lat` double(7,4) DEFAULT 0.0000,
+  `lon` double(7,4) DEFAULT 0.0000,
+  `freq` varchar(7) DEFAULT NULL,
+  PRIMARY KEY (`id`,`name`),
+  KEY `navdata_id_index` (`id`),
+  KEY `navdata_name_index` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `news`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `news` (
-                        `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                        `user_id` int(10) unsigned NOT NULL,
-                        `subject` varchar(191) NOT NULL,
-                        `body` text NOT NULL,
-                        `created_at` timestamp NULL DEFAULT NULL,
-                        `updated_at` timestamp NULL DEFAULT NULL,
-                        PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `subject` varchar(191) NOT NULL,
+  `body` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `notifications`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `notifications` (
-                                 `id` char(36) NOT NULL,
-                                 `type` varchar(191) NOT NULL,
-                                 `notifiable_type` varchar(191) NOT NULL,
-                                 `notifiable_id` bigint(20) unsigned NOT NULL,
-                                 `data` text NOT NULL,
-                                 `read_at` timestamp NULL DEFAULT NULL,
-                                 `created_at` timestamp NULL DEFAULT NULL,
-                                 `updated_at` timestamp NULL DEFAULT NULL,
-                                 PRIMARY KEY (`id`),
-                                 KEY `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`,`notifiable_id`)
+  `id` char(36) NOT NULL,
+  `type` varchar(191) NOT NULL,
+  `notifiable_type` varchar(191) NOT NULL,
+  `notifiable_id` bigint(20) unsigned NOT NULL,
+  `data` text NOT NULL,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`,`notifiable_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pages` (
-                         `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                         `name` varchar(191) NOT NULL,
-                         `slug` varchar(191) NOT NULL,
-                         `icon` varchar(191) DEFAULT NULL,
-                         `type` smallint(5) unsigned NOT NULL DEFAULT 0,
-                         `public` tinyint(1) NOT NULL,
-                         `enabled` tinyint(1) NOT NULL,
-                         `body` mediumtext DEFAULT NULL,
-                         `link` varchar(191) DEFAULT '',
-                         `created_at` timestamp NULL DEFAULT NULL,
-                         `updated_at` timestamp NULL DEFAULT NULL,
-                         `new_window` tinyint(1) NOT NULL DEFAULT 0,
-                         PRIMARY KEY (`id`),
-                         KEY `pages_slug_index` (`slug`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `slug` varchar(191) NOT NULL,
+  `icon` varchar(191) DEFAULT NULL,
+  `type` smallint(5) unsigned NOT NULL DEFAULT 0,
+  `public` tinyint(1) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `body` mediumtext DEFAULT NULL,
+  `link` varchar(191) DEFAULT '',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `new_window` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `pages_slug_index` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `password_resets`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `password_resets` (
-                                   `email` varchar(191) NOT NULL,
-                                   `token` varchar(191) NOT NULL,
-                                   `created_at` timestamp NULL DEFAULT NULL,
-                                   KEY `password_resets_email_index` (`email`),
-                                   KEY `password_resets_token_index` (`token`)
+  `email` varchar(191) NOT NULL,
+  `token` varchar(191) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`),
+  KEY `password_resets_token_index` (`token`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `permission_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `permission_role` (
-                                   `permission_id` int(10) unsigned NOT NULL,
-                                   `role_id` int(10) unsigned NOT NULL,
-                                   PRIMARY KEY (`permission_id`,`role_id`),
-                                   KEY `permission_role_role_id_foreign` (`role_id`),
-                                   CONSTRAINT `permission_role_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                                   CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `permission_id` int(10) unsigned NOT NULL,
+  `role_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`permission_id`,`role_id`),
+  KEY `permission_role_role_id_foreign` (`role_id`),
+  CONSTRAINT `permission_role_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `permission_role_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `permission_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `permission_user` (
-                                   `permission_id` int(10) unsigned NOT NULL,
-                                   `user_id` int(10) unsigned NOT NULL,
-                                   `user_type` varchar(191) NOT NULL,
-                                   PRIMARY KEY (`user_id`,`permission_id`,`user_type`),
-                                   KEY `permission_user_permission_id_foreign` (`permission_id`),
-                                   CONSTRAINT `permission_user_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `permission_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `user_type` varchar(191) NOT NULL,
+  PRIMARY KEY (`user_id`,`permission_id`,`user_type`),
+  KEY `permission_user_permission_id_foreign` (`permission_id`),
+  CONSTRAINT `permission_user_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `permissions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `permissions` (
-                               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                               `name` varchar(191) NOT NULL,
-                               `display_name` varchar(191) DEFAULT NULL,
-                               `description` varchar(191) DEFAULT NULL,
-                               `created_at` timestamp NULL DEFAULT NULL,
-                               `updated_at` timestamp NULL DEFAULT NULL,
-                               PRIMARY KEY (`id`),
-                               UNIQUE KEY `permissions_name_unique` (`name`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `display_name` varchar(191) DEFAULT NULL,
+  `description` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `permissions_name_unique` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pirep_comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pirep_comments` (
-                                  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                                  `pirep_id` varchar(36) NOT NULL,
-                                  `user_id` int(10) unsigned NOT NULL,
-                                  `comment` text NOT NULL,
-                                  `created_at` timestamp NULL DEFAULT NULL,
-                                  `updated_at` timestamp NULL DEFAULT NULL,
-                                  PRIMARY KEY (`id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `pirep_id` varchar(36) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `comment` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pirep_fares`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pirep_fares` (
-                               `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                               `pirep_id` varchar(36) NOT NULL,
-                               `fare_id` bigint(20) unsigned DEFAULT NULL,
-                               `count` int(10) unsigned DEFAULT 0,
-                               `code` varchar(191) DEFAULT NULL,
-                               `name` varchar(191) DEFAULT NULL,
-                               `price` decimal(8,2) unsigned DEFAULT 0.00,
-                               `cost` decimal(8,2) unsigned DEFAULT 0.00,
-                               `capacity` int(10) unsigned DEFAULT 0,
-                               `type` tinyint(3) unsigned DEFAULT 0,
-                               `deleted_at` timestamp NULL DEFAULT NULL,
-                               PRIMARY KEY (`id`),
-                               KEY `pirep_fares_pirep_id_index` (`pirep_id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `pirep_id` varchar(36) NOT NULL,
+  `fare_id` bigint(20) unsigned DEFAULT NULL,
+  `count` int(10) unsigned DEFAULT 0,
+  `code` varchar(191) DEFAULT NULL,
+  `name` varchar(191) DEFAULT NULL,
+  `price` decimal(8,2) unsigned DEFAULT 0.00,
+  `cost` decimal(8,2) unsigned DEFAULT 0.00,
+  `capacity` int(10) unsigned DEFAULT 0,
+  `type` tinyint(3) unsigned DEFAULT 0,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pirep_fares_pirep_id_index` (`pirep_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pirep_field_values`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pirep_field_values` (
-                                      `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                                      `pirep_id` varchar(36) NOT NULL,
-                                      `name` varchar(50) NOT NULL,
-                                      `slug` varchar(50) DEFAULT NULL,
-                                      `value` varchar(191) DEFAULT NULL,
-                                      `source` tinyint(3) unsigned NOT NULL,
-                                      `created_at` timestamp NULL DEFAULT NULL,
-                                      `updated_at` timestamp NULL DEFAULT NULL,
-                                      PRIMARY KEY (`id`),
-                                      KEY `pirep_field_values_pirep_id_index` (`pirep_id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `pirep_id` varchar(36) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `slug` varchar(50) DEFAULT NULL,
+  `value` varchar(191) DEFAULT NULL,
+  `source` tinyint(3) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pirep_field_values_pirep_id_index` (`pirep_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pirep_fields`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pirep_fields` (
-                                `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                                `name` varchar(50) NOT NULL,
-                                `slug` varchar(50) DEFAULT NULL,
-                                `description` varchar(191) DEFAULT NULL,
-                                `required` tinyint(1) DEFAULT 0,
-                                `pirep_source` tinyint(4) DEFAULT 3,
-                                PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `slug` varchar(50) DEFAULT NULL,
+  `description` varchar(191) DEFAULT NULL,
+  `required` tinyint(1) DEFAULT 0,
+  `pirep_source` tinyint(4) DEFAULT 3,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `pireps`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pireps` (
-                          `id` varchar(36) NOT NULL,
-                          `user_id` int(10) unsigned NOT NULL,
-                          `airline_id` int(10) unsigned NOT NULL,
-                          `aircraft_id` int(10) unsigned DEFAULT NULL,
-                          `event_id` int(10) unsigned DEFAULT NULL,
-                          `flight_id` varchar(36) DEFAULT NULL,
-                          `flight_number` varchar(10) DEFAULT NULL,
-                          `route_code` varchar(5) DEFAULT NULL,
-                          `route_leg` varchar(5) DEFAULT NULL,
-                          `flight_type` char(1) NOT NULL DEFAULT 'J',
-                          `dpt_airport_id` varchar(5) NOT NULL,
-                          `arr_airport_id` varchar(5) NOT NULL,
-                          `alt_airport_id` varchar(5) DEFAULT NULL,
-                          `level` int(10) unsigned DEFAULT NULL,
-                          `distance` decimal(8,2) unsigned DEFAULT NULL,
-                          `planned_distance` decimal(8,2) unsigned DEFAULT NULL,
-                          `flight_time` int(10) unsigned DEFAULT NULL,
-                          `planned_flight_time` int(10) unsigned DEFAULT NULL,
-                          `zfw` decimal(8,2) unsigned DEFAULT NULL,
-                          `block_fuel` decimal(8,2) unsigned DEFAULT NULL,
-                          `fuel_used` decimal(8,2) unsigned DEFAULT NULL,
-                          `landing_rate` decimal(8,2) DEFAULT NULL,
-                          `score` smallint(6) DEFAULT NULL,
-                          `route` text DEFAULT NULL,
-                          `notes` text DEFAULT NULL,
-                          `source` tinyint(3) unsigned DEFAULT 0,
-                          `source_name` varchar(50) DEFAULT NULL,
-                          `state` smallint(5) unsigned NOT NULL DEFAULT 1,
-                          `status` char(3) NOT NULL DEFAULT 'SCH',
-                          `submitted_at` datetime DEFAULT NULL,
-                          `block_off_time` datetime DEFAULT NULL,
-                          `block_on_time` datetime DEFAULT NULL,
-                          `created_at` timestamp NULL DEFAULT NULL,
-                          `updated_at` timestamp NULL DEFAULT NULL,
-                          `deleted_at` timestamp NULL DEFAULT NULL,
-                          PRIMARY KEY (`id`),
-                          KEY `pireps_user_id_index` (`user_id`),
-                          KEY `pireps_flight_number_index` (`flight_number`),
-                          KEY `pireps_dpt_airport_id_index` (`dpt_airport_id`),
-                          KEY `pireps_arr_airport_id_index` (`arr_airport_id`)
+  `id` varchar(36) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `airline_id` int(10) unsigned NOT NULL,
+  `aircraft_id` int(10) unsigned DEFAULT NULL,
+  `event_id` int(10) unsigned DEFAULT NULL,
+  `flight_id` varchar(36) DEFAULT NULL,
+  `flight_number` varchar(10) DEFAULT NULL,
+  `route_code` varchar(5) DEFAULT NULL,
+  `route_leg` varchar(5) DEFAULT NULL,
+  `flight_type` char(1) NOT NULL DEFAULT 'J',
+  `dpt_airport_id` varchar(5) NOT NULL,
+  `arr_airport_id` varchar(5) NOT NULL,
+  `alt_airport_id` varchar(5) DEFAULT NULL,
+  `level` int(10) unsigned DEFAULT NULL,
+  `distance` decimal(8,2) unsigned DEFAULT NULL,
+  `planned_distance` decimal(8,2) unsigned DEFAULT NULL,
+  `flight_time` int(10) unsigned DEFAULT NULL,
+  `planned_flight_time` int(10) unsigned DEFAULT NULL,
+  `zfw` decimal(8,2) unsigned DEFAULT NULL,
+  `block_fuel` decimal(8,2) unsigned DEFAULT NULL,
+  `fuel_used` decimal(8,2) unsigned DEFAULT NULL,
+  `landing_rate` decimal(8,2) DEFAULT NULL,
+  `score` smallint(6) DEFAULT NULL,
+  `route` text DEFAULT NULL,
+  `notes` text DEFAULT NULL,
+  `source` tinyint(3) unsigned DEFAULT 0,
+  `source_name` varchar(50) DEFAULT NULL,
+  `state` smallint(5) unsigned NOT NULL DEFAULT 1,
+  `status` char(3) NOT NULL DEFAULT 'SCH',
+  `submitted_at` datetime DEFAULT NULL,
+  `block_off_time` datetime DEFAULT NULL,
+  `block_on_time` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pireps_user_id_index` (`user_id`),
+  KEY `pireps_flight_number_index` (`flight_number`),
+  KEY `pireps_dpt_airport_id_index` (`dpt_airport_id`),
+  KEY `pireps_arr_airport_id_index` (`arr_airport_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `ranks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ranks` (
-                         `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                         `name` varchar(50) NOT NULL,
-                         `image_url` varchar(191) DEFAULT NULL,
-                         `hours` int(10) unsigned NOT NULL DEFAULT 0,
-                         `acars_base_pay_rate` decimal(8,2) unsigned DEFAULT 0.00,
-                         `manual_base_pay_rate` decimal(8,2) unsigned DEFAULT 0.00,
-                         `auto_approve_acars` tinyint(1) DEFAULT 0,
-                         `auto_approve_manual` tinyint(1) DEFAULT 0,
-                         `auto_promote` tinyint(1) DEFAULT 1,
-                         `auto_approve_above_score` tinyint(1) DEFAULT 0,
-                         `auto_approve_score` smallint(6) DEFAULT NULL,
-                         `created_at` timestamp NULL DEFAULT NULL,
-                         `updated_at` timestamp NULL DEFAULT NULL,
-                         `deleted_at` timestamp NULL DEFAULT NULL,
-                         PRIMARY KEY (`id`),
-                         UNIQUE KEY `ranks_name_unique` (`name`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `image_url` varchar(191) DEFAULT NULL,
+  `hours` int(10) unsigned NOT NULL DEFAULT 0,
+  `acars_base_pay_rate` decimal(8,2) unsigned DEFAULT 0.00,
+  `manual_base_pay_rate` decimal(8,2) unsigned DEFAULT 0.00,
+  `auto_approve_acars` tinyint(1) DEFAULT 0,
+  `auto_approve_manual` tinyint(1) DEFAULT 0,
+  `auto_promote` tinyint(1) DEFAULT 1,
+  `auto_approve_above_score` tinyint(1) DEFAULT 0,
+  `auto_approve_score` smallint(6) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ranks_name_unique` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `role_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role_user` (
-                             `role_id` int(10) unsigned NOT NULL,
-                             `user_id` int(10) unsigned NOT NULL,
-                             `user_type` varchar(191) NOT NULL,
-                             PRIMARY KEY (`user_id`,`role_id`,`user_type`),
-                             KEY `role_user_role_id_foreign` (`role_id`),
-                             CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `role_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `user_type` varchar(191) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`,`user_type`),
+  KEY `role_user_role_id_foreign` (`role_id`),
+  CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `roles` (
-                         `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                         `name` varchar(191) NOT NULL,
-                         `display_name` varchar(191) DEFAULT NULL,
-                         `description` varchar(191) DEFAULT NULL,
-                         `created_at` timestamp NULL DEFAULT NULL,
-                         `updated_at` timestamp NULL DEFAULT NULL,
-                         `read_only` tinyint(1) NOT NULL DEFAULT 0,
-                         `disable_activity_checks` tinyint(1) NOT NULL DEFAULT 0,
-                         PRIMARY KEY (`id`),
-                         UNIQUE KEY `roles_name_unique` (`name`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `display_name` varchar(191) DEFAULT NULL,
+  `description` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `read_only` tinyint(1) NOT NULL DEFAULT 0,
+  `disable_activity_checks` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `roles_name_unique` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `sessions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sessions` (
-                            `id` varchar(191) NOT NULL,
-                            `user_id` int(10) unsigned DEFAULT NULL,
-                            `ip_address` varchar(45) DEFAULT NULL,
-                            `user_agent` text DEFAULT NULL,
-                            `payload` text NOT NULL,
-                            `last_activity` int(11) NOT NULL,
-                            UNIQUE KEY `sessions_id_unique` (`id`),
-                            KEY `sessions_user_id_index` (`user_id`),
-                            KEY `sessions_last_activity_index` (`last_activity`)
+  `id` varchar(191) NOT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` text NOT NULL,
+  `last_activity` int(11) NOT NULL,
+  UNIQUE KEY `sessions_id_unique` (`id`),
+  KEY `sessions_user_id_index` (`user_id`),
+  KEY `sessions_last_activity_index` (`last_activity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `settings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `settings` (
-                            `id` varchar(191) NOT NULL,
-                            `offset` int(10) unsigned NOT NULL DEFAULT 0,
-                            `order` int(10) unsigned NOT NULL DEFAULT 99,
-                            `key` varchar(191) NOT NULL,
-                            `name` varchar(191) NOT NULL,
-                            `value` varchar(191) NOT NULL,
-                            `default` varchar(191) DEFAULT NULL,
-                            `group` varchar(191) DEFAULT NULL,
-                            `type` varchar(191) DEFAULT NULL,
-                            `options` text DEFAULT NULL,
-                            `description` varchar(191) DEFAULT NULL,
-                            `created_at` timestamp NULL DEFAULT NULL,
-                            `updated_at` timestamp NULL DEFAULT NULL,
-                            PRIMARY KEY (`id`),
-                            KEY `settings_key_index` (`key`)
+  `id` varchar(191) NOT NULL,
+  `offset` int(10) unsigned NOT NULL DEFAULT 0,
+  `order` int(10) unsigned NOT NULL DEFAULT 99,
+  `key` varchar(191) NOT NULL,
+  `name` varchar(191) NOT NULL,
+  `value` varchar(191) NOT NULL,
+  `default` varchar(191) DEFAULT NULL,
+  `group` varchar(191) DEFAULT NULL,
+  `type` varchar(191) DEFAULT NULL,
+  `options` text DEFAULT NULL,
+  `description` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `settings_key_index` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `simbrief`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `simbrief` (
-                            `id` varchar(36) NOT NULL,
-                            `user_id` int(10) unsigned NOT NULL,
-                            `flight_id` varchar(36) DEFAULT NULL,
-                            `pirep_id` varchar(36) DEFAULT NULL,
-                            `aircraft_id` int(10) unsigned DEFAULT NULL,
-                            `acars_xml` mediumtext NOT NULL,
-                            `ofp_xml` mediumtext NOT NULL,
-                            `fare_data` mediumtext DEFAULT NULL,
-                            `created_at` timestamp NULL DEFAULT NULL,
-                            `updated_at` timestamp NULL DEFAULT NULL,
-                            PRIMARY KEY (`id`),
-                            UNIQUE KEY `simbrief_pirep_id_unique` (`pirep_id`),
-                            KEY `simbrief_user_id_flight_id_index` (`user_id`,`flight_id`),
-                            KEY `simbrief_pirep_id_index` (`pirep_id`)
+  `id` varchar(36) NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `flight_id` varchar(36) DEFAULT NULL,
+  `pirep_id` varchar(36) DEFAULT NULL,
+  `aircraft_id` int(10) unsigned DEFAULT NULL,
+  `acars_xml` mediumtext NOT NULL,
+  `ofp_xml` mediumtext NOT NULL,
+  `fare_data` mediumtext DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `simbrief_pirep_id_unique` (`pirep_id`),
+  KEY `simbrief_user_id_flight_id_index` (`user_id`,`flight_id`),
+  KEY `simbrief_pirep_id_index` (`pirep_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `stats`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `stats` (
-                         `id` varchar(191) NOT NULL,
-                         `value` varchar(191) NOT NULL,
-                         `order` int(10) unsigned NOT NULL,
-                         `type` varchar(191) DEFAULT NULL,
-                         `description` varchar(191) DEFAULT NULL,
-                         `created_at` timestamp NULL DEFAULT NULL,
-                         `updated_at` timestamp NULL DEFAULT NULL,
-                         PRIMARY KEY (`id`)
+  `id` varchar(191) NOT NULL,
+  `value` varchar(191) NOT NULL,
+  `order` int(10) unsigned NOT NULL,
+  `type` varchar(191) DEFAULT NULL,
+  `description` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `subfleet_fare`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `subfleet_fare` (
-                                 `subfleet_id` int(10) unsigned NOT NULL,
-                                 `fare_id` int(10) unsigned NOT NULL,
-                                 `price` varchar(191) DEFAULT NULL,
-                                 `cost` varchar(191) DEFAULT NULL,
-                                 `capacity` varchar(191) DEFAULT NULL,
-                                 `created_at` timestamp NULL DEFAULT NULL,
-                                 `updated_at` timestamp NULL DEFAULT NULL,
-                                 PRIMARY KEY (`subfleet_id`,`fare_id`),
-                                 KEY `subfleet_fare_fare_id_subfleet_id_index` (`fare_id`,`subfleet_id`)
+  `subfleet_id` int(10) unsigned NOT NULL,
+  `fare_id` int(10) unsigned NOT NULL,
+  `price` varchar(191) DEFAULT NULL,
+  `cost` varchar(191) DEFAULT NULL,
+  `capacity` varchar(191) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`subfleet_id`,`fare_id`),
+  KEY `subfleet_fare_fare_id_subfleet_id_index` (`fare_id`,`subfleet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `subfleet_rank`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `subfleet_rank` (
-                                 `rank_id` int(10) unsigned NOT NULL,
-                                 `subfleet_id` int(10) unsigned NOT NULL,
-                                 `acars_pay` varchar(191) DEFAULT NULL,
-                                 `manual_pay` varchar(191) DEFAULT NULL,
-                                 PRIMARY KEY (`rank_id`,`subfleet_id`),
-                                 KEY `subfleet_rank_subfleet_id_rank_id_index` (`subfleet_id`,`rank_id`)
+  `rank_id` int(10) unsigned NOT NULL,
+  `subfleet_id` int(10) unsigned NOT NULL,
+  `acars_pay` varchar(191) DEFAULT NULL,
+  `manual_pay` varchar(191) DEFAULT NULL,
+  PRIMARY KEY (`rank_id`,`subfleet_id`),
+  KEY `subfleet_rank_subfleet_id_rank_id_index` (`subfleet_id`,`rank_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `subfleets`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `subfleets` (
-                             `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                             `airline_id` int(10) unsigned DEFAULT NULL,
-                             `hub_id` varchar(4) DEFAULT NULL,
-                             `type` varchar(50) NOT NULL,
-                             `simbrief_type` varchar(20) DEFAULT NULL,
-                             `name` varchar(50) NOT NULL,
-                             `cost_block_hour` decimal(8,2) unsigned DEFAULT 0.00,
-                             `cost_delay_minute` decimal(8,2) unsigned DEFAULT 0.00,
-                             `fuel_type` tinyint(3) unsigned DEFAULT NULL,
-                             `ground_handling_multiplier` decimal(8,2) unsigned DEFAULT 100.00,
-                             `cargo_capacity` decimal(8,2) unsigned DEFAULT NULL,
-                             `fuel_capacity` decimal(8,2) unsigned DEFAULT NULL,
-                             `gross_weight` decimal(8,2) unsigned DEFAULT NULL,
-                             `created_at` timestamp NULL DEFAULT NULL,
-                             `updated_at` timestamp NULL DEFAULT NULL,
-                             `deleted_at` timestamp NULL DEFAULT NULL,
-                             PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `airline_id` int(10) unsigned DEFAULT NULL,
+  `hub_id` varchar(4) DEFAULT NULL,
+  `type` varchar(50) NOT NULL,
+  `simbrief_type` varchar(20) DEFAULT NULL,
+  `name` varchar(50) NOT NULL,
+  `cost_block_hour` decimal(8,2) unsigned DEFAULT 0.00,
+  `cost_delay_minute` decimal(8,2) unsigned DEFAULT 0.00,
+  `fuel_type` tinyint(3) unsigned DEFAULT NULL,
+  `ground_handling_multiplier` decimal(8,2) unsigned DEFAULT 100.00,
+  `cargo_capacity` decimal(8,2) unsigned DEFAULT NULL,
+  `fuel_capacity` decimal(8,2) unsigned DEFAULT NULL,
+  `gross_weight` decimal(8,2) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `typerating_subfleet`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `typerating_subfleet` (
-                                       `typerating_id` int(10) unsigned NOT NULL,
-                                       `subfleet_id` int(10) unsigned NOT NULL,
-                                       PRIMARY KEY (`typerating_id`,`subfleet_id`),
-                                       KEY `typerating_subfleet_typerating_id_subfleet_id_index` (`typerating_id`,`subfleet_id`)
+  `typerating_id` int(10) unsigned NOT NULL,
+  `subfleet_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`typerating_id`,`subfleet_id`),
+  KEY `typerating_subfleet_typerating_id_subfleet_id_index` (`typerating_id`,`subfleet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `typerating_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `typerating_user` (
-                                   `typerating_id` int(10) unsigned NOT NULL,
-                                   `user_id` int(10) unsigned NOT NULL,
-                                   PRIMARY KEY (`typerating_id`,`user_id`),
-                                   KEY `typerating_user_typerating_id_user_id_index` (`typerating_id`,`user_id`)
+  `typerating_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`typerating_id`,`user_id`),
+  KEY `typerating_user_typerating_id_user_id_index` (`typerating_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `typeratings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `typeratings` (
-                               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                               `name` varchar(191) NOT NULL,
-                               `type` varchar(191) NOT NULL,
-                               `description` varchar(191) DEFAULT NULL,
-                               `image_url` varchar(191) DEFAULT NULL,
-                               `active` tinyint(1) NOT NULL DEFAULT 1,
-                               `created_at` timestamp NULL DEFAULT NULL,
-                               `updated_at` timestamp NULL DEFAULT NULL,
-                               PRIMARY KEY (`id`),
-                               UNIQUE KEY `typeratings_id_unique` (`id`),
-                               UNIQUE KEY `typeratings_name_unique` (`name`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  `type` varchar(191) NOT NULL,
+  `description` varchar(191) DEFAULT NULL,
+  `image_url` varchar(191) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `typeratings_id_unique` (`id`),
+  UNIQUE KEY `typeratings_name_unique` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_awards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_awards` (
-                               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                               `user_id` int(10) unsigned NOT NULL,
-                               `award_id` int(10) unsigned NOT NULL,
-                               `created_at` timestamp NULL DEFAULT NULL,
-                               `updated_at` timestamp NULL DEFAULT NULL,
-                               PRIMARY KEY (`id`),
-                               KEY `user_awards_user_id_award_id_index` (`user_id`,`award_id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `award_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_awards_user_id_award_id_index` (`user_id`,`award_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_field_values`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_field_values` (
-                                     `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                                     `user_field_id` bigint(20) unsigned NOT NULL,
-                                     `user_id` varchar(16) NOT NULL,
-                                     `value` text DEFAULT NULL,
-                                     `created_at` timestamp NULL DEFAULT NULL,
-                                     `updated_at` timestamp NULL DEFAULT NULL,
-                                     PRIMARY KEY (`id`),
-                                     KEY `user_field_values_user_field_id_user_id_index` (`user_field_id`,`user_id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_field_id` bigint(20) unsigned NOT NULL,
+  `user_id` varchar(16) NOT NULL,
+  `value` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_field_values_user_field_id_user_id_index` (`user_field_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_fields`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_fields` (
-                               `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                               `name` varchar(200) NOT NULL,
-                               `description` text DEFAULT NULL,
-                               `show_on_registration` tinyint(1) DEFAULT 0,
-                               `required` tinyint(1) DEFAULT 0,
-                               `private` tinyint(1) DEFAULT 0,
-                               `active` tinyint(1) DEFAULT 1,
-                               `created_at` timestamp NULL DEFAULT NULL,
-                               `updated_at` timestamp NULL DEFAULT NULL,
-                               PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `description` text DEFAULT NULL,
+  `show_on_registration` tinyint(1) DEFAULT 0,
+  `required` tinyint(1) DEFAULT 0,
+  `private` tinyint(1) DEFAULT 0,
+  `internal` tinyint(1) NOT NULL DEFAULT 0,
+  `active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `user_oauth_tokens`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_oauth_tokens` (
-                                     `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-                                     `user_id` int(10) unsigned NOT NULL,
-                                     `provider` varchar(191) NOT NULL,
-                                     `token` varchar(191) NOT NULL,
-                                     `refresh_token` varchar(191) NOT NULL,
-                                     `last_refreshed_at` datetime DEFAULT NULL,
-                                     `created_at` timestamp NULL DEFAULT NULL,
-                                     `updated_at` timestamp NULL DEFAULT NULL,
-                                     PRIMARY KEY (`id`)
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `provider` varchar(191) NOT NULL,
+  `token` varchar(191) NOT NULL,
+  `refresh_token` varchar(191) NOT NULL,
+  `last_refreshed_at` datetime DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-                         `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-                         `pilot_id` bigint(20) unsigned DEFAULT NULL,
-                         `callsign` varchar(191) DEFAULT NULL,
-                         `name` varchar(191) DEFAULT NULL,
-                         `email` varchar(191) NOT NULL,
-                         `password` varchar(191) NOT NULL,
-                         `api_key` varchar(40) DEFAULT NULL,
-                         `airline_id` int(10) unsigned NOT NULL,
-                         `rank_id` int(10) unsigned DEFAULT NULL,
-                         `discord_id` varchar(191) NOT NULL DEFAULT '',
-                         `discord_private_channel_id` varchar(191) NOT NULL DEFAULT '',
-                         `country` varchar(2) DEFAULT NULL,
-                         `home_airport_id` varchar(5) DEFAULT NULL,
-                         `curr_airport_id` varchar(5) DEFAULT NULL,
-                         `last_pirep_id` varchar(36) DEFAULT NULL,
-                         `flights` bigint(20) unsigned NOT NULL DEFAULT 0,
-                         `flight_time` bigint(20) unsigned DEFAULT 0,
-                         `transfer_time` bigint(20) unsigned DEFAULT 0,
-                         `avatar` varchar(191) DEFAULT NULL,
-                         `timezone` varchar(64) DEFAULT NULL,
-                         `status` tinyint(3) unsigned DEFAULT 0,
-                         `state` tinyint(3) unsigned DEFAULT 0,
-                         `toc_accepted` tinyint(1) DEFAULT NULL,
-                         `opt_in` tinyint(1) DEFAULT NULL,
-                         `active` tinyint(1) DEFAULT NULL,
-                         `last_ip` varchar(45) DEFAULT NULL,
-                         `lastlogin_at` timestamp NULL DEFAULT NULL,
-                         `remember_token` varchar(100) DEFAULT NULL,
-                         `notes` mediumtext DEFAULT NULL,
-                         `created_at` timestamp NULL DEFAULT NULL,
-                         `updated_at` timestamp NULL DEFAULT NULL,
-                         `deleted_at` timestamp NULL DEFAULT NULL,
-                         `email_verified_at` timestamp NULL DEFAULT NULL,
-                         PRIMARY KEY (`id`),
-                         UNIQUE KEY `users_email_unique` (`email`),
-                         UNIQUE KEY `users_pilot_id_unique` (`pilot_id`),
-                         KEY `users_email_index` (`email`),
-                         KEY `users_api_key_index` (`api_key`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `pilot_id` bigint(20) unsigned DEFAULT NULL,
+  `callsign` varchar(191) DEFAULT NULL,
+  `name` varchar(191) DEFAULT NULL,
+  `email` varchar(191) NOT NULL,
+  `password` varchar(191) NOT NULL,
+  `api_key` varchar(40) DEFAULT NULL,
+  `airline_id` int(10) unsigned NOT NULL,
+  `rank_id` int(10) unsigned DEFAULT NULL,
+  `discord_id` varchar(191) NOT NULL DEFAULT '',
+  `discord_private_channel_id` varchar(191) NOT NULL DEFAULT '',
+  `country` varchar(2) DEFAULT NULL,
+  `home_airport_id` varchar(5) DEFAULT NULL,
+  `curr_airport_id` varchar(5) DEFAULT NULL,
+  `last_pirep_id` varchar(36) DEFAULT NULL,
+  `flights` bigint(20) unsigned NOT NULL DEFAULT 0,
+  `flight_time` bigint(20) unsigned DEFAULT 0,
+  `transfer_time` bigint(20) unsigned DEFAULT 0,
+  `avatar` varchar(191) DEFAULT NULL,
+  `timezone` varchar(64) DEFAULT NULL,
+  `status` tinyint(3) unsigned DEFAULT 0,
+  `state` tinyint(3) unsigned DEFAULT 0,
+  `toc_accepted` tinyint(1) DEFAULT NULL,
+  `opt_in` tinyint(1) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  `last_ip` varchar(45) DEFAULT NULL,
+  `lastlogin_at` timestamp NULL DEFAULT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `notes` mediumtext DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`),
+  UNIQUE KEY `users_pilot_id_unique` (`pilot_id`),
+  KEY `users_email_index` (`email`),
+  KEY `users_api_key_index` (`api_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -1114,3 +1115,4 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (90,'2023_12_27_112
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (91,'2024_01_20_183702_create_activity_log_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (92,'2024_01_20_183703_add_event_column_to_activity_log_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (93,'2024_01_20_183704_add_batch_uuid_column_to_activity_log_table',1);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (94,'2024_05_15_144813_add_internal_to_user_fields',2);

@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS "simbrief" ("id" varchar not null, "user_id" integer 
 CREATE INDEX "simbrief_user_id_flight_id_index" on "simbrief" ("user_id", "flight_id");
 CREATE INDEX "simbrief_pirep_id_index" on "simbrief" ("pirep_id");
 CREATE UNIQUE INDEX "simbrief_pirep_id_unique" on "simbrief" ("pirep_id");
-CREATE TABLE IF NOT EXISTS "user_fields" ("id" integer primary key autoincrement not null, "name" varchar not null, "description" text, "show_on_registration" tinyint(1) default '0', "required" tinyint(1) default '0', "private" tinyint(1) default '0', "active" tinyint(1) default '1', "created_at" datetime, "updated_at" datetime);
+CREATE TABLE IF NOT EXISTS "user_fields" ("id" integer primary key autoincrement not null, "name" varchar not null, "description" text, "show_on_registration" tinyint(1) default '0', "required" tinyint(1) default '0', "private" tinyint(1) default '0', "active" tinyint(1) default '1', "created_at" datetime, "updated_at" datetime, "internal" tinyint(1) not null default '0');
 CREATE TABLE IF NOT EXISTS "user_field_values" ("id" integer primary key autoincrement not null, "user_field_id" integer not null, "user_id" varchar not null, "value" text, "created_at" datetime, "updated_at" datetime);
 CREATE INDEX "user_field_values_user_field_id_user_id_index" on "user_field_values" ("user_field_id", "user_id");
 CREATE TABLE IF NOT EXISTS "modules" ("id" integer primary key autoincrement not null, "name" varchar not null, "enabled" tinyint(1) not null default '1', "created_at" datetime, "updated_at" datetime);
@@ -216,3 +216,4 @@ INSERT INTO migrations VALUES(90,'2023_12_27_112456_create_invites_table',1);
 INSERT INTO migrations VALUES(91,'2024_01_20_183702_create_activity_log_table',1);
 INSERT INTO migrations VALUES(92,'2024_01_20_183703_add_event_column_to_activity_log_table',1);
 INSERT INTO migrations VALUES(93,'2024_01_20_183704_add_batch_uuid_column_to_activity_log_table',1);
+INSERT INTO migrations VALUES(94,'2024_05_15_144813_add_internal_to_user_fields',2);
