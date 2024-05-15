@@ -36,13 +36,18 @@ class UserRepository extends Repository
      *
      * @return \App\Models\UserField[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
-    public function getUserFields(User $user, $only_public_fields = null): Collection
+    public function getUserFields(User $user, $only_public_fields = null, $with_internal_fields = false): Collection
     {
+
+        $fields = UserField::when(!$with_internal_fields, function ($query) {
+            return $query->where('internal', false);
+        });
+
         if (is_bool($only_public_fields)) {
-            $fields = UserField::where(['private' => !$only_public_fields])->get();
-        } else {
-            $fields = UserField::get();
+            $fields = $fields->where(['private' => !$only_public_fields]);
         }
+
+        $fields = $fields->get();
 
         return $fields->map(function ($field, $_) use ($user) {
             foreach ($user->fields as $userFieldValue) {
