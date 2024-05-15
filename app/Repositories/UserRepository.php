@@ -31,14 +31,14 @@ class UserRepository extends Repository
     /**
      * Get all of the fields which has the mapped values
      *
-     * @param User $user
-     * @param bool $only_public_fields Only include the user's public fields
+     * @param User  $user
+     * @param bool  $only_public_fields   Only include the user's public fields
+     * @param mixed $with_internal_fields
      *
      * @return \App\Models\UserField[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
      */
     public function getUserFields(User $user, $only_public_fields = null, $with_internal_fields = false): Collection
     {
-
         $fields = UserField::when(!$with_internal_fields, function ($query) {
             return $query->where('internal', false);
         });
