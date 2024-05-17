@@ -3,7 +3,8 @@
 
 @section('content')
   <div style="align-content: center;">
-    {{ Form::open(['route' => 'importer.config', 'method' => 'POST']) }}
+    <form method="post" action="{{ route('importer.config') }}">
+      @csrf
     <table class="table">
       <tr>
         <td colspan="2">
@@ -34,7 +35,7 @@
         <td>Database Host</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_host', '127.0.0.1', ['class' => 'form-control']) }}
+            <input type="text" name="db_host" value="127.0.0.1" class="form-control" />
           </div>
         </td>
       </tr>
@@ -43,7 +44,7 @@
         <td>Database Port</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_port', '3306', ['class' => 'form-control']) }}
+            <input type="text" name="db_port" value="3306" class="form-control" />
           </div>
         </td>
       </tr>
@@ -52,7 +53,7 @@
         <td>Database Name</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_name', 'phpvms', ['class' => 'form-control']) }}
+            <input type="text" name="db_name" value="phpvms" class="form-control" />
           </div>
         </td>
       </tr>
@@ -61,7 +62,7 @@
         <td>Database User</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_user', null, ['class' => 'form-control']) }}
+            <input type="text" name="db_user" class="form-control" />
           </div>
         </td>
       </tr>
@@ -70,14 +71,14 @@
         <td>Database Password</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_pass', null, ['class' => 'form-control']) }}
+            <input type="text" name="db_pass" class="form-control" />
           </div>
         </td>
       </tr>
 
       <tr>
         <td colspan="2" style="text-align: right;">
-          {{ Form::submit('Test Database Credentials', ['class' => 'btn btn-info', 'id' => 'dbtest_button']) }}
+          <button type="button" class="btn btn-info" id="dbtest_button">Test Database Credentials</button>
         </td>
       </tr>
       </tbody>
@@ -86,7 +87,7 @@
         <td>Database Prefix</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_prefix', 'phpvms_', ['class' => 'form-control']) }}
+            <input type="text" name="db_prefix" value="phpvms_" class="form-control" /> 
             <p>Prefix of the tables, if you're using one</p>
           </div>
         </td>
@@ -95,9 +96,9 @@
     </table>
     <div id="dbtest"></div>
     <p style="text-align: right">
-      {{ Form::submit('Start Importer >>', ['class' => 'btn btn-success']) }}
+      <button type="submit" class="btn btn-success">Start Importer >></button>
     </p>
-    {{ Form::close() }}
+    </form>
   </div>
 @endsection
 

@@ -2,7 +2,8 @@
 @section('title', 'Database Setup')
 @section('content')
   <div style="align-content: center;">
-    {{ Form::open(['route' => 'installer.envsetup', 'method' => 'POST']) }}
+    <form method="post" action="{{ route('installer.envsetup') }}">
+      @csrf
     <table class="table" width="25%">
 
       <tr>
@@ -13,7 +14,7 @@
         <td>Site Name</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'site_name', 'phpvms', ['class' => 'form-control']) }}
+            <input type="text" name="site_name" value="phpvms" class="form-control" />
           </div>
         </td>
       </tr>
@@ -22,7 +23,7 @@
         <td>Site URL</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'app_url', Request::root(), ['class' => 'form-control']) }}
+            <input type="text" name="app_url" value="{{ Request::root() }}" class="form-control" />
           </div>
         </td>
       </tr>
@@ -38,7 +39,11 @@
         <td><p>Database Type</p></td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::select('db_conn', $db_types, null, ['class' => 'form-control', 'id' => 'db_conn']) }}
+            <select name="db_conn" id="db_conn" class="form-control" id="db_conn">
+              @foreach ($db_types as $db_type)
+                <option value="{{ $db_type }}">{{ $db_type }}</option>                  
+              @endforeach
+            </select>
           </div>
         </td>
       </tr>
@@ -48,7 +53,7 @@
         <td>Database Host</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_host', '127.0.0.1', ['class' => 'form-control']) }}
+            <input type="text" name="db_host" value="127.0.0.1" class="form-control" />
           </div>
         </td>
       </tr>
@@ -57,7 +62,7 @@
         <td>Database Port</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_port', '3306', ['class' => 'form-control']) }}
+            <input type="text" name="db_port" value="3306" class="form-control" />
           </div>
         </td>
       </tr>
@@ -66,7 +71,7 @@
         <td>Database Name</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_name', 'phpvms', ['class' => 'form-control']) }}
+            <input type="text" name="db_name" value="phpvms" class="form-control" />
           </div>
         </td>
       </tr>
@@ -75,7 +80,7 @@
         <td>Database User</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_user', null, ['class' => 'form-control']) }}
+            <input type="text" name="db_user" class="form-control" />
           </div>
         </td>
       </tr>
@@ -84,14 +89,14 @@
         <td>Database Password</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_pass', null, ['class' => 'form-control']) }}
+            <input type="password" name="db_pass" class="form-control" />
           </div>
         </td>
       </tr>
 
       <tr>
         <td colspan="2" style="text-align: right;">
-          {{ Form::submit('Test Database Credentials', ['class' => 'btn btn-info', 'id' => 'dbtest_button']) }}
+          <button type="button" class="btn btn-info" id="dbtest_button">Test Database Credentials</button>
         </td>
       </tr>
       </tbody>
@@ -104,7 +109,7 @@
         <td>Database Prefix</td>
         <td style="text-align:center;">
           <div class="form-group">
-            {{ Form::input('text', 'db_prefix', '', ['class' => 'form-control']) }}
+            <input type="text" name="db_prefix" class="form-control" />
             <p>Set this if you're sharing the database with another application.</p>
           </div>
         </td>
@@ -113,9 +118,9 @@
     </table>
     <div id="dbtest"></div>
     <p style="text-align: right">
-      {{ Form::submit('Setup Database >>', ['class' => 'btn btn-success']) }}
+      <button type="submit" class="btn btn-success">Setup Database >></button>
     </p>
-    {{ Form::close() }}
+    </form>
   </div>
 @endsection
 

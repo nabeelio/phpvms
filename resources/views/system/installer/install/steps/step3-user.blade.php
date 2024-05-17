@@ -5,7 +5,8 @@
   <div class="row">
     <div class="col-md-12">
       <div style="align-content: center;">
-        {{ Form::open(['route' => 'installer.usersetup', 'method' => 'POST']) }}
+        <form method="post" action="{{ route('installer.usersetup') }}">
+          @csrf
         <table class="table" width="25%">
 
           <tr>
@@ -22,7 +23,7 @@
             <td><p>Airline ICAO</p></td>
             <td>
               <div class="form-group">
-                {{ Form::input('text', 'airline_icao', null, ['class' => 'form-control']) }}
+                <input type="text" name="airline_icao" class="form-control" />
                 @include('system.installer.flash/check_error', ['field' => 'airline_icao'])
               </div>
             </td>
@@ -32,7 +33,7 @@
             <td><p>Airline Name</p></td>
             <td>
               <div class="form-group">
-                {{ Form::input('text', 'airline_name', null, ['class' => 'form-control']) }}
+                <input type="text" name="airline_name" class="form-control" />
                 @include('system.installer.flash/check_error', ['field' => 'airline_name'])
               </div>
             </td>
@@ -42,7 +43,10 @@
             <td><p>Airline Country</p></td>
             <td>
               <div class="form-group">
-                {{ Form::select('airline_country', $countries, null, ['class' => 'form-control select2' ]) }}
+                <select name="airline_country" class="form-control select2">
+                  @foreach ($countries as $country)
+                    <option value="{{ $country }}">{{ $country }}</option>
+                  @endforeach
                 @include('system.installer.flash/check_error', ['field' => 'airline_country'])
               </div>
             </td>
@@ -56,7 +60,7 @@
             <td><p>Name</p></td>
             <td>
               <div class="form-group">
-                {{ Form::input('text', 'name', null, ['class' => 'form-control']) }}
+                <input type="text" name="name" class="form-control" />
                 @include('system.installer.flash/check_error', ['field' => 'name'])
               </div>
             </td>
@@ -66,7 +70,7 @@
             <td><p>Email</p></td>
             <td>
               <div class="form-group">
-                {{ Form::input('text', 'email', null, ['class' => 'form-control']) }}
+                <input type="email" name="email" class="form-control" />
                 @include('system.installer.flash/check_error', ['field' => 'email'])
               </div>
             </td>
@@ -75,7 +79,7 @@
           <tr>
             <td><p>Password</p></td>
             <td>
-              {{ Form::password('password', ['class' => 'form-control']) }}
+              <input type="password" name="password" class="form-control" />
               @include('system.installer.flash/check_error', ['field' => 'password'])
             </td>
           </tr>
@@ -83,7 +87,7 @@
           <tr>
             <td width="40%"><p>Password Confirm</p></td>
             <td>
-              {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
+              <input type="password" name="password_confirmation" class="form-control" />
               @include('system.installer.flash/check_error', ['field' => 'password_confirmation'])
             </td>
           </tr>
@@ -96,8 +100,8 @@
             <td><p>Analytics</p></td>
             <td>
               <div class="form-group">
-                {{ Form::hidden('telemetry', 0) }}
-                {{ Form::checkbox('telemetry', 1, true, ['class' => 'form-control']) }}
+                <input type="hidden" name="telemetry" value="0" />
+                <input type="checkbox" name="telemetry" value="1" checked="checked" class="form-control" />
                 <br/>
                 <p>
                   Allows collection of analytics. They won't identify you, and helps us to track
@@ -110,9 +114,9 @@
         </table>
         <div id="dbtest"></div>
         <p style="text-align: right">
-          {{ Form::submit('Complete Setup >>', ['class' => 'btn btn-success']) }}
+          <button type="submit" class="btn btn-success">Complete Setup >></button>
         </p>
-        {{ Form::close() }}
+        </form>
       </div>
     </div>
   </div>
