@@ -70,9 +70,9 @@ class FinanceService extends Service
      * @param string|array                        $tag
      * @param string                              $post_date
      *
-     * @return mixed
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
+     * @return mixed
      */
     public function creditToJournal(
         Journal $journal,
@@ -107,9 +107,9 @@ class FinanceService extends Service
      * @param string|array                        $tag
      * @param string                              $post_date
      *
-     * @return mixed
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
+     * @return mixed
      */
     public function debitFromJournal(
         Journal $journal,

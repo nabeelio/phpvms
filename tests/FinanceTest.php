@@ -66,9 +66,9 @@ final class FinanceTest extends TestCase
      * Create a user and a PIREP, that has all of the data filled out
      * so that we can test all of the disparate parts of the finances
      *
-     * @return array
      * @throws Exception
      *
+     * @return array
      */
     public function createFullPirep(Airline $airline = null): array
     {
