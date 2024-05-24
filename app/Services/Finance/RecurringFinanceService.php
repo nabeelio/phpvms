@@ -33,22 +33,19 @@ class RecurringFinanceService extends Service
      */
     protected function findJournals(Expense $expense)
     {
-        \DB::enableQueryLog();
         if ($expense->airline_id) {
-            $journal = Journal::where([
+            return Journal::where([
                 'morphed_type' => Airline::class,
-                'morphed_id'   => $expense->airline_id])
+                'morphed_id'   => $expense->airline_id,
+            ])
                 ->get();
-
-            return $journal;
         }
 
         $airline_ids = Airline::get(['id'])->pluck('id')->all();
-        $journals = Journal::where(['morphed_type' => Airline::class])
-                ->whereIn('morphed_id', $airline_ids)
-                ->get();
 
-        return $journals;
+        return Journal::where(['morphed_type' => Airline::class])
+            ->whereIn('morphed_id', $airline_ids)
+            ->get();
     }
 
     /**
@@ -141,6 +138,15 @@ class RecurringFinanceService extends Service
                 }
 
                 // Determine if this object actually belongs to this airline or not
+                if ($type === 'Subfleet' || $type === 'Aircraft') {
+                    $ref_model = $expense->ref_model()->with('airline')->first();
+                    if ($ref_model?->airline?->id !== $journal->morphed_id) {
+                        Log::info(
+                            $type.' id '.$expense->ref_model_id.' does not belong to airline id '.$expense->airline_id.', skipping expense "'.$expense->name.'"'
+                        );
+                        continue;
+                    }
+                }
 
                 $this->financeSvc->debitFromJournal(
                     $journal,

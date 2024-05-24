@@ -27,11 +27,11 @@ class FinanceService extends Service
      *
      * @param array      $attrs      Array of attributes
      * @param Model|null $model      The model this expense is tied to
-     * @param mixed|null $airline_id The airline this expense should get charged to
+     * @param int|null   $airline_id The airline this expense should get charged to
      *
      * @return Expense
      */
-    public function addExpense(array $attrs, Model $model = null, mixed $airline_id = null): Expense
+    public function addExpense(array $attrs, Model $model = null, int $airline_id = null): Expense
     {
         $expense = new Expense($attrs);
 
@@ -70,9 +70,9 @@ class FinanceService extends Service
      * @param string|array                        $tag
      * @param string                              $post_date
      *
+     * @return mixed
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
      */
     public function creditToJournal(
         Journal $journal,
@@ -107,9 +107,9 @@ class FinanceService extends Service
      * @param string|array                        $tag
      * @param string                              $post_date
      *
+     * @return mixed
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
-     * @return mixed
      */
     public function debitFromJournal(
         Journal $journal,
@@ -173,10 +173,12 @@ class FinanceService extends Service
     {
         // Return all the transactions, grouped by the transaction group
         $transactions = JournalTransaction::groupBy('transaction_group', 'currency')
-            ->selectRaw('transaction_group, 
+            ->selectRaw(
+                'transaction_group, 
                          currency, 
                          SUM(credit) as sum_credits, 
-                         SUM(debit) as sum_debits')
+                         SUM(debit) as sum_debits'
+            )
             ->where(['journal_id' => $airline->journal->id])
             ->whereBetween('created_at', [$start_date, $end_date], 'AND')
             ->orderBy('sum_credits', 'desc')

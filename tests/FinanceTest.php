@@ -66,9 +66,9 @@ final class FinanceTest extends TestCase
      * Create a user and a PIREP, that has all of the data filled out
      * so that we can test all of the disparate parts of the finances
      *
+     * @return array
      * @throws Exception
      *
-     * @return array
      */
     public function createFullPirep(Airline $airline = null): array
     {
@@ -387,7 +387,8 @@ final class FinanceTest extends TestCase
         // set an override now
         //
         $this->fareSvc->setForSubfleet($subfleet, $fare, [
-            'price' => 50, 'capacity' => 400,
+            'price'    => 50,
+            'capacity' => 400,
         ]);
 
         // look for them again
@@ -408,7 +409,8 @@ final class FinanceTest extends TestCase
         $fare = Fare::factory()->create();
 
         $this->fareSvc->setForSubfleet($subfleet, $fare, [
-            'price' => 50, 'capacity' => 400,
+            'price'    => 50,
+            'capacity' => 400,
         ]);
 
         $ac_fares = $this->fareSvc->getForSubfleet($subfleet);
@@ -422,7 +424,8 @@ final class FinanceTest extends TestCase
         //
 
         $this->fareSvc->setForSubfleet($subfleet, $fare, [
-            'price' => 150, 'capacity' => 50,
+            'price'    => 150,
+            'capacity' => 50,
         ]);
 
         $ac_fares = $this->fareSvc->getForSubfleet($subfleet);
@@ -998,7 +1001,7 @@ final class FinanceTest extends TestCase
 
         $transactions = $journalRepo->getAllForObject($pirep);
 
-//        $this->assertCount(9, $transactions['transactions']);
+        //        $this->assertCount(9, $transactions['transactions']);
         $this->assertEquals(3020, $transactions['credits']->getValue());
         $this->assertEquals(2050.4, $transactions['debits']->getValue());
 
@@ -1194,12 +1197,12 @@ final class FinanceTest extends TestCase
         /** @var Airline $airline2 */
         $airline2 = Airline::factory()->create();
 
-        $ex0 = Expense::factory()->create([
+        Expense::factory()->create([
             'airline_id' => null,
             'type'       => ExpenseType::DAILY,
         ]);
 
-        $ex1 = Expense::factory()->create([
+        Expense::factory()->create([
             'airline_id' => $airline->id,
             'type'       => ExpenseType::DAILY,
         ]);
