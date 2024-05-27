@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Events\NewsAdded;
+use App\Models\News;
 use App\Repositories\NewsRepository;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 class NewsService extends Service
 {
@@ -30,6 +32,25 @@ class NewsService extends Service
         event(new NewsAdded($news));
 
         return $news;
+    }
+
+    /**
+     * Update a news
+     *
+     * @param  array  $attrs
+     * @return ?News
+     *
+     * @throws ValidatorException
+     */
+    public function updateNews(array $attrs): ?News
+    {
+        $news = $this->newsRepo->find($attrs['id']);
+
+        if (!$news) {
+            return null;
+        }
+
+        return $this->newsRepo->update($attrs, $attrs['id']);
     }
 
     /**
