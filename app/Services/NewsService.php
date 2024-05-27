@@ -37,10 +37,11 @@ class NewsService extends Service
     /**
      * Update a news
      *
-     * @param  array  $attrs
-     * @return ?News
+     * @param array $attrs
      *
      * @throws ValidatorException
+     *
+     * @return ?News
      */
     public function updateNews(array $attrs): ?News
     {
