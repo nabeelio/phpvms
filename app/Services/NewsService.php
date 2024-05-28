@@ -29,7 +29,10 @@ class NewsService extends Service
     public function addNews(array $attrs)
     {
         $news = $this->newsRepo->create($attrs);
-        event(new NewsAdded($news));
+
+        if (array_key_exists('send_notifications', $attrs) && get_truth_state($attrs['send_notifications'])) {
+            event(new NewsAdded($news));
+        }
 
         return $news;
     }

@@ -15,10 +15,19 @@
             <td>{!! Form::textarea('body', '', ['id' => 'news_editor', 'class' => 'editor']) !!}</td>
           </tr>
           <tr>
-            <td colspan="2" class="text-right">
-              {{ Form::button('<i class="fas fa-plus-circle"></i>&nbsp;add', ['type' => 'submit', 'class' => 'btn btn-success btn-s']) }}
-            </td>
         </table>
+        <div style="display:flex; align-items: center; justify-content: space-between;">
+          <div class="checkbox">
+            <label class="checkbox-inline">
+              {{ Form::label('send_notifications', 'Send notifications:') }}
+              <input name="send_notifications" type="hidden" value="0"/>
+              {{ Form::checkbox('send_notifications') }}
+            </label>
+          </div>
+          <div>
+            {{ Form::button('<i class="fas fa-plus-circle"></i>&nbsp;add', ['type' => 'submit', 'class' => 'btn btn-success btn-s']) }}
+          </div>
+        </div>
       {{ Form::close() }}
     </div>
   </div>
@@ -81,13 +90,20 @@
       @endif
     </div>
   </div>
+  <script>
+    $(document).ready(function () { CKEDITOR.replace('news_editor'); });
+    if (typeof $('input').iCheck !== 'undefined') {
+      $('input').iCheck({
+        checkboxClass: 'icheckbox_square-blue',
+        radioClass: 'icheckbox_square-blue'
+      });
+    }
+  </script>
 </div>
 @section('scripts')
   @parent
   <script src="{{ public_asset('assets/vendor/ckeditor4/ckeditor.js') }}"></script>
   <script>
-    $(document).ready(function () { CKEDITOR.replace('news_editor'); });
-
     function editNews(news) {
       CKEDITOR.replace('edit_body')
       $('#edit_title').html('Edit News: ' + news.subject);
