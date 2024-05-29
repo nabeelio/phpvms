@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Events\NewsAdded;
+use App\Events\NewsUpdated;
 use App\Models\News;
 use App\Repositories\NewsRepository;
 use Prettus\Validator\Exceptions\ValidatorException;
@@ -54,7 +55,13 @@ class NewsService extends Service
             return null;
         }
 
-        return $this->newsRepo->update($attrs, $attrs['id']);
+        $news = $this->newsRepo->update($attrs, $attrs['id']);
+
+        if (array_key_exists('send_notifications', $attrs) && get_truth_state($attrs['send_notifications'])) {
+            event(new NewsUpdated($news));
+        }
+
+        return $news;
     }
 
     /**

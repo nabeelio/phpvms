@@ -47,12 +47,20 @@
             <td>{{ Form::label('body', 'Body:') }}</td>
             <td>{!! Form::textarea('body', '', ['id' => 'edit_body', 'class' => 'editor']) !!}</td>
           </tr>
-          <tr>
-            <td colspan="2" class="text-right">
-              <button type="button" class="btn btn-warning btn-s" onclick="closeEdit()">Cancel</button>
-              {{ Form::button('<i class="fas fa-pencil-alt"></i>&nbsp;edit', ['type' => 'submit', 'class' => 'btn btn-success btn-s']) }}
-            </td>
         </table>
+        <div style="display:flex; align-items: center; justify-content: space-between;">
+          <div class="checkbox">
+            <label class="checkbox-inline">
+              {{ Form::label('send_notifications', 'Send notifications:') }}
+              <input name="send_notifications" type="hidden" value="0"/>
+              {{ Form::checkbox('send_notifications') }}
+            </label>
+          </div>
+          <div>
+            <button type="button" class="btn btn-warning btn-s" onclick="closeEdit()">Cancel</button>
+            {{ Form::button('<i class="fas fa-pencil-alt"></i>&nbsp;edit', ['type' => 'submit', 'class' => 'btn btn-success btn-s']) }}
+          </div>
+        </div>
       {{ Form::close() }}
     </div>
   </div>
