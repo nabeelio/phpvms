@@ -46,5 +46,5 @@ return [
         'client_id'     => env('IVAO_CLIENT_ID'),
         'client_secret' => env('IVAO_CLIENT_SECRET'),
         'redirect'      => '/oauth/ivao/callback',
-    ]
+    ],
 ];
