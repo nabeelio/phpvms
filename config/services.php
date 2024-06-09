@@ -40,4 +40,11 @@ return [
         'allow_gif_avatars'        => (bool) env('DISCORD_AVATAR_GIF', true),
         'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'png'), // only pick from jpg, png, webp
     ],
+
+    'ivao' => [
+        'enabled'       => env('IVAO_OAUTH_ENABLED', false),
+        'client_id'     => env('IVAO_CLIENT_ID'),
+        'client_secret' => env('IVAO_CLIENT_SECRET'),
+        'redirect'      => '/oauth/ivao/callback',
+    ]
 ];
