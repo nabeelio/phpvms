@@ -93,6 +93,11 @@ class DashboardController extends Controller
             $attrs['user_id'] = Auth::user()->id;
 
             $this->newsSvc->addNews($attrs);
+        } elseif ($request->isMethod('patch')) {
+            $attrs = $request->post();
+            $attrs['user_id'] = Auth::user()->id;
+
+            $this->newsSvc->updateNews($attrs);
         } elseif ($request->isMethod('delete')) {
             $id = $request->input('news_id');
             $this->newsSvc->deleteNews($id);
