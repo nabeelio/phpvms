@@ -109,9 +109,9 @@ final class OAuthTest extends TestCase
             $this->assertEquals('token', $tokens->token);
             $this->assertEquals('refresh_token', $tokens->refresh_token);
             $this->assertTrue($tokens->last_refreshed_at->diffInSeconds(now()) <= 2);
-        }
 
-        Auth::logout();
+            Auth::logout();
+        }
     }
 
     /**
