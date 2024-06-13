@@ -322,7 +322,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
 
     public function awards(): BelongsToMany
     {
-        return $this->belongsToMany(Award::class, 'user_awards')->withTrashed();
+        return $this->belongsToMany(Award::class, 'user_awards')->withTimestamps()->withTrashed();
     }
 
     public function bids(): HasMany
