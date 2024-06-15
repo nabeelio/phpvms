@@ -1,17 +1,21 @@
-<div class="card border-blue-bottom">
-  <div class="card-body" style="min-height: 0px">
+<div id="airlineNews" class="bg-white shadow-sm mt-8">
+  <div id="airlineNews_head" class="p-4 border-b border-gray-100">
+    <h2 class="text-xl font-medium">Latest news</h2>
+    <h6 class="text-sm text-gray-500">Get the latest news from our Virtual Airline</h6>
+  </div>
+  <div id="airlineNews_body" class="divide-y divide-gray-100">
     @if($news->count() === 0)
-      <div class="text-center text-muted" style="padding: 30px;">
-        @lang('widgets.latestnews.nonewsfound')
+      <div class="flex justify-center p-4">
+        <span>@lang('widgets.latestnews.nonewsfound')</span>
       </div>
     @endif
 
     @foreach($news as $item)
-      <h4 style="margin-top: 0px;">{{ $item->subject }}</h4>
-      <p class="category">{{ $item->user->name_private }}
-        - {{ show_datetime($item->created_at) }}</p>
-
-      {!! $item->body !!}
+      <div class="p-4">
+        <h2 class="text-xl font-medium">{{ $item->subject }}</h2>
+        <h6 class="text-sm text-gray-500">Posted on {{ show_datetime($item->created_at) }}</h6>
+        {!! $item->body !!}
+      </div>
     @endforeach
   </div>
 </div>

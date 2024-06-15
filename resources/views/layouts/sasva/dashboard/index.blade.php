@@ -3,116 +3,114 @@
 
 @section('content')
 
-  <div class="pt-20 mb-4">
-    <div class="bg-center bg-cover" style="background-image: url({{ public_asset('assets/sasva/media/landing_bg.jpg') }});">
-      <div class="py-20 flex justify-center items-center flex-col" style="background-color: rgba(75, 85, 99, .8) !important">
-        <h1 class="text-xl font-semibold text-white">Dashboard</h1>
-        <h2 class="text-base text-white">Welcome to your dashboard</h2>
+@php
+  $pilots = cache()->remember('pilots', 3600, function () {
+    return \App\Models\User::where('state', UserState::ACTIVE)->count();
+  });
+  $flight_time = cache()->remember('flighttime', 3600, function () {
+    return \App\Models\Pirep::where('state', PirepState::ACCEPTED)->sum('flight_time');
+  });
+  $flights = cache()->remember('flights', 3600, function () {
+    return \App\Models\Pirep::where('state', PirepState::ACCEPTED)->count();
+  });
+  $schedules = cache()->remember('schedules', 3600, function () {
+    return \App\Models\Flight::where('active', 1)->count();
+  });
+@endphp
+
+  <!-- PILOT STATISTICS -->
+  <div id="pilot__statistics" class="w-full shadow-sm">
+    <div class="flex flex-col bg-white rounded-sm">
+      <div id="pilotStatsHead" class="flex border-b border-gray-100 p-4">
+        <h2 class="text-xl font-medium">Your Statistics</h2>
       </div>
-    </div>
-  </div>
-
-  <div class="container mx-auto px-2">
-    <!-- PILOT STATS -->
-    <div id="pilotstats" class="mb-7">
-      <div class="flex flex-col md:flex-row">
-        <div class="w-full flex flex-col pb-2 md:pb-0 md:pr-8">
-          <div class="bg-white rounded-md p-4">
-            <span class="text-2xl font-semibold">{{ $user->flights }}</span>
-            <p class="text-base">{{ trans_choice('common.flight', $user->flights) }}</p>
-          </div>
+      <div id="pilotStatsBody" class="flex flex-row text-center items-center p-4 divide-x">
+        <div class="w-3/12">
+          <h2 class="text-2xl">{{ $user->flights }}</h2>
+          <h6 class="text-base font-medium">{{ trans_choice('common.flight', $user->flights) }}</h6>
         </div>
-        <div class="w-full flex flex-col pb-2 md:pb-0 md:pr-8">
-          <div class="bg-white rounded-md p-4">
-            <span class="text-2xl font-semibold">@minutestotime($user->flight_time)</span>
-            <p class="text-base">@lang('dashboard.totalhours')</p>
-          </div>
+        <div class="w-3/12">
+          <h2 class="text-2xl">@minutestotime($user->flight_time)</h2>
+          <h6 class="text-base font-medium">@lang('dashboard.totalhours')</h6>
         </div>
-        <div class="w-full flex flex-col pb-2 md:pb-0 md:pr-8">
-          <div class="bg-white rounded-md p-4">
-            <span class="text-2xl font-semibold">{{ optional($user->journal)->balance ?? 0 }}</span>
-            <p class="text-base">@lang('dashboard.yourbalance')</p>
-          </div>
+        <div class="w-3/12">
+          <h2 class="text-2xl">{{ optional($user->journal)->balance ?? 0 }}</h2>
+          <h6 class="text-base font-medium">@lang('dashboard.yourbalance')</h6>
         </div>
-        <div class="w-full flex flex-col">
-          <div class="bg-white rounded-md p-4">
-            <span class="text-2xl font-semibold">{{ $current_airport }}</span>
-            <p class="text-base">@lang('airports.current')</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- PILOT STATS END -->
-
-    <!-- CONTENT -->
-    <div id="content" class="mb-7">
-      <div class="flex flex-col md:flex-row">
-        <div class="w-8/12">
-          <div class="flex flex-col pb-2 md:pb-7 md:pr-8">
-            <div class="bg-white rounded-md">
-              <div class="py-3 px-6 rounded-t-md bg-blue-800 text-white">
-                <span class="text-base font-semibold">Your last pilot report</span>
-              </div>
-              <div class="py-3 px-6">
-                @if($last_pirep != null)
-                  @include('dashboard.pirep_card', ['pirep' => $last_pirep])
-                @else
-                  <span>No pireps yet...</span>
-                @endif
-              </div>
-            </div>
-          </div>
-
-          <div class="flex flex-col pb-2 md:pb-0 md:pr-8">
-            <div class="bg-white rounded-md">
-              <div class="py-3 px-6 rounded-t-md bg-blue-800 text-white">
-                <span class="text-base font-semibold">News</span>
-              </div>
-              <div class="py-3 px-6">
-                {{ Widget::latestNews(['count' => 1]) }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="w-4/12">
-          <div class="flex flex-col pb-2 md:pb-7">
-            <div class="bg-white rounded-md">
-              <div class="py-3 px-6 rounded-t-md bg-blue-800 text-white">
-                <span class="text-base font-semibold">@lang('dashboard.weatherat', ['ICAO' => $current_airport])</span>
-              </div>
-              <div class="py-3 px-6">
-                {{ Widget::Weather(['icao' => $current_airport]) }}
-              </div>
-            </div>
-          </div>
-
-          <div class="flex flex-col pb-2 md:pb-7">
-            <div class="bg-white rounded-md">
-              <div class="py-3 px-6 rounded-t-md bg-blue-800 text-white">
-                <span class="text-base font-semibold">@lang('dashboard.recentreports')</span>
-              </div>
-              <div class="py-3 px-6">
-                {{ Widget::latestPireps(['count' => 5]) }}
-              </div>
-            </div>
-          </div>
-
-          <div class="flex flex-col pb-2 md:pb-0">
-            <div class="bg-white rounded-md">
-              <div class="py-3 px-6 rounded-t-md bg-blue-800 text-white">
-                <span class="text-base font-semibold">@lang('common.newestpilots')</span>
-              </div>
-              <div class="py-3 px-6">
-                {{ Widget::latestPilots(['count' => 5]) }}
-              </div>
-            </div>
-          </div>
+        <div class="w-3/12">
+          <h2 class="text-2xl">{{ $current_airport }}</h2>
+          <h6 class="text-base font-medium">@lang('airports.current')</h6>
         </div>
       </div>
     </div>
   </div>
+  <!-- PILOT STATISTICS END -->
 
-
+  <div id="content" class="w-full flex gap-8 mt-8">
+    <div class="w-8/12 flex flex-col self-start">
+      <div id="pilotReports" class="bg-white shadow-sm">
+        <div id="pilotReports_head" class="p-4 border-b border-gray-100">
+          <h2 class="text-xl font-medium">Latest PIREPs</h2>
+          <h6 class="text-sm text-gray-500">Your 3 most recent flights</h6>
+        </div>
+        <div id="pilotReports_body">
+          <table class="table-auto w-full">
+            <thead class="bg-blue-900">
+              <th class="text-base text-white font-medium px-2 py-3">Flight Number</th>
+              <th class="text-base text-white font-medium px-2 py-3">Departure</th>
+              <th class="text-base text-white font-medium px-2 py-3">Arrival</th>
+              <th class="text-base text-white font-medium px-2 py-3">Flight Time / Distance</th>
+              <th class="text-base text-white font-medium px-2 py-3">Status</th>
+              <th class="min-w-12"></th>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              @if($last_pirep != null)
+                @include('dashboard.pirep_card', ['pireps' => $latest_pireps])
+              @endif
+            </tbody>
+          </table>
+          @if($last_pirep == null)
+            <div class="flex justify-center p-4">
+              <span>No PIREPS filed yet...</span>
+            </div>
+          @endif
+        </div>
+      </div>
+      {{ Widget::latestNews(['count' => 3]) }}
+    </div>
+    <div class="w-4/12 flex flex-col self-start">
+      <div id="airlineStats" class="bg-white shadow-sm">
+        <div id="airlineStats_head" class="border-b border-gray-100 p-4">
+          <h2 class="text-xl font-medium">SASva Statistics</h2>
+        </div>
+        <div id="airlineStats_body">
+          <div class="flex flex-col divide-y divide-gray-100">
+            <div class="flex divide-x divide-gray-100">
+              <div class="w-1/2 p-2">
+                <h2 class="text-xl text-center">{{ $pilots }}</h2>
+                <h6 class="text-base text-center font-medium">Active Pilots</h6>
+              </div>
+              <div class="w-1/2 p-2">
+                <h2 class="text-xl text-center">{{ $flights }}</h2>
+                <h6 class="text-base text-center font-medium">Pireps Filed</h6>
+              </div>
+            </div>
+            <div class="flex divide-x divide-gray-100">
+              <div class="w-1/2 p-2">
+                <h2 class="text-xl text-center">@minutestotime($flight_time)</h2>
+                <h6 class="text-base text-center font-medium">Time Flown</h6>
+              </div>
+              <div class="w-1/2 p-2">
+                <h2 class="text-xl text-center">{{ $schedules }}</h2>
+                <h6 class="text-base text-center font-medium">Scheduled Flights</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ Widget::Weather(['icao' => $current_airport]) }}
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-sm-8">

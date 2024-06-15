@@ -2,57 +2,44 @@
 @section('title', trans_choice('common.flight', 2))
 
 @section('content')
-  <div class="pt-20 mb-4">
-    <div class="bg-center bg-cover" style="background-image: url({{ public_asset('assets/sasva/media/landing_bg.jpg') }});">
-      <div class="py-20 flex justify-center items-center flex-col" style="background-color: rgba(75, 85, 99, .8) !important">
-        <h1 class="text-xl font-semibold text-white">Flights</h1>
-        <h2 class="text-base text-white">Book your next flight</h2>
+  <div id="content" class="w-full flex gap-8">
+    <div class="w-9/12 flex flex-col self-start">
+      <div id="flights" class="bg-white shadow-sm">
+        <div id="flights__head" class="p-4 border-b border-gray-100">
+          <h2 class="text-xl font-medium">Flights</h2>
+          <h6 class="text-sm text-gray-500">Find your next flight</h6>
+        </div>
+        <div id="flights__body">
+          <table class="table-auto w-full">
+            <thead class="bg-blue-900">
+              <th class="text-base text-white text-center font-medium px-4 py-3">Flight Number</th>
+              <th class="text-base text-white text-left font-medium px-4 py-3">Departure</th>
+              <th class="text-base text-white text-left font-medium px-4 py-3">Arrival</th>
+              <th class="text-base text-white text-center font-medium px-4 py-3">Flight Time / Distance</th>
+              <th class="min-w-12"></th>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              @include('flights.table')
+            </tbody>
+          </table>
+        </div>
+        <div id="flights__footer">
+          {{ $flights->withQueryString()->links('pagination.default') }}
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="container mx-auto px-2">
-    <div id="content" class="mb-7">
-      <div class="flex flex-col md:flex-row">
-        <div class="w-8/12">
-            <div class="flex flex-col pb-2 md:pb-7 md:pr-8">
-              <div class="bg-white rounded-md">
-                <div class="py-3 px-6 rounded-t-md bg-blue-800 text-white">
-                  <span class="text-base font-semibold">Flights</span>
-                </div>
-                <div class="py-3 px-6">
-                  @include('flights.table')
-                </div>
-              </div>
-            </div>
-          </div>
-
-        <div class="w-4/12">
-          <h1>Hello!</h1>
+    <div class="w-3/12 flex flex-col self-start">
+      <div id="flightSearch" class="bg-white shadow-sm">
+        <div id="flightSearch__head" class="p-4 border-b border-gray-100">
+          <h2 class="text-xl font-medium">Search</h2>
+          <h6 class="text-sm text-gray-500">Search for specific flights</h6>
+        </div>
+        <div id="flightSearch__body">
+          @include('flights.search')
         </div>
       </div>
     </div>
   </div>
-
-
-  <div class="row">
-    @include('flash::message')
-    <div class="col-md-9">
-      <h2>{{ trans_choice('common.flight', 2) }}</h2>
-    </div>
-    <div class="col-md-3">
-      @include('flights.nav')
-      @include('flights.search')
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12 text-center">
-      {{ $flights->withQueryString()->links('pagination.default') }}
-    </div>
-  </div>
-  @if (setting('bids.block_aircraft', false))
-    @include('flights.bids_aircraft')
-  @endif
 @endsection
 
 @include('flights.scripts')

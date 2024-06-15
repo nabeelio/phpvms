@@ -95,17 +95,28 @@ class Time implements Arrayable
      */
     public static function minutesToTimeParts($minutes): array
     {
-        $hours = floor($minutes / 60);
+        $days = floor($minutes / (24 * 60));
+        $hours = floor(($minutes % (24 * 60)) / 60);
         $minutes %= 60;
 
-        return ['h' => $hours, 'm' => $minutes];
+        return ['d' => $days, 'h' => $hours, 'm' => $minutes];
     }
 
     public static function minutesToTimeString($minutes): string
     {
         $hm = self::minutesToTimeParts($minutes);
-        return $hm['h'].'h '.$hm['m'].'m';
+
+        $h = ($hm['h'] < 10 && $hm['h'] >= 0) ? '0'.$hm['h'] : $hm['h'];
+        $m = ($hm['m'] < 10 && $hm['h'] >= 0) ? '0'.$hm['m'] : $hm['m'];
+
+        if ($hm['d'] > 0) {
+            $d = ($hm['d'] < 10) ? '0'.$hm['d'] : $hm['d'];
+            return $d.':'.$h.':'.$m;
+        } else {
+            return $h.':'.$m;
+        }
     }
+
 
     /**
      * Convert seconds to an array of hours, minutes, seconds

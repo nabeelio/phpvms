@@ -6,6 +6,8 @@ use App\Contracts\Controller;
 use App\Repositories\PirepRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\Pirep;
+use App\Models\Enums\PirepState;
 
 /**
  * Class DashboardController
@@ -53,6 +55,11 @@ class DashboardController extends Controller
         } catch (\Exception $e) {
         }
 
+        $latest_pireps = Pirep::where(['user_id' => $user->id, 'state' => PirepState::ACCEPTED])
+            ->latest('submitted_at')
+            ->take(3)
+            ->get();
+
         // Get the current airport for the weather
         $current_airport = $user->curr_airport_id ?? $user->home_airport_id;
 
@@ -60,6 +67,7 @@ class DashboardController extends Controller
             'user'            => $user,
             'current_airport' => $current_airport,
             'last_pirep'      => $last_pirep,
+            'latest_pireps'   => $latest_pireps,
         ]);
     }
 }

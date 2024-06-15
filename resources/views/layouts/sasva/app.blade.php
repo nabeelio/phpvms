@@ -26,12 +26,12 @@
   {{-- End of the required stuff in the head block --}}
 
 </head>
-<body class="bg-gray-200">
+<body class="bg-gray-100">
 <!-- Navbar -->
 @include('nav')
 <!-- End Navbar -->
 
-<main class="relative">
+<main class="container mx-auto flex flex-col flex-1 py-8">
   {{-- These should go where you want your content to show up --}}
     @include('flash.message')
     @yield('content')

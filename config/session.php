@@ -24,7 +24,7 @@ return [
     'table'           => 'sessions',
     'store'           => null,
     'lottery'         => [1, 100],
-    'cookie'          => 'phpvms_session',
+    'cookie'          => 'sasva_session',
     'path'            => '/',
     'domain'          => env('SESSION_DOMAIN', null),
     'secure'          => env('SESSION_SECURE_COOKIE', null),

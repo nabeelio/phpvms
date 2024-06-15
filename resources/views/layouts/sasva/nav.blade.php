@@ -1,58 +1,82 @@
-<header class="bg-blue-800 z-10 fixed w-screen" x-data="{ menuOpen: false }">
-  <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-    <div class="flex lg:flex-1">
-      <a href="#" class="-m-1.5 p-1.5">
-        <span class="sr-only">SASva</span>
-        <img class="h-8 w-auto" src="{{ public_asset('assets/sasva/media/sasvalogo_trans.svg') }}" alt="">
-      </a>
-    </div>
-    <div class="flex lg:hidden">
-      <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white" @click="menuOpen = !menuOpen">
-        <span class="sr-only">Open main menu</span>
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-        </svg>
-      </button>
-    </div>
-    @if(!Auth::check())
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="#" class="text-sm inline-block text-white font-semibold px-2 py-1.5 hover:underline hover:text-gray-100">Sign In</a>
-        <a href="#" class="text-sm inline-block text-black font-semibold px-2 py-1.5 bg-white rounded-md hover:bg-gray-100">Create an account</a>
+<header class="flex flex-col bg-blue-800 z-10">
+  <!-- TOP BAR HEADER -->
+  <div id="header__top" class="flex h-20">
+    <div class="container mx-auto flex flex-1 justify-between items-center">
+      <div id="header__top-brand" class="relative flex flex-row justify-between items-center">
+        <div id="header__top-brand-logo" class="flex">
+          <a href="">
+            <img class="inline-block h-16" src="https://dev.sasva.net/assets/sasva/media/sasvalogo_trans.svg" alt="">
+          </a>
+        </div>
       </div>
-    @else
-      <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="#" class="text-sm inline-block text-white font-semibold px-2 py-1.5 hover:underline hover:text-gray-100">Sign Out</a>
-        <a href="#" class="text-sm inline-block text-black font-semibold px-2 py-1.5 bg-white rounded-md hover:bg-gray-100">Profile</a>
-      </div>
-    @endif
-  </nav>
-
-
-  <!-- Mobile menu, show/hide based on menu open state. -->
-  <div class="lg:hidden" role="dialog" aria-modal="true" :hidden="!menuOpen">
-    <!-- Background backdrop, show/hide based on slide-over state. -->
-    <div class="fixed inset-0 z-10"></div>
-    <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-blue-800 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-      <div class="flex items-center justify-between">
-        <a href="#" class="-m-1.5 p-1.5">
-          <span class="sr-only">SASva</span>
-          <img class="h-8 w-auto" src="{{ public_asset('assets/sasva/media/sasvalogo_trans.svg') }}" alt="">
-        </a>
-        <button type="button" class="-m-2.5 rounded-md p-2.5 text-white" @click="menuOpen = !menuOpen">
-          <span class="sr-only">Close menu</span>
-          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="mt-6 flow-root">
-        <div class="-my-6 divide-y divide-gray-500/10">
-          <div class="py-6">
-            <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white">Sign In</a>
-            <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white">Create an account</a>
+      @if(Auth::check())
+        <div id="header__top-user" class="flex">
+          <div class="cursor-pointer">
+            <span class="text-base text-white">Hi,</span>
+            <span class="text-base text-white font-medium">{{ Auth::user()->name_private }} | {{ Auth::user()->ident }}</span>
           </div>
+        </div>
+      @else
+        <div id="header__top-login" class="flex">
+          <div class="cursor-pointer">
+            <span class="text-base text-white">TODO (SIGN IN / REGISTER)</span>
+          </div>
+        </div>
+      @endif
+    </div>
+  </div>
+  <!-- TOP BAR HEADER END -->
+  
+  <!-- BOTTOM BAR HEADER -->
+  <div id="header__bottom" class="flex h-16 bg-blue-900">
+    <div class="container mx-auto flex flex-1">
+      <div class="flex justify-between items-center">
+        <div class="flex">
+          <ul class="flex">
+            <li class="px-1">
+              <a href="{{ route('frontend.dashboard.index') }}" class="text-base text-white font-medium rounded-sm px-3 py-2 hover:bg-white hover:text-gray-800">
+                Dashboard
+              </a>
+            </li>
+            <li class="px-1 relative" x-data="{ isOpen: false }" @mousedown.outside="isOpen = false">
+              <a href="#" class="text-base font-medium rounded-sm px-3 py-2 hover:bg-white hover:text-gray-800" :class="isOpen ? 'bg-white text-gray-800' : 'text-white'" @click="isOpen = !isOpen">
+                Operations
+              </a>
+              <div class="absolute left-0 z-10 mt-5 w-64 origin-top-right rounded-b-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" x-show="isOpen" style="display:none;">
+                <ul class="py-2">
+                  <li class="hover:bg-gray-100 flex">
+                    <a href="{{ route('frontend.flights.index') }}" class="px-4 py-2">Book Flight</a>
+                  </li>
+                  <li class="hover:bg-gray-100 flex">
+                    <a href="{{ route('frontend.pireps.index') }}" class="px-4 py-2">PIREPs</a>
+                  </li>
+                  <li class="hover:bg-gray-100 flex">
+                    <a href="" class="px-4 py-2">Live Map</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li class="px-1 relative" x-data="{ isOpen: false }" @mousedown.outside="isOpen = false">
+              <a href="#" class="text-base font-medium rounded-sm px-3 py-2 hover:bg-white hover:text-gray-800" :class="isOpen ? 'bg-white text-gray-800' : 'text-white'" @click="isOpen = !isOpen">
+                Resources
+              </a>
+              <div class="absolute left-0 z-10 mt-5 w-64 origin-top-right rounded-b-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" x-show="isOpen" style="display:none;">
+                <ul class="py-2">
+                  <li class="hover:bg-gray-100 flex">
+                    <a href="" class="px-4 py-2">Downloads</a>
+                  </li>
+                  <li class="hover:bg-gray-100 flex">
+                    <a href="" class="px-4 py-2">ACARS Client</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
+  <!-- BOTTOM BAR HEADER END -->
 </header>
+
+
