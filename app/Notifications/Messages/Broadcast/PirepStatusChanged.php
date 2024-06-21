@@ -120,7 +120,7 @@ class PirepStatusChanged extends Notification implements ShouldQueue
             'Flight Time' => Time::minutesToTimeString($pirep->flight_time),
         ];
 
-        if(isset($pirep->landing_rate)){
+        if($pirep->landing_rate){
             $fields['Landing Rate'] = $pirep->landing_rate."ft/min";
         }
 
