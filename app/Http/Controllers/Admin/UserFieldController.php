@@ -32,7 +32,7 @@ class UserFieldController extends Controller
     public function index(Request $request): View
     {
         $this->userFieldRepo->pushCriteria(new RequestCriteria($request));
-        $fields = $this->userFieldRepo->all();
+        $fields = $this->userFieldRepo->where('internal', false)->get();
 
         return view('admin.userfields.index', ['fields' => $fields]);
     }
@@ -99,6 +99,11 @@ class UserFieldController extends Controller
             return redirect(route('admin.userfields.index'));
         }
 
+        if ($field->internal) {
+            Flash::error('You cannot edit an internal user field');
+            return redirect(route('admin.userfields.index'));
+        }
+
         return view('admin.userfields.edit', ['field' => $field]);
     }
 
@@ -121,6 +126,11 @@ class UserFieldController extends Controller
             return redirect(route('admin.userfields.index'));
         }
 
+        if ($field->internal) {
+            Flash::error('You cannot edit an internal user field');
+            return redirect(route('admin.userfields.index'));
+        }
+
         $this->userFieldRepo->update($request->all(), $id);
 
         Flash::success('Field updated successfully.');
@@ -139,6 +149,11 @@ class UserFieldController extends Controller
         $field = $this->userFieldRepo->findWithoutFail($id);
         if (empty($field)) {
             Flash::error('Field not found');
+            return redirect(route('admin.userfields.index'));
+        }
+
+        if ($field->internal) {
+            Flash::error('You cannot delete an internal user field');
             return redirect(route('admin.userfields.index'));
         }
 
