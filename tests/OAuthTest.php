@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 final class OAuthTest extends TestCase
 {
     /** @var array|string[] The drivers we want to test */
-    protected array $drivers = ['discord', 'ivao'];
+    protected array $drivers = ['discord', 'ivao', 'vatsim'];
 
     protected function setUp(): void
     {

@@ -41,6 +41,16 @@ return [
         'avatar_default_extension' => env('DISCORD_EXTENSION_DEFAULT', 'png'), // only pick from jpg, png, webp
     ],
 
+    'vatsim' => [
+        'enabled'       => env('VATSIM_OAUTH_ENABLED', false),
+        'client_id'     => env('VATSIM_CLIENT_ID'),
+        'client_secret' => env('VATSIM_CLIENT_SECRET'),
+        'redirect'      => '/oauth/vatsim/callback',
+
+        // For local development only
+        'test' => env('VATSIM_TEST', false),
+    ],
+
     'ivao' => [
         'enabled'       => env('IVAO_OAUTH_ENABLED', false),
         'client_id'     => env('IVAO_CLIENT_ID'),

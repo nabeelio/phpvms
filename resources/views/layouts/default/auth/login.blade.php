@@ -69,6 +69,12 @@
             @lang('auth.loginwith', ['provider' => 'IVAO'])
           </a>
         @endif
+
+        @if(config('services.vatsim.enabled'))
+          <a href="{{ route('oauth.redirect', ['provider' => 'vatsim']) }}" class="btn btn-round btn-lg btn-block" style="background-color:#29B473;">
+            @lang('auth.loginwith', ['provider' => 'VATSIM'])
+          </a>
+        @endif
         <button class="btn btn-primary btn-round btn-lg btn-block">@lang('common.login')</button>
       </div>
       <div class="pull-left">
