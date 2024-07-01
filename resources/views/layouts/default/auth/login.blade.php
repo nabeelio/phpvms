@@ -63,12 +63,6 @@
             @lang('auth.loginwith', ['provider' => 'Discord'])
           </a>
         @endif
-
-        @if(config('services.ivao.enabled'))
-          <a href="{{ route('oauth.redirect', ['provider' => 'ivao']) }}" class="btn btn-round btn-lg btn-block" style="background-color:#0d2c99;">
-            @lang('auth.loginwith', ['provider' => 'IVAO'])
-          </a>
-        @endif
         <button class="btn btn-primary btn-round btn-lg btn-block">@lang('common.login')</button>
       </div>
       <div class="pull-left">

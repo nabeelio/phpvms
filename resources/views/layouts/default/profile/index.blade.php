@@ -146,12 +146,6 @@
             <a href="{{ route('oauth.logout', ['provider' => 'discord']) }}" class="btn" style="background-color:#738ADB;">Unlink Discord Account</a>
           @endif
 
-          @if(config('services.ivao.enabled') && !$user->ivao_id)
-            <a href="{{ route('oauth.redirect', ['provider' => 'ivao']) }}" class="btn" style="background-color:#0d2c99;">Link IVAO Account</a>
-          @elseif(config('services.ivao.enabled'))
-            <a href="{{ route('oauth.logout', ['provider' => 'ivao']) }}" class="btn" style="background-color:#0d2c99;">Unlink IVAO Account</a>
-          @endif
-
           <a href="{{ route('frontend.profile.regen_apikey') }}" class="btn btn-warning"
              onclick="return confirm('Are you sure? This will reset your API key!')">@lang('profile.newapikey')</a>
           &nbsp;
