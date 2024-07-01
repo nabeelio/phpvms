@@ -47,6 +47,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property Journal          journal
  * @property int              rank_id
  * @property string           discord_id
+ * @property string           vatsim_id
  * @property int              state
  * @property string           last_ip
  * @property \Carbon\Carbon   lastlogin_at
@@ -97,6 +98,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         'rank_id',
         'discord_id',
         'discord_private_channel_id',
+        'vatsim_id',
         'api_key',
         'country',
         'home_airport_id',
@@ -172,6 +174,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         'transfer_time',
         'created_at',
         'state',
+        'vatsim_id',
     ];
 
     /**
@@ -322,7 +325,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
 
     public function awards(): BelongsToMany
     {
-        return $this->belongsToMany(Award::class, 'user_awards')->withTrashed();
+        return $this->belongsToMany(Award::class, 'user_awards')->withTimestamps()->withTrashed();
     }
 
     public function bids(): HasMany

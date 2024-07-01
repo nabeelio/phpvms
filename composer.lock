@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "33bc510db2ec5f230d4a78f786b6cc4f",
+    "content-hash": "4d8381c366cee1bf892d661107b5534a",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -8073,6 +8073,58 @@
                 "source": "https://github.com/socialiteproviders/manager"
             },
             "time": "2023-08-27T23:46:34+00:00"
+        },
+        {
+            "name": "socialiteproviders/vatsim",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Vatsim.git",
+                "reference": "c3561707d6e8b25f67431dec0579e6bbfbd6f84d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Vatsim/zipball/c3561707d6e8b25f67431dec0579e6bbfbd6f84d",
+                "reference": "c3561707d6e8b25f67431dec0579e6bbfbd6f84d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.0",
+                "socialiteproviders/manager": "~4.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Vatsim\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Roy de Vos Burchart",
+                    "email": "dev@bonroyage.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "VATSIM OAuth2 Provider for Laravel Socialite",
+            "keywords": [
+                "laravel",
+                "oauth",
+                "oauth2",
+                "provider",
+                "socialite",
+                "vatsim"
+            ],
+            "support": {
+                "docs": "https://socialiteproviders.com/vatsim",
+                "issues": "https://github.com/socialiteproviders/providers/issues",
+                "source": "https://github.com/socialiteproviders/providers"
+            },
+            "time": "2022-10-21T22:12:26+00:00"
         },
         {
             "name": "spatie/backtrace",

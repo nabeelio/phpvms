@@ -146,6 +146,12 @@
             <a href="{{ route('oauth.logout', ['provider' => 'discord']) }}" class="btn" style="background-color:#738ADB;">Unlink Discord Account</a>
           @endif
 
+          @if(config('services.vatsim.enabled') && !$user->vatsim_id)
+            <a href="{{ route('oauth.redirect', ['provider' => 'vatsim']) }}" class="btn" style="background-color:#29B473;">Link VATSIM Account</a>
+          @elseif(config('services.vatsim.enabled'))
+            <a href="{{ route('oauth.logout', ['provider' => 'vatsim']) }}" class="btn" style="background-color:#29B473;">Unlink VATSIM Account</a>
+          @endif
+
           <a href="{{ route('frontend.profile.regen_apikey') }}" class="btn btn-warning"
              onclick="return confirm('Are you sure? This will reset your API key!')">@lang('profile.newapikey')</a>
           &nbsp;

@@ -516,6 +516,7 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::match([
                 'get',
+                'patch',
                 'post',
                 'delete',
             ], 'dashboard/news', ['uses' => 'DashboardController@news'])
