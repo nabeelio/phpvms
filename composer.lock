@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d8381c366cee1bf892d661107b5534a",
+    "content-hash": "08750b07d72e85bf5441c855c7bb0699",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -3498,12 +3498,12 @@
             "version": "v5.2.13",
             "source": {
                 "type": "git",
-                "url": "https://github.com/justinrainbow/json-schema.git",
+                "url": "https://github.com/jsonrainbow/json-schema.git",
                 "reference": "fbbe7e5d79f618997bc3332a6f49246036c45793"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinrainbow/json-schema/zipball/fbbe7e5d79f618997bc3332a6f49246036c45793",
+                "url": "https://api.github.com/repos/jsonrainbow/json-schema/zipball/fbbe7e5d79f618997bc3332a6f49246036c45793",
                 "reference": "fbbe7e5d79f618997bc3332a6f49246036c45793",
                 "shasum": ""
             },
@@ -7999,6 +7999,58 @@
                 "source": "https://github.com/socialiteproviders/providers"
             },
             "time": "2023-07-24T23:28:47+00:00"
+        },
+        {
+            "name": "socialiteproviders/ivao",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Ivao.git",
+                "reference": "1be1f06d7baebab32f53d0a10fe2447601a5ad28"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Ivao/zipball/1be1f06d7baebab32f53d0a10fe2447601a5ad28",
+                "reference": "1be1f06d7baebab32f53d0a10fe2447601a5ad28",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.0",
+                "socialiteproviders/manager": "^4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Ivao\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arthur Parienté",
+                    "email": "arthur.pariente06@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "IVAO OAuth2 Provider for Laravel Socialite",
+            "keywords": [
+                "ivao",
+                "laravel",
+                "oauth",
+                "oauth2",
+                "provider",
+                "socialite"
+            ],
+            "support": {
+                "docs": "https://socialiteproviders.com/ivao",
+                "issues": "https://github.com/socialiteproviders/providers/issues",
+                "source": "https://github.com/socialiteproviders/providers"
+            },
+            "time": "2024-06-08T23:50:00+00:00"
         },
         {
             "name": "socialiteproviders/manager",

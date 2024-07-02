@@ -90,7 +90,8 @@
         "league/flysystem-sftp-v3": "^3.0",
         "nikolaposa/version": "^4.2",
         "spatie/laravel-activitylog": "^4.7",
-        "socialiteproviders/vatsim": "^5.0"
+        "socialiteproviders/vatsim": "^5.0",
+        "socialiteproviders/ivao": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",

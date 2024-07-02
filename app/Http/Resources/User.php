@@ -20,6 +20,7 @@ class User extends Resource
             'avatar'        => $this->resolveAvatarUrl(),
             'discord_id'    => $this->discord_id,
             'vatsim_id'     => $this->vatsim_id,
+            'ivao_id'       => $this->ivao_id,
             'rank_id'       => $this->rank_id,
             'home_airport'  => $this->home_airport_id,
             'curr_airport'  => $this->curr_airport_id,

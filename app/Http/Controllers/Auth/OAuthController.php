@@ -34,6 +34,8 @@ class OAuthController extends Controller
                     abort(404);
                 }
                 return Socialite::driver('discord')->scopes(['identify'])->redirect();
+            case 'ivao':
+                return Socialite::driver('ivao')->redirect();
             case 'vatsim':
                 return Socialite::driver('vatsim')->scopes(['email'])->redirect();
             default:
@@ -52,6 +54,9 @@ class OAuthController extends Controller
         switch ($provider) {
             case 'discord':
                 $providerUser = Socialite::driver('discord')->user();
+                break;
+            case 'ivao':
+                $providerUser = Socialite::driver('ivao')->user();
                 break;
             case 'vatsim':
                 $providerUser = Socialite::driver('vatsim')->user();

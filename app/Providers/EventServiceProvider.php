@@ -61,6 +61,7 @@ class EventServiceProvider extends ServiceProvider
         // For discord OAuth
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             \SocialiteProviders\Discord\DiscordExtendSocialite::class.'@handle',
+            \SocialiteProviders\Ivao\IvaoExtendSocialite::class.'@handle',
             \SocialiteProviders\Vatsim\VatsimExtendSocialite::class.'@handle',
         ],
 
