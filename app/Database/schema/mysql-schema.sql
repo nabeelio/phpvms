@@ -986,6 +986,8 @@ CREATE TABLE `users` (
   `rank_id` int(10) unsigned DEFAULT NULL,
   `discord_id` varchar(191) NOT NULL DEFAULT '',
   `discord_private_channel_id` varchar(191) NOT NULL DEFAULT '',
+  `vatsim_id` varchar(191) NOT NULL DEFAULT '',
+  `ivao_id` varchar(191) NOT NULL DEFAULT '',
   `country` varchar(2) DEFAULT NULL,
   `home_airport_id` varchar(5) DEFAULT NULL,
   `curr_airport_id` varchar(5) DEFAULT NULL,
@@ -1115,4 +1117,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (90,'2023_12_27_112
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (91,'2024_01_20_183702_create_activity_log_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (92,'2024_01_20_183703_add_event_column_to_activity_log_table',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (93,'2024_01_20_183704_add_batch_uuid_column_to_activity_log_table',1);
-INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (94,'2024_05_15_144813_add_internal_to_user_fields',2);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (94,'2024_05_15_144813_add_internal_to_user_fields',1);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (95,'2024_06_03_124335_add_ivao_id_to_users',2);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (96,'2024_01_26_142501_add_vatsim_id_to_users',3);
