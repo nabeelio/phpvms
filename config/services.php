@@ -50,4 +50,11 @@ return [
         // For local development only
         'test' => env('VATSIM_TEST', false),
     ],
+
+    'ivao' => [
+        'enabled'       => env('IVAO_OAUTH_ENABLED', false),
+        'client_id'     => env('IVAO_CLIENT_ID'),
+        'client_secret' => env('IVAO_CLIENT_SECRET'),
+        'redirect'      => '/oauth/ivao/callback',
+    ],
 ];
