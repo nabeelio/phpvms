@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'backup' => [
+    'backup'          => [
 
         /*
          * The name of this application. You can use this name to monitor
@@ -11,14 +11,14 @@ return [
 
         'enabled' => env('BACKUP_ENABLED', false),
 
-        'source' => [
+        'source'                              => [
 
-            'files' => [
+            'files'     => [
 
                 /*
                  * The list of directories and files that will be included in the backup.
                  */
-                'include' => [
+                'include'                       => [
                     base_path(),
                 ],
 
@@ -27,7 +27,7 @@ return [
                  *
                  * Directories used by the backup process will automatically be excluded.
                  */
-                'exclude' => [
+                'exclude'                       => [
                     base_path('vendor'),
                     base_path('node_modules'),
                 ],
@@ -35,7 +35,7 @@ return [
                 /*
                  * Determines if symlinks should be followed.
                  */
-                'follow_links' => true,
+                'follow_links'                  => true,
 
                 /*
                  * Determines if it should avoid unreadable folders.
@@ -47,7 +47,7 @@ return [
                  * Set to `null` to include complete absolute path
                  * Example: base_path()
                  */
-                'relative_path' => null,
+                'relative_path'                 => null,
             ],
 
             /*
@@ -96,12 +96,14 @@ return [
          *
          * If you do not want any compressor at all, set it to null.
          */
-        'database_dump_compressor' => \Spatie\DbDumper\Compressors\GzipCompressor::class,
+        'database_dump_compressor'            => \Spatie\DbDumper\Compressors\GzipCompressor::class,
 
         /*
          * If specified, the database dumped file name will contain a timestamp (e.g.: 'Y-m-d-H-i-s').
          */
         'database_dump_file_timestamp_format' => null,
+
+        'database_dump_filename_base'  => 'dump',
 
         /*
          * The file extension used for the database dump files.
@@ -111,7 +113,7 @@ return [
          */
         'database_dump_file_extension' => 'gzip',
 
-        'destination' => [
+        'destination'         => [
             /*
              * The compression algorithm to be used for creating the zip archive.
              *
@@ -136,17 +138,17 @@ return [
              *
              * Setting of 0 for some algorithms may switch to the strongest compression.
              */
-            'compression_level' => 9,
+            'compression_level'  => 9,
 
             /*
              * The filename prefix used for the backup zip file.
              */
-            'filename_prefix' => env('BACKUP_FILENAME_PREFIX', ''),
+            'filename_prefix'    => env('BACKUP_FILENAME_PREFIX', ''),
 
             /*
              * The disk names on which the backups will be stored.
              */
-            'disks' => explode(',', env('BACKUP_DISKS', 'local')),
+            'disks'              => explode(',', env('BACKUP_DISKS', 'local')),
         ],
 
         /*
@@ -158,7 +160,7 @@ return [
          * The password to be used for archive encryption.
          * Set to `null` to disable encryption.
          */
-        'password' => env('BACKUP_ARCHIVE_PASSWORD'),
+        'password'            => env('BACKUP_ARCHIVE_PASSWORD'),
 
         /*
          * The encryption algorithm to be used for archive encryption.
@@ -167,18 +169,18 @@ return [
          * When set to 'default', we'll use ZipArchive::EM_AES_256 if it is
          * available on your system.
          */
-        'encryption' => 'default',
+        'encryption'          => 'default',
 
         /**
          * The number of attempts, in case the backup command encounters an exception
          */
-        'tries' => 1,
+        'tries'               => 1,
 
         /**
          * The number of seconds to wait before attempting a new backup if the previous try failed
          * Set to `0` for none
          */
-        'retry_delay' => 0,
+        'retry_delay'         => 0,
     ],
 
     /*
@@ -188,23 +190,41 @@ return [
      * You can also use your own notification classes, just make sure the class is named after one of
      * the `Spatie\Backup\Notifications\Notifications` classes.
      */
-    'notifications' => [
+    'notifications'   => [
 
         'notifications' => [
-            \Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification::class         => explode(',', env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')),
-            \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification::class => explode(',', env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')),
-            \Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification::class        => explode(',', env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')),
+            \Spatie\Backup\Notifications\Notifications\BackupHasFailedNotification::class         => explode(
+                ',',
+                env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')
+            ),
+            \Spatie\Backup\Notifications\Notifications\UnhealthyBackupWasFoundNotification::class => explode(
+                ',',
+                env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')
+            ),
+            \Spatie\Backup\Notifications\Notifications\CleanupHasFailedNotification::class        => explode(
+                ',',
+                env('BACKUP_FAILED_NOTIFICATIONS_CHANNELS', 'mail')
+            ),
 
-            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class   => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', '')),
-            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification::class => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', '')),
-            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification::class  => explode(',', env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', '')),
+            \Spatie\Backup\Notifications\Notifications\BackupWasSuccessfulNotification::class   => explode(
+                ',',
+                env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', '')
+            ),
+            \Spatie\Backup\Notifications\Notifications\HealthyBackupWasFoundNotification::class => explode(
+                ',',
+                env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', '')
+            ),
+            \Spatie\Backup\Notifications\Notifications\CleanupWasSuccessfulNotification::class  => explode(
+                ',',
+                env('BACKUP_SUCCEED_NOTIFICATIONS_CHANNELS', '')
+            ),
         ],
 
         /*
          * Here you can specify the notifiable to which the notifications should be sent. The default
          * notifiable will use the variables specified in this config file.
          */
-        'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
+        'notifiable'    => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
             'to' => env('BACKUP_NOTIFICATIONS_MAIL_TO', 'your@example.com'),
@@ -221,7 +241,7 @@ return [
             /*
              * If this is set to null the default channel of the webhook will be used.
              */
-            'channel' => null,
+            'channel'     => null,
 
             'username' => null,
 
@@ -235,12 +255,15 @@ return [
             /*
              * If this is an empty string, the name field on the webhook will be used.
              */
-            'username' => env('BACKUP_DISCORD_USERNAME', 'phpVMS Backup'),
+            'username'    => env('BACKUP_DISCORD_USERNAME', 'phpVMS Backup'),
 
             /*
              * If this is an empty string, the avatar on the webhook will be used.
              */
-            'avatar_url' => env('BACKUP_DISCORD_AVATAR_URL', env('APP_URL').'/assets/img/logo.png'),
+            'avatar_url'  => env(
+                'BACKUP_DISCORD_AVATAR_URL',
+                env('APP_URL').'/assets/img/logo.png'
+            ),
         ],
     ],
 
@@ -288,33 +311,45 @@ return [
             /*
              * The number of days for which backups must be kept.
              */
-            'keep_all_backups_for_days' => env('BACKUP_MAX_DAYS', 7),
+            'keep_all_backups_for_days'                            => env('BACKUP_MAX_DAYS', 7),
 
             /*
              * After the "keep_all_backups_for_days" period is over, the most recent backup
              * of that day will be kept. Older backups within the same day will be removed.
              * If you create backups only once a day, no backups will be removed yet.
              */
-            'keep_daily_backups_for_days' => env('BACKUP_DAILY_MAX_DAYS', 0),
+            'keep_daily_backups_for_days'                          => env(
+                'BACKUP_DAILY_MAX_DAYS',
+                0
+            ),
 
             /*
              * After the "keep_daily_backups_for_days" period is over, the most recent backup
              * of that week will be kept. Older backups within the same week will be removed.
              * If you create backups only once a week, no backups will be removed yet.
              */
-            'keep_weekly_backups_for_weeks' => env('BACKUP_WEEKLY_MAX_WEEKS', 0),
+            'keep_weekly_backups_for_weeks'                        => env(
+                'BACKUP_WEEKLY_MAX_WEEKS',
+                0
+            ),
 
             /*
              * After the "keep_weekly_backups_for_weeks" period is over, the most recent backup
              * of that month will be kept. Older backups within the same month will be removed.
              */
-            'keep_monthly_backups_for_months' => env('BACKUP_MONTHLY_MAX_MONTHS', 0),
+            'keep_monthly_backups_for_months'                      => env(
+                'BACKUP_MONTHLY_MAX_MONTHS',
+                0
+            ),
 
             /*
              * After the "keep_monthly_backups_for_months" period is over, the most recent backup
              * of that year will be kept. Older backups within the same year will be removed.
              */
-            'keep_yearly_backups_for_years' => env('BACKUP_YEARLY_MAX_YEARS', 0),
+            'keep_yearly_backups_for_years'                        => env(
+                'BACKUP_YEARLY_MAX_YEARS',
+                0
+            ),
 
             /*
              * After cleaning up the backups remove the oldest backup until
@@ -326,13 +361,13 @@ return [
         /**
          * The number of attempts, in case the cleanup command encounters an exception
          */
-        'tries' => 1,
+        'tries'            => 1,
 
         /**
          * The number of seconds to wait before attempting a new cleanup if the previous try failed
          * Set to `0` for none
          */
-        'retry_delay' => 0,
+        'retry_delay'      => 0,
     ],
 
 ];
