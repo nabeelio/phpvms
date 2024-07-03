@@ -10,7 +10,6 @@ RUN install-php-extensions \
 	pdo_mysql \
 	gd \
 	intl \
-	zip \
 	opcache \
     curl \
     mbstring \
