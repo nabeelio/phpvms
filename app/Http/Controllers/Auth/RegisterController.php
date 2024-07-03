@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Contracts\Controller;
 use App\Models\Enums\UserState;
+use App\Models\Invite;
 use App\Models\User;
 use App\Models\UserField;
 use App\Models\UserFieldValue;
@@ -53,14 +54,37 @@ class RegisterController extends Controller
     }
 
     /**
-     * @throws \Exception
+     * @param Request $request
      *
      * @return View
      */
-    public function showRegistrationForm(): View
+    public function showRegistrationForm(Request $request): View
     {
+        if (setting('general.disable_registrations', false)) {
+            abort(403, 'Registrations are disabled');
+        }
+
+        if (setting('general.invite_only_registrations', false)) {
+            if (!$request->has('invite') && !$request->has('token')) {
+                abort(403, 'Registrations are invite only');
+            }
+
+            $invite = Invite::find($request->get('invite'));
+            if (!$invite || $invite->token !== $request->get('token')) {
+                abort(403, 'Invalid invite');
+            }
+
+            if ($invite->usage_limit && $invite->usage_count >= $invite->usage_limit) {
+                abort(403, 'Invite has been used too many times');
+            }
+
+            if ($invite->expires_at && $invite->expires_at->isPast()) {
+                abort(403, 'Invite has expired');
+            }
+        }
+
         $airlines = $this->airlineRepo->selectBoxList();
-        $userFields = UserField::where(['show_on_registration' => true, 'active' => true])->get();
+        $userFields = UserField::where(['show_on_registration' => true, 'active' => true, 'internal' => false])->get();
 
         return view('auth.register', [
             'airports'   => [],
@@ -69,6 +93,7 @@ class RegisterController extends Controller
             'timezones'  => Timezonelist::toArray(),
             'userFields' => $userFields,
             'hubs_only'  => setting('pilots.home_hubs_only'),
+            'invite'     => $invite ?? null,
             'captcha'    => [
                 'enabled'    => setting('captcha.enabled', env('CAPTCHA_ENABLED', false)),
                 'site_key'   => setting('captcha.site_key', env('CAPTCHA_SITE_KEY')),
@@ -99,6 +124,7 @@ class RegisterController extends Controller
         $userFields = UserField::where([
             'show_on_registration' => true,
             'required'             => true,
+            'internal'             => false,
             'active'               => true,
         ])->get();
 
@@ -142,6 +168,37 @@ class RegisterController extends Controller
      */
     protected function create(Request $request): User
     {
+        if (setting('general.disable_registrations', false)) {
+            abort(403, 'Registrations are disabled');
+        }
+
+        if (setting('general.invite_only_registrations', false)) {
+            if (!$request->has('invite') && !$request->has('invite_token')) {
+                abort(403, 'Registrations are invite only');
+            }
+
+            $invite = Invite::find($request->get('invite'));
+            if (!$invite || $invite->token !== base64_decode($request->get('invite_token'))) {
+                abort(403, 'Invalid invite');
+            }
+
+            if ($invite->usage_limit && $invite->usage_count >= $invite->usage_limit) {
+                abort(403, 'Invite has been used too many times');
+            }
+
+            if ($invite->expires_at && $invite->expires_at->isPast()) {
+                abort(403, 'Invite has expired');
+            }
+
+            if ($invite->email && $invite->email !== $request->get('email')) {
+                abort(403, 'Invite is for a different email address');
+            }
+
+            $invite->update([
+                'usage_count' => $invite->usage_count + 1,
+            ]);
+        }
+
         // Default options
         $opts = $request->all();
         $opts['password'] = Hash::make($opts['password']);
@@ -159,7 +216,7 @@ class RegisterController extends Controller
 
         Log::info('User registered: ', $user->toArray());
 
-        $userFields = UserField::where(['show_on_registration' => true, 'active' => true])->get();
+        $userFields = UserField::where(['show_on_registration' => true, 'active' => true, 'internal' => false])->get();
         foreach ($userFields as $field) {
             $field_name = 'field_'.$field->slug;
             UserFieldValue::updateOrCreate([

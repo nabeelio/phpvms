@@ -2,6 +2,10 @@
 
 namespace App\Console;
 
+use App\Console\Cron\ActivityLogClean;
+use App\Console\Cron\Backups\BackupClean;
+use App\Console\Cron\Backups\BackupMonitor;
+use App\Console\Cron\Backups\BackupRun;
 use App\Console\Cron\FifteenMinute;
 use App\Console\Cron\FiveMinute;
 use App\Console\Cron\Hourly;
@@ -52,9 +56,13 @@ class Kernel extends ConsoleKernel
 
         // When spatie-backups runs
         if (config('backup.backup.enabled', false) === true) {
-            $schedule->command('backup:run')->daily()->at('01:00');
-            $schedule->command('backup:clean')->daily()->at('01:20');
-            $schedule->command('backup:monitor')->daily()->at('01:30');
+            $schedule->command(BackupRun::class)->dailyAt('01:15');
+            $schedule->command(BackupClean::class)->dailyAt('01:30');
+            $schedule->command(BackupMonitor::class)->dailyAt('01:45');
+        }
+
+        if (config('activitylog.enabled', false) === true) {
+            $schedule->command(ActivityLogClean::class)->dailyAt('01:00');
         }
 
         // Update the last time the cron was run

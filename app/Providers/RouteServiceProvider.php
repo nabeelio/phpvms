@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\EnableActivityLogging;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -172,14 +173,13 @@ class RouteServiceProvider extends ServiceProvider
             });
 
             Route::group([
-                'namespace'  => 'Auth',
-                'prefix'     => 'auth',
-                'as'         => 'auth.',
-                'middleware' => 'auth',
+                'namespace' => 'Auth',
+                'prefix'    => 'oauth',
+                'as'        => 'oauth.',
             ], function () {
-                Route::get('discord/redirect', 'OAuthController@redirectToDiscordProvider')->name('discord.redirect');
-                Route::get('discord/callback', 'OAuthController@handleDiscordProviderCallback')->name('discord.callback');
-                Route::get('discord/logout', 'OAuthController@logoutDiscordProvider')->name('discord.logout');
+                Route::get('{provider}/redirect', 'OAuthController@redirectToProvider')->name('redirect');
+                Route::get('{provider}/callback', 'OAuthController@handleProviderCallback')->name('callback');
+                Route::get('{provider}/logout', 'OAuthController@logoutProvider')->name('logout')->middleware('auth');
             });
 
             Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
@@ -193,7 +193,7 @@ class RouteServiceProvider extends ServiceProvider
             'namespace'  => $this->namespace.'\\Admin',
             'prefix'     => 'admin',
             'as'         => 'admin.',
-            'middleware' => ['web', 'auth', 'ability:admin,admin-access'],
+            'middleware' => ['web', 'auth', 'ability:admin,admin-access', EnableActivityLogging::class],
         ], static function () {
             // CRUD for airlines
             Route::resource('airlines', 'AirlinesController')
@@ -412,11 +412,17 @@ class RouteServiceProvider extends ServiceProvider
             Route::match(['post'], 'maintenance/cache', 'MaintenanceController@cache')
                 ->name('maintenance.cache')->middleware('ability:admin,maintenance');
 
+            Route::match(['post'], 'maintenance/queue', 'MaintenanceController@queue')
+                ->name('maintenance.queue')->middleware('ability:admin,maintenance');
+
             Route::match(['post'], 'maintenance/update', 'MaintenanceController@update')
                 ->name('maintenance.update')->middleware('ability:admin,maintenance');
 
             Route::match(['post'], 'maintenance/forcecheck', 'MaintenanceController@forcecheck')
                 ->name('maintenance.forcecheck')->middleware('ability:admin,maintenance');
+
+            Route::match(['post'], 'maintenance/reseed', 'MaintenanceController@reseed')
+                ->name('maintenance.reseed')->middleware('ability:admin,maintenance');
 
             Route::match(['post'], 'maintenance/cron_enable', 'MaintenanceController@cron_enable')
                 ->name('maintenance.cron_enable')->middleware('ability:admin,maintenance');
@@ -482,6 +488,13 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::resource('users', 'UserController')->middleware('ability:admin,users');
 
+            Route::resource('invites', 'InviteController')->middleware('ability:admin,users')
+                ->except([
+                    'show',
+                    'edit',
+                    'update',
+                ]);
+
             Route::match([
                 'get',
                 'post',
@@ -503,10 +516,15 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::match([
                 'get',
+                'patch',
                 'post',
                 'delete',
             ], 'dashboard/news', ['uses' => 'DashboardController@news'])
                 ->name('dashboard.news')->middleware('update_pending', 'ability:admin,admin-access');
+
+            Route::resource('activities', 'ActivityController')
+                ->only(['index', 'show'])
+                ->middleware('ability:admin,admin-access');
 
             //Modules
             Route::group([

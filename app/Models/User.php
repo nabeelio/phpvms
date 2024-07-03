@@ -17,6 +17,8 @@ use Illuminate\Notifications\Notifiable;
 use Kyslik\ColumnSortable\Sortable;
 use Laratrust\Contracts\LaratrustUser;
 use Laratrust\Traits\HasRolesAndPermissions;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
@@ -47,6 +49,8 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property Journal          journal
  * @property int              rank_id
  * @property string           discord_id
+ * @property string           vatsim_id
+ * @property string           ivao_id
  * @property int              state
  * @property string           last_ip
  * @property \Carbon\Carbon   lastlogin_at
@@ -55,6 +59,7 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property string           last_pirep_id
  * @property Pirep            last_pirep
  * @property UserFieldValue[] fields
+ * @property UserOAuthToken[] oauth_tokens
  * @property Role[]           roles
  * @property Subfleet[]       subfleets
  * @property TypeRating[]     typeratings
@@ -75,6 +80,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
     use Notifiable;
     use SoftDeletes;
     use Sortable;
+    use LogsActivity;
 
     public $table = 'users';
 
@@ -94,6 +100,8 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         'rank_id',
         'discord_id',
         'discord_private_channel_id',
+        'vatsim_id',
+        'ivao_id',
         'api_key',
         'country',
         'home_airport_id',
@@ -123,7 +131,6 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         'api_key',
         'email',
         'name',
-        'discord_id',
         'discord_private_channel_id',
         'password',
         'last_ip',
@@ -157,6 +164,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
     public $sortable = [
         'id',
         'name',
+        'email',
         'pilot_id',
         'callsign',
         'country',
@@ -169,6 +177,8 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         'transfer_time',
         'created_at',
         'state',
+        'vatsim_id',
+        'ivao_id',
     ];
 
     /**
@@ -274,7 +284,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
     {
         return Attribute::make(
             get: function ($_, $attrs) {
-                if (!$attrs['avatar']) {
+                if (!array_key_exists('avatar', $attrs) || !$attrs['avatar']) {
                     return null;
                 }
 
@@ -314,6 +324,15 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
         return $avatar->url;
     }
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->fillable)
+            ->logExcept(array_merge($this->hidden, ['created_at', 'updated_at']))
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
+
     /**
      * Relationships
      */
@@ -324,7 +343,7 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
 
     public function awards(): BelongsToMany
     {
-        return $this->belongsToMany(Award::class, 'user_awards')->withTrashed();
+        return $this->belongsToMany(Award::class, 'user_awards')->withTimestamps()->withTrashed();
     }
 
     public function bids(): HasMany
@@ -355,6 +374,11 @@ class User extends Authenticatable implements LaratrustUser, MustVerifyEmail
     public function fields(): HasMany
     {
         return $this->hasMany(UserFieldValue::class, 'user_id');
+    }
+
+    public function oauth_tokens(): HasMany
+    {
+        return $this->hasMany(UserOAuthToken::class, 'user_id');
     }
 
     public function pireps(): HasMany

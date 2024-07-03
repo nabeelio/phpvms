@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Znck\Eloquent\Relations\BelongsToThrough as ZnckBelongsToThrough;
 use Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -29,15 +31,20 @@ use Znck\Eloquent\Traits\BelongsToThrough;
  * @property string   registration
  * @property string   fin
  * @property int      flight_time
+ * @property float    dow
+ * @property float    mlw
  * @property float    mtow
  * @property float    zfw
  * @property string   hex_code
+ * @property string   selcal
  * @property Airport  airport
  * @property Airport  hub
  * @property Airport  home
+ * @property Airline  airline
  * @property Subfleet subfleet
  * @property int      status
  * @property int      state
+ * @property string   simbrief_type
  * @property Carbon   landing_time
  * @property float    fuel_onboard
  * @property Bid      bid
@@ -50,6 +57,7 @@ class Aircraft extends Model
     use HasFactory;
     use SoftDeletes;
     use Sortable;
+    use LogsActivity;
 
     public $table = 'aircraft';
 
@@ -63,13 +71,17 @@ class Aircraft extends Model
         'registration',
         'fin',
         'hex_code',
+        'selcal',
         'landing_time',
         'flight_time',
+        'dow',
+        'mlw',
         'mtow',
         'zfw',
         'fuel_onboard',
         'status',
         'state',
+        'simbrief_type',
     ];
 
     /**
@@ -78,6 +90,8 @@ class Aircraft extends Model
     protected $casts = [
         'flight_time'  => 'float',
         'fuel_onboard' => FuelCast::class,
+        'dow'          => 'float',
+        'mlw'          => 'float',
         'mtow'         => 'float',
         'state'        => 'integer',
         'subfleet_id'  => 'integer',
@@ -88,13 +102,17 @@ class Aircraft extends Model
      * Validation rules
      */
     public static $rules = [
-        'fin'          => 'nullable',
-        'mtow'         => 'nullable|numeric',
-        'name'         => 'required',
-        'registration' => 'required',
-        'status'       => 'required',
-        'subfleet_id'  => 'required',
-        'zfw'          => 'nullable|numeric',
+        'name'          => 'required',
+        'registration'  => 'required',
+        'fin'           => 'nullable',
+        'selcal'        => 'nullable',
+        'status'        => 'required',
+        'subfleet_id'   => 'required',
+        'dow'           => 'nullable|numeric',
+        'zfw'           => 'nullable|numeric',
+        'mtow'          => 'nullable|numeric',
+        'mlw'           => 'nullable|numeric',
+        'simbrief_type' => 'nullable',
     ];
 
     public $sortable = [
@@ -107,11 +125,15 @@ class Aircraft extends Model
         'registration',
         'fin',
         'hex_code',
+        'selcal',
         'landing_time',
         'flight_time',
+        'dow',
         'mtow',
+        'mlw',
         'zfw',
         'fuel_onboard',
+        'simbrief_type',
         'status',
         'state',
     ];
@@ -162,6 +184,14 @@ class Aircraft extends Model
                 return $attrs['landing_time'];
             }
         );
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->fillable)
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     /**

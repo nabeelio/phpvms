@@ -106,7 +106,7 @@ class ProfileController extends Controller
     public function edit(Request $request): RedirectResponse|View
     {
         /** @var \App\Models\User $user */
-        $user = User::with('fields.field', 'location')->where('id', Auth::id())->first();
+        $user = User::with('fields.field', 'home_airport')->where('id', Auth::id())->first();
 
         if (empty($user)) {
             Flash::error('User not found!');
@@ -114,8 +114,8 @@ class ProfileController extends Controller
             return redirect(route('frontend.dashboard.index'));
         }
 
-        if ($user->location) {
-            $airports = [$user->location->id => $user->location->description];
+        if ($user->home_airport) {
+            $airports = [$user->home_airport->id => $user->home_airport->description];
         } else {
             $airports = ['' => ''];
         }
@@ -154,7 +154,7 @@ class ProfileController extends Controller
             'avatar'     => 'nullable|mimes:jpeg,png,jpg',
         ];
 
-        $userFields = UserField::where(['show_on_registration' => true, 'required' => true])->get();
+        $userFields = UserField::where(['show_on_registration' => true, 'required' => true, 'internal' => false])->get();
         foreach ($userFields as $field) {
             $rules['field_'.$field->slug] = 'required';
         }
@@ -217,7 +217,7 @@ class ProfileController extends Controller
         }
 
         // Save all of the user fields
-        $userFields = UserField::all();
+        $userFields = UserField::where('internal', false)->get();
         foreach ($userFields as $field) {
             $field_name = 'field_'.$field->slug;
             UserFieldValue::updateOrCreate([

@@ -141,7 +141,7 @@ return [
             /*
              * The filename prefix used for the backup zip file.
              */
-            'filename_prefix' => '',
+            'filename_prefix' => env('BACKUP_FILENAME_PREFIX', ''),
 
             /*
              * The disk names on which the backups will be stored.
@@ -235,12 +235,12 @@ return [
             /*
              * If this is an empty string, the name field on the webhook will be used.
              */
-            'username' => env('BACKUP_DISCORD_USERNAME', ''),
+            'username' => env('BACKUP_DISCORD_USERNAME', 'phpVMS Backup'),
 
             /*
              * If this is an empty string, the avatar on the webhook will be used.
              */
-            'avatar_url' => env('BACKUP_DISCORD_AVATAR_URL', ''),
+            'avatar_url' => env('BACKUP_DISCORD_AVATAR_URL', env('APP_URL').'/assets/img/logo.png'),
         ],
     ],
 
@@ -288,39 +288,39 @@ return [
             /*
              * The number of days for which backups must be kept.
              */
-            'keep_all_backups_for_days' => 7,
+            'keep_all_backups_for_days' => env('BACKUP_MAX_DAYS', 7),
 
             /*
              * After the "keep_all_backups_for_days" period is over, the most recent backup
              * of that day will be kept. Older backups within the same day will be removed.
              * If you create backups only once a day, no backups will be removed yet.
              */
-            'keep_daily_backups_for_days' => 16,
+            'keep_daily_backups_for_days' => env('BACKUP_DAILY_MAX_DAYS', 0),
 
             /*
              * After the "keep_daily_backups_for_days" period is over, the most recent backup
              * of that week will be kept. Older backups within the same week will be removed.
              * If you create backups only once a week, no backups will be removed yet.
              */
-            'keep_weekly_backups_for_weeks' => 8,
+            'keep_weekly_backups_for_weeks' => env('BACKUP_WEEKLY_MAX_WEEKS', 0),
 
             /*
              * After the "keep_weekly_backups_for_weeks" period is over, the most recent backup
              * of that month will be kept. Older backups within the same month will be removed.
              */
-            'keep_monthly_backups_for_months' => 4,
+            'keep_monthly_backups_for_months' => env('BACKUP_MONTHLY_MAX_MONTHS', 0),
 
             /*
              * After the "keep_monthly_backups_for_months" period is over, the most recent backup
              * of that year will be kept. Older backups within the same year will be removed.
              */
-            'keep_yearly_backups_for_years' => 2,
+            'keep_yearly_backups_for_years' => env('BACKUP_YEARLY_MAX_YEARS', 0),
 
             /*
              * After cleaning up the backups remove the oldest backup until
              * this amount of megabytes has been reached.
              */
-            'delete_oldest_backups_when_using_more_megabytes_than' => 5000,
+            'delete_oldest_backups_when_using_more_megabytes_than' => env('BACKUP_MAX_SIZE', 5000),
         ],
 
         /**

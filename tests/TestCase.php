@@ -54,7 +54,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * @throws Exception
      */
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -88,7 +88,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      * https://stackoverflow.com/a/41945739
      * https://gist.github.com/adamwathan/c9752f61102dc056d157
      */
-    protected function disableExceptionHandling()
+    protected function disableExceptionHandling(): void
     {
         $this->app->instance(ExceptionHandler::class, new class() extends Handler {
             /** @noinspection PhpMissingParentConstructorInspection */
@@ -109,9 +109,9 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * @param $mocks
+     * @param callable|null $mocks
      */
-    protected function addMocks($mocks)
+    protected function addMocks(?callable $mocks): void
     {
         $handler = HandlerStack::create($mocks);
         $client = new Client(['handler' => $handler]);
@@ -119,12 +119,12 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * @param       $user
-     * @param array $headers
+     * @param User|null $user
+     * @param array     $headers
      *
      * @return array
      */
-    public function headers($user = null, array $headers = []): array
+    public function headers(?User $user = null, array $headers = []): array
     {
         if ($user !== null) {
             $headers['x-api-key'] = $user->api_key;
@@ -141,9 +141,9 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * Import data from a YML file
      *
-     * @param $file
+     * @param string $file
      */
-    public function addData($file)
+    public function addData(string $file): void
     {
         $svc = app(DatabaseService::class);
         $file_path = base_path('tests/data/'.$file.'.yml');
@@ -157,10 +157,10 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * Make sure an object has the list of keys
      *
-     * @param       $obj
+     * @param array $obj
      * @param array $keys
      */
-    public function assertHasKeys($obj, array $keys = []): void
+    public function assertHasKeys(array $obj, array $keys = []): void
     {
         foreach ($keys as $key) {
             $this->assertArrayHasKey($key, $obj);
@@ -170,11 +170,11 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * Read a file from the data directory
      *
-     * @param $filename
+     * @param string $filename
      *
      * @return false|string
      */
-    public function readDataFile($filename)
+    public function readDataFile(string $filename): bool|string
     {
         $paths = [
             'data/'.$filename,
@@ -195,7 +195,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      *
      * @param array|string $files
      */
-    public function mockGuzzleClient($files): void
+    public function mockGuzzleClient(array|string $files): void
     {
         if (!is_array($files)) {
             $files = [$files];
@@ -218,7 +218,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     /**
      * @param array|string $files The filename or files to respond with
      */
-    public function mockXmlResponse($files)
+    public function mockXmlResponse(array|string $files): void
     {
         if (!is_array($files)) {
             $files = [$files];
@@ -239,12 +239,35 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     }
 
     /**
+     * @param array|string $files The filename or files to respond with
+     */
+    public function mockPlainTextResponse(array|string $files): void
+    {
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
+        $responses = [];
+        foreach ($files as $file) {
+            $responses[] = new Response(200, [
+                'Content-Type' => 'text/plain',
+            ], trim($this->readDataFile($file)));
+        }
+
+        $mock = new MockHandler($responses);
+
+        $handler = HandlerStack::create($mock);
+        $guzzleClient = new Client(['handler' => $handler]);
+        app()->instance(Client::class, $guzzleClient);
+    }
+
+    /**
      * Update a setting
      *
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param string $value
      */
-    public function updateSetting($key, $value)
+    public function updateSetting(string $key, string $value): void
     {
         $settingsRepo = app(SettingRepository::class);
         $settingsRepo->store($key, $value);
@@ -254,15 +277,15 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      * So we can test private/protected methods
      * http://bit.ly/1mr5hMq
      *
-     * @param       $object
-     * @param       $methodName
-     * @param array $parameters
+     * @param        $object
+     * @param string $methodName
+     * @param array  $parameters
      *
      * @throws \ReflectionException
      *
      * @return mixed
      */
-    public function invokeMethod(&$object, $methodName, array $parameters = [])
+    public function invokeMethod(&$object, string $methodName, array $parameters = []): mixed
     {
         $reflection = new ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);
@@ -279,7 +302,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      *
      * @return array
      */
-    protected function transformData(&$data)
+    protected function transformData(array &$data): array
     {
         foreach ($data as $key => &$value) {
             if (is_array($value)) {
@@ -309,7 +332,7 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
      * @param array  $headers
      * @param null   $user
      *
-     * @return \Illuminate\Testing\TestResponse
+     * @return TestResponse
      */
     public function get($uri, array $headers = [], $user = null): TestResponse
     {

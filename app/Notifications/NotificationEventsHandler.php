@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Contracts\Listener;
 use App\Events\AwardAwarded;
 use App\Events\NewsAdded;
+use App\Events\NewsUpdated;
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
 use App\Events\PirepPrefiled;
@@ -33,6 +34,7 @@ class NotificationEventsHandler extends Listener
     public static $callbacks = [
         AwardAwarded::class      => 'onAwardAwarded',
         NewsAdded::class         => 'onNewsAdded',
+        NewsUpdated::class       => 'onNewsUpdated',
         PirepPrefiled::class     => 'onPirepPrefile',
         PirepStatusChange::class => 'onPirepStatusChange',
         PirepAccepted::class     => 'onPirepAccepted',
@@ -219,7 +221,9 @@ class NotificationEventsHandler extends Listener
         /*
          * Broadcast notifications
          */
-        Notification::send([$event->pirep], new Messages\Broadcast\PirepFiled($event->pirep));
+        if (setting('notifications.discord_pirep_filed', true)) {
+            Notification::send([$event->pirep], new Messages\Broadcast\PirepFiled($event->pirep));
+        }
     }
 
     /**
@@ -254,6 +258,24 @@ class NotificationEventsHandler extends Listener
      * @param \App\Events\NewsAdded $event
      */
     public function onNewsAdded(NewsAdded $event): void
+    {
+        Log::info('NotificationEvents::onNewsAdded');
+        if (setting('notifications.mail_news', true)) {
+            $this->notifyAllUsers(new Messages\NewsAdded($event->news));
+        }
+
+        /*
+         * Broadcast notifications
+         */
+        Notification::send([$event->news], new Messages\Broadcast\NewsAdded($event->news));
+    }
+
+    /**
+     * Notify all users of a news event, but only the users which have opted in
+     *
+     * @param \App\Events\NewsUpdated $event
+     */
+    public function onNewsUpdated(NewsUpdated $event): void
     {
         Log::info('NotificationEvents::onNewsAdded');
         if (setting('notifications.mail_news', true)) {

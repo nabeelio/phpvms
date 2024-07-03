@@ -107,11 +107,17 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request): RedirectResponse
     {
-        $input = $request->all();
-        $user = $this->userRepo->create($input);
+        $opts = $request->all();
+        $opts['password'] = Hash::make($opts['password']);
 
-        Flash::success('User saved successfully.');
-        return redirect(route('admin.users.index'));
+        if (isset($opts['transfer_time'])) {
+            $opts['transfer_time'] *= 60;
+        }
+
+        $user = $this->userSvc->createUser($opts, $opts['roles'] ?? [], $opts['state'] ?? null);
+
+        Flash::success('User created successfully.');
+        return redirect(route('admin.users.edit', [$user->id]));
     }
 
     /**

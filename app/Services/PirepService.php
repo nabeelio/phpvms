@@ -465,7 +465,7 @@ class PirepService extends Service
             }
         }
 
-        Log::info('New PIREP filed', [$pirep]);
+        Log::info('New PIREP filed, pirep_id: '.$pirep->id);
         event(new PirepFiled($pirep));
 
         $pirep->refresh();
@@ -805,7 +805,7 @@ class PirepService extends Service
         }
 
         if (setting('notifications.discord_pirep_diverted', false)) {
-            Notification::send([$user->id], new PirepDiverted($pirep));
+            Notification::send([$pirep], new PirepDiverted($pirep));
         }
 
         // Update aircraft position
