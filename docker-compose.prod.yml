@@ -1,0 +1,68 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-80}:80" # HTTP
+      - "${HTTPS_PORT:-443}:443" # HTTPS
+      - "${HTTPS_PORT:-443}:443/udp" # HTTP/3
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - internal
+    depends_on:
+      - mariadb
+      - redis
+
+  mariadb:
+    image: 'mariadb:11'
+    restart: unless-stopped
+    ports:
+      - '${FORWARD_DB_PORT:-3306}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - internal
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - '-p${DB_PASSWORD}'
+      retries: 3
+      timeout: 5s
+
+  redis:
+    image: 'redis:alpine'
+    restart: unless-stopped
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - redis:/data
+    networks:
+      - internal
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      retries: 3
+      timeout: 5s
+
+# Volumes needed for Caddy certificates and configuration
+volumes:
+  caddy_data:
+  caddy_config:
+  mariadb:
+  redis:
+
+networks:
+  internal:
+    driver: bridge
