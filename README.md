@@ -90,7 +90,10 @@ This will build all of the assets according to the webpack file.
 ## Production Environment with Docker
 
 You may also want to use Docker in production. We have chosen to use [FrankenPHP](https://frankenphp.dev/docs/), which is a module based on the [Caddy web server](https://caddyserver.com/docs/) and serves as a replacement for PHP-FPM. You will also have access to MariaDB and Redis.
-To start the production environment, run:
+
+First, you need to set your domain name in the `SERVER_NAME` of the `Dockerfile`
+
+Then, to start the production environment, run:
 
 ```bash
 docker-compose -f docker-compose.prod.yml up -d
