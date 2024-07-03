@@ -1,7 +1,7 @@
 FROM dunglas/frankenphp
 
 # Be sure to replace "demo.phpvms.net" by your domain name
-ENV SERVER_NAME=:80
+ENV SERVER_NAME=demo.phpvms.net
 
 # Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
