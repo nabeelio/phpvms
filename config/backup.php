@@ -29,7 +29,7 @@ return [
                  */
                 'exclude' => [
                     // base_path('vendor'),
-                    base_path('node_modules'),
+                    // base_path('node_modules'),
                     base_path('bootstrap/cache/*'),
                     base_path('storage/framework/cache/*'),
                     base_path('storage/framework/sessions/*'),
