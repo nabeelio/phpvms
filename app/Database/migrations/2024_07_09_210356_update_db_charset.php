@@ -1,12 +1,9 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      *
@@ -27,7 +24,6 @@ return new class extends Migration
         if ($result['Value'] === 'utf8mb4') {
             return;
         }
-
 
         $this->changeDatabaseCharacterSetAndCollation('utf8mb4', 'utf8mb4_unicode_ci', 191, function ($column) {
             return $this->isStringTypeWithLength($column) && $column['type_brackets'] > 191;
@@ -136,14 +132,14 @@ return new class extends Migration
         }
 
         return [
-            'field' => $column->Field,
-            'type' => $type,
+            'field'         => $column->Field,
+            'type'          => $type,
             'type_brackets' => $typeBrackets,
-            'type_end' => $typeEnd,
-            'null' => strtolower($column->Null) == 'yes',
-            'default' => $column->Default,
-            'charset' => is_string($column->Collation) && ($pos = strpos($column->Collation, '_')) !== false ? substr($column->Collation, 0, $pos) : null,
-            'collation' => $column->Collation
+            'type_end'      => $typeEnd,
+            'null'          => strtolower($column->Null) == 'yes',
+            'default'       => $column->Default,
+            'charset'       => is_string($column->Collation) && ($pos = strpos($column->Collation, '_')) !== false ? substr($column->Collation, 0, $pos) : null,
+            'collation'     => $column->Collation,
         ];
     }
 
@@ -176,12 +172,12 @@ return new class extends Migration
      * lengths of those columns that have them to be the newLength provided, when the shouldUpdateLength callback passed
      * returns true.
      *
-     * @param string        $table
-     * @param string        $charset
-     * @param string        $collation
-     * @param int|null      $newLength
-     * @param Closure|null  $shouldUpdateLength
-     * @param string|null   $connection
+     * @param string       $table
+     * @param string       $charset
+     * @param string       $collation
+     * @param int|null     $newLength
+     * @param Closure|null $shouldUpdateLength
+     * @param string|null  $connection
      */
     protected function updateColumnsInTable($table, $charset, $collation, $newLength = null, Closure $shouldUpdateLength = null, $connection = null)
     {
@@ -191,20 +187,20 @@ return new class extends Migration
             $column = $this->extractInformationFromColumn($column);
 
             if ($this->isStringType($column)) {
-                $sql = "CHANGE `%field%` `%field%` %type%%brackets% CHARACTER SET %charset% COLLATE %collation% %null% %default%";
+                $sql = 'CHANGE `%field%` `%field%` %type%%brackets% CHARACTER SET %charset% COLLATE %collation% %null% %default%';
                 $search = ['%field%', '%type%', '%brackets%', '%charset%', '%collation%', '%null%', '%default%'];
                 $replace = [
                     $column['field'],
                     $column['type'],
-                    $column['type_brackets'] ? '(' . $column['type_brackets'] . ')' : '',
+                    $column['type_brackets'] ? '('.$column['type_brackets'].')' : '',
                     $charset,
                     $collation,
                     $column['null'] ? 'NULL' : 'NOT NULL',
-                    is_null($column['default']) ? ($column['null'] ? 'DEFAULT NULL' : '') : 'DEFAULT \'' . $column['default'] . '\''
+                    is_null($column['default']) ? ($column['null'] ? 'DEFAULT NULL' : '') : 'DEFAULT \''.$column['default'].'\'',
                 ];
 
                 if ($this->isStringTypeWithLength($column) && $shouldUpdateLength($column) && is_int($newLength) && $newLength > 0) {
-                    $replace[2] = '(' . $newLength . ')';
+                    $replace[2] = '('.$newLength.')';
                 }
 
                 $columnsToChange[] = trim(str_replace($search, $replace, $sql));
@@ -212,7 +208,7 @@ return new class extends Migration
         }
 
         if (count($columnsToChange) > 0) {
-            $query = "ALTER TABLE `{$table}` " . implode(', ', $columnsToChange);
+            $query = "ALTER TABLE `{$table}` ".implode(', ', $columnsToChange);
 
             $this->getDatabaseConnection($connection)->update($query);
         }
@@ -228,7 +224,7 @@ return new class extends Migration
      */
     protected function getColumnsFromTable($table, $connection = null)
     {
-        return $this->getDatabaseConnection($connection)->select('SHOW FULL COLUMNS FROM ' . $table);
+        return $this->getDatabaseConnection($connection)->select('SHOW FULL COLUMNS FROM '.$table);
     }
 
     /**
