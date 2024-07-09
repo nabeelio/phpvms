@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,6 +14,21 @@ return new class extends Migration
      */
     public function up()
     {
+        // Change the charset only for mysql
+        if (DB::getDriverName() !== 'mysql') {
+            return;
+        }
+
+        // Check the current charset
+        $connection = DB::connection()->getPdo();
+        $statement = $connection->query("SHOW VARIABLES LIKE 'character_set_connection'");
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($result['Value'] === 'utf8mb4') {
+            return;
+        }
+
+
         $this->changeDatabaseCharacterSetAndCollation('utf8mb4', 'utf8mb4_unicode_ci', 191, function ($column) {
             return $this->isStringTypeWithLength($column) && $column['type_brackets'] > 191;
         });
