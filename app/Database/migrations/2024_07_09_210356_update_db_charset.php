@@ -22,6 +22,8 @@ return new class() extends Migration {
             ->where('schema_name', config('database.connections.mysql.database'))
             ->first();
 
+        dd($query);
+
         if ($query?->default_character_set_name === 'utf8mb4') {
             return;
         }
