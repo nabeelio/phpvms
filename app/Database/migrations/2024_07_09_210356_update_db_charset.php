@@ -17,11 +17,12 @@ return new class() extends Migration {
         }
 
         // Check the current charset
-        $connection = DB::connection()->getPdo();
-        $statement = $connection->query("SHOW VARIABLES LIKE 'character_set_connection'");
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $query = DB::table('information_schema.SCHEMATA')
+            ->select('default_character_set_name')
+            ->where('schema_name', config('database.connections.mysql.database'))
+            ->first();
 
-        if ($result['Value'] === 'utf8mb4') {
+        if ($query?->default_character_set_name === 'utf8mb4') {
             return;
         }
 
