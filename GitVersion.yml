@@ -5,7 +5,7 @@ next-version: 7.0
 branches:
   main:
     regex: ^master$|^main$
-    mode: ContinuousDelivery
+    mode: ContinuousDeployment
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
@@ -16,7 +16,7 @@ branches:
     pre-release-weight: 55000
   dev:
     regex: ^dev$
-    mode: ContinuousDelivery
+    mode: ContinuousDeployment
     tag: alpha
     increment: Patch
     source-branches: []
@@ -40,6 +40,6 @@ branches:
     is-mainline: false
     pre-release-weight: 30000
 ignore:
-  commits-before: '2024-07-15T00:00:00'
+  commits-before: '2024-07-14T00:00:00'
   sha: []
 merge-message-formats: {}
