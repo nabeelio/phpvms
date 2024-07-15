@@ -9,7 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.repository == 'nabeelio/phpvms'
     strategy:
       fail-fast: true
       matrix:
@@ -24,6 +23,12 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+
+    # https://github.com/marketplace/actions/nerdbank-gitversioning
+    - name: Nerdbank.GitVersioning
+      uses: dotnet/nbgv@v0.4.2
+      with:
+          setAllVars: true
 
     # Configure Caching
     - name: Setup cache environment
@@ -89,22 +94,14 @@ jobs:
           sleep 1
         done
 
-    # https://github.com/marketplace/actions/nerdbank-gitversioning
-    - name: Nerdbank.GitVersioning
-      uses: dotnet/nbgv@v0.4.2
-      with:
-          setAllVars: true
-
     - name: Configure Environment
       run: |
         php --version
         mysql --version
-        # sleep 10
-        # Downgrade composer version to 1.x
         composer install --dev --no-interaction --verbose
         cp .github/scripts/env.test .env
         cp .github/scripts/phpunit.xml phpunit.xml
-        .github/scripts/version.sh ${{ env.fullSemVer }}
+        .github/scripts/version.sh ${{ env.NBGV_SemVer2 }}
         php artisan database:create --reset
         php artisan migrate:refresh --seed
 
@@ -123,12 +120,20 @@ jobs:
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+    # https://github.com/marketplace/actions/nerdbank-gitversioning
+    - name: Nerdbank.GitVersioning
+      uses: dotnet/nbgv@v0.4.2
+      with:
+          setAllVars: true
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.3'
 
       - uses: olegtarasov/get-tag@v2.1.2
         id: tagName
