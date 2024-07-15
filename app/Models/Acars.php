@@ -32,8 +32,6 @@ class Acars extends Model
 
     protected $keyType = 'string';
 
-    public $incrementing = false;
-
     public $fillable = [
         'id',
         'pirep_id',
@@ -48,6 +46,8 @@ class Acars extends Model
         'distance',
         'heading',
         'altitude',
+        'altitude_agl',
+        'altitude_msl',
         'vs',
         'gs',
         'ias',
@@ -59,21 +59,25 @@ class Acars extends Model
         'updated_at',
     ];
 
+    public $incrementing = false;
+
     public $casts = [
-        'type'        => 'integer',
-        'order'       => 'integer',
-        'nav_type'    => 'integer',
-        'lat'         => 'float',
-        'lon'         => 'float',
-        'distance'    => DistanceCast::class,
-        'heading'     => 'integer',
-        'altitude'    => 'float',
-        'vs'          => 'float',
-        'gs'          => 'integer',
-        'ias'         => 'integer',
-        'transponder' => 'integer',
-        'fuel'        => FuelCast::class,
-        'fuel_flow'   => 'float',
+        'type'         => 'integer',
+        'order'        => 'integer',
+        'nav_type'     => 'integer',
+        'lat'          => 'float',
+        'lon'          => 'float',
+        'distance'     => DistanceCast::class,
+        'heading'      => 'integer',
+        'altitude'     => 'float',
+        'altitude_agl' => 'float',
+        'altitude_msl' => 'float',
+        'vs'           => 'float',
+        'gs'           => 'integer',
+        'ias'          => 'integer',
+        'transponder'  => 'integer',
+        'fuel'         => FuelCast::class,
+        'fuel_flow'    => 'float',
     ];
 
     public static $rules = [
