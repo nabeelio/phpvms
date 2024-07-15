@@ -25,10 +25,12 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install GitVersion
-      uses: gittools/actions/gitversion/setup@v1.2.0
+    # https://github.com/marketplace/actions/nerdbank-gitversioning
+
+    - name: Nerdbank.GitVersioning
+      uses: dotnet/nbgv@v0.4.2
       with:
-        versionSpec: '5.x'
+          setAllVars: true
 
     # Configure Caching
     - name: Setup cache environment
