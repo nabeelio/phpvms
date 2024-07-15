@@ -21,6 +21,7 @@ use App\Support\Utils;
 use DateInterval;
 use DateTime;
 use DateTimeInterface;
+
 use function count;
 use function random_int;
 
@@ -321,7 +322,7 @@ final class AcarsTest extends TestCase
             'fields'              => [
                 'custom_field' => 'custom_value',
             ],
-            'fares'               => [
+            'fares' => [
                 [
                     'id'    => $fare->id,
                     'count' => $fare->capacity,
@@ -707,7 +708,7 @@ final class AcarsTest extends TestCase
          */
         $acars2 = Acars::factory()->make(['pirep_id' => $pirep_id])->toArray();
         $acars2['sim_time'] = $dt
-            ->add(DateInterval::createFromDateString("30 seconds"))
+            ->add(DateInterval::createFromDateString('30 seconds'))
             ->format(DateTimeInterface::ATOM);
         // $acars2 = $this->transformData($acars2);
 
