@@ -18,7 +18,6 @@ use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\FareService;
 use App\Support\Utils;
-
 use function count;
 use function random_int;
 
@@ -319,7 +318,7 @@ final class AcarsTest extends TestCase
             'fields'              => [
                 'custom_field' => 'custom_value',
             ],
-            'fares' => [
+            'fares'               => [
                 [
                     'id'    => $fare->id,
                     'count' => $fare->capacity,
@@ -709,7 +708,7 @@ final class AcarsTest extends TestCase
 
         // Read that if the ACARS record posted
         $response = $this->get($uri);
-        $acars_data = $response->json('data')[0];
+        $acars_data = $response->json('data')[1];
         $this->assertEqualsWithDelta($acars2['altitude_agl'], $acars_data['altitude_agl'], 0.1);
         $this->assertEqualsWithDelta($acars2['altitude_msl'], $acars_data['altitude_msl'], 0.1);
     }
