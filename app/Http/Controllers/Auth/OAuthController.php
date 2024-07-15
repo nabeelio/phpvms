@@ -152,7 +152,7 @@ class OAuthController extends Controller
                 'last_refreshed_at' => now(),
             ]);
 
-            Auth::login($user);
+            Auth::login($user, true);
 
             if ($provider === 'discord') {
                 $this->userSvc->retrieveDiscordPrivateChannelId($user);
