@@ -58,9 +58,9 @@ class AcarsReplay extends Command
      *
      * @param \stdClass $flight
      *
-     * @return string
      * @throws \RuntimeException
      *
+     * @return string
      */
     protected function startPirep($flight): string
     {
@@ -95,9 +95,9 @@ class AcarsReplay extends Command
      *
      * @param $pirep_id
      *
-     * @return mixed
      * @throws \RuntimeException
      *
+     * @return mixed
      */
     protected function filePirep($pirep_id)
     {
@@ -114,9 +114,9 @@ class AcarsReplay extends Command
      * @param $pirep_id
      * @param $data
      *
-     * @return array
      * @throws \RuntimeException
      *
+     * @return array
      */
     protected function postUpdate($pirep_id, $data)
     {
@@ -241,9 +241,9 @@ class AcarsReplay extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
      * @throws \RuntimeException
      *
+     * @return mixed
      */
     public function handle(): void
     {
