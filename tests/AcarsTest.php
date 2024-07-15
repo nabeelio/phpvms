@@ -678,7 +678,7 @@ final class AcarsTest extends TestCase
         $acars = Acars::factory()->make(['pirep_id' => $pirep_id])->toArray();
         unset($acars['altitude_agl']);
         unset($acars['altitude_msl']);
-        $acars['altitude'] = 5000;
+        $acars['altitude'] = 1000;
 
         $acars = $this->transformData($acars);
 
