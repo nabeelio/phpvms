@@ -18,7 +18,9 @@ use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\FareService;
 use App\Support\Utils;
-
+use DateInterval;
+use DateTime;
+use DateTimeInterface;
 use function count;
 use function random_int;
 
@@ -319,7 +321,7 @@ final class AcarsTest extends TestCase
             'fields'              => [
                 'custom_field' => 'custom_value',
             ],
-            'fares' => [
+            'fares'               => [
                 [
                     'id'    => $fare->id,
                     'count' => $fare->capacity,
@@ -674,8 +676,11 @@ final class AcarsTest extends TestCase
         $body = $response->json();
         $pirep_id = $body['data']['id'];
 
+        $dt = new DateTime('now');
+
         // Post an ACARS update
         $acars = Acars::factory()->make(['pirep_id' => $pirep_id])->toArray();
+        $acars['sim_time'] = $dt->format(\DateTime::ATOM);
         unset($acars['altitude_agl']);
         unset($acars['altitude_msl']);
         $acars['altitude'] = 1000;
@@ -701,6 +706,9 @@ final class AcarsTest extends TestCase
          * Now push the new fields without the old one
          */
         $acars2 = Acars::factory()->make(['pirep_id' => $pirep_id])->toArray();
+        $acars2['sim_time'] = $dt
+            ->add(DateInterval::createFromDateString("30 seconds"))
+            ->format(DateTimeInterface::ATOM);
         // $acars2 = $this->transformData($acars2);
 
         // send it in
