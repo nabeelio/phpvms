@@ -2,7 +2,8 @@
 # https://gitversion.net/docs/reference/modes/mainline
 mode: Mainline
 next-version: 7.0
-main:
+branches:
+  main:
     mode: Mainline
     increment: Patch
     prevent-increment-of-merged-branch-version: true
