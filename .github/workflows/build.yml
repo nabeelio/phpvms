@@ -69,16 +69,6 @@ jobs:
     - name: Shutdown Ubuntu MySQL
       run: sudo service mysql stop
 
-#    - name: Install MariaDB
-#      uses: getong/mariadb-action@v1.1
-#      with:
-#        character set server: 'utf8'
-#        collation server: 'utf8_general_ci'
-#        mysql database: 'phpvms'
-#        mysql root password: ''
-#        mysql user: ''
-#        mysql password: ''
-
     - name: Install MySQL
       uses: mirromutth/mysql-action@v1.1
       with:
@@ -119,10 +109,10 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/')
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     # https://github.com/marketplace/actions/nerdbank-gitversioning
     - name: Nerdbank.GitVersioning
