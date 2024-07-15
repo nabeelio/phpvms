@@ -18,7 +18,6 @@ use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\FareService;
 use App\Support\Utils;
-
 use function count;
 use function random_int;
 
@@ -319,7 +318,7 @@ final class AcarsTest extends TestCase
             'fields'              => [
                 'custom_field' => 'custom_value',
             ],
-            'fares' => [
+            'fares'               => [
                 [
                     'id'    => $fare->id,
                     'count' => $fare->capacity,
@@ -680,7 +679,7 @@ final class AcarsTest extends TestCase
         unset($acars['altitude_msl']);
         $acars['altitude'] = 1000;
 
-        $acars = $this->transformData($acars);
+        // $acars = $this->transformData($acars);
 
         $inst = new Acars($acars);
         $this->assertEquals($acars['altitude'], $inst->altitude_agl);
@@ -701,7 +700,7 @@ final class AcarsTest extends TestCase
          * Now push the new fields without the old one
          */
         $acars2 = Acars::factory()->make(['pirep_id' => $pirep_id])->toArray();
-        $acars2 = $this->transformData($acars2);
+        // $acars2 = $this->transformData($acars2);
 
         // send it in
         $response = $this->post($uri, ['positions' => [$acars2]]);
