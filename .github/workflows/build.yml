@@ -25,6 +25,11 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v1.2.0
+      with:
+        versionSpec: '5.x'
+
     # Configure Caching
     - name: Setup cache environment
       id: cache-env
@@ -88,9 +93,6 @@ jobs:
         while ! mysqladmin ping -h127.0.0.1 --silent; do
           sleep 1
         done
-
-    - name: GitTools
-      uses: GitTools/actions@v1.2.0
 
     - name: Determine Version
       uses: gittools/actions/gitversion/execute@v1.2.0
