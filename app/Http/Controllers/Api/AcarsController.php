@@ -44,9 +44,9 @@ class AcarsController extends Controller
      *
      * @param Pirep $pirep
      *
-     * @return void
      * @throws \App\Exceptions\PirepCancelled
      *
+     * @return void
      */
     protected function checkCancelled(Pirep $pirep): void
     {
@@ -142,10 +142,10 @@ class AcarsController extends Controller
      * @param string          $id
      * @param PositionRequest $request
      *
-     * @return JsonResponse
      * @throws \App\Exceptions\PirepCancelled
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     *
+     * @return JsonResponse
      */
     public function acars_store(string $id, PositionRequest $request): JsonResponse
     {
@@ -233,10 +233,10 @@ class AcarsController extends Controller
      * @param string     $id
      * @param LogRequest $request
      *
-     * @return JsonResponse
      * @throws \App\Exceptions\PirepCancelled
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     *
+     * @return JsonResponse
      */
     public function acars_logs(string $id, LogRequest $request): JsonResponse
     {
@@ -291,10 +291,10 @@ class AcarsController extends Controller
      * @param string       $id
      * @param EventRequest $request
      *
-     * @return JsonResponse
      * @throws \App\Exceptions\PirepCancelled
-     *
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     *
+     * @return JsonResponse
      */
     public function acars_events(string $id, EventRequest $request): JsonResponse
     {
