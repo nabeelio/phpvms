@@ -18,6 +18,7 @@ use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\FareService;
 use App\Support\Utils;
+
 use function count;
 use function random_int;
 
@@ -318,7 +319,7 @@ final class AcarsTest extends TestCase
             'fields'              => [
                 'custom_field' => 'custom_value',
             ],
-            'fares'               => [
+            'fares' => [
                 [
                     'id'    => $fare->id,
                     'count' => $fare->capacity,
