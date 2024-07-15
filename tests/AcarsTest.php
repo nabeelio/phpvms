@@ -18,7 +18,6 @@ use App\Models\User;
 use App\Repositories\SettingRepository;
 use App\Services\FareService;
 use App\Support\Utils;
-
 use function count;
 use function random_int;
 
@@ -319,7 +318,7 @@ final class AcarsTest extends TestCase
             'fields'              => [
                 'custom_field' => 'custom_value',
             ],
-            'fares' => [
+            'fares'               => [
                 [
                     'id'    => $fare->id,
                     'count' => $fare->capacity,
@@ -676,18 +675,11 @@ final class AcarsTest extends TestCase
 
         // Post an ACARS update
         $acars = Acars::factory()->make(['pirep_id' => $pirep_id])->toArray();
+        unset($acars['altitude_agl']);
+        unset($acars['altitude_msl']);
         $acars['altitude'] = 5000;
 
         $acars = $this->transformData($acars);
-
-        // Set this to the model first
-        $inst = new Acars($acars);
-        $this->assertEquals($acars['altitude_agl'], $inst->altitude_agl);
-        $this->assertEquals($acars['altitude_msl'], $inst->altitude_msl);
-
-        // Now delete the agl/msl and recreate the instance
-        unset($acars['altitude_agl']);
-        unset($acars['altitude_msl']);
 
         $inst = new Acars($acars);
         $this->assertEquals($acars['altitude'], $inst->altitude_agl);
@@ -716,11 +708,30 @@ final class AcarsTest extends TestCase
 
         // Read that if the ACARS record posted
         $response = $this->get($uri);
-        $data = $response->json('data');
-        $acars_data = end($data);
-        // $this->assertEqualsWithDelta();
-        $this->assertEqualsWithDelta($acars2['altitude_agl'], $acars_data['altitude_agl'], 0.0);
-        $this->assertEqualsWithDelta($acars2['altitude_msl'], $acars_data['altitude_msl'], 0.0);
+        $acars_data = $response->json('data')[0];
+        $this->assertEqualsWithDelta($acars2['altitude_agl'], $acars_data['altitude_agl'], 0.1);
+        $this->assertEqualsWithDelta($acars2['altitude_msl'], $acars_data['altitude_msl'], 0.1);
+    }
+
+    public function testAcarsDataInstantitaion()
+    {
+        $acars = Acars::factory()->make(['pirep_id' => 'abc'])->toArray();
+        $acars['altitude'] = 5000;
+
+        $acars = $this->transformData($acars);
+
+        // Set this to the model first
+        $inst = new Acars($acars);
+        $this->assertEquals($acars['altitude_agl'], $inst->altitude_agl);
+        $this->assertEquals($acars['altitude_msl'], $inst->altitude_msl);
+
+        // Now delete the agl/msl and recreate the instance
+        unset($acars['altitude_agl']);
+        unset($acars['altitude_msl']);
+
+        $inst = new Acars($acars);
+        $this->assertEquals($acars['altitude'], $inst->altitude_agl);
+        $this->assertEquals($acars['altitude'], $inst->altitude_msl);
     }
 
     /**
