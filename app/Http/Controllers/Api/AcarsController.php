@@ -44,9 +44,9 @@ class AcarsController extends Controller
      *
      * @param Pirep $pirep
      *
+     * @return void
      * @throws \App\Exceptions\PirepCancelled
      *
-     * @return void
      */
     protected function checkCancelled(Pirep $pirep): void
     {
@@ -142,10 +142,10 @@ class AcarsController extends Controller
      * @param string          $id
      * @param PositionRequest $request
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @return JsonResponse
      * @throws \App\Exceptions\PirepCancelled
      *
-     * @return JsonResponse
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_store(string $id, PositionRequest $request): JsonResponse
     {
@@ -167,6 +167,18 @@ class AcarsController extends Controller
         foreach ($positions as $position) {
             $position['pirep_id'] = $id;
             $position['type'] = AcarsType::FLIGHT_PATH;
+
+            if (isset($position['altitude'])) {
+                if (!isset($position['altitude_agl'])) {
+                    $position['altitude_agl'] = $position['altitude'];
+                }
+
+                if (!isset($position['altitude_msl'])) {
+                    $position['altitude_msl'] = $position['altitude'];
+                }
+
+                unset($position['altitude']);
+            }
 
             if (isset($position['sim_time'])) {
                 if ($position['sim_time'] instanceof \DateTime) {
@@ -206,7 +218,7 @@ class AcarsController extends Controller
             $pirep->status = PirepStatus::AIRBORNE;
         }*/
 
-        $pirep->save();
+        $saved = $pirep->save();
 
         // Post a new update for this ACARS position
         event(new AcarsUpdate($pirep, $pirep->position));
@@ -221,10 +233,10 @@ class AcarsController extends Controller
      * @param string     $id
      * @param LogRequest $request
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @return JsonResponse
      * @throws \App\Exceptions\PirepCancelled
      *
-     * @return JsonResponse
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_logs(string $id, LogRequest $request): JsonResponse
     {
@@ -279,10 +291,10 @@ class AcarsController extends Controller
      * @param string       $id
      * @param EventRequest $request
      *
-     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @return JsonResponse
      * @throws \App\Exceptions\PirepCancelled
      *
-     * @return JsonResponse
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
     public function acars_events(string $id, EventRequest $request): JsonResponse
     {

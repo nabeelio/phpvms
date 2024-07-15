@@ -30,7 +30,6 @@ class AcarsFactory extends Factory
             'lon'          => $this->faker->longitude,
             'distance'     => $this->faker->randomFloat(2, 0, 6000),
             'heading'      => $this->faker->numberBetween(0, 359),
-            'altitude'     => $this->faker->numberBetween(20, 400),
             'altitude_agl' => $this->faker->numberBetween(20, 400),
             'altitude_msl' => $this->faker->numberBetween(20, 400),
             'vs'           => $this->faker->numberBetween(-5000, 5000),

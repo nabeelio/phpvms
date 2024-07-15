@@ -8,13 +8,16 @@ return new class() extends Migration {
     public function up(): void
     {
         Schema::table('acars', function (Blueprint $table) {
-            $table->decimal('altitude_agl')->nullable()->default(0.0)->after('altitude');
-            $table->decimal('altitude_msl')->nullable()->default(0.0)->after('altitude_msl');
+            $table->renameColumn('altitude', 'altitude_agl');
+        });
+
+        Schema::table('acars', function (Blueprint $table) {
+            $table->decimal('altitude_agl')->default(0.0)->change();
+            $table->decimal('altitude_msl')->nullable()->default(0.0)->after('altitude_agl');
         });
     }
 
     public function down(): void
     {
-        Schema::dropColumns('acars', ['altitude_agl', 'altitude_msl']);
     }
 };
