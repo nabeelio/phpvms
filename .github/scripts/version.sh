@@ -3,8 +3,7 @@
 if test "$GIT_TAG_NAME"; then
   export VERSION=$NBGV_SemVer2
 
-  # Pass in the tag as the version to write out
-  php artisan phpvms:version --write --write-full-version "${NBGV_SemVer2}"
+  php artisan phpvms:version --write --write-full-version "${VERSION}"
   export FULL_VERSION=$NBGV_SemVer2
 else
   export BRANCH=${GITHUB_REF##*/}
@@ -14,7 +13,7 @@ else
   export VERSION=$NBGV_SemVer2
 
   # Don't pass in a version here, just write out the latest hash
-  php artisan phpvms:version --write "${$NBGV_SemVer2}"
+  php artisan phpvms:version --write "${VERSION}"
   export FULL_VERSION=$NBGV_SemVer2
 fi
 
@@ -29,4 +28,4 @@ echo "FILE_NAME=${FILE_NAME}" >> "$GITHUB_ENV"
 echo "TAR_NAME=${TAR_NAME}" >> "$GITHUB_ENV"
 echo "ZIP_NAME=${ZIP_NAME}" >> "$GITHUB_ENV"
 echo "BASE_DIR=${BASE_DIR}" >> "$GITHUB_ENV"
-echo "FULL_VERSION=${$NBGV_SemVer2}" >> "$GITHUB_ENV"
+echo "FULL_VERSION=${FULL_VERSION}" >> "$GITHUB_ENV"
