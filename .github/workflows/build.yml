@@ -115,69 +115,69 @@ jobs:
         fetch-depth: 0
 
     # https://github.com/marketplace/actions/nerdbank-gitversioning
-    - name: Nerdbank.GitVersioning
+    - name: Get Version
       uses: dotnet/nbgv@v0.4.2
       with:
-          setAllVars: true
+        setAllVars: true
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
 
-      - uses: olegtarasov/get-tag@v2.1.2
-        id: tagName
+    - uses: olegtarasov/get-tag@v2.1.2
+      id: tagName
 
-      # Configure Caching
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+    # Configure Caching
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
 
-        # Dependencies
-      - name: 'Install Release Dependencies'
-        run: |
-          rm -rf vendor
-          composer install --no-dev --prefer-dist --no-interaction --verbose
-          sudo chmod +x ./.github/scripts/*
+      # Dependencies
+    - name: 'Install Release Dependencies'
+      run: |
+        rm -rf vendor
+        composer install --no-dev --prefer-dist --no-interaction --verbose
+        sudo chmod +x ./.github/scripts/*
 
-      - name: Get version
-        run: .github/scripts/version.sh
+    - name: Get version
+      run: .github/scripts/version.sh
 
-      - name: Discord Message
-        id: discord
-        run: .github/scripts/discord.sh
+    - name: Discord Message
+      id: discord
+      run: .github/scripts/discord.sh
 
-      - name: Build Distro
-        run: .github/scripts/build.sh
+    - name: Build Distro
+      run: .github/scripts/build.sh
 
-      - name: Upload S3
-        uses: shallwefootball/s3-upload-action@master
-        with:
-          aws_key_id: ${{ secrets.S3_BUILD_ARTIFACTS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.S3_BUILD_ARTIFACTS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.S3_BUCKET_NAME }}
-          source_dir: 'dist'
-          destination_dir: ''
+    - name: Upload S3
+      uses: shallwefootball/s3-upload-action@master
+      with:
+        aws_key_id: ${{ secrets.S3_BUILD_ARTIFACTS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.S3_BUILD_ARTIFACTS_SECRET_ACCESS_KEY}}
+        aws_bucket: ${{ secrets.S3_BUCKET_NAME }}
+        source_dir: 'dist'
+        destination_dir: ''
 
-      - name: Discord notification
-        uses: Ilshidur/action-discord@0.3.2
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        with:
-          args: ${{ steps.discord.outputs.discord_msg }}
+    - name: Discord notification
+      uses: Ilshidur/action-discord@0.3.2
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      with:
+        args: ${{ steps.discord.outputs.discord_msg }}
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: phpvms-package
-          path: 'dist/*'
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: phpvms-package
+        path: 'dist/*'
 
   # This runs after all of the tests, run have run. Creates a cleaned up version of the
   # distro, and then creates the artifact to push up to S3 or wherever
