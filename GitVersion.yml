@@ -1,8 +1,45 @@
 ---
 # https://gitversion.net/docs/reference/modes/mainline
-mode: Mainline
-next-version: 7.0.1
-branches: {}
+mode: ContinuousDelivery
+next-version: 7.0
+branches:
+  main:
+    regex: ^master$|^main$
+    mode: ContinuousDelivery
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    source-branches: [ 'dev' ]
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: true
+    pre-release-weight: 55000
+  dev:
+    regex: ^dev$
+    mode: ContinuousDelivery
+    tag: alpha
+    increment: Patch
+    source-branches: []
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: true
+    tracks-release-branches: true
+    is-release-branch: false
+    is-mainline: false
+    pre-release-weight: 0
+  pull-request:
+    regex: ^(pull|pull\-requests|pr)[/-]
+    mode: ContinuousDelivery
+    tag: PullRequest
+    increment: Inherit
+    prevent-increment-of-merged-branch-version: false
+    tag-number-pattern: '[/-](?<number>\d+)[-/]'
+    track-merge-target: false
+    source-branches: [ 'dev', 'main' ]
+    tracks-release-branches: false
+    is-release-branch: false
+    is-mainline: false
+    pre-release-weight: 30000
 ignore:
+  commits-before: '2024-07-15T00:00:00'
   sha: []
 merge-message-formats: {}
