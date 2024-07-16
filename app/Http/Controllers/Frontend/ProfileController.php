@@ -289,7 +289,7 @@ class ProfileController extends Controller
             'Content-Type'        => 'application/json',
             'Content-Length'      => strlen($config),
             'Cache-Control'       => 'no-store, no-cache',
-            'Content-Disposition' => 'attachment; filename="'.$domain.'.json',
+            'Content-Disposition' => 'attachment; filename="'.$domain.'.json"',
         ]);
     }
 }
