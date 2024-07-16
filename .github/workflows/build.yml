@@ -157,6 +157,25 @@ jobs:
     - name: Build Distro
       run: .github/scripts/build.sh
 
+    - uses: altinukshini/deployment-action@releases/v1
+      name: start deployment
+      id: deployment
+      with:
+        token: ${{ secrets.GITHUB_TOKEN}}
+        description: Uploading files to CDN
+        environment: production
+
+    - uses: BetaHuhn/do-spaces-action@v2
+      id: spaces
+      with:
+        access_key: ${{ secrets.SPACE_ACCESS_KEY}}
+        secret_key: ${{ secrets.SPACE_SECRET_KEY }}
+        space_name: ${{ secrets.SPACE_NAME }}
+        space_region: ${{ secrets.SPACE_REGION }}
+        source: dist
+        cdn_domain: https://phpvms.cdn.vmslabs.net
+        permission: public-read
+
     - name: Upload S3
       uses: shallwefootball/s3-upload-action@master
       with:
@@ -171,13 +190,24 @@ jobs:
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       with:
-        args: ${{ steps.discord.outputs.discord_msg }}
+        args: ${{ steps.discord.outputs.discord_msg         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+}}
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
       with:
         name: phpvms-package
         path: 'dist/*'
+
+
+    - name: update deployment status
+      if: always()
+      uses: altinukshini/deployment-status@releases/v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        state: ${{ job.status }}
+        environment_url: ${{steps.spaces.outputs.output_url}}
+        description: "Successfully uploaded files to CDN"
 
   # This runs after all of the tests, run have run. Creates a cleaned up version of the
   # distro, and then creates the artifact to push up to S3 or wherever
