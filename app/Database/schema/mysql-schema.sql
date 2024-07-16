@@ -20,7 +20,8 @@ CREATE TABLE `acars` (
   `lon` decimal(11,5) DEFAULT 0.00000,
   `distance` int(10) unsigned DEFAULT NULL,
   `heading` int(10) unsigned DEFAULT NULL,
-  `altitude` int(10) unsigned DEFAULT NULL,
+  `altitude_agl` decimal(8,2) DEFAULT 0.00,
+  `altitude_msl` decimal(8,2) DEFAULT 0.00,
   `vs` double DEFAULT 0,
   `gs` int(11) DEFAULT NULL,
   `ias` int(11) DEFAULT NULL,
@@ -963,8 +964,8 @@ CREATE TABLE `user_oauth_tokens` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `provider` varchar(191) NOT NULL,
-  `token` varchar(191) NOT NULL,
-  `refresh_token` varchar(191) NOT NULL,
+  `token` text NOT NULL,
+  `refresh_token` text NOT NULL,
   `last_refreshed_at` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -1120,3 +1121,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (93,'2024_01_20_183
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (94,'2024_05_15_144813_add_internal_to_user_fields',1);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (95,'2024_06_03_124335_add_ivao_id_to_users',2);
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (96,'2024_01_26_142501_add_vatsim_id_to_users',3);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (97,'2024_07_02_164640_update_tokens_in_user_oauth_tokens',4);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (98,'2024_07_09_210356_update_db_charset',4);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES (99,'2024_15_07_164640_add_detailed_altitude',4);
