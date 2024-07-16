@@ -108,9 +108,9 @@ class ProfileController extends Controller
      *
      * @param Request $request
      *
-     * @return RedirectResponse|View
      * @throws \Exception
      *
+     * @return RedirectResponse|View
      */
     public function edit(Request $request): RedirectResponse|View
     {
@@ -146,9 +146,9 @@ class ProfileController extends Controller
     /**
      * @param Request $request
      *
-     * @return RedirectResponse
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      *
+     * @return RedirectResponse
      */
     public function update(Request $request): RedirectResponse
     {
