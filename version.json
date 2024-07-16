@@ -10,7 +10,6 @@
   },
   "publicReleaseRefSpec": [
     "^refs/heads/main",
-    "^refs/heads/dev",
     "^refs/heads/v\\d+(?:\\.\\d+)?$"
   ]
 }
