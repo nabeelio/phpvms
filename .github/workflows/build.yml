@@ -190,8 +190,7 @@ jobs:
       env:
         DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
       with:
-        args: ${{ steps.discord.outputs.discord_msg         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-}}
+        args: ${{ steps.discord.outputs.discord_msg }}
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v3
@@ -206,7 +205,8 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         state: ${{ job.status }}
-        environment_url: ${{steps.spaces.outputs.output_url}}
+        environment_url: ${{ steps.spaces.outputs.output_url }}
+        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
         description: "Successfully uploaded files to CDN"
 
   # This runs after all of the tests, run have run. Creates a cleaned up version of the
