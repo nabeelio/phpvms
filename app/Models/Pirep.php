@@ -25,6 +25,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Kleemans\AttributeEvents;
 use Kyslik\ColumnSortable\Sortable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property string      id
@@ -83,6 +85,7 @@ class Pirep extends Model
     use Notifiable;
     use SoftDeletes;
     use Sortable;
+    use LogsActivity;
 
     public $table = 'pireps';
 
@@ -188,6 +191,7 @@ class Pirep extends Model
         'landing_rate',
         'score',
         'flight_type',
+        'source',
         'state',
         'status',
         'submitted_at',
@@ -327,7 +331,7 @@ class Pirep extends Model
     public function fields(): Attribute
     {
         return Attribute::make(get: function ($_, $attrs) {
-            $custom_fields = PirepField::all();
+            $custom_fields = PirepField::whereIn('pirep_source', [$this->source, PirepFieldSource::BOTH])->get();
             $field_values = PirepFieldValue::where('pirep_id', $this->id)->orderBy(
                 'created_at',
                 'asc'
@@ -396,6 +400,15 @@ class Pirep extends Model
         }
 
         return '';
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->fillable)
+            ->logExcept(['created_at', 'updated_at'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     /**

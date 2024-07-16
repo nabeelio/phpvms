@@ -18,6 +18,7 @@ use App\Repositories\UserRepository;
 use App\Services\UserService;
 use App\Support\Timezonelist;
 use App\Support\Utils;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -60,9 +61,7 @@ class UserController extends Controller
     public function index(Request $request): View
     {
         try {
-            $users = $this->userRepo->searchCriteria($request, false)
-                ->orderBy('created_at', 'desc')
-                ->paginate();
+            $users = $this->userRepo->searchCriteria($request, false)->sortable(['created_at' => 'desc'])->paginate();
         } catch (RepositoryException $e) {
         }
 
@@ -108,11 +107,17 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request): RedirectResponse
     {
-        $input = $request->all();
-        $user = $this->userRepo->create($input);
+        $opts = $request->all();
+        $opts['password'] = Hash::make($opts['password']);
 
-        Flash::success('User saved successfully.');
-        return redirect(route('admin.users.index'));
+        if (isset($opts['transfer_time'])) {
+            $opts['transfer_time'] *= 60;
+        }
+
+        $user = $this->userSvc->createUser($opts, $opts['roles'] ?? [], $opts['state'] ?? null);
+
+        Flash::success('User created successfully.');
+        return redirect(route('admin.users.edit', [$user->id]));
     }
 
     /**
@@ -150,12 +155,9 @@ class UserController extends Controller
             return redirect(route('admin.users.index'));
         }
 
-        $pireps = $this->pirepRepo
-            ->whereOrder(['user_id' => $id], 'created_at', 'desc')
-            ->paginate();
+        $pireps = $this->pirepRepo->where('user_id', $id)->sortable(['submitted_at' => 'desc'])->paginate();
 
-        $countries = collect((new ISO3166())->all())
-            ->mapWithKeys(fn ($item, $key) => [strtolower($item['alpha2']) => $item['name']]);
+        $countries = collect((new ISO3166())->all())->mapWithKeys(fn ($item, $key) => [strtolower($item['alpha2']) => $item['name']]);
 
         $airlines = $this->airlineRepo->selectBoxList();
         $roles = $this->roleRepo->selectBoxList(false, true);
@@ -321,6 +323,52 @@ class UserController extends Controller
         flash('New API key generated!')->success();
 
         return redirect(route('admin.users.edit', [$id]));
+    }
+
+    public function verify_email(int $id, Request $request): RedirectResponse
+    {
+        $user = $this->userRepo->findWithoutFail($id);
+
+        if (empty($user)) {
+            Flash::error('User not found');
+            return back();
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            Flash::error('User email already verified');
+            return back();
+        }
+
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
+        }
+
+        Flash::success('User email verified successfully');
+        return back();
+    }
+
+    public function request_email_verification(int $id, Request $request): RedirectResponse
+    {
+        $user = $this->userRepo->findWithoutFail($id);
+
+        if (empty($user)) {
+            Flash::error('User not found');
+            return back();
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            Flash::error('User email already not verified');
+            return back();
+        }
+
+        $user->update([
+            'email_verified_at' => null,
+        ]);
+
+        $user->sendEmailVerificationNotification();
+
+        Flash::success('User email verification requested successfully');
+        return back();
     }
 
     /**

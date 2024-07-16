@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\Service;
-use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
 use App\Events\UserStatsChanged;
 use App\Exceptions\PilotIdNotFound;
@@ -25,6 +24,9 @@ use App\Repositories\UserRepository;
 use App\Support\Units\Time;
 use App\Support\Utils;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -82,23 +84,22 @@ class UserService extends Service
      * Register a pilot. Also attaches the initial roles
      * required, and then triggers the UserRegistered event
      *
-     * @param array $attrs Array with the user data
-     * @param array $roles List of "display_name" of groups to assign
-     *
-     * @throws \Exception
+     * @param array    $attrs Array with the user data
+     * @param array    $roles List of "display_name" of groups to assign
+     * @param int|null $state
      *
      * @return User
      */
-    public function createUser(array $attrs, array $roles = []): User
+    public function createUser(array $attrs, array $roles = [], ?int $state = null): User
     {
         $user = User::create($attrs);
         $user->api_key = Utils::generateApiKey();
         $user->curr_airport_id = $user->home_airport_id;
 
         // Determine if we want to auto accept
-        if (setting('pilots.auto_accept') === true) {
+        if ($state === null && setting('pilots.auto_accept') === true) {
             $user->state = UserState::ACTIVE;
-        } else {
+        } elseif ($state === null) {
             $user->state = UserState::PENDING;
         }
 
@@ -115,7 +116,7 @@ class UserService extends Service
         $this->calculatePilotRank($user);
         $user->refresh();
 
-        event(new UserRegistered($user));
+        event(new Registered($user));
 
         return $user;
     }
@@ -148,7 +149,7 @@ class UserService extends Service
             $user->state = UserState::DELETED;
             $user->save();
         } else {
-            $user->delete();
+            $user->forceDelete();
         }
     }
 
@@ -175,7 +176,7 @@ class UserService extends Service
      */
     public function getNextAvailablePilotId(): int
     {
-        return (int) User::max('pilot_id') + 1;
+        return (int) User::withTrashed()->max('pilot_id') + 1;
     }
 
     /**
@@ -601,5 +602,34 @@ class UserService extends Service
         $user->refresh();
 
         return $user;
+    }
+
+    public function retrieveDiscordPrivateChannelId(User $user): void
+    {
+        if (is_null(config('services.discord.bot_token'))) {
+            return;
+        }
+
+        try {
+            $httpClient = new Client();
+
+            $response = $httpClient->post('https://discord.com/api/users/@me/channels', [
+                'headers' => [
+                    'Authorization' => 'Bot '.config('services.discord.bot_token'),
+                ],
+                'json' => [
+                    'recipient_id' => $user->discord_id,
+                ],
+            ]);
+
+            $privateChannel = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR)['id'];
+            $user->update([
+                'discord_private_channel_id' => $privateChannel,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Discord OAuth Error: '.$e->getMessage());
+        } catch (GuzzleException $e) {
+            Log::error('Discord OAuth Error: '.$e->getMessage());
+        }
     }
 }

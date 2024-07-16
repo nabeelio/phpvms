@@ -107,14 +107,14 @@
       @endif
 
       {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-success']) }}
-      <a href="{{ route('admin.roles.index') }}" class="btn btn-default">Cancel</a>
+      <a href="{{ route('admin.pages.index') }}" class="btn btn-default">Cancel</a>
     </div>
   </div>
 </div>
 
 <script>
   $(document).ready(function () {
-    CKEDITOR.replace('editor');
+    CKEDITOR.replace('editor', {allowedContent: true});
     const select_id = "select#content-type-select";
 
     function swap_content() {

@@ -1,4 +1,4 @@
-<table class="table" style="border-style: hidden; margin-bottom: 0px;">
+<table class="table" style="border-style: hidden; margin-bottom: 0; padding:0;background-color:transparent;">
   <tr style="border-style: hidden;">
     @if ($pirep->state === PirepState::PENDING || $pirep->state === PirepState::REJECTED)
       <td>
@@ -26,6 +26,18 @@
         {{ Form::close() }}
       </td>
     @endif
+    @if ($on_edit_page === false)
+      <td>
+        <form action="{{ route('admin.pireps.edit', [$pirep->id]) }}">
+          <button type="submit" class='btn btn-info'>Edit</button>
+        </form>
+      </td>
+    @endif
+    <td>
+      <form action="{{ route('frontend.pireps.show', [$pirep->id]) }}" target="_blank">
+        <button type="submit" class='btn btn-success'>View</button>
+      </form>
+    </td>
     <td>
       {{ Form::open(['url' => route('admin.pireps.destroy', [$pirep->id]),
             'method' => 'delete',
@@ -35,22 +47,6 @@
             ]) }}
         {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger']) }}
         {{ Form::close() }}
-    </td>
-    @if ($on_edit_page === false)
-      <td>
-        <form action="{{ route('admin.pireps.edit', [$pirep->id]) }}">
-          <button type="submit" class='btn btn-info'>
-            <i class="fas fa-pencil-alt"></i>&nbsp;&nbsp;Edit
-          </button>
-        </form>
-      </td>
-    @endif
-    <td>
-      <form action="{{ route('frontend.pireps.show', [$pirep->id]) }}" target="_blank">
-        <button type="submit" class='btn btn-success'>
-          <i class="fas fa-eye"></i>&nbsp;&nbsp; View Pirep
-        </button>
-      </form>
     </td>
   </tr>
 </table>

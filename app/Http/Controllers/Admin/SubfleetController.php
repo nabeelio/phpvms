@@ -21,6 +21,7 @@ use App\Repositories\TypeRatingRepository;
 use App\Services\ExportService;
 use App\Services\FareService;
 use App\Services\FileService;
+use App\Services\FinanceService;
 use App\Services\FleetService;
 use App\Services\ImportService;
 use Illuminate\Http\RedirectResponse;
@@ -34,19 +35,6 @@ class SubfleetController extends Controller
 {
     use Importable;
 
-    /**
-     * SubfleetController constructor.
-     *
-     * @param AircraftRepository   $aircraftRepo
-     * @param FareRepository       $fareRepo
-     * @param FareService          $fareSvc
-     * @param FileService          $fileSvc
-     * @param FleetService         $fleetSvc
-     * @param ImportService        $importSvc
-     * @param RankRepository       $rankRepo
-     * @param SubfleetRepository   $subfleetRepo
-     * @param TypeRatingRepository $typeratingRepo
-     */
     public function __construct(
         private readonly AircraftRepository $aircraftRepo,
         private readonly FareRepository $fareRepo,
@@ -56,7 +44,8 @@ class SubfleetController extends Controller
         private readonly ImportService $importSvc,
         private readonly RankRepository $rankRepo,
         private readonly SubfleetRepository $subfleetRepo,
-        private readonly TypeRatingRepository $typeratingRepo
+        private readonly TypeRatingRepository $typeratingRepo,
+        private readonly FinanceService $financeSvc,
     ) {
     }
 
@@ -72,11 +61,41 @@ class SubfleetController extends Controller
     public function index(Request $request): View
     {
         $this->subfleetRepo->with(['airline'])->pushCriteria(new RequestCriteria($request));
-        $subfleets = $this->subfleetRepo->orderby('name', 'asc')->get();
+        $subfleets = $this->subfleetRepo->sortable('name')->get();
+        $trashed = $this->subfleetRepo->onlyTrashed()->orderBy('deleted_at', 'desc')->get();
 
         return view('admin.subfleets.index', [
             'subfleets' => $subfleets,
+            'trashed'   => $trashed,
         ]);
+    }
+
+    /**
+     * Recycle Bin operations, either restore or permanently delete the object
+     */
+    public function trashbin(Request $request)
+    {
+        $object_id = (isset($request->object_id)) ? $request->object_id : null;
+
+        $subfleet = Subfleet::onlyTrashed()->where('id', $object_id)->first();
+        $duplicate_check = Subfleet::where('type', $subfleet->type)->count();
+
+        if ($object_id && $request->action === 'restore') {
+            // Change the type id if it is used
+            if ($duplicate_check > 0) {
+                $subfleet->type = $subfleet->type.'_RESTORED';
+                $subfleet->save();
+            }
+            $subfleet->restore();
+            Flash::success('Subfleet RESTORED successfully.');
+        } elseif ($object_id && $request->action === 'delete') {
+            $subfleet->forceDelete();
+            Flash::error('Subfleet DELETED PERMANENTLY.');
+        } else {
+            Flash::info('Nothing done!');
+        }
+
+        return back();
     }
 
     /**
@@ -415,6 +434,7 @@ class SubfleetController extends Controller
      */
     public function expenses(int $id, Request $request): View
     {
+        /** @var Subfleet $subfleet */
         $subfleet = $this->subfleetRepo->findWithoutFail($id);
         if (empty($subfleet)) {
             return $this->return_expenses_view($subfleet);
@@ -428,10 +448,11 @@ class SubfleetController extends Controller
          * update specific rank data
          */
         if ($request->isMethod('post')) {
-            $expense = new Expense($request->post());
-            $expense->ref_model = Subfleet::class;
-            $expense->ref_model_id = $subfleet->id;
-            $expense->save();
+            $this->financeSvc->addExpense(
+                $request->post(),
+                $subfleet,
+                $subfleet->airline_id
+            );
         } elseif ($request->isMethod('put')) {
             $expense = Expense::findOrFail($request->input('expense_id'));
             $expense->{$request->name} = $request->value;

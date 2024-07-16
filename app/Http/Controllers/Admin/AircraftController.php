@@ -15,6 +15,7 @@ use App\Repositories\AircraftRepository;
 use App\Repositories\AirportRepository;
 use App\Services\ExportService;
 use App\Services\FileService;
+use App\Services\FinanceService;
 use App\Services\ImportService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,19 +27,12 @@ class AircraftController extends Controller
 {
     use Importable;
 
-    /**
-     * AircraftController constructor.
-     *
-     * @param AirportRepository  $airportRepo
-     * @param AircraftRepository $aircraftRepo
-     * @param FileService        $fileSvc
-     * @param ImportService      $importSvc
-     */
     public function __construct(
         private readonly AirportRepository $airportRepo,
         private readonly AircraftRepository $aircraftRepo,
         private readonly FileService $fileSvc,
         private readonly ImportService $importSvc,
+        private readonly FinanceService $financeSvc,
     ) {
     }
 
@@ -58,13 +52,41 @@ class AircraftController extends Controller
             $w['subfleet_id'] = $request->input('subfleet');
         }
 
-        $aircraft = $this->aircraftRepo->with(['subfleet'])->whereOrder($w, 'registration', 'asc');
-        $aircraft = $aircraft->all();
+        $aircraft = $this->aircraftRepo->with(['subfleet'])->where($w)->sortable('registration')->get();
+        $trashed = $this->aircraftRepo->onlyTrashed()->orderBy('deleted_at', 'desc')->get();
 
         return view('admin.aircraft.index', [
             'aircraft'    => $aircraft,
             'subfleet_id' => $request->input('subfleet'),
+            'trashed'     => $trashed,
         ]);
+    }
+
+    /**
+     * Recycle Bin operations, either restore or permanently delete the object
+     */
+    public function trashbin(Request $request)
+    {
+        $object_id = (isset($request->object_id)) ? $request->object_id : null;
+
+        $aircraft = Aircraft::onlyTrashed()->withCount('pireps')->where('id', $object_id)->first();
+
+        if ($object_id && $request->action === 'restore') {
+            $aircraft->restore();
+            Flash::success('Aircraft RESTORED successfully.');
+        } elseif ($object_id && $request->action === 'delete') {
+            // Check if the aircraft is used or not
+            if ($aircraft->pireps_count > 0) {
+                Flash::info('Can not delete aircraft, it is used in pireps');
+            } else {
+                $aircraft->forceDelete();
+                Flash::error('Aircraft DELETED PERMANENTLY.');
+            }
+        } else {
+            Flash::info('Nothing done!');
+        }
+
+        return back();
     }
 
     /**
@@ -289,7 +311,8 @@ class AircraftController extends Controller
      */
     public function expenses(int $id, Request $request): View
     {
-        $aircraft = $this->aircraftRepo->findWithoutFail($id);
+        /** @var Aircraft $aircraft */
+        $aircraft = $this->aircraftRepo->with('airline')->findWithoutFail($id);
         if (empty($aircraft)) {
             return $this->return_expenses_view($aircraft);
         }
@@ -299,10 +322,11 @@ class AircraftController extends Controller
         }
 
         if ($request->isMethod('post')) {
-            $expense = new Expense($request->post());
-            $expense->ref_model = Aircraft::class;
-            $expense->ref_model_id = $aircraft->id;
-            $expense->save();
+            $this->financeSvc->addExpense(
+                $request->post(),
+                $aircraft,
+                $aircraft->airline->id
+            );
         } elseif ($request->isMethod('put')) {
             $expense = Expense::findOrFail($request->input('expense_id'));
             $expense->{$request->name} = $request->value;

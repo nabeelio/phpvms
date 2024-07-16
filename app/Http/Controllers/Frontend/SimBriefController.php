@@ -70,6 +70,14 @@ class SimBriefController
         // Generate SimBrief Static ID
         $static_id = $user->ident.'_'.$flight->id;
 
+        // No aircraft selected, try to find one from a bid
+        if (!$aircraft_id) {
+            $bid = Bid::where(['user_id' => $user->id, 'flight_id' => $flight_id])->first();
+            if ($bid) {
+                $aircraft_id = $bid->aircraft_id;
+            }
+        }
+
         // No aircraft selected, show selection form
         if (!$aircraft_id) {
             // Get user's allowed subfleets and intersect it with flight subfleets
@@ -141,13 +149,31 @@ class SimBriefController
         $lfactorv = $flight->load_factor_variance ?? setting('flights.load_factor_variance');
 
         $loadmin = $lfactor - $lfactorv;
-        $loadmin = $loadmin < 0 ? 0 : $loadmin;
+        $loadmin = max($loadmin, 0);
 
         $loadmax = $lfactor + $lfactorv;
-        $loadmax = $loadmax > 100 ? 100 : $loadmax;
+        $loadmax = min($loadmax, 100);
 
         if ($loadmax === 0) {
             $loadmax = 100;
+        }
+
+        if (setting('flights.use_cargo_load_factor ', false)) {
+            $cgolfactor = $flight->load_factor ?? setting('flights.default_cargo_load_factor');
+            $cgolfactorv = $flight->load_factor_variance ?? setting('flights.cargo_load_factor_variance');
+
+            $cgoloadmin = $cgolfactor - $cgolfactorv;
+            $cgoloadmin = max($cgoloadmin, 0);
+
+            $cgoloadmax = $cgolfactor + $cgolfactorv;
+            $cgoloadmax = min($cgoloadmax, 100);
+
+            if ($cgoloadmax === 0) {
+                $cgoloadmax = 100;
+            }
+        } else {
+            $cgoloadmin = $loadmin;
+            $cgoloadmax = $loadmax;
         }
 
         // Load fares for passengers
@@ -195,7 +221,7 @@ class SimBriefController
                 continue;
             }
 
-            $count = ceil((($fare->capacity - $tbagload) * rand($loadmin, $loadmax)) / 100);
+            $count = ceil((($fare->capacity - $tbagload) * rand($cgoloadmin, $cgoloadmax)) / 100);
             $tcargoload += $count;
             $cargo_load_sheet[] = [
                 'id'       => $fare->id,

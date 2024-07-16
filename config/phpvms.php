@@ -82,6 +82,11 @@ return [
      */
     'distrib_url' => 'http://downloads.phpvms.net/phpvms-{VERSION}.zip',
 
+    /**
+     * The URL to download the latest TLD list
+     */
+    'tld_list_url' => 'https://publicsuffix.org/list/public_suffix_list.dat',
+
     /*
      * Where the KVP file is stored
      */
@@ -124,6 +129,6 @@ return [
      * Enable/disable email verification on registration
      */
     'registration' => [
-        'email_verification' => true,
+        'email_verification' => env('EMAIL_VERIFICATION_REQUIRED', true),
     ],
 ];

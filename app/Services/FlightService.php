@@ -4,13 +4,18 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Exceptions\DuplicateFlight;
+use App\Models\Aircraft;
 use App\Models\Bid;
 use App\Models\Enums\Days;
+use App\Models\Enums\PirepState;
+use App\Models\Enums\PirepStatus;
 use App\Models\Flight;
 use App\Models\FlightFieldValue;
+use App\Models\Subfleet;
 use App\Models\User;
 use App\Repositories\FlightRepository;
 use App\Repositories\NavdataRepository;
+use App\Repositories\PirepRepository;
 use App\Support\Units\Time;
 
 class FlightService extends Service
@@ -22,13 +27,17 @@ class FlightService extends Service
      * @param FareService       $fareSvc
      * @param FlightRepository  $flightRepo
      * @param NavdataRepository $navDataRepo
-     * @param UserService       $userSvc
+     *
+     * @parma PirepRepository   $pirepRepo
+     *
+     * @param UserService $userSvc
      */
     public function __construct(
         private readonly AirportService $airportSvc,
         private readonly FareService $fareSvc,
         private readonly FlightRepository $flightRepo,
         private readonly NavdataRepository $navDataRepo,
+        private readonly PirepRepository $pirepRepo,
         private readonly UserService $userSvc
     ) {
     }
@@ -115,6 +124,26 @@ class FlightService extends Service
     }
 
     /**
+     * Return the proper subfleets for the given bid
+     *
+     * @param Bid $bid
+     *
+     * @return mixed
+     */
+    public function getSubfleetsForBid(Bid $bid)
+    {
+        $sf = Subfleet::with([
+            'fares',
+            'aircraft' => function ($query) use ($bid) {
+                $query->where('id', $bid->aircraft_id);
+            }])
+            ->where('id', $bid->aircraft->subfleet_id)
+            ->get();
+
+        return $sf;
+    }
+
+    /**
      * Filter out subfleets to only include aircraft that a user has access to
      *
      * @param User   $user
@@ -149,6 +178,8 @@ class FlightService extends Service
                 if ($allowed_subfleets->contains($subfleet->id)) {
                     return true;
                 }
+
+                return false;
             });
         }
 
@@ -161,18 +192,20 @@ class FlightService extends Service
         if ($aircraft_at_dpt_airport || $aircraft_not_booked) {
             foreach ($subfleets as $subfleet) {
                 $subfleet->aircraft = $subfleet->aircraft->filter(
-                    function ($aircraft, $i) use ($flight, $aircraft_at_dpt_airport, $aircraft_not_booked) {
+                    function ($aircraft, $i) use ($user, $flight, $aircraft_at_dpt_airport, $aircraft_not_booked) {
                         if ($aircraft_at_dpt_airport && $aircraft->airport_id !== $flight->dpt_airport_id) {
                             return false;
                         }
 
-                        if ($aircraft_not_booked && $aircraft->bid && $aircraft->bid->count() !== 0) {
+                        if ($aircraft_not_booked && $aircraft->bid && $aircraft->bid->user_id !== $user->id) {
                             return false;
                         }
 
                         return true;
                     }
-                );
+                )->sortBy(function (Aircraft $ac, int $_) {
+                    return !empty($ac->bid);
+                });
             }
         }
 
@@ -206,7 +239,10 @@ class FlightService extends Service
         // If this list is > 0, then this has a duplicate
         $found_flights = $found_flights->filter(function ($value, $key) use ($flight) {
             return $flight->route_code === $value->route_code
-                && $flight->route_leg === $value->route_leg;
+                && $flight->route_leg === $value->route_leg
+                && $flight->dpt_airport_id === $value->dpt_airport_id
+                && $flight->arr_airport_id === $value->arr_airport_id
+                && $flight->days === $value->days;
         });
 
         return !($found_flights->count() === 0);
@@ -271,5 +307,28 @@ class FlightService extends Service
         }
 
         return collect($return_points);
+    }
+
+    public function removeExpiredRepositionFlights(): void
+    {
+        $flights = $this->flightRepo->where('route_code', PirepStatus::DIVERTED)->get();
+
+        foreach ($flights as $flight) {
+            $diverted_pirep = $this->pirepRepo
+                ->with('aircraft')
+                ->where([
+                    'user_id'        => $flight->user_id,
+                    'arr_airport_id' => $flight->dpt_airport_id,
+                    'status'         => PirepStatus::DIVERTED,
+                    'state'          => PirepState::ACCEPTED,
+                ])
+                ->orderBy('submitted_at', 'desc')
+                ->first();
+
+            $ac = $diverted_pirep?->aircraft;
+            if (!$ac || $ac->airport_id != $flight->dpt_airport_id) { // Aircraft has moved or diverted pirep/aircraft no longer exists
+                $flight->delete();
+            }
+        }
     }
 }

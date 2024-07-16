@@ -9,7 +9,7 @@ return [
     'fullname'                 => 'Username',
     'emailaddress'             => 'E-Mail Addresse',
     'fillcaptcha'              => 'Fülle das Captcha aus',
-    'tocaccept'                => 'Mit dem Registrieren stimmst du den Regeln der CEFO-VA zu.',
+    'tocaccept'                => 'Mit der Registrierung erklären Sie sich mit den Allgemeinen Geschäftsbedingungen einverstanden.',
     'register'                 => 'Registrieren',
     'registrationpending'      => 'Registrierung ausstehend',
     'pendingmessage'           => 'Deine Registrierung ist noch nicht bestätigt. Bitte prüfe deine E-Mails!',
@@ -21,4 +21,5 @@ return [
     'accountsuspended'         => 'Account gesperrt',
     'suspendedmessage'         => 'Dein Konto wurde gesperrt.  Bitte kontaktiere einen Administrator.',
     'transferhours'            => 'Transferstunden',
+    'loginwith'                => 'Einloggen mit :provider',
 ];

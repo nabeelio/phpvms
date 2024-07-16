@@ -106,7 +106,7 @@ class ProfileController extends Controller
     public function edit(Request $request): RedirectResponse|View
     {
         /** @var \App\Models\User $user */
-        $user = User::with('fields.field', 'location')->where('id', Auth::id())->first();
+        $user = User::with('fields.field', 'home_airport')->where('id', Auth::id())->first();
 
         if (empty($user)) {
             Flash::error('User not found!');
@@ -114,8 +114,8 @@ class ProfileController extends Controller
             return redirect(route('frontend.dashboard.index'));
         }
 
-        if ($user->location) {
-            $airports = [$user->location->id => $user->location->description];
+        if ($user->home_airport) {
+            $airports = [$user->home_airport->id => $user->home_airport->description];
         } else {
             $airports = ['' => ''];
         }
@@ -154,7 +154,7 @@ class ProfileController extends Controller
             'avatar'     => 'nullable|mimes:jpeg,png,jpg',
         ];
 
-        $userFields = UserField::where(['show_on_registration' => true, 'required' => true])->get();
+        $userFields = UserField::where(['show_on_registration' => true, 'required' => true, 'internal' => false])->get();
         foreach ($userFields as $field) {
             $rules['field_'.$field->slug] = 'required';
         }
@@ -176,16 +176,6 @@ class ProfileController extends Controller
         } else {
             $req_data['password'] = Hash::make($req_data['password']);
         }
-
-        // Find out the user's private channel id
-        /*
-        // TODO: Uncomment when Discord API functionality is enabled
-        if ($request->filled('discord_id')) {
-            $discord_id = $request->post('discord_id');
-            if ($discord_id !== $user->discord_id) {
-                $req_data['discord_private_channel_id'] = Discord::getPrivateChannelId($discord_id);
-            }
-        }*/
 
         if ($request->hasFile('avatar')) {
             if ($user->avatar !== null) {
@@ -213,10 +203,21 @@ class ProfileController extends Controller
             $req_data['avatar'] = $path;
         }
 
+        // User needs to verify their new email address
+        if ($user->email != $request->input('email')) {
+            $req_data['email_verified_at'] = null;
+        }
+
         $this->userRepo->update($req_data, $id);
 
+        // We need to get a new instance of the user in order to send the verification email to the new email address
+        if ($user->email != $request->input('email')) {
+            $newUser = $this->userRepo->findWithoutFail($user->id);
+            $newUser->sendEmailVerificationNotification();
+        }
+
         // Save all of the user fields
-        $userFields = UserField::all();
+        $userFields = UserField::where('internal', false)->get();
         foreach ($userFields as $field) {
             $field_name = 'field_'.$field->slug;
             UserFieldValue::updateOrCreate([

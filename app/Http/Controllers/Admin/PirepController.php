@@ -170,12 +170,13 @@ class PirepController extends Controller
         $this->pirepRepo->pushCriteria($criterea);
 
         $pireps = $this->pirepRepo
-            ->with(['airline', 'aircraft', 'dpt_airport', 'arr_airport'])
-            ->whereNotInOrder('state', [
-                PirepState::CANCELLED,
+            ->with(['airline', 'aircraft', 'dpt_airport', 'arr_airport', 'user'])
+            ->whereNotIn('pireps.state', [
                 PirepState::DRAFT,
                 PirepState::IN_PROGRESS,
-            ], 'created_at', 'desc')
+                PirepState::CANCELLED,
+            ])
+            ->sortable(['submitted_at' => 'desc'])
             ->paginate();
 
         return view('admin.pireps.index', [

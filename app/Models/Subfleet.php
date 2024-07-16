@@ -14,21 +14,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
- * @property int     id
- * @property string  type
- * @property string  simbrief_type
- * @property string  name
- * @property int     airline_id
- * @property int     hub_id
- * @property string  ground_handling_multiplier
- * @property Fare[]  fares
- * @property float   cost_block_hour
- * @property float   cost_delay_minute
- * @property Airline airline
- * @property Airport home
- * @property int     fuel_type
+ * @property int        id
+ * @property string     type
+ * @property string     simbrief_type
+ * @property string     name
+ * @property int        airline_id
+ * @property int        hub_id
+ * @property string     ground_handling_multiplier
+ * @property Fare[]     fares
+ * @property float      cost_block_hour
+ * @property float      cost_delay_minute
+ * @property Airline    airline
+ * @property Airport    home
+ * @property int        fuel_type
+ * @property Aircraft[] $aircraft
  */
 class Subfleet extends Model
 {
@@ -37,6 +40,7 @@ class Subfleet extends Model
     use HasFactory;
     use SoftDeletes;
     use Sortable;
+    use LogsActivity;
 
     public $fillable = [
         'airline_id',
@@ -92,12 +96,23 @@ class Subfleet extends Model
         );
     }
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->fillable)
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
+    }
+
     /**
      * Relationships
      */
     public function aircraft(): HasMany
     {
-        return $this->hasMany(Aircraft::class, 'subfleet_id')->where('status', AircraftStatus::ACTIVE);
+        return $this->hasMany(Aircraft::class, 'subfleet_id')->where(
+            'status',
+            AircraftStatus::ACTIVE
+        );
     }
 
     public function airline(): BelongsTo
@@ -111,9 +126,9 @@ class Subfleet extends Model
     }
 
     /**
-     * @deprecated use home()
-     *
      * @return HasOne
+     *
+     * @deprecated use home()
      */
     public function hub(): HasOne
     {
@@ -122,7 +137,11 @@ class Subfleet extends Model
 
     public function fares(): BelongsToMany
     {
-        return $this->belongsToMany(Fare::class, 'subfleet_fare')->withPivot('price', 'cost', 'capacity');
+        return $this->belongsToMany(Fare::class, 'subfleet_fare')->withPivot(
+            'price',
+            'cost',
+            'capacity'
+        );
     }
 
     public function flights(): BelongsToMany
@@ -133,11 +152,16 @@ class Subfleet extends Model
     public function ranks(): BelongsToMany
     {
         return $this->belongsToMany(Rank::class, 'subfleet_rank')
-        ->withPivot('acars_pay', 'manual_pay');
+            ->withPivot('acars_pay', 'manual_pay');
     }
 
     public function typeratings(): BelongsToMany
     {
-        return $this->belongsToMany(Typerating::class, 'typerating_subfleet', 'subfleet_id', 'typerating_id');
+        return $this->belongsToMany(
+            Typerating::class,
+            'typerating_subfleet',
+            'subfleet_id',
+            'typerating_id'
+        );
     }
 }

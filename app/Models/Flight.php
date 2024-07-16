@@ -14,13 +14,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Kyslik\ColumnSortable\Sortable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property string     id
  * @property mixed      ident
+ * @property mixed      atc
  * @property Airline    airline
  * @property int        airline_id
  * @property mixed      flight_number
@@ -62,6 +66,7 @@ class Flight extends Model
     use HasFactory;
     use SoftDeletes;
     use Sortable;
+    use LogsActivity;
 
     public $table = 'flights';
 
@@ -103,6 +108,8 @@ class Flight extends Model
         'visible',
         'event_id',
         'user_id',
+        'owner_type',
+        'owner_id',
     ];
 
     protected $casts = [
@@ -124,7 +131,7 @@ class Flight extends Model
         'user_id'              => 'integer',
     ];
 
-    public static $rules = [
+    public static array $rules = [
         'airline_id'           => 'required|exists:airlines,id',
         'flight_number'        => 'required',
         'callsign'             => 'string|max:4|nullable',
@@ -139,7 +146,7 @@ class Flight extends Model
         'user_id'              => 'nullable|numeric',
     ];
 
-    public $sortable = [
+    public array $sortable = [
         'airline_id',
         'flight_number',
         'callsign',
@@ -147,13 +154,20 @@ class Flight extends Model
         'route_leg',
         'dpt_airport_id',
         'arr_airport_id',
+        'alt_airport_id',
         'dpt_time',
         'arr_time',
         'distance',
+        'notes',
         'flight_time',
         'flight_type',
         'event_id',
         'user_id',
+    ];
+
+    public array $sortableAs = [
+        'subfleets_count',
+        'fares_count',
     ];
 
     /**
@@ -194,6 +208,26 @@ class Flight extends Model
                 }
 
                 return $flight_id;
+            }
+        );
+    }
+
+    /**
+     * Get the flight atc callsign, JBU1900 or JBU8FK
+     */
+    public function atc(): Attribute
+    {
+        return Attribute::make(
+            get: function ($_, $attrs) {
+                $flight_atc = optional($this->airline)->icao;
+
+                if (!empty($this->callsign)) {
+                    $flight_atc .= $this->callsign;
+                } else {
+                    $flight_atc .= $this->flight_number;
+                }
+
+                return $flight_atc;
             }
         );
     }
@@ -242,6 +276,15 @@ class Flight extends Model
                 return $value;
             }
         );
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->fillable)
+            ->logExcept(['visible'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     /*
@@ -295,5 +338,10 @@ class Flight extends Model
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class, 'id', 'event_id');
+    }
+
+    public function owner(): MorphTo
+    {
+        return $this->morphTo('owner', 'owner_type', 'owner_id');
     }
 }

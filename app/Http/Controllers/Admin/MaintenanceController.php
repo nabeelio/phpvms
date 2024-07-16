@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Controller;
 use App\Repositories\KvpRepository;
 use App\Services\CronService;
+use App\Services\Installer\SeederService;
 use App\Services\VersionService;
 use App\Support\Utils;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Laracasts\Flash\Flash;
@@ -19,7 +21,8 @@ class MaintenanceController extends Controller
     public function __construct(
         private readonly CronService $cronSvc,
         private readonly KvpRepository $kvpRepo,
-        private readonly VersionService $versionSvc
+        private readonly VersionService $versionSvc,
+        private readonly SeederService $seederSvc,
     ) {
     }
 
@@ -49,18 +52,29 @@ class MaintenanceController extends Controller
     {
         $calls = [];
         $type = $request->get('type');
+        $theme_cache_file = base_path().'/bootstrap/cache/themes.php';
+        $module_cache_files = base_path().'/bootstrap/cache/*_module.php';
 
-        // When clearing the application, clear the config and the app itself
+        // When clearing the application, clear the config, module cache and the app itself
         if ($type === 'application' || $type === 'all') {
             $calls[] = 'config:cache';
             $calls[] = 'cache:clear';
             $calls[] = 'route:cache';
             $calls[] = 'clear-compiled';
+
+            $files = File::glob($module_cache_files);
+            foreach ($files as $file) {
+                $module_cache = File::delete($file) ? 'Module cache file deleted' : 'Module cache file not found!';
+                Log::debug($module_cache.' | '.$file);
+            }
         }
 
-        // If we want to clear only the views but keep everything else
+        // If we want to clear only the views and theme cache but keep everything else
         if ($type === 'views' || $type === 'all') {
             $calls[] = 'view:clear';
+
+            $theme_cache = unlink($theme_cache_file) ? 'Theme cache file deleted' : 'Theme cache file not found!';
+            Log::debug($theme_cache.' | '.$theme_cache_file);
         }
 
         foreach ($calls as $call) {
@@ -68,6 +82,14 @@ class MaintenanceController extends Controller
         }
 
         Flash::success('Cache cleared!');
+        return redirect(route('admin.maintenance.index'));
+    }
+
+    public function queue(Request $request): RedirectResponse
+    {
+        Artisan::call('queue:flush');
+
+        Flash::success('Failed jobs flushed!');
         return redirect(route('admin.maintenance.index'));
     }
 
@@ -93,6 +115,19 @@ class MaintenanceController extends Controller
             Flash::success('New version available: '.$new_version_tag);
         }
 
+        return redirect(route('admin.maintenance.index'));
+    }
+
+    /**
+     * Run the module reseeding tasks
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return RedirectResponse
+     */
+    public function reseed(Request $request): RedirectResponse
+    {
+        $this->seederSvc->syncAllSeeds();
         return redirect(route('admin.maintenance.index'));
     }
 

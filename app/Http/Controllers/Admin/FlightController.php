@@ -115,9 +115,10 @@ class FlightController extends Controller
     public function index(Request $request): View
     {
         $flights = $this->flightRepo
-            ->with(['dpt_airport', 'arr_airport', 'alt_airport', 'airline'])
+            ->with(['dpt_airport', 'arr_airport', 'alt_airport', 'airline', 'subfleets'])
+            ->withCount(['subfleets', 'fares'])
             ->searchCriteria($request, false)
-            ->orderBy('flight_number', 'asc')
+            ->sortable('flight_number')->orderBy('route_code')->orderBy('route_leg')
             ->paginate();
 
         return view('admin.flights.index', [
@@ -155,7 +156,8 @@ class FlightController extends Controller
     public function store(CreateFlightRequest $request): RedirectResponse
     {
         try {
-            $flight = $this->flightSvc->createFlight($request->all());
+            $fields = $request->all();
+            $flight = $this->flightSvc->createFlight($fields);
             Flash::success('Flight saved successfully.');
 
             return redirect(route('admin.flights.edit', $flight->id));
@@ -430,17 +432,20 @@ class FlightController extends Controller
 
         $fleetSvc = app(FleetService::class);
 
-        // add aircraft to flight
-        $subfleet = $this->subfleetRepo->findWithoutFail($request->subfleet_id);
-        if (!$subfleet) {
-            return $this->return_subfleet_view($flight);
-        }
-
-        if ($request->isMethod('post')) {
-            $fleetSvc->addSubfleetToFlight($subfleet, $flight);
-        } // remove aircraft from flight
-        elseif ($request->isMethod('delete')) {
-            $fleetSvc->removeSubfleetFromFlight($subfleet, $flight);
+        if ($request->isMethod('post') && filled($request->subfleet_ids)) {
+            // Add selected subfleets to flight
+            foreach ($request->subfleet_ids as $sf) {
+                $subfleet = $this->subfleetRepo->findWithoutFail($sf);
+                if ($subfleet) {
+                    $fleetSvc->addSubfleetToFlight($subfleet, $flight);
+                }
+            }
+        } elseif ($request->isMethod('delete')) {
+            // Delete the subfleet from flight
+            $subfleet = $this->subfleetRepo->findWithoutFail($request->subfleet_id);
+            if ($subfleet) {
+                $fleetSvc->removeSubfleetFromFlight($subfleet, $flight);
+            }
         }
 
         return $this->return_subfleet_view($flight);

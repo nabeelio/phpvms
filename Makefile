@@ -76,7 +76,7 @@ tests: test
 .PHONY: test
 test:
 	@#php artisan database:create --reset
-	@vendor/bin/phpunit --verbose
+	@vendor/bin/phpunit
 
 .PHONY: phpcs
 phpcs:
@@ -102,7 +102,13 @@ reset-installer:
 
 .PHONY: docker-test
 docker-test:
-	@docker compose -f docker-compose.dev.yml up
+	@docker run --rm \
+	    -u $(shell id -u):$(shell id -g) \
+	    -v $(shell pwd):/var/www/html \
+	    -w /var/www/html \
+	    laravelsail/php83-composer:latest \
+	    composer install --ignore-platform-reqs
+	@vendor/bin/sail up
 
 .PHONY: docker-clean
 docker-clean:

@@ -4,8 +4,10 @@ namespace Tests;
 
 use App\Models\Acars;
 use App\Models\Aircraft;
+use App\Models\Airport;
 use App\Models\Bid;
 use App\Models\Enums\AcarsType;
+use App\Models\Enums\PirepFieldSource;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\UserState;
 use App\Models\Flight;
@@ -13,6 +15,7 @@ use App\Models\Navdata;
 use App\Models\Pirep;
 use App\Models\Rank;
 use App\Models\User;
+use App\Notifications\Messages\Broadcast\PirepDiverted;
 use App\Notifications\Messages\Broadcast\PirepPrefiled;
 use App\Notifications\Messages\Broadcast\PirepStatusChanged;
 use App\Notifications\Messages\PirepAccepted;
@@ -26,15 +29,15 @@ use App\Support\Units\Fuel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
 
-class PIREPTest extends TestCase
+final class PIREPTest extends TestCase
 {
     /** @var PirepService */
-    protected $pirepSvc;
+    protected PirepService $pirepSvc;
 
     /** @var SettingRepository */
-    protected $settingsRepo;
+    protected SettingRepository $settingsRepo;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->addData('base');
@@ -44,7 +47,7 @@ class PIREPTest extends TestCase
         $this->settingsRepo = app(SettingRepository::class);
     }
 
-    protected function createNewRoute()
+    protected function createNewRoute(): array
     {
         $route = [];
         $navpoints = Navdata::factory()->count(5)->create();
@@ -55,7 +58,7 @@ class PIREPTest extends TestCase
         return $route;
     }
 
-    protected function getAcarsRoute($pirep)
+    protected function getAcarsRoute(Pirep $pirep): array
     {
         $saved_route = [];
         $route_points = Acars::where(
@@ -70,9 +73,9 @@ class PIREPTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
-    public function testAddPirep()
+    public function testAddPirep(): void
     {
         $user = User::factory()->create();
 
@@ -86,14 +89,14 @@ class PIREPTest extends TestCase
 
         try {
             $this->pirepSvc->saveRoute($pirep);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
 
         /*
          * Check the initial state info
          */
-        $this->assertEquals($pirep->state, PirepState::PENDING);
+        $this->assertEquals(PirepState::PENDING, $pirep->state);
 
         /**
          * Now set the PIREP state to ACCEPTED
@@ -162,8 +165,10 @@ class PIREPTest extends TestCase
 
     /**
      * Make sure the unit conversions look to be proper
+     *
+     * @throws \Exception
      */
-    public function testUnitFields()
+    public function testUnitFields(): void
     {
         /** @var Pirep $pirep */
         $pirep = $this->createPirep();
@@ -231,7 +236,7 @@ class PIREPTest extends TestCase
         );
     }
 
-    public function testGetUserPireps()
+    public function testGetUserPireps(): void
     {
         $this->user = User::factory()->create();
         $pirep_done = Pirep::factory()->create([
@@ -275,7 +280,7 @@ class PIREPTest extends TestCase
      *
      * @throws \Exception
      */
-    public function testPirepNotifications()
+    public function testPirepNotifications(): void
     {
         /** @var User $user */
         $user = User::factory()->create([
@@ -302,8 +307,10 @@ class PIREPTest extends TestCase
 
     /**
      * check the stats/ranks, etc have incremented properly
+     *
+     * @throws \Exception
      */
-    public function testPilotStatsIncr()
+    public function testPilotStatsIncr(): void
     {
         $this->updateSetting('pilots.count_transfer_hours', false);
 
@@ -379,7 +386,7 @@ class PIREPTest extends TestCase
      *
      * @throws \Exception
      */
-    public function testPilotDontChangeRank()
+    public function testPilotDontChangeRank(): void
     {
         /** @var Rank $rank */
         $rank = Rank::factory()->create([
@@ -415,8 +422,10 @@ class PIREPTest extends TestCase
 
     /**
      * check the stats/ranks, etc have incremented properly
+     *
+     * @throws \Exception
      */
-    public function testPilotStatsIncrWithTransferHours()
+    public function testPilotStatsIncrWithTransferHours(): void
     {
         $this->updateSetting('pilots.count_transfer_hours', true);
 
@@ -469,7 +478,7 @@ class PIREPTest extends TestCase
      * When a PIREP is filed by a user on leave, make sure they flip from leave to active
      * It doesn't matter if the PIREP is accepted or rejected
      */
-    public function testPilotStatusChange()
+    public function testPilotStatusChange(): void
     {
         /** @var \App\Models\User $user */
         $user = User::factory()->create([
@@ -495,7 +504,7 @@ class PIREPTest extends TestCase
     /**
      * Find and check for any duplicate PIREPs by a user
      */
-    public function testDuplicatePireps()
+    public function testDuplicatePireps(): void
     {
         $user = User::factory()->create();
         $pirep = Pirep::factory()->create([
@@ -520,7 +529,10 @@ class PIREPTest extends TestCase
         $this->assertFalse($dupe_pirep);
     }
 
-    public function testCancelViaAPI()
+    /**
+     * @throws \Exception
+     */
+    public function testCancelViaAPI(): void
     {
         $pirep = $this->createPirep()->toArray();
 
@@ -551,8 +563,10 @@ class PIREPTest extends TestCase
 
     /**
      * When a PIREP is accepted, ensure that the bid is removed
+     *
+     * @throws \Exception
      */
-    public function testPirepBidRemoved()
+    public function testPirepBidRemoved(): void
     {
         $bidSvc = app(BidService::class);
         $flightSvc = app(FlightService::class);
@@ -586,7 +600,7 @@ class PIREPTest extends TestCase
         $this->assertNull($user_bid);
     }
 
-    public function testPirepProgressPercent()
+    public function testPirepProgressPercent(): void
     {
         $this->updateSetting('units.distance', 'km');
 
@@ -617,7 +631,7 @@ class PIREPTest extends TestCase
     /**
      * See that the notifications are properly formatted
      */
-    public function testNotificationFormatting()
+    public function testNotificationFormatting(): void
     {
         $this->updateSetting('units.distance', 'km');
 
@@ -647,5 +661,58 @@ class PIREPTest extends TestCase
         $fields = $discordNotif->createFields($pirep);
         $this->assertEquals('1h 0m', $fields['Flight Time']);
         $this->assertEquals('185.2 km', $fields['Distance']);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testDiversionHandler(): void
+    {
+        $this->updateSetting('pireps.handle_diversion', true);
+        $this->updateSetting('notifications.discord_pirep_diverted', true);
+
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        /** @var Airport $originalArrivalAirport */
+        $originalArrivalAirport = Airport::factory()->create();
+
+        /** @var Airport $diversionAirport */
+        $diversionAirport = Airport::factory()->create();
+
+        /** @var Aircraft $aircraft */
+        $aircraft = Aircraft::factory()->create();
+
+        /** @var Pirep $pirep */
+        $pirep = Pirep::factory()->create([
+            'user_id'        => $user->id,
+            'aircraft_id'    => $aircraft->id,
+            'arr_airport_id' => $originalArrivalAirport->id,
+        ]);
+
+        $this->pirepSvc->create($pirep, [
+            [
+                'name'   => 'Diversion Airport',
+                'value'  => $diversionAirport->id,
+                'source' => PirepFieldSource::ACARS,
+            ],
+        ]);
+
+        $this->pirepSvc->submit($pirep);
+
+        $pirep = Pirep::find($pirep->id);
+        $this->assertEquals($diversionAirport->id, $pirep->arr_airport_id);
+        $this->assertEquals($originalArrivalAirport->id, $pirep->alt_airport_id);
+        $this->assertStringContainsString('DIVERTED FROM '.$originalArrivalAirport->id.' TO '.$diversionAirport->id, $pirep->notes);
+        $this->assertNull($pirep->flight_id);
+        $this->assertNull($pirep->route_leg);
+
+        $user->refresh();
+        $aircraft->refresh();
+
+        $this->assertEquals($diversionAirport->id, $user->curr_airport_id);
+        $this->assertEquals($diversionAirport->id, $aircraft->airport_id);
+
+        Notification::assertSentTo([$pirep], PirepDiverted::class);
     }
 }

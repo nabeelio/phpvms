@@ -5,19 +5,21 @@ namespace App\Notifications;
 use App\Contracts\Listener;
 use App\Events\AwardAwarded;
 use App\Events\NewsAdded;
+use App\Events\NewsUpdated;
 use App\Events\PirepAccepted;
 use App\Events\PirepFiled;
 use App\Events\PirepPrefiled;
 use App\Events\PirepRejected;
 use App\Events\PirepStatusChange;
-use App\Events\UserRegistered;
 use App\Events\UserStateChanged;
+use App\Events\UserStatsChanged;
 use App\Models\Enums\PirepStatus;
 use App\Models\Enums\UserState;
 use App\Models\User;
 use App\Notifications\Messages\UserRejected;
 use App\Notifications\Notifiables\Broadcast;
 use Exception;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
@@ -32,14 +34,15 @@ class NotificationEventsHandler extends Listener
     public static $callbacks = [
         AwardAwarded::class      => 'onAwardAwarded',
         NewsAdded::class         => 'onNewsAdded',
+        NewsUpdated::class       => 'onNewsUpdated',
         PirepPrefiled::class     => 'onPirepPrefile',
         PirepStatusChange::class => 'onPirepStatusChange',
         PirepAccepted::class     => 'onPirepAccepted',
         PirepFiled::class        => 'onPirepFile',
         PirepRejected::class     => 'onPirepRejected',
-        UserRegistered::class    => 'onUserRegister',
         UserStateChanged::class  => 'onUserStateChange',
         UserStatsChanged::class  => 'onUserStatsChanged',
+        Verified::class          => 'onEmailVerified',
     ];
 
     public function __construct()
@@ -113,13 +116,13 @@ class NotificationEventsHandler extends Listener
         }
     }
 
-    /**
-     * Send an email when the user registered
-     *
-     * @param UserRegistered $event
-     */
-    public function onUserRegister(UserRegistered $event): void
+    public function onEmailVerified(Verified $event): void
     {
+        // Return if the user has any flights (email change / admin requests new verification)
+        if ($event->user->flights > 0) {
+            return;
+        }
+
         Log::info('NotificationEvents::onUserRegister: '
             .$event->user->ident.' is '
             .UserState::label($event->user->state).', sending active email');
@@ -218,7 +221,9 @@ class NotificationEventsHandler extends Listener
         /*
          * Broadcast notifications
          */
-        Notification::send([$event->pirep], new Messages\Broadcast\PirepFiled($event->pirep));
+        if (setting('notifications.discord_pirep_filed', true)) {
+            Notification::send([$event->pirep], new Messages\Broadcast\PirepFiled($event->pirep));
+        }
     }
 
     /**
@@ -266,6 +271,24 @@ class NotificationEventsHandler extends Listener
     }
 
     /**
+     * Notify all users of a news event, but only the users which have opted in
+     *
+     * @param \App\Events\NewsUpdated $event
+     */
+    public function onNewsUpdated(NewsUpdated $event): void
+    {
+        Log::info('NotificationEvents::onNewsAdded');
+        if (setting('notifications.mail_news', true)) {
+            $this->notifyAllUsers(new Messages\NewsAdded($event->news));
+        }
+
+        /*
+         * Broadcast notifications
+         */
+        Notification::send([$event->news], new Messages\Broadcast\NewsAdded($event->news));
+    }
+
+    /**
      * Notify all users that user has awarded a new award
      *
      * @param \App\Events\AwardAwarded $event
@@ -290,7 +313,7 @@ class NotificationEventsHandler extends Listener
         /*
          * Broadcast notifications
          */
-        if (setting('notifications.discord_user_rank_changed', true)) {
+        if (setting('notifications.discord_user_rank_changed', true) && $event->stat_name === 'rank') {
             Notification::send([$event->user], new Messages\Broadcast\UserRankChanged($event->user));
         }
     }

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\EnableActivityLogging;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -171,6 +172,16 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('lang/{lang}', 'LanguageController@switchLang')->name('lang.switch');
             });
 
+            Route::group([
+                'namespace' => 'Auth',
+                'prefix'    => 'oauth',
+                'as'        => 'oauth.',
+            ], function () {
+                Route::get('{provider}/redirect', 'OAuthController@redirectToProvider')->name('redirect');
+                Route::get('{provider}/callback', 'OAuthController@handleProviderCallback')->name('callback');
+                Route::get('{provider}/logout', 'OAuthController@logoutProvider')->name('logout')->middleware('auth');
+            });
+
             Route::get('/logout', 'Auth\LoginController@logout')->name('auth.logout');
             Auth::routes(['verify' => true]);
         });
@@ -182,7 +193,7 @@ class RouteServiceProvider extends ServiceProvider
             'namespace'  => $this->namespace.'\\Admin',
             'prefix'     => 'admin',
             'as'         => 'admin.',
-            'middleware' => ['web', 'auth', 'ability:admin,admin-access'],
+            'middleware' => ['web', 'auth', 'ability:admin,admin-access', EnableActivityLogging::class],
         ], static function () {
             // CRUD for airlines
             Route::resource('airlines', 'AirlinesController')
@@ -243,8 +254,8 @@ class RouteServiceProvider extends ServiceProvider
             ], 'aircraft/{id}/expenses', 'AircraftController@expenses')
                 ->middleware('ability:admin,aircraft');
 
-            Route::resource('aircraft', 'AircraftController')
-                ->middleware('ability:admin,aircraft');
+            Route::resource('aircraft', 'AircraftController')->middleware('ability:admin,aircraft');
+            Route::post('aircraft/trashbin', 'AircraftController@trashbin')->name('aircraft.trashbin')->middleware('ability:admin,aircraft');
 
             // expenses
             Route::get('expenses/export', 'ExpenseController@export')
@@ -274,6 +285,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('ability:admin,finances');
 
             Route::resource('fares', 'FareController')->middleware('ability:admin,finances');
+            Route::post('fares/trashbin', 'FareController@trashbin')->name('fares.trashbin')->middleware('ability:admin,finances');
 
             // files
             Route::post('files', 'FileController@store')
@@ -400,11 +412,17 @@ class RouteServiceProvider extends ServiceProvider
             Route::match(['post'], 'maintenance/cache', 'MaintenanceController@cache')
                 ->name('maintenance.cache')->middleware('ability:admin,maintenance');
 
+            Route::match(['post'], 'maintenance/queue', 'MaintenanceController@queue')
+                ->name('maintenance.queue')->middleware('ability:admin,maintenance');
+
             Route::match(['post'], 'maintenance/update', 'MaintenanceController@update')
                 ->name('maintenance.update')->middleware('ability:admin,maintenance');
 
             Route::match(['post'], 'maintenance/forcecheck', 'MaintenanceController@forcecheck')
                 ->name('maintenance.forcecheck')->middleware('ability:admin,maintenance');
+
+            Route::match(['post'], 'maintenance/reseed', 'MaintenanceController@reseed')
+                ->name('maintenance.reseed')->middleware('ability:admin,maintenance');
 
             Route::match(['post'], 'maintenance/cron_enable', 'MaintenanceController@cron_enable')
                 ->name('maintenance.cron_enable')->middleware('ability:admin,maintenance');
@@ -451,6 +469,7 @@ class RouteServiceProvider extends ServiceProvider
             ], 'subfleets/{id}/typeratings', 'SubfleetController@typeratings')->middleware('ability:admin,fleet');
 
             Route::resource('subfleets', 'SubfleetController')->middleware('ability:admin,fleet');
+            Route::post('subfleets/trashbin', 'SubfleetController@trashbin')->name('subfleets.trashbin')->middleware('ability:admin,fleet');
 
             /**
              * USERS
@@ -461,7 +480,20 @@ class RouteServiceProvider extends ServiceProvider
             Route::get('users/{id}/regen_apikey', 'UserController@regen_apikey')
                 ->name('users.regen_apikey')->middleware('ability:admin,users');
 
+            Route::get('users/{id}/verify_email', 'UserController@verify_email')
+                ->name('users.verify_email')->middleware('ability:admin,users');
+
+            Route::get('users/{id}/request_email_verification', 'UserController@request_email_verification')
+                ->name('users.request_email_verification')->middleware('ability:admin,users');
+
             Route::resource('users', 'UserController')->middleware('ability:admin,users');
+
+            Route::resource('invites', 'InviteController')->middleware('ability:admin,users')
+                ->except([
+                    'show',
+                    'edit',
+                    'update',
+                ]);
 
             Route::match([
                 'get',
@@ -484,10 +516,15 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::match([
                 'get',
+                'patch',
                 'post',
                 'delete',
             ], 'dashboard/news', ['uses' => 'DashboardController@news'])
                 ->name('dashboard.news')->middleware('update_pending', 'ability:admin,admin-access');
+
+            Route::resource('activities', 'ActivityController')
+                ->only(['index', 'show'])
+                ->middleware('ability:admin,admin-access');
 
             //Modules
             Route::group([
@@ -535,6 +572,8 @@ class RouteServiceProvider extends ServiceProvider
             'as'         => 'api.',
         ], function () {
             Route::group([], function () {
+                Route::get('/', 'StatusController@status');
+
                 Route::get('acars', 'AcarsController@live_flights');
                 Route::get('acars/geojson', 'AcarsController@pireps_geojson');
 

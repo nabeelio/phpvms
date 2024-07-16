@@ -6,6 +6,14 @@
     <a href="{{ route('admin.userfields.index') }}"></i>Profile Fields</a>
   </li>
   <li>
+    <a href="{{ route('admin.users.create') }}">Add User</a>
+  </li>
+  @if(setting('general.invite_only_registrations', false))
+      <li>
+        <a href="{{ route('admin.invites.index') }}">Invites</a>
+      </li>
+  @endif
+  <li>
     <a href="{{ route('admin.users.index') }}?state=0">@lang(UserState::label(UserState::PENDING))</a>
   </li>
   <li>
@@ -38,7 +46,7 @@
 
   <div class="row">
     <div class="col-12 text-center">
-      {{ $users->links('admin.pagination.default') }}
+      {{ $users->withQueryString()->links('admin.pagination.default') }}
     </div>
   </div>
 @endsection
