@@ -40,7 +40,7 @@ jobs:
         key: ${{ env.key }}
 
     - name: Cache extensions
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.cache-env.outputs.dir }}
         key: ${{ steps.cache-env.outputs.key }}
@@ -51,7 +51,7 @@ jobs:
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
     - name: Cache dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -134,7 +134,7 @@ jobs:
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
     - name: Cache dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -173,7 +173,7 @@ jobs:
         space_name: ${{ secrets.SPACE_NAME }}
         space_region: ${{ secrets.SPACE_REGION }}
         source: dist
-        cdn_domain: https://phpvms.cdn.vmslabs.net
+        cdn_domain: phpvms.cdn.vmslabs.net
         permission: public-read
 
     - name: Upload S3
@@ -198,16 +198,15 @@ jobs:
         name: phpvms-package
         path: 'dist/*'
 
-
-    - name: update deployment status
-      if: always()
-      uses: altinukshini/deployment-status@releases/v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        state: ${{ job.status }}
-        environment_url: ${{ steps.spaces.outputs.output_url }}
-        deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-        description: "Successfully uploaded files to CDN"
+#     - name: update deployment status
+#       if: always()
+#       uses: altinukshini/deployment-status@releases/v1
+#       with:
+#         token: ${{ secrets.GITHUB_TOKEN }}
+#         state: ${{ job.status }}
+#         environment_url: ${{ steps.spaces.outputs.output_url }}
+#         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+#         description: "Successfully uploaded files to CDN"
 
   # This runs after all of the tests, run have run. Creates a cleaned up version of the
   # distro, and then creates the artifact to push up to S3 or wherever
