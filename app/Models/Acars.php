@@ -85,6 +85,8 @@ class Acars extends Model
         'pirep_id' => 'required',
     ];
 
+    protected $appends = ['altitude'];
+
     /**
      * This keeps things backwards compatible with previous versions
      * which send in altitude only
