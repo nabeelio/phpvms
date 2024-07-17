@@ -85,6 +85,8 @@ class Acars extends Model
         'pirep_id' => 'required',
     ];
 
+    protected $appends = ['altitude'];
+
     /**
      * This keeps things backwards compatible with previous versions
      * which send in altitude only
@@ -94,15 +96,15 @@ class Acars extends Model
     public function altitude(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $_, array $attrs) => (float) $attrs['altitude_msl'],
+            get: fn(mixed $_, array $attrs) => (float)$attrs['altitude_msl'],
             set: function (mixed $value) {
                 $ret = [];
                 if (!array_key_exists('altitude_agl', $this->attributes)) {
-                    $ret['altitude_agl'] = (float) $value;
+                    $ret['altitude_agl'] = (float)$value;
                 }
 
                 if (!array_key_exists('altitude_msl', $this->attributes)) {
-                    $ret['altitude_msl'] = (float) $value;
+                    $ret['altitude_msl'] = (float)$value;
                 }
 
                 return $ret;
