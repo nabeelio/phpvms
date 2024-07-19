@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Service;
 use App\Models\Aircraft;
+use App\Models\Enums\PirepState;
 use App\Models\Pirep;
 
 class AircraftService extends Service
@@ -16,6 +17,7 @@ class AircraftService extends Service
         $allAircraft = Aircraft::all(); // TODO: Soft delete
         foreach ($allAircraft as $aircraft) {
             $pirep_time_total = Pirep::where('aircraft_id', $aircraft->id)
+                ->where('state', PirepState::ACCEPTED)
                 ->sum('flight_time');
             $aircraft->flight_time = $pirep_time_total;
             $aircraft->save();
