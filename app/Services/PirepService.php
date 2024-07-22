@@ -328,7 +328,7 @@ class PirepService extends Service
 
         // Copy some fields over from Flight/SimBrief if we have it
         if ($pirep->flight) {
-            $pirep->planned_distance = isset($pirep->flight->simbrief) ? $pirep->flight->simbrief->xml->general->air_distance : $pirep->flight->distance;
+            $pirep->planned_distance = isset($pirep->simbrief) ? $pirep->simbrief->xml->general->air_distance : $pirep->flight->distance;
             $pirep->planned_flight_time = $pirep->flight->flight_time;
         }
 
