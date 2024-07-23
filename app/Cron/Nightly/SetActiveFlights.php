@@ -34,7 +34,7 @@ class SetActiveFlights extends Listener
     public function checkFlights(): void
     {
         $today = Carbon::now('UTC');
-        $flights = Flight::all();
+        $flights = Flight::where('active', 1)->whereNull('owner_type')->get();
 
         /**
          * @var Flight $flight
@@ -43,12 +43,7 @@ class SetActiveFlights extends Listener
             if (!$flight->active) {
                 continue;
             }
-
-            // Set to visible by default if not owned by a module
-            if (blank($flight->owner_type)) {
-                $flight->visible = true;
-            }
-
+            
             // dates aren't set, so just save if there were any changes above
             // and move onto the next one
             if ($flight->start_date === null || $flight->end_date === null) {
