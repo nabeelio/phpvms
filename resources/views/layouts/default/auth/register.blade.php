@@ -94,7 +94,11 @@
             <input type="password" name="password" id="password" class="form-control" />
           </div>
           @if ($errors->has('password'))
-            <p class="text-danger">{{ $errors->first('password') }}</p>
+            <p class="text-danger">
+              @foreach($errors->get('password') as $error)
+                {{ $error }} <br />
+              @endforeach
+            </p>
           @endif
 
           <label for="password_confirmation" class="control-label">@lang('passwords.confirm')</label>
