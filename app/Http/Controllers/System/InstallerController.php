@@ -280,9 +280,8 @@ class InstallerController extends Controller
                 ->letters()
                 ->mixedCase()
                 ->numbers()
-                ->uncompromised()
+                ->uncompromised(),
         ];
-
 
         $validator = Validator::make($request->all(), [
             'airline_name'    => 'required',

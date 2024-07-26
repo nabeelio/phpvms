@@ -119,7 +119,7 @@ class RegisterController extends Controller
                 ->letters()
                 ->mixedCase()
                 ->numbers()
-                ->uncompromised()
+                ->uncompromised(),
         ];
 
         $rules = [
