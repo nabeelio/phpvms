@@ -57,8 +57,8 @@ final class RegistrationTest extends TestCase
             'email'                 => 'test@phpvms.net',
             'airline_id'            => $airline->id,
             'home_airport_id'       => $home->id,
-            'password'              => 'secret',
-            'password_confirmation' => 'secret',
+            'password'              => 'rlmIQ7vF', // Something meeting the password policy
+            'password_confirmation' => 'rlmIQ7vF',
             'toc_accepted'          => true,
         ];
     }

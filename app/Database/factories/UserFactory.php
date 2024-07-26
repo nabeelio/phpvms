@@ -32,7 +32,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         if (empty(self::$password)) {
-            self::$password = Hash::make('secret');
+            self::$password = Hash::make('rlmIQ7vF');
         }
 
         return [
