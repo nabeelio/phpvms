@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator as ValidatorFacade;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
 class RegisterController extends Controller
@@ -111,12 +112,22 @@ class RegisterController extends Controller
      */
     protected function validator(array $data): Validator
     {
+        $passwordRules = [
+            'required',
+            'confirmed',
+            Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->uncompromised(),
+        ];
+
         $rules = [
             'name'            => 'required|max:255',
             'email'           => 'required|email|max:255|unique:users,email',
             'airline_id'      => 'required',
             'home_airport_id' => 'required',
-            'password'        => 'required|min:5|confirmed',
+            'password'        => $passwordRules,
             'toc_accepted'    => 'accepted',
         ];
 

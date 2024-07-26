@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
 use Laracasts\Flash\Flash;
@@ -155,11 +156,20 @@ class ProfileController extends Controller
         $id = Auth::user()->id;
         $user = $this->userRepo->findWithoutFail($id);
 
+        $passwordRules = [
+            'confirmed',
+            Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->uncompromised(),
+        ];
+
         $rules = [
             'name'       => 'required',
             'email'      => 'required|unique:users,email,'.$id,
             'airline_id' => 'required',
-            'password'   => 'confirmed',
+            'password'   => $passwordRules,
             'avatar'     => 'nullable|mimes:jpeg,png,jpg',
         ];
 

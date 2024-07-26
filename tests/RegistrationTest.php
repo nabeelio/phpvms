@@ -52,13 +52,16 @@ final class RegistrationTest extends TestCase
         $airline = Airline::factory()->create();
         $home = Airport::factory()->create(['hub' => true]);
 
+        $faker = \Faker\Factory::create();
+        $password = $faker->regexify('[A-Z]{3}[a-z]{3}[0-9]{2}');
+
         return [
             'name'                  => 'Test User',
             'email'                 => 'test@phpvms.net',
             'airline_id'            => $airline->id,
             'home_airport_id'       => $home->id,
-            'password'              => 'secret',
-            'password_confirmation' => 'secret',
+            'password'              => $password,
+            'password_confirmation' => $password,
             'toc_accepted'          => true,
         ];
     }
