@@ -294,7 +294,7 @@ final class UserTest extends TestCase
     public function testUserPilotIdAdded()
     {
         $faker = \Faker\Factory::create();
-        $password = Hash::make($faker->password(8));
+        $password = Hash::make($faker->regexify('[A-Z]{3}[a-z]{3}[0-9]{2}'));
 
         $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = $password;
@@ -319,7 +319,7 @@ final class UserTest extends TestCase
     public function testUserPilotDeleted()
     {
         $faker = \Faker\Factory::create();
-        $password = Hash::make($faker->password(8));
+        $password = Hash::make($faker->regexify('[A-Z]{3}[a-z]{3}[0-9]{2}'));
 
         $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = $password;
@@ -344,7 +344,7 @@ final class UserTest extends TestCase
     public function testUserPilotDeletedWithPireps()
     {
         $faker = \Faker\Factory::create();
-        $password = Hash::make($faker->password(8));
+        $password = Hash::make($faker->regexify('[A-Z]{3}[a-z]{3}[0-9]{2}'));
 
         $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
         $new_user['password'] = $password;

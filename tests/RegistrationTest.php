@@ -53,7 +53,7 @@ final class RegistrationTest extends TestCase
         $home = Airport::factory()->create(['hub' => true]);
 
         $faker = \Faker\Factory::create();
-        $password = $faker->password(8);
+        $password = $faker->regexify('[A-Z]{3}[a-z]{3}[0-9]{2}');
 
         return [
             'name'                  => 'Test User',
