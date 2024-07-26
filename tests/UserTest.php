@@ -293,14 +293,17 @@ final class UserTest extends TestCase
      */
     public function testUserPilotIdAdded()
     {
+        $faker = \Faker\Factory::create();
+        $password = Hash::make($faker->password(8));
+
         $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
-        $new_user['password'] = Hash::make('rlmIQ7vF');
+        $new_user['password'] = $password;
         $user = $this->userSvc->createUser($new_user);
         $this->assertEquals($user->id, $user->pilot_id);
 
         // Add a second user
         $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
-        $new_user['password'] = Hash::make('rlmIQ7vF');
+        $new_user['password'] = $password;
         $user2 = $this->userSvc->createUser($new_user);
         $this->assertEquals($user2->id, $user2->pilot_id);
 
@@ -315,12 +318,15 @@ final class UserTest extends TestCase
 
     public function testUserPilotDeleted()
     {
+        $faker = \Faker\Factory::create();
+        $password = Hash::make($faker->password(8));
+
         $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
-        $new_user['password'] = Hash::make('rlmIQ7vF');
+        $new_user['password'] = $password;
         $admin_user = $this->userSvc->createUser($new_user);
 
         $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
-        $new_user['password'] = Hash::make('rlmIQ7vF');
+        $new_user['password'] = $password;
         $user = $this->userSvc->createUser($new_user);
         $this->assertEquals($user->id, $user->pilot_id);
 
@@ -337,12 +343,15 @@ final class UserTest extends TestCase
 
     public function testUserPilotDeletedWithPireps()
     {
+        $faker = \Faker\Factory::create();
+        $password = Hash::make($faker->password(8));
+
         $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
-        $new_user['password'] = Hash::make('rlmIQ7vF');
+        $new_user['password'] = $password;
         $admin_user = $this->userSvc->createUser($new_user);
 
         $new_user = User::factory()->make()->makeVisible(['api_key', 'name', 'email'])->toArray();
-        $new_user['password'] = Hash::make('rlmIQ7vF');
+        $new_user['password'] = $password;
         $user = $this->userSvc->createUser($new_user);
         $this->assertEquals($user->id, $user->pilot_id);
 
