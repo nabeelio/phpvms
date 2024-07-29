@@ -7,7 +7,6 @@ use App\Events\CronNightly;
 use App\Models\Enums\Days;
 use App\Models\Flight;
 use Carbon\Carbon;
-use App\Models\Flight;
 use Illuminate\Support\Facades\Log;
 
 /**
