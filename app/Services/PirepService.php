@@ -233,9 +233,9 @@ class PirepService extends Service
 
         $pirep->status = PirepStatus::ARRIVED;
 
-        // Copy some fields over from Flight if we have it
+        // Copy some fields over from Flight/SimBrief if we have it
         if ($pirep->flight) {
-            $pirep->planned_distance = $pirep->flight->planned_distance;
+            $pirep->planned_distance = isset($pirep->flight->simbrief) ? $pirep->flight->simbrief->xml->general->air_distance : $pirep->flight->distance;
             $pirep->planned_flight_time = $pirep->flight->flight_time;
         }
 
@@ -326,9 +326,9 @@ class PirepService extends Service
             $pirep->submitted_at = Carbon::now('UTC');
         }
 
-        // Copy some fields over from Flight if we have it
+        // Copy some fields over from Flight/SimBrief if we have it
         if ($pirep->flight) {
-            $pirep->distance = $pirep->flight->distance;
+            $pirep->planned_distance = isset($pirep->simbrief) ? $pirep->simbrief->xml->general->air_distance : $pirep->flight->distance;
             $pirep->planned_flight_time = $pirep->flight->flight_time;
         }
 
@@ -465,7 +465,7 @@ class PirepService extends Service
             }
         }
 
-        Log::info('New PIREP filed', [$pirep]);
+        Log::info('New PIREP filed, pirep_id: '.$pirep->id);
         event(new PirepFiled($pirep));
 
         $pirep->refresh();

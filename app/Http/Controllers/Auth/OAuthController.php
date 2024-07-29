@@ -33,7 +33,22 @@ class OAuthController extends Controller
                 if (!config('services.discord.enabled')) {
                     abort(404);
                 }
-                return Socialite::driver('discord')->scopes(['identify'])->redirect();
+
+                $requiredScopes = ['identify'];
+                $envScopes = config('services.discord.scopes', []);
+                $scopes = array_unique(array_merge($envScopes, $requiredScopes));
+
+                return Socialite::driver('discord')->scopes($scopes)->redirect();
+            case 'ivao':
+                $scopes = config('services.ivao.scopes', []);
+
+                return Socialite::driver('ivao')->scopes($scopes)->redirect();
+            case 'vatsim':
+                $requiredScopes = ['email'];
+                $envScopes = config('services.vatsim.scopes', []);
+                $scopes = array_unique(array_merge($envScopes, $requiredScopes));
+
+                return Socialite::driver('vatsim')->scopes($scopes)->redirect();
             default:
                 abort(404);
         }
@@ -50,6 +65,12 @@ class OAuthController extends Controller
         switch ($provider) {
             case 'discord':
                 $providerUser = Socialite::driver('discord')->user();
+                break;
+            case 'ivao':
+                $providerUser = Socialite::driver('ivao')->user();
+                break;
+            case 'vatsim':
+                $providerUser = Socialite::driver('vatsim')->user();
                 break;
             default:
                 abort(404);
@@ -131,7 +152,7 @@ class OAuthController extends Controller
                 'last_refreshed_at' => now(),
             ]);
 
-            Auth::login($user);
+            Auth::login($user, true);
 
             if ($provider === 'discord') {
                 $this->userSvc->retrieveDiscordPrivateChannelId($user);

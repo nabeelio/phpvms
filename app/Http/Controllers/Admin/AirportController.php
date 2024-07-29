@@ -13,6 +13,7 @@ use App\Repositories\AirportRepository;
 use App\Repositories\Criteria\WhereCriteria;
 use App\Services\ExportService;
 use App\Services\FileService;
+use App\Services\FinanceService;
 use App\Services\ImportService;
 use App\Support\Timezonelist;
 use Illuminate\Http\RedirectResponse;
@@ -25,15 +26,11 @@ class AirportController extends Controller
 {
     use Importable;
 
-    /**
-     * @param AirportRepository $airportRepo
-     * @param FileService       $fileSvc
-     * @param ImportService     $importSvc
-     */
     public function __construct(
         private readonly AirportRepository $airportRepo,
         private readonly FileService $fileSvc,
         private readonly ImportService $importSvc,
+        private readonly FinanceService $financeSvc,
     ) {
     }
 
@@ -270,10 +267,10 @@ class AirportController extends Controller
         }
 
         if ($request->isMethod('post')) {
-            $expense = new Expense($request->post());
-            $expense->ref_model = Airport::class;
-            $expense->ref_model_id = $airport->id;
-            $expense->save();
+            $this->financeSvc->addExpense(
+                $request->post(),
+                $airport,
+            );
         } elseif ($request->isMethod('put')) {
             $expense = Expense::findOrFail($request->input('expense_id'));
             $expense->{$request->name} = $request->value;

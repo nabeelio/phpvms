@@ -4,7 +4,8 @@
 @section('content')
   <div class="col-md-4 ml-auto mr-auto content-center">
     <div class="card card-login card-plain">
-      {{ Form::open(['url' => url('/login'), 'method' => 'post', 'class' => 'form']) }}
+      <form method="post" action="{{ url('/login') }}" class="form">
+        @csrf
       <div class="header header-primary text-center">
         <div class="logo-container" style="width: 320px;">
           <img src="{{ public_asset('/assets/frontend/img/logo.svg') }}" width="320" height="320"
@@ -18,14 +19,15 @@
               <i class="now-ui-icons users_circle-08"></i>
             </span>
           </div>
-          {{
-            Form::text('email', old('email'), [
-              'id' => 'email',
-              'placeholder' => __('common.email').' '.__('common.or').' '.__('common.pilot_id'),
-              'class' => 'form-control',
-              'required' => true,
-            ])
-          }}
+          <input
+            type="text"
+            name="email"
+            id="email"
+            class="form-control"
+            value="{{ old('email') }}"
+            placeholder="@lang('common.email') @lang('common.or') @lang('common.pilot_id')"
+            required
+          />
         </div>
         @if ($errors->has('email'))
           <span class="help-block">
@@ -39,14 +41,14 @@
               <i class="now-ui-icons text_caps-small"></i>
             </span>
           </div>
-          {{
-              Form::password('password', [
-                  'name' => 'password',
-                  'class' => 'form-control',
-                  'placeholder' => __('auth.password'),
-                  'required' => true,
-              ])
-          }}
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control"
+            placeholder="@lang('auth.password')"
+            required
+          />
         </div>
         @if ($errors->has('password'))
           <span class="help-block">
@@ -61,6 +63,18 @@
             @lang('auth.loginwith', ['provider' => 'Discord'])
           </a>
         @endif
+
+        @if(config('services.ivao.enabled'))
+          <a href="{{ route('oauth.redirect', ['provider' => 'ivao']) }}" class="btn btn-round btn-lg btn-block" style="background-color:#0d2c99;">
+            @lang('auth.loginwith', ['provider' => 'IVAO'])
+          </a>
+        @endif
+
+        @if(config('services.vatsim.enabled'))
+          <a href="{{ route('oauth.redirect', ['provider' => 'vatsim']) }}" class="btn btn-round btn-lg btn-block" style="background-color:#29B473;">
+            @lang('auth.loginwith', ['provider' => 'VATSIM'])
+          </a>
+        @endif
         <button class="btn btn-primary btn-round btn-lg btn-block">@lang('common.login')</button>
       </div>
       <div class="pull-left">
@@ -73,7 +87,7 @@
           <a href="{{ url('/password/reset') }}" class="link">@lang('auth.forgotpassword')?</a>
         </h6>
       </div>
-      {{ Form::close() }}
+      </form>
     </div>
   </div>
 @endsection

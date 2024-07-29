@@ -2,6 +2,7 @@ _ide_helper.php
 .php_cs.cache
 .phpstorm.meta.php
 .phpunit.result.cache
+.phpunit.cache
 /vendor
 node_modules/
 npm-debug.log
@@ -84,5 +85,7 @@ sync.sh
 
 ###> phpunit/phpunit ###
 /phpunit.xml
-.phpunit.result.cache
 ###< phpunit/phpunit ###
+
+copy-from.sh
+copy-to.sh

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property string name
@@ -24,6 +26,7 @@ class Rank extends Model
     use HasFactory;
     use SoftDeletes;
     use Sortable;
+    use LogsActivity;
 
     public $table = 'ranks';
 
@@ -68,8 +71,26 @@ class Rank extends Model
     public function imageUrl(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => str_contains($value, 'http') ? $value : (filled($value) ? public_url($value) : null),
+            get: function ($value) {
+                if (!filled($value)) {
+                    return null;
+                }
+
+                if (str_contains($value, 'http')) {
+                    return $value;
+                }
+
+                return public_url($value);
+            },
         );
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly($this->fillable)
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
 
     /*

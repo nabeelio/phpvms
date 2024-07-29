@@ -7,6 +7,8 @@ use App\Models\Enums\PirepSource;
 use App\Models\Enums\PirepState;
 use App\Models\Enums\PirepStatus;
 use App\Models\Pirep;
+use App\Services\FinanceService;
+use App\Support\Money;
 
 class PirepImporter extends BaseImporter
 {
@@ -16,6 +18,9 @@ class PirepImporter extends BaseImporter
     public function run($start = 0)
     {
         $this->comment('--- PIREP IMPORT ---');
+
+        /** @var FinanceService $financeSvc */
+        $financeSvc = app(FinanceService::class);
 
         $fields = [
             'pirepid',
@@ -34,6 +39,10 @@ class PirepImporter extends BaseImporter
             'landingrate',
             'flighttime_stamp',
             'flighttype',
+            'fuelprice',
+            'expenses',
+            'gross',
+            'pilotpay',
         ];
 
         // See if there's a flightlevel column, export that if there is
@@ -125,6 +134,74 @@ class PirepImporter extends BaseImporter
 
             if ($pirep->wasRecentlyCreated) {
                 $count++;
+            }
+
+            if ($pirep->user && $pirep->state === PirepState::ACCEPTED) {
+                $pirep->user->update([
+                    'last_pirep_id' => $pirep->id,
+                ]);
+            }
+
+            if (!$pirep->airline || !$pirep->airline->journal) {
+                continue;
+            }
+
+            // Some financial imports
+            if ($row->fuelprice && $row->fuelprice != 0) {
+                $fuel_price = Money::createFromAmount($row->fuelprice);
+                $financeSvc->debitFromJournal(
+                    $pirep->airline->journal,
+                    $fuel_price,
+                    $pirep,
+                    'Fuel Cost',
+                    'Fuel',
+                    'fuel'
+                );
+            }
+
+            if ($row->expenses && $row->expenses != 0) {
+                $expenses_price = Money::createFromAmount($row->expenses);
+                $financeSvc->debitFromJournal(
+                    $pirep->airline->journal,
+                    $expenses_price,
+                    $pirep,
+                    'Expenses',
+                    'Expenses',
+                    'expense'
+                );
+            }
+
+            if ($row->gross && $row->gross != 0) {
+                $gross_revenue = Money::createFromAmount($row->gross);
+                $financeSvc->creditToJournal(
+                    $pirep->airline->journal,
+                    $gross_revenue,
+                    $pirep,
+                    'Incomes',
+                    'Fares',
+                    'fare'
+                );
+            }
+
+            if ($row->pilotpay && $row->pilotpay != 0) {
+                $pilot_pay = Money::createFromAmount($row->pilotpay * $duration / 60);
+                $financeSvc->debitFromJournal(
+                    $pirep->airline->journal,
+                    $pilot_pay,
+                    $pirep,
+                    'Pilot payment',
+                    'Pilot Pay',
+                    'pilot_pay'
+                );
+
+                $financeSvc->creditToJournal(
+                    $pirep->user->journal,
+                    $pilot_pay,
+                    $pirep,
+                    'Pilot payment',
+                    'Pilot Pay',
+                    'pilot_pay'
+                );
             }
         }
 

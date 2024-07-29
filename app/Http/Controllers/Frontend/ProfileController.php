@@ -75,7 +75,16 @@ class ProfileController extends Controller
      */
     public function show(int $id): RedirectResponse|View
     {
-        $with = ['airline', 'awards', 'current_airport', 'fields.field', 'home_airport', 'last_pirep', 'rank', 'typeratings'];
+        $with = [
+            'airline',
+            'awards',
+            'current_airport',
+            'fields.field',
+            'home_airport',
+            'last_pirep',
+            'rank',
+            'typeratings',
+        ];
         /** @var \App\Models\User $user */
         $user = User::with($with)->where('id', $id)->first();
 
@@ -106,7 +115,7 @@ class ProfileController extends Controller
     public function edit(Request $request): RedirectResponse|View
     {
         /** @var \App\Models\User $user */
-        $user = User::with('fields.field', 'location')->where('id', Auth::id())->first();
+        $user = User::with('fields.field', 'home_airport')->where('id', Auth::id())->first();
 
         if (empty($user)) {
             Flash::error('User not found!');
@@ -114,8 +123,8 @@ class ProfileController extends Controller
             return redirect(route('frontend.dashboard.index'));
         }
 
-        if ($user->location) {
-            $airports = [$user->location->id => $user->location->description];
+        if ($user->home_airport) {
+            $airports = [$user->home_airport->id => $user->home_airport->description];
         } else {
             $airports = ['' => ''];
         }
@@ -154,7 +163,9 @@ class ProfileController extends Controller
             'avatar'     => 'nullable|mimes:jpeg,png,jpg',
         ];
 
-        $userFields = UserField::where(['show_on_registration' => true, 'required' => true])->get();
+        $userFields = UserField::where(
+            ['show_on_registration' => true, 'required' => true, 'internal' => false]
+        )->get();
         foreach ($userFields as $field) {
             $rules['field_'.$field->slug] = 'required';
         }
@@ -217,7 +228,7 @@ class ProfileController extends Controller
         }
 
         // Save all of the user fields
-        $userFields = UserField::all();
+        $userFields = UserField::where('internal', false)->get();
         foreach ($userFields as $field) {
             $field_name = 'field_'.$field->slug;
             UserFieldValue::updateOrCreate([
@@ -263,14 +274,22 @@ class ProfileController extends Controller
      */
     public function acars(Request $request): Response
     {
+        /** @var User $user */
         $user = Auth::user();
-        $config = view('system.acars.config', ['user' => $user])->render();
+        $domain = Utils::getRootDomain(config('app.url'));
+
+        $config = json_encode([
+            'ApiKey' => $user->api_key,
+            'Domain' => $domain,
+            'Name'   => config('app.name'),
+            'Url'    => config('app.url'),
+        ], JSON_PRETTY_PRINT);
 
         return response($config)->withHeaders([
-            'Content-Type'        => 'text/xml',
+            'Content-Type'        => 'application/json',
             'Content-Length'      => strlen($config),
             'Cache-Control'       => 'no-store, no-cache',
-            'Content-Disposition' => 'attachment; filename="settings.xml',
+            'Content-Disposition' => 'attachment; filename="'.$domain.'.json"',
         ]);
     }
 }
