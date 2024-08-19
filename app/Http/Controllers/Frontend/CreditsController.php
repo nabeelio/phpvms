@@ -35,7 +35,7 @@ class CreditsController extends Controller
     // Return laravel collection
     public function ReadModuleJson($module_name = null)
     {
-        $file = isset($module_name) ? base_path() . '/modules/' . $module_name . '/module.json' : null;
+        $file = isset($module_name) ? base_path().'/modules/'.$module_name.'/module.json' : null;
 
         if (!is_file($file)) {
             return null;
