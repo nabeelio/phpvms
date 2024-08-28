@@ -438,7 +438,7 @@ class PirepController extends Controller
     {
         $pirep = Pirep::find($id);
         $transactions = $this->journalRepo->getAllForObject($pirep);
-        return JournalTransactionResource::collection($transactions);
+        return JournalTransactionResource::collection($transactions['transactions']);
     }
 
     /**
