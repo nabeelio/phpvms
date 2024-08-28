@@ -172,7 +172,6 @@ class PirepController extends Controller
     public function get(string $id): PirepResource
     {
         $with = [
-            'acars',
             'aircraft',
             'arr_airport',
             'dpt_airport',
