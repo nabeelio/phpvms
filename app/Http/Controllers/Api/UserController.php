@@ -132,7 +132,7 @@ class UserController extends Controller
 
         $relations = [
             'subfleets',
-            'simbrief_aircraft'
+            'simbrief_aircraft',
         ];
 
         if ($request->has('with')) {
