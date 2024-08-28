@@ -100,7 +100,7 @@ class UserController extends Controller
     public function bids(Request $request)
     {
         $user_id = $this->getUserId($request);
-        $user = $this->userSvc->getUser($user_id);
+        $user = $this->userSvc->getUser($user_id, false);
         if ($user === null) {
             throw new UserNotFound();
         }
@@ -130,8 +130,17 @@ class UserController extends Controller
             $this->bidSvc->removeBid($flight, $user);
         }
 
+        $relations = [
+            'subfleets',
+            'simbrief_aircraft'
+        ];
+
+        if ($request->has('with')) {
+            $relations = explode(',', $request->input('with', ''));
+        }
+
         // Return the flights they currently have bids on
-        $bids = $this->bidSvc->findBidsForUser($user);
+        $bids = $this->bidSvc->findBidsForUser($user, $relations);
 
         return BidResource::collection($bids);
     }

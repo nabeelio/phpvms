@@ -32,7 +32,7 @@ class SimBrief extends Resource
             // Invalid fare data
         }
 
-        $data['subfleet'] = new BidSubfleet($this->aircraft->subfleet, $this->aircraft, $fares);
+        $data['subfleet'] = new BidSubfleet($this->whenLoaded('aircraft.subfleet'), $this->whenLoaded('aircraft'), $fares);
 
         return $data;
     }
