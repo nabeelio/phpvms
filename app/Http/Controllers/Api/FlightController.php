@@ -107,9 +107,6 @@ class FlightController extends Controller
             }
         }
 
-        // Option to get subfleets in the result
-        $with_subfleets = $request->filled('subfleets') && $request->get('subfleets') === '1';
-
         try {
             $this->flightRepo->resetCriteria();
             $this->flightRepo->searchCriteria($request);
@@ -128,13 +125,24 @@ class FlightController extends Controller
                 },
             ];
 
-            if ($with_subfleets) {
-                $with = array_merge([
-                    'subfleets',
-                    'subfleets.aircraft',
-                    'subfleets.aircraft.bid',
-                    'subfleets.fares',
-                ], $with);
+            $relations = [
+                'subfleets',
+            ];
+
+            if ($request->has('with')) {
+                $relations = explode(',', $request->input('with', ''));
+            }
+
+            foreach ($relations as $relation) {
+                $with = array_merge($with, match ($relation) {
+                    'subfleets' => [
+                        'subfleets',
+                        'subfleets.aircraft',
+                        'subfleets.aircraft.bid',
+                        'subfleets.fares',
+                    ],
+                    default => [],
+                });
             }
 
             $flights = $this->flightRepo
@@ -146,7 +154,7 @@ class FlightController extends Controller
 
         // TODO: Remove any flights here that a user doesn't have permissions to
         foreach ($flights as $flight) {
-            if ($with_subfleets) {
+            if (in_array('subfleets', $relations)) {
                 $this->flightSvc->filterSubfleets($user, $flight);
             }
 
