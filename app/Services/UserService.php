@@ -373,7 +373,7 @@ class UserService extends Service
 
         $subfleetsQuery = $this->subfleetRepo->when($restrict_rank || $restrict_type, function ($query) use ($restricted_to) {
             return $query->whereIn('id', $restricted_to);
-        })->with(['aircraft', 'fares']);
+        })->with(['aircraft', 'aircraft.bid', 'fares']);
 
         if ($paginate) {
             /* @var Collection $subfleets */

@@ -110,7 +110,7 @@ class BidService extends Service
 
          if (in_array('subfleets', $relations, true)) {
              foreach ($bids as $bid) {
-                 if (!empty($bid->aircraft)) {
+                 if ($bid->aircraft) {
                      $bid->flight->subfleets = $this->flightSvc->getSubfleetsForBid($bid);
                  } else {
                      $bid->flight = $this->flightSvc->filterSubfleets($user, $bid->flight, $bid);
