@@ -107,6 +107,9 @@ class FlightController extends Controller
             }
         }
 
+        // Option to get subfleets in the result
+        $with_subfleets = $request->filled('subfleets') && $request->get('subfleets') === '1';
+
         try {
             $this->flightRepo->resetCriteria();
             $this->flightRepo->searchCriteria($request);
@@ -116,19 +119,26 @@ class FlightController extends Controller
 
             $this->flightRepo->pushCriteria(new RequestCriteria($request));
 
-            $flights = $this->flightRepo
-                ->with([
-                    'airline',
-                    'fares',
+            $with = [
+                'airline',
+                'fares',
+                'field_values',
+                'simbrief' => function ($query) use ($user) {
+                    return $query->where('user_id', $user->id);
+                },
+            ];
+
+            if ($with_subfleets) {
+                $with = array_merge([
                     'subfleets',
                     'subfleets.aircraft',
                     'subfleets.aircraft.bid',
                     'subfleets.fares',
-                    'field_values',
-                    'simbrief' => function ($query) use ($user) {
-                        return $query->where('user_id', $user->id);
-                    },
-                ])
+                ], $with);
+            }
+
+            $flights = $this->flightRepo
+                ->with($with)
                 ->paginate();
         } catch (RepositoryException $e) {
             return response($e, 503);
@@ -136,7 +146,10 @@ class FlightController extends Controller
 
         // TODO: Remove any flights here that a user doesn't have permissions to
         foreach ($flights as $flight) {
-            $this->flightSvc->filterSubfleets($user, $flight);
+            if ($with_subfleets) {
+                $this->flightSvc->filterSubfleets($user, $flight);
+            }
+
             $this->fareSvc->getReconciledFaresForFlight($flight);
         }
 
