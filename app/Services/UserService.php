@@ -54,15 +54,21 @@ class UserService extends Service
     /**
      * Find the user and return them with all of the data properly attached
      *
-     * @param $user_id
+     * @param int $user_id
      *
      * @return User|null
      */
-    public function getUser($user_id): ?User
+    public function getUser(int $user_id, bool $with_subfleets = true): ?User
     {
+        $with = ['airline', 'bids', 'rank'];
+
+        if ($with_subfleets) {
+            $with[] = 'rank.subfleets';
+        }
+
         /** @var User $user */
         $user = $this->userRepo
-            ->with(['airline', 'bids', 'rank'])
+            ->with($with)
             ->find($user_id);
 
         if (empty($user)) {
@@ -73,9 +79,11 @@ class UserService extends Service
             return null;
         }
 
-        // Load the proper subfleets to the rank
-        $user->rank->subfleets = $this->getAllowableSubfleets($user);
-        $user->subfleets = $user->rank->subfleets;
+        if ($with_subfleets) {
+            // Load the proper subfleets to the rank
+            $user->rank->subfleets = $this->getAllowableSubfleets($user);
+            $user->subfleets = $user->rank->subfleets;
+        }
 
         return $user;
     }

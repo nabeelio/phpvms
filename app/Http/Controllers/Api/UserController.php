@@ -79,7 +79,7 @@ class UserController extends Controller
      */
     public function get(int $id): UserResource
     {
-        $user = $this->userSvc->getUser($id);
+        $user = $this->userSvc->getUser($id, false);
         if ($user === null) {
             throw new UserNotFound();
         }
