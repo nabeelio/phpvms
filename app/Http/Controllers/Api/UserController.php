@@ -176,7 +176,7 @@ class UserController extends Controller
             throw new UserNotFound();
         }
 
-        $subfleets = $this->userSvc->getAllowableSubfleets($user);
+        $subfleets = $this->userSvc->getAllowableSubfleets($user, true);
 
         return SubfleetResource::collection($subfleets);
     }
