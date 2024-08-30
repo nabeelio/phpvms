@@ -652,7 +652,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::post('pireps/{pirep_id}/acars/events', 'AcarsController@acars_events');
                 Route::post('pireps/{pirep_id}/acars/logs', 'AcarsController@acars_logs');
 
-                Route::get('settings', 'SettingsController@index');
+                // Route::get('settings', 'SettingsController@index');
 
                 // This is the info of the user whose token is in use
                 Route::get('user', 'UserController@index');
