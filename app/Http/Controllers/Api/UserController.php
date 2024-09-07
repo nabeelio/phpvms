@@ -67,19 +67,21 @@ class UserController extends Controller
      */
     public function index(Request $request): UserResource
     {
-        return $this->get(Auth::user()->id);
+        $with_subfleets = (!$request->has('with') || str_contains($request->input('with', ''), 'subfleets'));
+        return $this->get(Auth::user()->id, $with_subfleets);
     }
 
     /**
      * Get the profile for the passed-in user
      *
      * @param int $id
+     * @param Request $request
      *
      * @return UserResource
      */
-    public function get(int $id): UserResource
+    public function get(int $id, bool $with_subfleets = true): UserResource
     {
-        $user = $this->userSvc->getUser($id, false);
+        $user = $this->userSvc->getUser($id, $with_subfleets);
         if ($user === null) {
             throw new UserNotFound();
         }
