@@ -74,7 +74,7 @@ class UserController extends Controller
     /**
      * Get the profile for the passed-in user
      *
-     * @param int $id
+     * @param int     $id
      * @param Request $request
      *
      * @return UserResource
