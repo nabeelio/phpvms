@@ -76,7 +76,7 @@ class BidService extends Service
      *
      * @return Bid[]
      */
-    public function findBidsForUser(User $user, array $relations): Collection|array|null
+    public function findBidsForUser(User $user, array $relations = ['subfleets', 'simbrief_aircraft']): Collection|array|null
     {
         $with = [
             'aircraft',
