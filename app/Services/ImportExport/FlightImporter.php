@@ -134,6 +134,8 @@ class FlightImporter extends ImportExport
 
         if (blank($row['pilot_pay'])) {
             $flight->setAttribute('pilot_pay', null);
+        } else {
+            $flight->setAttribute('pilot_pay', (float) $row['pilot_pay']);
         }
 
         if (blank($row['start_date'])) {
