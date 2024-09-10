@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Contracts\Repository;
 use App\Models\Flight;
+use App\Models\Typerating;
 use App\Repositories\Criteria\WhereCriteria;
 use Illuminate\Http\Request;
 use Prettus\Repository\Contracts\CacheableInterface;
@@ -148,6 +149,19 @@ class FlightRepository extends Repository implements CacheableInterface
         if ($request->filled('subfleet_id')) {
             $relations['subfleets'] = [
                 'subfleets.id' => $request->input('subfleet_id'),
+            ];
+        }
+
+        if ($request->filled('type_rating_id')) {
+            $type = Typerating::find($request->input('type_rating_id'));
+            $subfleet_ids = $type->subfleets()->select('id');
+
+            $relations['subfleets'] = [
+                'method' => 'whereIn',
+                'query'  => [
+                    'key'    => 'subfleets.id',
+                    'values' => $subfleet_ids,
+                ]
             ];
         }
 
