@@ -66,7 +66,6 @@ class WhereCriteria implements CriteriaInterface
                                 $query->whereIn($criterea['query']['key'], $criterea['query']['values']);
                             }
                         }
-
                     });
             }
         }

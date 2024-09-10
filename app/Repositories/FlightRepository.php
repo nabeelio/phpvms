@@ -161,7 +161,7 @@ class FlightRepository extends Repository implements CacheableInterface
                 'query'  => [
                     'key'    => 'subfleets.id',
                     'values' => $subfleet_ids,
-                ]
+                ],
             ];
         }
 
