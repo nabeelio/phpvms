@@ -328,7 +328,7 @@ class PirepService extends Service
 
         // Copy some fields over from Flight/SimBrief if we have it
         if ($pirep->flight) {
-            $pirep->planned_distance = isset($pirep->flight->simbrief) ? $pirep->flight->simbrief->xml->general->air_distance : $pirep->flight->distance;
+            $pirep->planned_distance = isset($pirep->simbrief) ? $pirep->simbrief->xml->general->air_distance : $pirep->flight->distance;
             $pirep->planned_flight_time = $pirep->flight->flight_time;
         }
 
@@ -694,15 +694,15 @@ class PirepService extends Service
             $this->userSvc->adjustFlightCount($user, -1);
             $this->userSvc->calculatePilotRank($user);
             $pirep->user->refresh();
+
+            $pirep->aircraft->flight_time -= $pirep->flight_time;
+            $pirep->aircraft->save();
         }
 
         // Change the status
         $pirep->state = PirepState::REJECTED;
         $pirep->save();
         $pirep->refresh();
-
-        $pirep->aircraft->flight_time -= $pirep->flight_time;
-        $pirep->aircraft->save();
 
         Log::info('PIREP '.$pirep->id.' state change to REJECTED');
 
