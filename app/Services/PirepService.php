@@ -490,7 +490,7 @@ class PirepService extends Service
         if ($default_state === PirepState::ACCEPTED) {
             $pirep = $this->accept($pirep);
         } elseif ($default_state === PirepState::REJECTED) {
-            event(new PirepRejected($pirep));
+            $pirep = $this->reject($pirep);
         } else {
             $pirep->state = $default_state;
         }
