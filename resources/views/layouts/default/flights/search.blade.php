@@ -55,19 +55,19 @@
         </select>
       </div>
 
-      @if(!empty($type_ratings))
+      @if(filled($type_ratings))
         <div class="mt-3">
           <div>Type Rating</div>
           <select name="type_rating_id" id="type_rating_id" class="form-control select2">
             <option value=""></option>
             @foreach($type_ratings as $tr)
-              <option value="{{ $tr->id }}" @if(request()->get('type_rating_id') == $tr->id) selected @endif>{{ $tr->type }}</option>
+              <option value="{{ $tr->id }}" @if(request()->get('type_rating_id') == $tr->id) selected @endif>{{ $tr->type.' | '.$tr->name }}</option>
             @endforeach
           </select>
         </div>
       @endif
 
-      @if(!empty($icao_codes))
+      @if(filled($icao_codes))
         <div class="mt-3">
           <div>ICAO Type</div>
           <select name="icao_type" id="icao_type" class="form-control select2">
