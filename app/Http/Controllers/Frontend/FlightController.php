@@ -129,7 +129,7 @@ class FlightController extends Controller
             // Build aircraft icao codes array from complete fleet
             $icao_codes = Aircraft::groupBy('icao')->orderBy('icao')->pluck('icao')->toArray();
             // Build type ratings collection from all active ratings
-            $type_ratings = Typerating::where('active', 1)->select('id', 'type')->orderBy('type')->get();
+            $type_ratings = Typerating::where('active', 1)->select('id', 'name', 'type')->orderBy('type')->get();
         }
 
         // Get only used Flight Types for the search form
