@@ -489,6 +489,8 @@ class PirepService extends Service
         // only update the pilot last state if they are accepted
         if ($default_state === PirepState::ACCEPTED) {
             $pirep = $this->accept($pirep);
+        } elseif ($default_state === PirepState::REJECTED) {
+            $pirep = $this->reject($pirep);
         } else {
             $pirep->state = $default_state;
         }
@@ -692,15 +694,15 @@ class PirepService extends Service
             $this->userSvc->adjustFlightCount($user, -1);
             $this->userSvc->calculatePilotRank($user);
             $pirep->user->refresh();
+
+            $pirep->aircraft->flight_time -= $pirep->flight_time;
+            $pirep->aircraft->save();
         }
 
         // Change the status
         $pirep->state = PirepState::REJECTED;
         $pirep->save();
         $pirep->refresh();
-
-        $pirep->aircraft->flight_time -= $pirep->flight_time;
-        $pirep->aircraft->save();
 
         Log::info('PIREP '.$pirep->id.' state change to REJECTED');
 
