@@ -65,7 +65,7 @@ class FlightController extends Controller
         $flight = $this->flightRepo->with([
             'airline',
             'fares',
-            'subfleets' => [ 'aircraft.bid', 'fares'],
+            'subfleets' => ['aircraft.bid', 'fares'],
             'field_values',
             'simbrief' => function ($query) use ($user) {
                 return $query->with('aircraft')->where('user_id', $user->id);
