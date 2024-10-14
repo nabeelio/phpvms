@@ -51,10 +51,10 @@ class SetActiveFlights extends Listener
             if ($flight->start_date === null || $flight->end_date === null) {
                 if ($flight->days !== null && $flight->days > 0) {
                     $flight->visible = Days::isToday($flight->days);
-                    if (!$flight->visible) {
+                    /* if (!$flight->visible) {
                         Log::info('Today='.date('N').', start=no, mask='.$flight->days.', in='
                             .Days::in($flight->days, Days::$isoDayMap[(int) date('N')]));
-                    }
+                    } */
                 }
 
                 $flight->save();
@@ -68,10 +68,10 @@ class SetActiveFlights extends Listener
             if ($today->gte($flight->start_date) && $today->lte($flight->end_date)) {
                 if ($flight->days !== null && $flight->days > 0) {
                     $flight->visible = Days::isToday($flight->days);
-                    if (!$flight->visible) {
+                    /*if (!$flight->visible) {
                         Log::info('Today='.date('N').', start=no, mask='.$flight->days.', in='
                                 .Days::in($flight->days, Days::$isoDayMap[(int) date('N')]));
-                    }
+                    }*/
                 }
             } else {
                 $flight->visible = false;
