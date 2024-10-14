@@ -100,9 +100,11 @@
           <div class="input-group form-group-no-border{{ $errors->has('password') ? ' has-danger' : '' }}">
             <input type="password" name="password" id="password" class="form-control" />
           </div>
-          @if ($errors->has('password'))
-            <p class="text-danger">{{ $errors->first('password') }}</p>
-          @endif
+          <p class="text-danger">
+            @foreach($errors->get('password') as $error)
+              {{ $error }} <br />
+            @endforeach
+          </p>
 
           <p>{{ __('passwords.confirm') }}:</p>
           <div class="input-group form-group-no-border{{ $errors->has('password_confirmation') ? ' has-danger' : '' }}">

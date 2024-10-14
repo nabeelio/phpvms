@@ -21,6 +21,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use RuntimeException;
 
@@ -272,13 +273,23 @@ class InstallerController extends Controller
      */
     public function usersetup(Request $request): RedirectResponse|View
     {
+        $passwordRules = [
+            'required',
+            'confirmed',
+            Password::min(8)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->uncompromised(),
+        ];
+
         $validator = Validator::make($request->all(), [
             'airline_name'    => 'required',
             'airline_icao'    => 'required|size:3|unique:airlines,icao',
             'airline_country' => 'required',
             'name'            => 'required',
             'email'           => 'required|email|unique:users,email',
-            'password'        => 'required|confirmed',
+            'password'        => $passwordRules,
         ]);
 
         if ($validator->fails()) {
