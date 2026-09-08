@@ -194,6 +194,25 @@ test('a known provider subject signs in its linked pilot', function (): void {
         ->exists())->toBeTrue();
 });
 
+test('a social sign-in returns to the url that bounced the visitor to a login page', function (): void {
+    $connection = oauthConnection();
+    $user = User::factory()->create(['email' => 'pilot@phpvms.net']);
+    UserIdentity::query()->create([
+        'user_id'          => $user->id,
+        'connection_id'    => $connection->connection_id,
+        'provider_user_id' => 'subject-123',
+    ]);
+    mockOAuthCallback(oauthUser());
+
+    // What Filament's Authenticate middleware stashes before redirecting an
+    // unauthenticated visitor to /admin/login.
+    $this->withSession([...oauthFlow(), 'url.intended' => url('/admin/flights')])
+        ->get(route('oauth.callback', ['provider' => 'discord', 'state' => 'social-state']))
+        ->assertRedirect(url('/admin/flights'));
+
+    $this->assertAuthenticatedAs($user);
+});
+
 test('OIDC login cannot be restored after its recorded session is revoked', function (): void {
     config(['session.driver' => 'database']);
     app(SessionManager::class)->forgetDrivers();

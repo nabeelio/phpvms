@@ -308,7 +308,11 @@ class OAuthController extends Controller
             );
         }
 
-        return redirect()->route('frontend.dashboard.index');
+        // intended() so a social sign-in started from a protected page returns
+        // there -- notably the Filament admin panel, whose Authenticate
+        // middleware stores the URL before bouncing to /admin/login. Falls back
+        // to the pilot dashboard when nothing was stashed.
+        return redirect()->intended(route('frontend.dashboard.index'));
     }
 
     private function resolveConnection(string $connection): OAuthConnection
