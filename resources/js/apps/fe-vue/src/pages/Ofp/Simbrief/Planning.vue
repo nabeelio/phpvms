@@ -92,7 +92,7 @@ async function continueWithAircraft(nextAircraftId: number | null) {
 </script>
 
 <template>
-  <UPage class="pv-simbrief-planning">
+  <UPage class="pv-simbrief-planning" aria-label="SimBrief flight planning">
     <UPageHeader>
       <template #description>
         <div class="planning-identity">
@@ -201,88 +201,90 @@ async function continueWithAircraft(nextAircraftId: number | null) {
 </template>
 
 <style scoped>
-.pv-simbrief-planning {
-  min-width: 0;
-}
-.planning-identity {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-.planning-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.75fr);
-  gap: 16px;
-}
-.facts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 16px 0;
-}
-.facts div {
-  min-width: 0;
-  border: 1px solid var(--pv-line);
-  border-radius: var(--pv-radius-md);
-  background: var(--pv-panel-inset);
-  padding: 11px;
-}
-dt {
-  color: var(--pv-ink-dim);
-  font-size: calc(0.75rem * var(--pv-type-scale));
-  text-transform: uppercase;
-}
-dd {
-  overflow-wrap: anywhere;
-  margin: 4px 0 0;
-  color: var(--pv-ink);
-  font-family: var(--pv-font-mono);
-  font-size: calc(0.875rem * var(--pv-type-scale));
-}
-.route {
-  overflow-wrap: anywhere;
-  margin: 0;
-  border: 1px solid var(--pv-line);
-  border-radius: var(--pv-radius-md);
-  background: var(--pv-panel-inset);
-  color: var(--pv-ink);
-  padding: 12px;
-  font-family: var(--pv-font-mono);
-  font-size: calc(0.875rem * var(--pv-type-scale));
-  line-height: 1.55;
-}
-.action-panel {
-  display: grid;
-  align-content: start;
-  gap: 13px;
-}
-.action-panel p {
-  margin: 0;
-  color: var(--pv-ink-dim);
-  font-size: calc(0.875rem * var(--pv-type-scale));
-  line-height: 1.5;
-}
-.muted {
-  font-size: calc(0.75rem * var(--pv-type-scale)) !important;
-}
-.planning-actions {
-  display: grid;
-  gap: 8px;
-  margin-top: 4px;
-}
-@media (max-width: 720px) {
+@layer components {
+  .pv-simbrief-planning {
+    min-width: 0;
+  }
   .planning-identity {
-    align-items: flex-start;
-    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
   }
   .planning-grid {
-    grid-template-columns: minmax(0, 1fr);
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.75fr);
+    gap: 16px;
   }
-}
-@media (max-width: 390px) {
   .facts {
-    grid-template-columns: minmax(0, 1fr);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .facts div {
+    min-width: 0;
+    border: 1px solid var(--pv-line);
+    border-radius: var(--pv-radius-md);
+    background: var(--pv-panel-inset);
+    padding: 11px;
+  }
+  dt {
+    color: var(--pv-ink-dim);
+    font-size: calc(0.75rem * var(--pv-type-scale));
+    text-transform: uppercase;
+  }
+  dd {
+    overflow-wrap: anywhere;
+    margin: 4px 0 0;
+    color: var(--pv-ink);
+    font-family: var(--pv-font-mono);
+    font-size: calc(0.875rem * var(--pv-type-scale));
+  }
+  .route {
+    overflow-wrap: anywhere;
+    margin: 0;
+    border: 1px solid var(--pv-line);
+    border-radius: var(--pv-radius-md);
+    background: var(--pv-panel-inset);
+    color: var(--pv-ink);
+    padding: 12px;
+    font-family: var(--pv-font-mono);
+    font-size: calc(0.875rem * var(--pv-type-scale));
+    line-height: 1.55;
+  }
+  .action-panel {
+    display: grid;
+    align-content: start;
+    gap: 13px;
+  }
+  .action-panel p {
+    margin: 0;
+    color: var(--pv-ink-dim);
+    font-size: calc(0.875rem * var(--pv-type-scale));
+    line-height: 1.5;
+  }
+  .muted {
+    font-size: calc(0.75rem * var(--pv-type-scale)) !important;
+  }
+  .planning-actions {
+    display: grid;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  @media (max-width: 720px) {
+    .planning-identity {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .planning-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 390px) {
+    .facts {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 }
 </style>
