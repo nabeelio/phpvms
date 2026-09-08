@@ -64,7 +64,7 @@ const flight = computed<App.Http.Data.FlightListItemData>(() => {
     availabilityReason: null,
     primaryAction: "",
   } satisfies App.Http.Data.FlightListItemData;
-})
+});
 
 const stats = computed<FlightStat[]>(() => {
   if (!props.detail) return [];
@@ -94,7 +94,6 @@ const stats = computed<FlightStat[]>(() => {
     >
       <template #header>
         <div class="detail-header">
-
           <!--<PvFlightInfo
             v-if="detail"
             :callsign="detail.callsign ?? detail.ident"
@@ -126,17 +125,14 @@ const stats = computed<FlightStat[]>(() => {
         </p>
 
         <FlightIdentHeader
-            v-else-if="detail"
-            :flight="flight"
-            :href="`/flights/${flight.id}`"
-            stacked
+          v-else-if="detail"
+          :flight="flight"
+          :href="`/flights/${flight.id}`"
+          stacked
         />
 
         <FlightStats v-else-if="detail" :stats="stats" />
-
       </template>
-
-
     </UPageCard>
   </div>
 </template>

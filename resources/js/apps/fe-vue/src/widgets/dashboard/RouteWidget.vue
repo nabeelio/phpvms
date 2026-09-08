@@ -58,9 +58,13 @@ watch(
   map,
   (mapInstance) => {
     if (!mapInstance || !from.value) return;
-    frameToRoute(mapInstance, points.value.length ? points.value : [{ lat: from.value[1], lon: from.value[0] }], {
-      pitch: 0,
-    });
+    frameToRoute(
+      mapInstance,
+      points.value.length ? points.value : [{ lat: from.value[1], lon: from.value[0] }],
+      {
+        pitch: 0,
+      },
+    );
   },
   { immediate: true },
 );
