@@ -8,7 +8,9 @@ use App\Events\ProfileUpdated;
 use App\Features\OAuth\Helpers\OAuthConnectionService;
 use App\Features\OAuth\Helpers\SocialiteProviderRegistry;
 use App\Features\Tour\Enums\TourStatus;
+use App\Http\Data\ProfileConnectionData;
 use App\Http\Data\ProfileData;
+use App\Http\Data\ProfileEditData;
 use App\Models\Airline;
 use App\Models\Award;
 use App\Models\User;
@@ -75,6 +77,7 @@ class ProfileController extends Controller
             'current_airport',
             'fields.field',
             'home_airport',
+            'identities',
             'last_pirep',
             'rank',
             // `bundle` comes along because both render paths reach for the
@@ -116,8 +119,57 @@ class ProfileController extends Controller
             ],
             spa: fn (): array => [
                 'profile' => ProfileData::fromModel($user, $userFields, $this->acarsEnabled(), $isOwnProfile),
+                // Only the pilot's own profile carries the edit payload -- it
+                // holds their email, so attaching it unconditionally would leak
+                // it to anyone viewing the page. Built inside the closure so a
+                // Blade install never pays for the country/timezone lists.
+                //
+                // A second getUserFields() call, without $only_public_fields:
+                // the display DTO above wants public fields only, the form
+                // wants every non-internal one, exactly as the Blade edit()
+                // does.
+                'profileEdit' => $isOwnProfile
+                    ? ProfileEditData::fromModel(
+                        $user,
+                        $this->userSvc->getUserFields($user),
+                        $this->profileConnections($user),
+                    )
+                    : null,
             ],
         );
+    }
+
+    /**
+     * The social login providers the profile's "Connected accounts" card lists:
+     * every provider the pilot has already linked, plus every one that is
+     * enabled for linking and whose Socialite package is installed. Same filter
+     * the Blade edit page applies to $oauthConnections.
+     *
+     * @return list<ProfileConnectionData>
+     */
+    private function profileConnections(User $user): array
+    {
+        $identities = $user->identities->keyBy('connection_id');
+        $connections = $this->oauthConnections->all();
+
+        $connectableIds = $connections
+            ->filter(fn ($connection): bool => $connection->enabled
+                && $connection->linking_enabled
+                && $this->socialiteProviders->isInstalled($connection->provider))
+            ->pluck('connection_id');
+
+        return $connections
+            ->filter(fn ($connection): bool => $identities->has($connection->connection_id)
+                || $connectableIds->contains($connection->connection_id))
+            ->map(fn ($connection): ProfileConnectionData => new ProfileConnectionData(
+                connectionId: $connection->connection_id,
+                displayName: $connection->display_name,
+                linked: $identities->has($connection->connection_id),
+                linkable: $connectableIds->contains($connection->connection_id),
+                providerUserId: $identities->get($connection->connection_id)?->provider_user_id,
+            ))
+            ->values()
+            ->all();
     }
 
     /**
@@ -187,6 +239,7 @@ class ProfileController extends Controller
             'country'           => 'nullable|string',
             'timezone'          => 'nullable|string',
             'home_airport_id'   => 'nullable|exists:airports,id',
+            'opt_in'            => 'boolean',
         ];
 
         $userFields = UserField::where(
@@ -196,8 +249,14 @@ class ProfileController extends Controller
             $rules['field_'.$field->slug] = 'required';
         }
 
+        // opt_in was previously absent from $rules, so it never reached
+        // $validated and never saved -- the checkbox did nothing. Coercing here
+        // rather than in the rules is what makes UNchecking work: an unchecked
+        // box is simply absent from the payload, so a `nullable|boolean` rule
+        // would leave the stored value untouched.
         $request->merge([
-            'email' => mb_strtolower(trim((string) $request->input('email'))),
+            'email'  => mb_strtolower(trim((string) $request->input('email'))),
+            'opt_in' => $request->boolean('opt_in'),
         ]);
 
         $validated = $request->validate($rules);

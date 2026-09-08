@@ -146,3 +146,135 @@ it('resolves several award badges with one asset query, not one per award', func
 
     expect($awardAssetQueries)->toHaveCount(1);
 });
+
+it('sends the edit payload only for the pilot own profile', function (): void {
+    $user = User::factory()->create(['email' => 'own.profile@phpvms.net']);
+
+    $this->actingAs($user)
+        ->get('/profile/'.$user->id)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page): Assert => $page
+            ->where('profileEdit.email', 'own.profile@phpvms.net')
+            ->where('profileEdit.name', $user->name)
+            ->has('profileEdit.airlines')
+            ->has('profileEdit.countries')
+            ->has('profileEdit.timezones'));
+});
+
+it('never sends the edit payload -- and so never the email -- for another pilot', function (): void {
+    $user = User::factory()->create();
+    $other = User::factory()->create(['email' => 'someone.else@phpvms.net']);
+
+    $response = $this->actingAs($user)->get('/profile/'.$other->id)->assertOk();
+
+    $response->assertInertia(fn (Assert $page): Assert => $page->where('profileEdit', null));
+    $response->assertDontSee('someone.else@phpvms.net');
+});
+
+it('decodes the nbsp padding out of timezone labels', function (): void {
+    // Timezonelist pads labels with &nbsp; for Blade's raw echo; Vue
+    // interpolation escapes, so an undecoded label renders the entity text.
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/profile/'.$user->id)
+        ->assertOk()
+        ->assertInertia(function (Assert $page): void {
+            $timezones = $page->toArray()['props']['profileEdit']['timezones'];
+
+            expect($timezones)->not->toBeEmpty();
+
+            foreach ($timezones as $timezone) {
+                expect($timezone['label'])
+                    ->not->toContain('&nbsp;')
+                    ->not->toContain('&amp;');
+            }
+        });
+});
+
+it('persists opt_in, which the update rules previously dropped', function (): void {
+    $user = User::factory()->create(['opt_in' => false]);
+
+    $this->actingAs($user)->put('/profile/'.$user->id, [
+        'name'       => $user->name,
+        'email'      => $user->email,
+        'airline_id' => $user->airline_id,
+        'opt_in'     => '1',
+    ])->assertRedirect();
+
+    expect($user->fresh()->opt_in)->toBeTrue();
+});
+
+it('clears opt_in when the box is absent from the payload', function (): void {
+    // An unchecked box is simply not sent, so this is the only way a pilot can
+    // ever opt back out.
+    $user = User::factory()->create(['opt_in' => true]);
+
+    $this->actingAs($user)->put('/profile/'.$user->id, [
+        'name'       => $user->name,
+        'email'      => $user->email,
+        'airline_id' => $user->airline_id,
+    ])->assertRedirect();
+
+    expect($user->fresh()->opt_in)->toBeFalse();
+});
+
+it('sends the api key and connection list with the edit payload', function (): void {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/profile/'.$user->id)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page): Assert => $page
+            ->where('profileEdit.apiKey', $user->api_key)
+            ->where('profileEdit.optIn', (bool) $user->opt_in)
+            ->has('profileEdit.connections')
+            ->where('profileEdit.avatarWidth', (int) config('phpvms.avatar.width'))
+            ->where('profileEdit.avatarHeight', (int) config('phpvms.avatar.height')));
+});
+
+it("never sends another pilot's api key", function (): void {
+    $user = User::factory()->create();
+    $other = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/profile/'.$other->id)
+        ->assertOk()
+        ->assertDontSee($other->api_key);
+});
+
+it('surfaces the laracasts flash message the controllers actually write', function (): void {
+    // ProfileController::update ends in Flash::success(), which writes to
+    // session('flash_notification') -- not session('success'). Nothing read
+    // that key, so every SPA flash was silently dropped.
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->put('/profile/'.$user->id, [
+            'name'       => $user->name,
+            'email'      => $user->email,
+            'airline_id' => $user->airline_id,
+        ])
+        ->assertRedirect();
+
+    $this->actingAs($user)
+        ->get('/profile/'.$user->id)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page): Assert => $page
+            ->where('flash.success', 'Profile updated successfully!'));
+});
+
+it('surfaces the flash from regenerating the api key', function (): void {
+    $user = User::factory()->create();
+    $before = $user->api_key;
+
+    $this->actingAs($user)->get('/profile/regen_apikey')->assertRedirect();
+
+    expect($user->fresh()->api_key)->not->toBe($before);
+
+    $this->actingAs($user)
+        ->get('/profile/'.$user->id)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page): Assert => $page
+            ->where('flash.success', 'New API key generated!'));
+});

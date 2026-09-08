@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import { computed, shallowRef } from "vue";
+import { computed } from "vue";
+import ProfileApiAccessCard from "@/components/profile/ProfileApiAccessCard.vue";
+import ProfileConnectionsCard from "@/components/profile/ProfileConnectionsCard.vue";
+import ProfileEditCard from "@/components/profile/ProfileEditCard.vue";
+import PvSlot from "@/shared/components/PvSlot.vue";
 import ProfileAwards from "@/widgets/profile/ProfileAwards.vue";
 import ProfileFields from "@/widgets/profile/ProfileFields.vue";
 import ProfileStats from "@/widgets/profile/ProfileStats.vue";
 import ProfileTours from "@/widgets/profile/ProfileTours.vue";
 import ProfileTypeRatings from "@/widgets/profile/ProfileTypeRatings.vue";
+import UAvatar from "@nuxt/ui/components/Avatar.vue";
 import UBadge from "@nuxt/ui/components/Badge.vue";
 import UButton from "@nuxt/ui/components/Button.vue";
 import UPage from "@nuxt/ui/components/Page.vue";
@@ -14,22 +19,19 @@ import UPageHeader from "@nuxt/ui/components/PageHeader.vue";
 /**
  * Shared pilot profile: reached at /profile/{id} for any pilot, or /profile
  * (self) for the signed-in pilot. `profile.isOwnProfile` is server-decided
- * (ProfileController::show) -- it, not client state, gates the Edit and
- * ACARS Config actions the same way the Blade theme does.
+ * (ProfileController::show) -- it, not client state, gates the ACARS Config
+ * action and the edit card below.
+ *
+ * `profileEdit` is only sent for your own profile (it carries your email), so
+ * it is optional here and the card is skipped when it is absent.
  */
-const props = defineProps<{ profile: App.Http.Data.ProfileData }>();
+const props = defineProps<{
+  profile: App.Http.Data.ProfileData;
+  profileEdit?: App.Http.Data.ProfileEditData | null;
+}>();
 
-const imageFailed = shallowRef(false);
 const memberYear = computed(() =>
   props.profile.memberSince ? new Date(props.profile.memberSince).getUTCFullYear().toString() : "—",
-);
-const initials = computed(() =>
-  props.profile.name
-    .split(" ")
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase(),
 );
 </script>
 
@@ -38,15 +40,9 @@ const initials = computed(() =>
     <UPageHeader class="profile-header" headline="Pilot profile">
       <template #title>
         <div class="identity-title">
-          <span class="avatar">
-            <img
-              v-if="profile.avatar && !imageFailed"
-              :src="profile.avatar"
-              :alt="profile.name"
-              @error="imageFailed = true"
-            />
-            <span v-else class="initials" aria-hidden="true">{{ initials }}</span>
-          </span>
+          <!-- UAvatar derives initials from `alt` and swaps to them itself when
+               the image fails to load. -->
+          <UAvatar :src="profile.avatar ?? undefined" :alt="profile.name" size="lg" />
           {{ profile.name }}
         </div>
       </template>
@@ -64,18 +60,9 @@ const initials = computed(() =>
         </div>
       </template>
 
-      <template v-if="profile.isOwnProfile" #links>
-        <UButton
-          v-if="profile.acars"
-          href="/profile/acars"
-          color="neutral"
-          variant="outline"
-          size="sm"
-        >
+      <template v-if="profile.isOwnProfile && profile.acars" #links>
+        <UButton href="/profile/acars" color="neutral" variant="outline" size="sm">
           ACARS config
-        </UButton>
-        <UButton :to="`/profile/${profile.id}/edit`" color="neutral" variant="outline" size="sm">
-          Edit profile
         </UButton>
       </template>
     </UPageHeader>
@@ -86,6 +73,17 @@ const initials = computed(() =>
       <ProfileAwards :profile />
       <ProfileTours :profile />
       <ProfileFields :profile />
+
+      <!-- Addon extension point: a card-shaped outlet on the profile body. The
+           context carries the profile DTO (including `isOwnProfile`) so an entry
+           can decide for itself whether it belongs on someone else's profile. -->
+      <PvSlot name="profile.cards" :context="{ profile }" />
+
+      <template v-if="profile.isOwnProfile && profileEdit">
+        <ProfileEditCard :edit="profileEdit" :profile-id="profile.id" />
+        <ProfileConnectionsCard :connections="profileEdit.connections" />
+        <ProfileApiAccessCard :api-key="profileEdit.apiKey" />
+      </template>
     </UPageBody>
   </UPage>
 </template>
@@ -99,28 +97,6 @@ const initials = computed(() =>
     display: flex;
     align-items: center;
     gap: 12px;
-  }
-  .avatar {
-    display: flex;
-    width: 40px;
-    height: 40px;
-    flex: 0 0 40px;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border: 1px solid var(--pv-line);
-    border-radius: var(--pv-radius-lg);
-    background: color-mix(in srgb, var(--pv-accent) 14%, var(--pv-panel));
-  }
-  .avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .initials {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--pv-accent);
   }
   .identity-meta {
     display: flex;
