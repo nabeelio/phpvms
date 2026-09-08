@@ -174,7 +174,7 @@ class ListPireps extends ListRecords
     public function getSubheading(): string|Htmlable|null
     {
         return view('filament.pireps.partials.head-metrics', [
-            'total'    => Pirep::whereNotIn('state', [PirepState::DRAFT, PirepState::IN_PROGRESS, PirepState::CANCELLED])->count(),
+            'total'    => Pirep::whereNotIn('state', [PirepState::DRAFT, PirepState::CANCELLED])->count(),
             'pending'  => Pirep::where('state', PirepState::PENDING)->count(),
             'accepted' => Pirep::where('state', PirepState::ACCEPTED)->count(),
         ]);
