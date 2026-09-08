@@ -275,7 +275,7 @@ class OAuthConnectionForm
             $input->helperText($definition['helperText'] ?? null);
         }
 
-        if (in_array($key, ['client_id', 'client_secret', 'base_url', 'logo_url'], true)) {
+        if (in_array($key, ['client_id', 'client_secret', 'base_url', 'logo_url', 'button_class'], true)) {
             $input->columnSpanFull();
         }
 
