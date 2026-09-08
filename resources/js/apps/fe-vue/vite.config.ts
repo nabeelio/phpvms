@@ -192,6 +192,11 @@ function bundleApplicationCss(): import("vite").Plugin {
 export default defineConfig(({ command }) => ({
   root: WORKSPACE_ROOT,
 
+  // maplibre v6 constructs its worker with `{ type: "module" }` (it only falls back to a classic
+  // worker if that constructor throws), so the worker Vite emits for `?worker&url` in
+  // `@phpvms/map`'s base-map.ts must be a real ES module. Vite's default worker format is `iife`.
+  worker: { format: "es" },
+
   // Built assets are web-served under /build/<theme>/, so production chunk URLs
   // (incl. dynamic-import page chunks + preloaded CSS) must be prefixed with it.
   // Dev serves from the Vite dev-server root.
