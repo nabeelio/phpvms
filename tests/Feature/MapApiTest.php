@@ -178,7 +178,7 @@ test('the detail payload carries the flown track, planned fixes, airports, and e
     expect(array_keys($body['flown']))->toEqualCanonicalizing(['points']);
     expect(array_keys($body['flown']['points'][0]))->toEqualCanonicalizing(['lat', 'lon', 'altitude', 'phase']);
     expect(array_keys($body['planned']))->toEqualCanonicalizing(['fixes', 'fallbackAltitudeFt']);
-    expect(array_keys($body['planned']['fixes'][0]))->toEqualCanonicalizing(['ident', 'lat', 'lon', 'altitudeFt', 'viaAirway']);
+    expect(array_keys($body['planned']['fixes'][0]))->toEqualCanonicalizing(['ident', 'lat', 'lon', 'altitudeFt', 'viaAirway', 'isSidStar']);
     expect(array_keys($body['events'][0]))->toEqualCanonicalizing(['type', 'phase', 'lat', 'lon', 'altitude', 'occurredAt']);
 });
 
