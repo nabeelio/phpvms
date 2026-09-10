@@ -937,19 +937,6 @@ class SettingsSeeder extends Seeder
             'options'     => '',
             'description' => '',
         ],
-        // The VA's identity ON VACENTRAL. Empty until the vacentral addon
-        // completes setup and writes the id vacentral issued — deliberately NOT
-        // seeded from va_global_id, which is this install's own registry
-        // identity and a separate thing.
-        [
-            'key'         => 'vacentral_id',
-            'name'        => 'vaCentral ID',
-            'group'       => 'general',
-            'value'       => '',
-            'type'        => 'hidden',
-            'options'     => '',
-            'description' => '',
-        ],
         [
             'key'         => 'registry.public_key',
             'name'        => 'Registry Public Key',
