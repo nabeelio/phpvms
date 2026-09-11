@@ -8,6 +8,7 @@ use App\Events\ProfileUpdated;
 use App\Features\OAuth\Helpers\OAuthConnectionService;
 use App\Features\OAuth\Helpers\SocialiteProviderRegistry;
 use App\Features\Tour\Enums\TourStatus;
+use App\Http\Data\ApiConnectionsData;
 use App\Http\Data\ProfileConnectionData;
 use App\Http\Data\ProfileData;
 use App\Http\Data\ProfileEditData;
@@ -31,6 +32,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
+use Inertia\Inertia;
 use Inertia\Response as InertiaResponse;
 use Intervention\Image\Facades\Image;
 use Laracasts\Flash\Flash;
@@ -135,6 +137,16 @@ class ProfileController extends Controller
                         $this->profileConnections($user),
                     )
                     : null,
+
+                // Optional, not lazy-by-default: the API connections drawer
+                // asks for this by name on open. Building it sweeps every live
+                // token and the scope catalog, which no one viewing a profile
+                // should pay for.
+                'apiConnections' => Inertia::optional(
+                    fn (): ?ApiConnectionsData => $isOwnProfile
+                        ? ApiConnectionsData::fromUser($user)
+                        : null,
+                ),
             ],
         );
     }

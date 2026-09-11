@@ -47,6 +47,18 @@ export type AirportRefData = {
 icao: string,
 name: string,
 };
+export type ApiConnectionsData = {
+personalTokens: App.Http.Data.ApiTokenData[],
+authorizedApps: App.Http.Data.AuthorizedAppData[],
+scopes: App.Http.Data.SelectOptionData[],
+};
+export type ApiTokenData = {
+id: string,
+name: string,
+scopes: string[],
+createdAt: string | null,
+expiresAt: string | null,
+};
 export type AssetData = {
 id: string,
 key: string,
@@ -55,6 +67,13 @@ type: string,
 content_type: string,
 url: string,
 last_update: string,
+};
+export type AuthorizedAppData = {
+clientId: string,
+name: string,
+scopes: string[],
+tokenCount: number,
+lastAuthorizedAt: string | null,
 };
 export type AwardData = {
 name: string,

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Features\Assets\AssetService;
+use App\Http\Middleware\HandleInertiaRequests;
 use App\Models\Asset;
 use App\Models\Award;
 use App\Models\User;
@@ -278,3 +279,59 @@ it('surfaces the flash from regenerating the api key', function (): void {
         ->assertInertia(fn (Assert $page): Assert => $page
             ->where('flash.success', 'New API key generated!'));
 });
+
+it('omits the api connections payload until the drawer asks for it', function (): void {
+    // Inertia::optional means a plain visit must not pay for the token sweep
+    // and scope catalog that only the drawer renders.
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->get('/profile/'.$user->id)
+        ->assertOk()
+        ->assertInertia(fn (Assert $page): Assert => $page->missing('apiConnections'));
+});
+
+it('sends the api connections payload on a partial reload', function (): void {
+    $user = User::factory()->create();
+
+    // A partial reload answers with the JSON page object, not the HTML
+    // data-page attribute assertInertia() reads, so assert on the JSON.
+    $response = $this->actingAs($user)
+        ->withHeaders(partialReloadHeaders('apiConnections'))
+        ->get('/profile/'.$user->id)
+        ->assertOk();
+
+    expect($response->json('props.apiConnections'))
+        ->toHaveKeys(['scopes', 'personalTokens', 'authorizedApps'])
+        ->and($response->json('props.apiConnections.scopes'))->not->toBeEmpty();
+});
+
+it("never sends another pilot's api connections", function (): void {
+    $user = User::factory()->create();
+    $other = User::factory()->create();
+
+    $response = $this->actingAs($user)
+        ->withHeaders(partialReloadHeaders('apiConnections'))
+        ->get('/profile/'.$other->id)
+        ->assertOk();
+
+    expect($response->json('props.apiConnections'))->toBeNull();
+});
+
+/**
+ * Headers for an Inertia partial reload. The version must match what
+ * HandleInertiaRequests::version() computes for this request -- a mismatch
+ * makes Inertia answer 409 to force a full reload, which never reaches the
+ * optional prop. Asking the middleware avoids duplicating that hash here.
+ *
+ * @return array<string, string>
+ */
+function partialReloadHeaders(string $only, string $component = 'Profile'): array
+{
+    return [
+        'X-Inertia'                   => 'true',
+        'X-Inertia-Version'           => (string) app(HandleInertiaRequests::class)->version(request()),
+        'X-Inertia-Partial-Component' => $component,
+        'X-Inertia-Partial-Data'      => $only,
+    ];
+}

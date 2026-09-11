@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { router } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, useTemplateRef } from "vue";
+import ApiConnectionsDrawer from "@/components/profile/ApiConnectionsDrawer.vue";
 import UAlert from "@nuxt/ui/components/Alert.vue";
 import UButton from "@nuxt/ui/components/Button.vue";
 import UPageCard from "@nuxt/ui/components/PageCard.vue";
@@ -16,6 +17,7 @@ import UPageCard from "@nuxt/ui/components/PageCard.vue";
 const props = defineProps<{ apiKey: string | null }>();
 
 const revealed = ref(false);
+const drawer = useTemplateRef<InstanceType<typeof ApiConnectionsDrawer>>("drawer");
 
 /**
  * A GET route that rotates the key and redirects back to the profile, so an
@@ -60,7 +62,7 @@ function regenerate() {
       </div>
 
       <div class="actions">
-        <UButton to="/profile/connections" color="neutral" variant="outline" size="sm">
+        <UButton color="neutral" variant="outline" size="sm" @click="drawer?.show()">
           API connections
         </UButton>
         <UButton color="warning" variant="outline" size="sm" @click="regenerate">
@@ -68,6 +70,8 @@ function regenerate() {
         </UButton>
       </div>
     </div>
+
+    <ApiConnectionsDrawer ref="drawer" />
   </UPageCard>
 </template>
 

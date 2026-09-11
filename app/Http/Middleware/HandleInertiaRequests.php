@@ -126,6 +126,11 @@ class HandleInertiaRequests extends Middleware
                     ?? $this->flashNotification($request, 'success'),
                 'error' => fn (): ?string => $request->session()->get('error')
                     ?? $this->flashNotification($request, 'danger'),
+
+                // Passport returns a personal access token's plaintext exactly
+                // once, at issue time (ProfileController::store_token flashes
+                // it), so the API connections drawer has one chance to show it.
+                'plainTextToken' => fn (): ?string => $request->session()->get('plain_text_token'),
             ],
         ];
     }
