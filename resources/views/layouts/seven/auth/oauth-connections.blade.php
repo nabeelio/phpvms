@@ -16,13 +16,17 @@
       @php
         $routeParameters = ['provider' => $connection->connection_id, 'intent' => $intent];
         $logoUrl = data_get($connection->configuration, 'logo_url');
+        $buttonClass = data_get($connection->configuration, 'button_class');
         if ($surface === 'registration' && isset($invite)) {
           $routeParameters['invite'] = $invite->id;
           $routeParameters['token'] = $invite->token;
         }
       @endphp
       <a href="{{ route('oauth.redirect', $routeParameters) }}"
-        class="btn btn-outline-secondary d-flex align-items-center justify-content-center gap-2">
+        @class([
+          'btn btn-outline-secondary d-flex align-items-center justify-content-center gap-2',
+          $buttonClass => is_string($buttonClass) && $buttonClass !== '',
+        ])>
         @if(is_string($logoUrl) && $logoUrl !== '')
           <img src="{{ $logoUrl }}" alt="" aria-hidden="true" width="20" height="20">
         @endif

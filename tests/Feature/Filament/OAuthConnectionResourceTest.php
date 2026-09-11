@@ -206,6 +206,40 @@ it('limits addon-managed connections to availability controls', function (): voi
         ->assertTableActionDisabled('delete', $connection);
 });
 
+it('offers a button css class field on every provider and saves it', function (): void {
+    $registry = app(SocialiteProviderRegistry::class);
+
+    // toContain() takes varargs of needles, so the provider key goes in the
+    // subject rather than a message argument.
+    $missing = collect($registry->all())
+        ->keys()
+        ->reject(fn (string $provider): bool => in_array(
+            'button_class',
+            array_column($registry->find($provider)['fields'], 'key'),
+            true,
+        ))
+        ->all();
+
+    expect($missing)->toBe([]);
+
+    $this->seed(RolesPermissionsSeeder::class);
+    $this->actingAs(createAdminUser());
+
+    Livewire::test(ManageOAuthConnections::class)
+        ->callAction('create', socialLoginConnectionData([
+            'configuration' => [
+                'base_url'     => 'https://auth.example.com',
+                'email_claims' => ['email'],
+                'button_class' => 'bg-brand text-white',
+            ],
+        ]))
+        ->assertHasNoActionErrors();
+
+    $connection = OAuthConnection::query()->where('connection_id', 'crew-login')->firstOrFail();
+
+    expect($connection->configuration['button_class'])->toBe('bg-brand text-white');
+});
+
 /**
  * @return array<string, mixed>
  */

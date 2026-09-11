@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { shallowReactive } from "vue";
+import IconRoute from "~icons/tabler/route";
+import UAvatar from "@nuxt/ui/components/Avatar.vue";
+import UBadge from "@nuxt/ui/components/Badge.vue";
+import UPageCard from "@nuxt/ui/components/PageCard.vue";
 
 defineProps<{ profile: App.Http.Data.ProfileData }>();
-const failedImages = shallowReactive(new Set<number>());
 
 function formatCompletedAt(value: string | null): string | null {
   return value
@@ -12,111 +14,66 @@ function formatCompletedAt(value: string | null): string | null {
 </script>
 
 <template>
-  <section class="pv-profile-tours" aria-label="Tours completed">
-    <header>
-      <h2>TOURS COMPLETED</h2>
-      <span
-        ><strong>{{ profile.tours.length }}</strong> completed</span
-      >
-    </header>
+  <UPageCard
+    class="pv-profile-tours"
+    variant="outline"
+    title="Tours completed"
+    aria-label="Tours completed"
+  >
+    <template #description>
+      <UBadge color="neutral" variant="subtle">{{ profile.tours.length }} completed</UBadge>
+    </template>
+
     <p v-if="!profile.tours.length" class="empty">No tours completed yet.</p>
+
     <div v-else class="grid">
-      <article
-        v-for="(tour, index) in profile.tours"
+      <UPageCard
+        v-for="tour in profile.tours"
         :key="tour.id"
+        variant="subtle"
         class="tour"
         :aria-label="`${tour.name}, completed`"
       >
-        <div class="icon-tile">
-          <img
-            v-if="tour.image && !failedImages.has(index)"
-            :src="tour.image"
-            alt=""
-            @error="failedImages.add(index)"
-          />
-          <svg v-else viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M2 16 22 9l-6 13-2-7-7-2Z" />
-            <path d="M22 9 10 15" />
-          </svg>
+        <div class="tour-body">
+          <!-- UAvatar owns the broken-image fallback; the default slot replaces
+               its initials fallback with the route glyph. -->
+          <UAvatar :src="tour.image ?? undefined" :alt="tour.name" size="lg">
+            <IconRoute class="tour-glyph" aria-hidden="true" />
+          </UAvatar>
+
+          <div class="copy">
+            <h3>{{ tour.name }}</h3>
+            <p>{{ tour.legs }} {{ tour.legs === 1 ? "leg" : "legs" }}</p>
+            <span v-if="formatCompletedAt(tour.completedAt)" class="completed">
+              Completed {{ formatCompletedAt(tour.completedAt) }}
+            </span>
+          </div>
         </div>
-        <div class="copy">
-          <h3>{{ tour.name }}</h3>
-          <p>{{ tour.legs }} {{ tour.legs === 1 ? "leg" : "legs" }}</p>
-          <span v-if="formatCompletedAt(tour.completedAt)" class="completed"
-            >Completed {{ formatCompletedAt(tour.completedAt) }}</span
-          >
-        </div>
-      </article>
+      </UPageCard>
     </div>
-  </section>
+  </UPageCard>
 </template>
 
 <style scoped>
 @layer components {
-  .pv-profile-tours {
-    margin-top: 20px;
-  }
-  .pv-profile-tours header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-  .pv-profile-tours h2 {
-    margin: 0;
-    color: var(--pv-ink);
-    font-family: var(--pv-font-mono);
-    font-size: 12px;
-    letter-spacing: 0.06em;
-  }
-  .pv-profile-tours header span {
-    color: var(--pv-ink-dim);
-    font-family: var(--pv-font-mono);
-    font-size: 12px;
-  }
-  .pv-profile-tours header strong {
-    color: var(--pv-ink);
-  }
   .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
   .tour {
+    min-width: 0;
+  }
+  .tour-body {
     display: flex;
     min-width: 0;
     align-items: center;
     gap: 10px;
-    border: 1px solid var(--pv-line);
-    border-radius: var(--pv-radius-lg);
-    background: var(--pv-panel);
-    padding: 12px;
   }
-  .icon-tile {
-    display: grid;
-    width: 36px;
-    height: 36px;
-    flex: 0 0 36px;
-    place-items: center;
-    border: 1px solid color-mix(in srgb, var(--pv-cyan) 35%, var(--pv-line));
-    border-radius: var(--pv-radius-sm);
-    background: color-mix(in srgb, var(--pv-cyan) 10%, var(--pv-panel));
-    color: var(--pv-cyan);
-  }
-  .icon-tile img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  .icon-tile svg {
+  .tour-glyph {
     width: 20px;
     height: 20px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    color: var(--pv-cyan);
   }
   .copy {
     min-width: 0;

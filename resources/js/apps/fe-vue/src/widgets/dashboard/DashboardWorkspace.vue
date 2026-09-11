@@ -31,7 +31,7 @@ const { layout, editing, availableToAdd, addWidget, removeWidget, resetLayout, t
 </script>
 
 <template>
-  <UPage class="pv-dashboard">
+  <UPage class="pv-dashboard" aria-label="Dashboard">
     <UPageHeader>
       <DashboardPilotHeader :dashboard :initials :user />
     </UPageHeader>

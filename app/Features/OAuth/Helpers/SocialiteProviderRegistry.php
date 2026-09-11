@@ -158,6 +158,15 @@ final readonly class SocialiteProviderRegistry
             'helperText' => 'Shown beside this provider on login and registration buttons.',
             'rules'      => ['url:http,https', 'max:2048'],
         ];
+        $buttonClass = [
+            'key'         => 'button_class',
+            'label'       => 'Button CSS Classes',
+            'type'        => 'text',
+            'required'    => false,
+            'placeholder' => 'bg-[#5865F2] text-white',
+            'helperText'  => "Appended to the class attribute of this provider's login and registration buttons.",
+            'rules'       => ['string', 'max:255'],
+        ];
         $issuerEndpoint = [
             'key'         => 'base_url',
             'label'       => 'Issuer Endpoint',
@@ -187,7 +196,7 @@ final readonly class SocialiteProviderRegistry
                 'protocol'       => 'oauth2',
                 'multiple'       => false,
                 'requiredScopes' => ['identify'],
-                'fields'         => [...$credentialsWithScopes(['identify']), $logo],
+                'fields'         => [...$credentialsWithScopes(['identify']), $logo, $buttonClass],
             ],
             'vatsim' => [
                 'key'            => 'vatsim',
@@ -197,7 +206,7 @@ final readonly class SocialiteProviderRegistry
                 'protocol'       => 'oauth2',
                 'multiple'       => false,
                 'requiredScopes' => ['email'],
-                'fields'         => [...$credentialsWithScopes(['email']), $logo],
+                'fields'         => [...$credentialsWithScopes(['email']), $logo, $buttonClass],
             ],
             'ivao' => [
                 'key'            => 'ivao',
@@ -207,7 +216,7 @@ final readonly class SocialiteProviderRegistry
                 'protocol'       => 'oauth2',
                 'multiple'       => false,
                 'requiredScopes' => [],
-                'fields'         => [...$credentials, $logo],
+                'fields'         => [...$credentials, $logo, $buttonClass],
             ],
             'vacentral' => [
                 'key'            => 'vacentral',
@@ -225,6 +234,7 @@ final readonly class SocialiteProviderRegistry
                         'default'     => 'https://auth.vacentral.net',
                     ],
                     $logo,
+                    $buttonClass,
                 ],
             ],
             'openidconnect' => [
@@ -240,6 +250,7 @@ final readonly class SocialiteProviderRegistry
                     $issuerEndpoint,
                     $emailClaims,
                     $logo,
+                    $buttonClass,
                 ],
             ],
         ];

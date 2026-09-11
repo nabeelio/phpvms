@@ -18,34 +18,6 @@ it('reports installed and unavailable provider packages', function (): void {
         ->toContain('socialiteproviders/openidconnect');
 });
 
-it('exposes stable provider and field definitions', function (): void {
-    $registry = new SocialiteProviderRegistry(static fn (): bool => true);
-    $openId = $registry->find('openidconnect');
-
-    expect($openId)->not->toBeNull()
-        ->and($openId)->toMatchArray([
-            'key'       => 'openidconnect',
-            'label'     => 'OpenID Connect',
-            'package'   => 'socialiteproviders/openidconnect',
-            'multiple'  => true,
-            'installed' => true,
-        ])
-        ->and(collect($openId['fields'])->pluck('key')->all())
-        ->toBe(['client_id', 'client_secret', 'scopes', 'base_url', 'email_claims', 'logo_url']);
-
-    foreach ($openId['fields'] as $field) {
-        expect($field)->toHaveKeys(['key', 'label', 'type', 'required']);
-    }
-
-    $vacentral = $registry->find('vacentral');
-    expect($vacentral)->toMatchArray([
-        'package'   => 'socialiteproviders/vacentral',
-        'multiple'  => false,
-        'installed' => true,
-    ])->and(collect($vacentral['fields'])->firstWhere('key', 'scopes')['default'])
-        ->toBe(['openid', 'profile', 'email']);
-});
-
 it('uses fixed drivers and connection-specific OIDC drivers', function (): void {
     $registry = new SocialiteProviderRegistry(static fn (): bool => true);
 

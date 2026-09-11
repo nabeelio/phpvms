@@ -9,6 +9,21 @@
  * expands into rules, and an @import after a rule is invalid — Lightning CSS
  * warns and drops it, leaving --font-sans pointing at a font nothing fetched. */
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100..700&family=Inconsolata:wght@200..900&display=swap");
+/* maplibre's own stylesheet. The admin renders maplibre maps (`apps/admin/phpvms-map.js`)
+ * but never loaded this, so `.maplibregl-map`'s `position: relative` and every
+ * `.maplibregl-ctrl-*` corner rule were absent — controls and the attribution
+ * surface had no positioning at all and simply flowed into the document. The
+ * fe-vue SPA has always imported it (`apps/fe-vue/src/app/app.css`), which is
+ * why the two surfaces disagreed.
+ *
+ * Reached by relative path, not the bare `maplibre-gl/dist/...` specifier
+ * fe-vue uses: this is a pnpm workspace and `maplibre-gl` is declared by
+ * `packages/map` and `apps/fe-vue`, NOT the root package, so there is no
+ * `node_modules/maplibre-gl` at the root for a bare specifier to resolve
+ * against. Same deep-relative idiom as the vendor import below.
+ *
+ * MUST stay above the vendor import, for the reason given above it. */
+@import "../../../js/packages/map/node_modules/maplibre-gl/dist/maplibre-gl.css";
 @import "../../../../vendor/filament/filament/resources/css/theme.css";
 
 /* Tailwind content scanning. Without these, utility classes used in Filament

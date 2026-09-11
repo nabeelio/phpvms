@@ -121,52 +121,54 @@ async function returnFocus() {
 </template>
 
 <style scoped>
-.pv-flights-page {
-  min-width: 0;
-}
-.pager {
-  display: grid;
-  grid-template-columns: 90px minmax(0, 1fr) 90px;
-  align-items: center;
-  gap: 12px;
-  margin-top: 18px;
-  border: 1px solid var(--pv-line);
-  border-radius: var(--pv-radius-md);
-  background: var(--pv-panel);
-  padding: 12px 16px;
-  text-align: center;
-}
-.pager a,
-.pager span {
-  color: var(--pv-accent);
-  font-size: calc(12px * var(--pv-type-scale));
-  font-weight: 650;
-  text-decoration: none;
-}
-.pager a:first-child,
-.pager span:first-child {
-  text-align: left;
-}
-.pager a:last-child,
-.pager span:last-child {
-  text-align: right;
-}
-.pager span[aria-disabled="true"] {
-  color: var(--pv-ink-faint);
-}
-.pager p {
-  margin: 0;
-  color: var(--pv-ink-dim);
-  font-family: var(--pv-font-mono);
-  font-size: calc(10px * var(--pv-type-scale));
-}
-@media (max-width: 500px) {
+@layer components {
+  .pv-flights-page {
+    min-width: 0;
+  }
   .pager {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr) 90px;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    border: 1px solid var(--pv-line);
+    border-radius: var(--pv-radius-md);
+    background: var(--pv-panel);
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .pager a,
+  .pager span {
+    color: var(--pv-accent);
+    font-size: calc(12px * var(--pv-type-scale));
+    font-weight: 650;
+    text-decoration: none;
+  }
+  .pager a:first-child,
+  .pager span:first-child {
+    text-align: left;
+  }
+  .pager a:last-child,
+  .pager span:last-child {
+    text-align: right;
+  }
+  .pager span[aria-disabled="true"] {
+    color: var(--pv-ink-faint);
   }
   .pager p {
-    grid-column: 1 / -1;
-    grid-row: 1;
+    margin: 0;
+    color: var(--pv-ink-dim);
+    font-family: var(--pv-font-mono);
+    font-size: calc(10px * var(--pv-type-scale));
+  }
+  @media (max-width: 500px) {
+    .pager {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .pager p {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
   }
 }
 </style>

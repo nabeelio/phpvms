@@ -286,6 +286,21 @@ class SettingsSeeder extends Seeder
             'description' => 'How often the live map updates its data',
         ],
 
+        // Map. The basemap pair and any custom style URL live in the
+        // `map_layers` table as a row of type `basemap`, edited from the
+        // "Base Maps" drawer on the Map Layers page — not here. Only the
+        // custom-style API key remains a setting, since MapConfigData still
+        // carries it for a caller injecting a key into a custom style.
+        [
+            'key'         => 'map.custom_style_api_key',
+            'name'        => 'Custom Style API Key',
+            'group'       => 'map',
+            'value'       => '',
+            'type'        => 'text',
+            'options'     => '',
+            'description' => 'API key applied to the custom style URL tile requests, if it requires one',
+        ],
+
         // Airports
         [
             'key'         => 'airports.default_ground_handling_cost',

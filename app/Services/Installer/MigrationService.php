@@ -169,7 +169,7 @@ class MigrationService extends Service
         return trim(Artisan::output());
     }
 
-    public function runAllMigrationsWithStreaming(Closure $streamCallback): void
+    public function runAllMigrationsWithStreaming(Closure $streamCallback): int
     {
         $command = ['migrate', '--force', '--realpath'];
 
@@ -177,7 +177,7 @@ class MigrationService extends Service
             $command[] = '--path='.$path;
         }
 
-        app(StreamedCommandsService::class)->streamArtisanCommand($command, $streamCallback);
+        return app(StreamedCommandsService::class)->streamArtisanCommand($command, $streamCallback);
     }
 
     /**
@@ -305,7 +305,7 @@ class MigrationService extends Service
         return trim(Artisan::output());
     }
 
-    public function runAllDataMigrationsWithStreaming(Closure $streamCallback): void
+    public function runAllDataMigrationsWithStreaming(Closure $streamCallback): int
     {
         $command = ['migrate-data', '--force', '--realpath'];
 
@@ -313,6 +313,6 @@ class MigrationService extends Service
             $command[] = '--path='.$path;
         }
 
-        app(StreamedCommandsService::class)->streamArtisanCommand($command, $streamCallback);
+        return app(StreamedCommandsService::class)->streamArtisanCommand($command, $streamCallback);
     }
 }
