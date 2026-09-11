@@ -153,22 +153,16 @@ function submit() {
     description="Update your details. Leave the password fields blank to keep your current password."
     aria-label="Edit profile"
   >
-    <UForm :state="form" class="edit-form" @submit="submit">
-      <UFormField label="Name" name="name" required :error="form.errors.name" class="form-half">
+    <UForm :state="form" class="grid gap-4 sm:grid-cols-2" @submit="submit">
+      <UFormField label="Name" name="name" required :error="form.errors.name">
         <UInput v-model="form.name" class="w-full" autocomplete="name" />
       </UFormField>
 
-      <UFormField label="Email" name="email" required :error="form.errors.email" class="form-half">
+      <UFormField label="Email" name="email" required :error="form.errors.email">
         <UInput v-model="form.email" type="email" class="w-full" autocomplete="email" />
       </UFormField>
 
-      <UFormField
-        label="Airline"
-        name="airline_id"
-        required
-        :error="form.errors.airline_id"
-        class="form-half"
-      >
+      <UFormField label="Airline" name="airline_id" required :error="form.errors.airline_id">
         <USelectMenu
           v-model="form.airline_id"
           :items="edit.airlines"
@@ -182,7 +176,6 @@ function submit() {
         name="home_airport_id"
         :error="form.errors.home_airport_id"
         :hint="edit.hubsOnly ? 'Hubs only' : undefined"
-        class="form-half"
       >
         <USelectMenu
           v-model="form.home_airport_id"
@@ -196,7 +189,7 @@ function submit() {
         />
       </UFormField>
 
-      <UFormField label="Country" name="country" :error="form.errors.country" class="form-half">
+      <UFormField label="Country" name="country" :error="form.errors.country">
         <USelectMenu
           v-model="form.country"
           :items="edit.countries"
@@ -205,7 +198,7 @@ function submit() {
         />
       </UFormField>
 
-      <UFormField label="Timezone" name="timezone" :error="form.errors.timezone" class="form-half">
+      <UFormField label="Timezone" name="timezone" :error="form.errors.timezone">
         <USelectMenu
           v-model="form.timezone"
           :items="edit.timezones"
@@ -218,32 +211,24 @@ function submit() {
         label="SimBrief username"
         name="simbrief_username"
         :error="form.errors.simbrief_username"
-        class="form-half"
       >
         <UInput v-model="form.simbrief_username" class="w-full" />
       </UFormField>
 
-      <UFormField
-        label="Avatar"
-        name="avatar"
-        :error="form.errors.avatar"
-        :hint="avatarHint"
-        class="form-half"
-      >
-        <UFileUpload v-model="form.avatar" accept="image/jpeg,image/png" class="w-full" />
+      <UFormField label="Avatar" name="avatar" :error="form.errors.avatar" :hint="avatarHint">
+        <UFileUpload v-model="form.avatar" accept="image/jpeg,image/png" variant="button" />
       </UFormField>
 
-      <UFormField
-        name="opt_in"
-        :error="form.errors.opt_in"
-        description="Receive news and announcements from the airline."
-        class="form-full"
-      >
-        <UCheckbox v-model="form.opt_in" label="Opt in to emails" />
+      <UFormField name="opt_in" :error="form.errors.opt_in" class="col-span-full">
+        <UCheckbox
+          v-model="form.opt_in"
+          label="Opt in to emails"
+          description="Receive news and announcements from the airline."
+        />
       </UFormField>
 
       <template v-if="edit.fields.length">
-        <USeparator class="form-full" label="Additional details" />
+        <USeparator class="col-span-full" label="Additional details" />
 
         <UFormField
           v-for="field in edit.fields"
@@ -252,20 +237,14 @@ function submit() {
           :name="`field_${field.slug}`"
           :required="field.required"
           :error="form.errors[`field_${field.slug}`]"
-          class="form-half"
         >
           <UInput v-model="form[`field_${field.slug}`]" class="w-full" />
         </UFormField>
       </template>
 
-      <USeparator class="form-full" label="Change password" />
+      <USeparator class="col-span-full" label="Change password" />
 
-      <UFormField
-        label="New password"
-        name="password"
-        :error="form.errors.password"
-        class="form-half"
-      >
+      <UFormField label="New password" name="password" :error="form.errors.password">
         <UInput
           v-model="form.password"
           type="password"
@@ -274,7 +253,7 @@ function submit() {
         />
       </UFormField>
 
-      <UFormField label="Confirm password" name="password_confirmation" class="form-half">
+      <UFormField label="Confirm password" name="password_confirmation">
         <UInput
           v-model="form.password_confirmation"
           type="password"
@@ -283,7 +262,7 @@ function submit() {
         />
       </UFormField>
 
-      <div class="form-full actions">
+      <div class="col-span-full flex justify-end">
         <UButton type="submit" :loading="form.processing" :disabled="form.processing">
           Save changes
         </UButton>
@@ -291,25 +270,3 @@ function submit() {
     </UForm>
   </UPageCard>
 </template>
-
-<style scoped>
-@layer components {
-  .edit-form {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-  }
-  .form-full {
-    grid-column: 1 / -1;
-  }
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-  }
-  @media (max-width: 640px) {
-    .edit-form {
-      grid-template-columns: minmax(0, 1fr);
-    }
-  }
-}
-</style>
